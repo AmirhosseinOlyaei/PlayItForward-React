@@ -1,14 +1,12 @@
 import React from "react";
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { lighten } from "@mui/system";
 
-const LicenseAgreement = () => {
+const TermsAndConditions = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -31,7 +29,7 @@ const LicenseAgreement = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"License Agreement for PlayItForward Application"}
+          {"Terms and Conditions"}
         </DialogTitle>
         <DialogContent dividers>
           <DialogContentText id="alert-dialog-description">
@@ -105,4 +103,4 @@ const LicenseAgreement = () => {
   );
 };
 
-export default LicenseAgreement;
+export default TermsAndConditions;
