@@ -1,12 +1,14 @@
 import React from "react";
+import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { lighten } from "@mui/system";
 
-const TermsAndConditions = () => {
+const LicenseAgreement = () => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -28,8 +30,11 @@ const TermsAndConditions = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"PlayItForward Terms and Conditions"}
+        <DialogTitle
+          id="alert-dialog-title"
+          sx={{ backgroundColor: lighten("#808080", 0.5), color: "white" }}
+        >
+          {"License Agreement for PlayItForward Application"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -92,15 +97,19 @@ const TermsAndConditions = () => {
             </ul>
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
-          </Button>
+        <DialogActions sx={{ backgroundColor: lighten("#808080", 0.5) }}>
+          <Stack spacing={2} direction="row">
+            <Button onClick={handleClose} variant="outlined">
+              Disagree
+            </Button>
+            <Button onClick={handleClose} autoFocus variant="contained">
+              Agree
+            </Button>
+          </Stack>
         </DialogActions>
       </Dialog>
     </>
   );
 };
 
-export default TermsAndConditions;
+export default LicenseAgreement;
