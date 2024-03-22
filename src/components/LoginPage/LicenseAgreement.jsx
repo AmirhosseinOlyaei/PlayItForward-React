@@ -30,13 +30,10 @@ const LicenseAgreement = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle
-          id="alert-dialog-title"
-          sx={{ backgroundColor: lighten("#808080", 0.5), color: "white" }}
-        >
+        <DialogTitle id="alert-dialog-title">
           {"License Agreement for PlayItForward Application"}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent dividers>
           <DialogContentText id="alert-dialog-description">
             <ul>
               <li>
@@ -97,15 +94,11 @@ const LicenseAgreement = () => {
             </ul>
           </DialogContentText>
         </DialogContent>
-        <DialogActions sx={{ backgroundColor: lighten("#808080", 0.5) }}>
-          <Stack spacing={2} direction="row">
-            <Button onClick={handleClose} variant="outlined">
-              Disagree
-            </Button>
-            <Button onClick={handleClose} autoFocus variant="contained">
-              Agree
-            </Button>
-          </Stack>
+        <DialogActions>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handleClose} autoFocus>
+            Agree
+          </Button>
         </DialogActions>
       </Dialog>
     </>
