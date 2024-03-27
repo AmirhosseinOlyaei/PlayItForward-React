@@ -41,7 +41,7 @@ import {
   Icon,
   Checkbox,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
+import Create from "./Create";
 
 const drawerWidth = 340;
 
@@ -99,6 +99,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [radius, setRadius] = React.useState<number>(5);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -165,17 +166,7 @@ export default function PersistentDrawerLeft() {
         {/* search */}
         <Grid container spacing={2} m={0}>
           {/* new listing */}
-          <Grid item xs={11} sm={11} mb={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AddIcon />}
-              fullWidth
-              size="large"
-            >
-              Create new listing
-            </Button>
-          </Grid>
+          <Create />
 
           <Grid item xs={11}>
             <TextField
@@ -191,36 +182,45 @@ export default function PersistentDrawerLeft() {
               }}
             />
           </Grid>
-          <Divider />
+
           {/* Filter Options */}
+          {/* https://mui.com/material-ui/react-autocomplete/#system-GoogleMaps.js */}
           <Grid item xs={11} sm={11}>
+            <Divider />
             <Grid item xs={12} sm={12} my={2}>
-              {/* <Typography variant="h6">Filter by:</Typography> */}
+              <Typography variant="h6">Filter by:</Typography>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+                <InputLabel id="select-label">Radius</InputLabel>
                 <Select
+                  labelId="select-label"
+                  id="simple-select"
+                  value={radius}
                   fullWidth
-                  label="Age"
-                  labelId="demo-simple-select-label"
+                  label="Radius"
+                  onChange={(event) => setRadius(event.target.value as number)}
                 >
-                  <MenuItem value="distance">Within 5 miles</MenuItem>
+                  <MenuItem value="1">Within 1 miles</MenuItem>
+                  <MenuItem value="2">Within 2 miles</MenuItem>
+                  <MenuItem value="5">Within 5 miles</MenuItem>
+                  <MenuItem value="10">Within 10 miles</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Divider />
 
+            {/* category */}
             <Grid item xs={12} sm={12}>
               <List>
-                <Typography variant="h6">Category</Typography>
+                <Typography variant="h6">Toys Category</Typography>
                 {[
+                  "Art & Craft",
+                  "Books",
                   "Cars",
                   "Dolls",
                   "Plush",
+                  "Sports",
                   "Playsets",
-                  "Sports Toys",
-                  "Art & Craft",
                   "Games & Puzzles",
-                  "Books",
                   "Musical instruments",
                   "Miscellaneous",
                 ].map((text, index) => (
