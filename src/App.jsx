@@ -1,31 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { getAllData } from './util/index';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavBar from "./NavBar";
+// import HomePage from "./HomePage"; // Замените на ваши компоненты страниц
+// import MessagesPage from "./MessagesPage";
+// import ProfilePage from "./ProfilePage";
 
-const URL = 'http://localhost:8000/api/v1/';
-
-function App() {
-  
-  const [message, setMessage] = useState(''); 
-
-  useEffect(() => {
-
-    (async () => {
-      const myData = await getAllData(URL)
-      setMessage(myData.data);
-    })();
-      
-    return () => {
-      console.log('unmounting');
-    }
-
-  }, []);
-
+const App = () => {
   return (
-    <>
-      <h1>{message}</h1>
-    </>
+    <div>
+      <NavBar />
+    </div>
+    // <Router>
+    //   <NavBar />
+    //   <Routes>
+    //     <Route path="/" element={<NavBar />} />
+    // <Route path="/messages" element={<MessagesPage />} />
+    // <Route path="/profile" element={<ProfilePage />} />
+    // {/* Добавьте другие маршруты здесь */}
+    //   </Routes>
+    // </Router>
   );
+};
 
-}
-
-export default App
+export default App;
