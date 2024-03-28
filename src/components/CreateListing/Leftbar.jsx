@@ -16,7 +16,18 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 const drawerWidth = 365;
 
-const Leftbar = () => {
+const Leftbar = ({
+  onTitleChange,
+  title,
+  onDescriptionChange,
+  description,
+  category,
+  onCategoryChange,
+  condition,
+  onConditionChange,
+  delivery,
+  onDeliveryChange,
+}) => {
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -40,11 +51,11 @@ const Leftbar = () => {
   };
 
   const [zipCode, setZipCode] = useState("");
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [condition, setCondition] = useState("");
-  const [delivery, setDelivery] = useState("");
-  const [description, setDescription] = useState("");
+  //const [title, setTitle] = useState("");
+  // const [category, setCategory] = useState("");
+  // const [condition, setCondition] = useState("");
+  // const [delivery, setDelivery] = useState("");
+  //const [description, setDescription] = useState("");
 
   //To fill and storage ZipCode from User
   const handleInputChangeZipCode = (e) => {
@@ -52,19 +63,22 @@ const Leftbar = () => {
   };
 
   const handleInputChangeTitle = (e) => {
-    setTitle(e.target.value);
+    const newTitle = e.target.value;
+    //setTitle(newTitle);
+    onTitleChange(newTitle);
   };
-  const handleChangeCategory = (event) => {
-    setCategory(event.target.value);
+  const handleInputDescriptionChange = (e) => {
+    const newDescription = e.target.value;
+    onDescriptionChange(newDescription);
   };
-  const handleChangeCondition = (event) => {
-    setCategory(event.target.value);
+  const handleInputChangeCategory = (event) => {
+    onCategoryChange(event.target.value);
   };
-  const handleChangeDelivery = (e) => {
-    setDelivery(e.target.value);
+  const handleInputChangeCondition = (event) => {
+    onConditionChange(event.target.value);
   };
-  const handleChangeDescription = (e) => {
-    setDescription(e.target.value);
+  const handleInputChangeDelivery = (e) => {
+    onDeliveryChange(e.target.value);
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -74,6 +88,10 @@ const Leftbar = () => {
   const handleUpload = () => {
     // You can handle file upload logic here
     console.log("Selected file:", selectedFile);
+  };
+
+  const handleClearPhoto = () => {
+    setSelectedFile(null);
   };
 
   return (
@@ -127,7 +145,10 @@ const Leftbar = () => {
                 }}
               >
                 {selectedFile.name}
-                <IconButton aria-label="delete">
+                <IconButton
+                  aria-label="delete"
+                  onClick={() => handleClearPhoto()}
+                >
                   <ClearIcon />
                 </IconButton>
               </Typography>
@@ -168,7 +189,7 @@ const Leftbar = () => {
                   id="categoryselect"
                   value={category}
                   label="Category"
-                  onChange={handleChangeCategory}
+                  onChange={handleInputChangeCategory}
                 >
                   <MenuItem value={"Art and Craft"}>Art and Craft</MenuItem>
                   <MenuItem value={"cars"}>cars</MenuItem>
@@ -183,11 +204,11 @@ const Leftbar = () => {
                 id="condition-select"
                 value={condition}
                 label="Condition"
-                onChange={handleChangeCondition}
+                onChange={handleInputChangeCondition}
               >
-                <MenuItem value={"new"}>New</MenuItem>
-                <MenuItem value={"used"}>Used</MenuItem>
-                <MenuItem value={"like new"}>Like new</MenuItem>
+                <MenuItem value={"New"}>New</MenuItem>
+                <MenuItem value={"Used"}>Used</MenuItem>
+                <MenuItem value={"Like new"}>Like new</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ marginTop: 1.8, minWidth: 343 }}>
@@ -197,7 +218,7 @@ const Leftbar = () => {
                 id="delivery-select"
                 value={delivery}
                 label="Delivery"
-                onChange={handleChangeDelivery}
+                onChange={handleInputChangeDelivery}
               >
                 <MenuItem value={"Pickup"}>Pickup</MenuItem>
                 <MenuItem value={"Delivery"}>Delivery</MenuItem>
@@ -209,7 +230,7 @@ const Leftbar = () => {
               multiline
               rows={4}
               value={description}
-              onChange={handleChangeDescription}
+              onChange={handleInputDescriptionChange}
               inputProps={{ maxLength: 1000 }}
             />
           </Box>

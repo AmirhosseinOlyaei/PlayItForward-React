@@ -7,15 +7,15 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 
-const Rightfeed = () => {
+const Rightfeed = ({ title, description, condition, delivery }) => {
   const userData = {
     zipCode: "11230",
-    title: "ExampleTitle",
     condition: "New",
     delivery: "Pickup",
-    details:
-      "The Toy is very good. And I am think you will be happy to have it. Please contact me.",
+    // description:
+    //   "The Toy is very good. And I am think you will be happy to have it. Please contact me.",
     sellerName: "James Games",
     listingDate: new Date().toLocaleDateString(),
   };
@@ -79,7 +79,7 @@ const Rightfeed = () => {
               component="div"
               sx={{ mb: 0.5, fontWeight: "bold" }}
             >
-              Toy name here
+              {title}
             </Typography>
             <Typography
               gutterBottom
@@ -94,45 +94,39 @@ const Rightfeed = () => {
               Details
             </Typography>
 
-            {/* <div>
-              <Typography variant="body1" sx={{ mb: 0.5 }}>
-                Condition
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                {userData.condition}
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 0.5 }}>
-                Delivery method
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                {userData.delivery}
-              </Typography>
-            </div> */}
-            <div>
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+            <Box sx={{ width: "100%" }}>
+              <Grid
+                container
+                rowSpacing={1}
+                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+              >
+                <Grid item xs={6}>
                   <Typography variant="body1">Condition</Typography>
-                  <Typography variant="body1" sx={{ mt: 1, mb: 2 }}>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2" color="text.secondary">
+                    {condition}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
                     Delivery method
                   </Typography>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={6}>
                   <Typography variant="body2" color="text.secondary">
-                    {userData.condition}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 1.7 }}
-                  >
-                    {userData.delivery}
+                    {delivery}
                   </Typography>
                 </Grid>
               </Grid>
-            </div>
+            </Box>
 
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-              {userData.details}
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mb: 0.5, fontSize: "15px" }}
+            >
+              {description}
             </Typography>
             <Divider sx={{ marginTop: 2, width: "290px" }} />
             <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
