@@ -43,6 +43,7 @@ import {
 } from "@mui/material";
 import Create from "./Create";
 import GoogleMaps from "./GoogleMaps";
+import Search from "./Search";
 
 const drawerWidth = 340;
 
@@ -166,28 +167,19 @@ export default function PersistentDrawerLeft() {
 
         {/* search */}
         <Grid container spacing={2} m={0}>
-          {/* new listing */}
-          <Create />
+          <Grid item xs={12} sm={11}>
+            {/* new listing */}
+            <Grid item xs={11} sm={12} mb={2}>
+              <Create />
+            </Grid>
 
-          <Grid item xs={11} sm={11}>
-            <TextField
-              fullWidth
-              label="Search Toys"
-              variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
+            <Grid item xs={12} sm={12} my={2}>
+              <Search />
+            </Grid>
 
-          {/* Filter Options
-          https://mui.com/material-ui/react-autocomplete/#system-GoogleMaps.js */}
-          <Divider />
-          <Grid item xs={11} sm={11}>
+            {/* Filter Options -  https://mui.com/material-ui/react-autocomplete/#system-GoogleMaps.js */}
+            <Divider />
+
             <Grid item xs={12} sm={12} my={2}>
               <Typography variant="h6">Filter by:</Typography>
               <Grid item xs={12} sm={12} my={1}>
@@ -214,11 +206,9 @@ export default function PersistentDrawerLeft() {
                 </FormControl>
               </Grid>
             </Grid>
-          </Grid>
-          <Divider />
+            <Divider />
 
-          {/* category */}
-          <Grid item xs={11} sm={11}>
+            {/* category */}
             <Grid item xs={12} sm={12}>
               <List>
                 <Typography variant="h6">Toys Category</Typography>
