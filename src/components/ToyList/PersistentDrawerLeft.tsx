@@ -44,10 +44,9 @@ import {
 import Create from "./Create";
 import GoogleMaps from "./GoogleMaps";
 import Search from "./Search";
+import Categories from "./Categories";
 
 const drawerWidth = 340;
-
-const categories = ["Toys", "Games"];
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
   open?: boolean;
@@ -110,6 +109,28 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const categories = [
+    "Arts & Crafts",
+    "Books",
+    "Cars",
+    "Clothes",
+    "Plush",
+    "Sports",
+    "Playsets",
+    "Health",
+    "Educational Toys",
+    "Outdoor Play",
+    "Board Games & Puzzles",
+    "Video Games",
+    "Electronic Toys",
+    "Action Figures and Dolls",
+    "Building Sets",
+    "Musical instruments",
+    "Baby and Toddler Toys",
+    "Costumes and Pretend Play",
+    "Miscellaneous",
+  ];
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -210,20 +231,10 @@ export default function PersistentDrawerLeft() {
 
             {/* category */}
             <Grid item xs={12} sm={12}>
+              {/* <Categories /> */}
               <List>
                 <Typography variant="h6">Toys Category</Typography>
-                {[
-                  "Art & Craft",
-                  "Books",
-                  "Cars",
-                  "Dolls",
-                  "Plush",
-                  "Sports",
-                  "Playsets",
-                  "Games & Puzzles",
-                  "Musical instruments",
-                  "Miscellaneous",
-                ].map((text, index) => (
+                {categories.map((text, index) => (
                   <ListItem key={text} disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
