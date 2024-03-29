@@ -50,10 +50,10 @@ export default function ClippedDrawer() {
         {/* ------ */}
         <Grid container spacing={2} m={0}>
           <Grid item xs={12} sm={11}>
-            <Grid item xs={12} sm={12} my={2}>
+            <Grid item xs={12} sm={12} mt={1}>
               <Search />
             </Grid>
-            <Grid item xs={11} sm={12} mb={2}>
+            <Grid item xs={11} sm={12} my={2}>
               <Create />
             </Grid>
             <Divider />
@@ -92,7 +92,14 @@ export default function ClippedDrawer() {
       </Drawer>
 
       {/* Main section */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          mt: 2,
+        }}
+      >
         <Box sx={{ flexGrow: 1 }}>
           <Grid
             container
