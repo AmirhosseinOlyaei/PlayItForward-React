@@ -40,7 +40,7 @@ export default function SignInSide() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "calc(100vh - 64px)" }}>
         <CssBaseline />
         <Grid
           item
@@ -57,6 +57,7 @@ export default function SignInSide() {
                 : t.palette.grey[900],
             backgroundSize: "cover",
             backgroundPosition: "center",
+            height: "100%",
           }}
         />
         <Grid
@@ -71,6 +72,7 @@ export default function SignInSide() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            height: "100%",
           }}
         >
           <Box
