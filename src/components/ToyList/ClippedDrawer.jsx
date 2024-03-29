@@ -23,7 +23,7 @@ import CategoryMultipleSelectChip from "./CategoryMultipleSelectChip";
 const drawerWidth = 340;
 
 export default function ClippedDrawer() {
-  const [radius, setRadius] = useState(5);
+  const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState(toysData);
 
   return (
@@ -47,7 +47,7 @@ export default function ClippedDrawer() {
           </Typography>
         </List> */}
 
-        {/* ------ */}
+        {/* side nav contents */}
         <Grid container spacing={2} m={0}>
           <Grid item xs={12} sm={11}>
             <Grid item xs={12} sm={12} mt={1}>
@@ -62,21 +62,25 @@ export default function ClippedDrawer() {
               <Grid item xs={12} sm={12} my={1}>
                 <GoogleMaps />
               </Grid>
+
+              {/* delivery */}
               <Grid item xs={12} sm={12} my={2}>
                 <FormControl fullWidth>
-                  <InputLabel id="select-label">Radius</InputLabel>
+                  <InputLabel id="select-label">Delivery Method</InputLabel>
                   <Select
                     labelId="select-label"
                     id="simple-select"
-                    value={radius}
+                    value={delivery}
                     fullWidth
-                    label="Radius"
-                    onChange={(event) => setRadius(event.target.value)}
+                    label="Delivery Method"
+                    onChange={(event) => {
+                      setDelivery(event.target.value);
+                      fetchToys({ deliveryMethod: event.target.value });
+                    }}
                   >
-                    <MenuItem value="1">Within 1 miles</MenuItem>
-                    <MenuItem value="2">Within 2 miles</MenuItem>
-                    <MenuItem value="5">Within 5 miles</MenuItem>
-                    <MenuItem value="10">Within 10 miles</MenuItem>
+                    <MenuItem value="All">All</MenuItem>
+                    <MenuItem value="Pick up">Pick up</MenuItem>
+                    <MenuItem value="Drop off">Drop off</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
