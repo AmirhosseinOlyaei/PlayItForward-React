@@ -71,16 +71,14 @@ export default function CategoryMultipleSelectChip() {
         Categories
       </Typography>
       <FormControl sx={{ width: "100%" }}>
-        <InputLabel id="demo-multiple-chip-label">Toy Categories</InputLabel>
+        <InputLabel id="demo-multiple-chip-label">Toy</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
           value={category}
           onChange={handleChange}
-          input={
-            <OutlinedInput id="select-multiple-chip" label="Toy Categories" />
-          }
+          input={<OutlinedInput id="select-multiple-chip" label="Toy" />}
           renderValue={(selected) => (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {selected.map((value) => (
