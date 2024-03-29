@@ -2,13 +2,32 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function ToyCard({ title, image, location }) {
-  console.log(title, image, location); // Add this line to check the props
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      {image && <CardMedia sx={{ height: 140 }} image={image} title={title} />}
+    <Card
+      sx={{
+        maxWidth: isSmallScreen ? 200 : 345,
+        flexBasis: isSmallScreen ? "100%" : "345px",
+        flexGrow: 1,
+      }}
+    >
+      {image && (
+        <CardMedia
+          sx={{
+            height: 0,
+            paddingTop: "56.25%",
+            objectFit: "cover",
+          }}
+          image={image}
+          title={title}
+        />
+      )}
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
           {title}
