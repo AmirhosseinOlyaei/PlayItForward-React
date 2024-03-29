@@ -20,7 +20,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="">
         PlayItForward
       </Link>{" "}
       {new Date().getFullYear()}
@@ -34,13 +34,8 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleAuth = () => {
+    window.location.href = "http://localhost:8000/api/v1/auth/google";
   };
 
   return (
@@ -53,8 +48,8 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
+            // backgroundImage: `url(${appLogo})`,
+            backgroundImage: "url(/AppLogo.png)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -73,9 +68,9 @@ export default function SignInSide() {
           elevation={6}
           square
           sx={{
-            display: "flex", // Add this line
-            flexDirection: "column", // Add this line
-            justifyContent: "center", // Add this line
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
           <Box
@@ -101,26 +96,13 @@ export default function SignInSide() {
             <Typography component="p" variant="p" sx={{ mt: 3, mb: 2 }}>
               Welcome to PlayItForward!
             </Typography>
-            <Box
-              // component="form"
-              noValidate
-              sx={{ mt: 1 }}
-            >
-              {/* <Button
-                variant="contained"
-                startIcon={<GoogleIcon />}
-                color="primary"
-                fullWidth
-                onSubmit={handleSubmit}
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Continue with Google
-              </Button> */}
+            <Box sx={{ mt: 1 }}>
               <Button
                 variant="contained"
                 startIcon={<GoogleIcon />}
+                // color="primary"
                 fullWidth
-                onSubmit={handleSubmit}
+                onClick={handleAuth}
                 sx={{
                   mt: 3,
                   mb: 2,
