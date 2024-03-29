@@ -19,6 +19,7 @@ import {
 import Categories from "./Categories";
 import ToyCard from "./ToyCard";
 import { toysData } from "./toysData";
+import CategoryMultipleSelectChip from "./CategoryMultipleSelectChip";
 
 const drawerWidth = 340;
 
@@ -85,7 +86,8 @@ export default function ClippedDrawer() {
 
             {/* categories */}
             <Grid item xs={12} sm={12}>
-              <Categories />
+              {/* <Categories /> */}
+              <CategoryMultipleSelectChip />
             </Grid>
           </Grid>
         </Grid>
