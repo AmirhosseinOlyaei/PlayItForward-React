@@ -134,25 +134,6 @@ export default function ClippedDrawer() {
           >
             {Array.from(Array(6)).map((_, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
-                {/* <Card sx={{ maxWidth: 345 }}>
-                  <CardMedia
-                    sx={{ height: 140 }}
-                    image="/static/images/cards/contemplative-reptile.jpg"
-                    title="green iguana"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h6" component="div">
-                      Toy
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Alaska, USA
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Add To Favorite</Button>
-                    <Button size="small">Share</Button>
-                  </CardActions>
-                </Card> */}
                 <ToyCard />
               </Grid>
             ))}

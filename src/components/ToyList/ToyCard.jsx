@@ -8,6 +8,7 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { Divider } from "@mui/material";
 
 export default function ToyCard(props) {
   const handleShareClick = () => {
@@ -22,34 +23,40 @@ export default function ToyCard(props) {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia sx={{ height: 140 }} image={props.image} title={props.title} />
-      <CardContent>
-        <Typography gutterBottom variant="h6" component="div">
-          {props.title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {props.location}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <FormControl sx={{ mr: 1 }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={props.isFavorite}
-                onChange={() => props.handleFavoriteClick(props.id)}
-                icon={<FavoriteBorder />}
-                checkedIcon={<Favorite />}
-              />
-            }
-            label="Add To Favorite"
-          />
-        </FormControl>
-        <Button size="small" onClick={handleShareClick}>
-          Share
-        </Button>
-      </CardActions>
-    </Card>
+    <>
+      <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+          sx={{ height: 140 }}
+          image={props.image}
+          title={props.title}
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h6" component="div">
+            {props.title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {props.location}
+          </Typography>
+        </CardContent>
+      </Card>
+
+      <Divider />
+      {/* ----- */}
+      <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+          sx={{ height: 140 }}
+          image="/static/images/cards/contemplative-reptile.jpg"
+          title="green iguana"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h6" component="div">
+            Toy
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Alaska, USA
+          </Typography>
+        </CardContent>
+      </Card>
+    </>
   );
 }
