@@ -1,11 +1,13 @@
 // import ToyList.css
 import styles from "./ToyList.module.css";
 import PersistentDrawerLeft from "./PersistentDrawerLeft";
+import ClippedDrawer from "./ClippedDrawer";
 
 const ToyList = () => {
   return (
     <div>
-      <PersistentDrawerLeft />
+      <ClippedDrawer />
+      {/* <PersistentDrawerLeft /> */}
     </div>
   );
 };
