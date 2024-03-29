@@ -45,6 +45,7 @@ import Create from "./Create";
 import GoogleMaps from "./GoogleMaps";
 import Search from "./Search";
 import Categories from "./Categories";
+import ToyCard from "./ToyCard";
 
 const drawerWidth = 340;
 
@@ -259,7 +260,7 @@ export default function PersistentDrawerLeft() {
           >
             {Array.from(Array(6)).map((_, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
-                <Card sx={{ maxWidth: 345 }}>
+                {/* <Card sx={{ maxWidth: 345 }}>
                   <CardMedia
                     sx={{ height: 140 }}
                     image="/static/images/cards/contemplative-reptile.jpg"
@@ -277,7 +278,8 @@ export default function PersistentDrawerLeft() {
                     <Button size="small">Add To Favorite</Button>
                     <Button size="small">Share</Button>
                   </CardActions>
-                </Card>
+                </Card> */}
+                <ToyCard />
               </Grid>
             ))}
           </Grid>
