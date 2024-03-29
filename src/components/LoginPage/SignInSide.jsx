@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import appLogo from "../../assets/AppLogo.png";
 import GoogleIcon from "./GoogleIcon";
 
 function Copyright(props) {
@@ -48,7 +47,6 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            // backgroundImage: `url(${appLogo})`,
             backgroundImage: "url(/AppLogo.png)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
@@ -87,7 +85,7 @@ export default function SignInSide() {
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <img
-                src={appLogo}
+                src="/AppLogo.png"
                 alt="App Logo"
                 style={{ width: "100%", height: "auto" }}
               />
