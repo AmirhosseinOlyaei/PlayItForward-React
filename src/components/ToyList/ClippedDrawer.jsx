@@ -41,20 +41,20 @@ export default function ClippedDrawer() {
           },
         }}
       >
-        <List>
+        {/* <List>
           <Typography variant="caption" gutterBottom letterSpacing={1} m={3}>
             PlayItForward
           </Typography>
-        </List>
+        </List> */}
 
         {/* ------ */}
         <Grid container spacing={2} m={0}>
           <Grid item xs={12} sm={11}>
-            <Grid item xs={11} sm={12} mb={2}>
-              <Create />
-            </Grid>
             <Grid item xs={12} sm={12} my={2}>
               <Search />
+            </Grid>
+            <Grid item xs={11} sm={12} mb={2}>
+              <Create />
             </Grid>
             <Divider />
             <Grid item xs={12} sm={12} my={2}>
