@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
+import { Typography } from "@mui/material";
 
 const categories = [
   "Arts & Crafts",
@@ -66,7 +67,10 @@ export default function CategoryMultipleSelectChip() {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <Typography variant="h6" my={1.5}>
+        Categories
+      </Typography>
+      <FormControl sx={{ width: "100%" }}>
         <InputLabel id="demo-multiple-chip-label">Toy Categories</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"

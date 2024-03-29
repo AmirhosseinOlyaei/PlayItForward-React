@@ -16,7 +16,6 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import Categories from "./Categories";
 import ToyCard from "./ToyCard";
 import { toysData } from "./toysData";
 import CategoryMultipleSelectChip from "./CategoryMultipleSelectChip";
@@ -59,7 +58,7 @@ export default function ClippedDrawer() {
             </Grid>
             <Divider />
             <Grid item xs={12} sm={12} my={2}>
-              <Typography variant="h6">Filter by:</Typography>
+              <Typography variant="h6">Filters</Typography>
               <Grid item xs={12} sm={12} my={1}>
                 <GoogleMaps />
               </Grid>
@@ -85,8 +84,7 @@ export default function ClippedDrawer() {
             <Divider />
 
             {/* categories */}
-            <Grid item xs={12} sm={12}>
-              {/* <Categories /> */}
+            <Grid item xs={12} sm={12} my={2}>
               <CategoryMultipleSelectChip />
             </Grid>
           </Grid>
