@@ -1,7 +1,5 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import GoogleMaps from "./GoogleMaps";
 import Create from "./Create";
 import Search from "./Search";
@@ -12,10 +10,6 @@ import {
   List,
   Typography,
   Divider,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   Grid,
   FormControl,
   InputLabel,
@@ -24,11 +18,13 @@ import {
 } from "@mui/material";
 import Categories from "./Categories";
 import ToyCard from "./ToyCard";
+import { toysData } from "./toysData";
 
 const drawerWidth = 340;
 
 export default function ClippedDrawer() {
   const [radius, setRadius] = useState(5);
+  const [toys, setToys] = useState(toysData);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -93,35 +89,6 @@ export default function ClippedDrawer() {
             </Grid>
           </Grid>
         </Grid>
-
-        {/* --------- */}
-        <Box>
-          <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
       </Drawer>
 
       {/* Main section */}
@@ -132,9 +99,13 @@ export default function ClippedDrawer() {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {Array.from(Array(6)).map((_, index) => (
-              <Grid item xs={2} sm={4} md={4} key={index}>
-                <ToyCard />
+            {toys.map((toy) => (
+              <Grid item xs={2} sm={4} md={4} key={toy.id}>
+                <ToyCard
+                  title={toy.title}
+                  image={toy.image}
+                  location={toy.location}
+                />
               </Grid>
             ))}
           </Grid>
