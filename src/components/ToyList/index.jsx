@@ -1,11 +1,11 @@
 // import ToyList.css
 import styles from "./ToyList.module.css";
+import ClippedDrawer from "./ClippedDrawer";
 
 const ToyList = () => {
   return (
     <div>
-      <h1>Toy List</h1>
-      <p>This is the page where users can browse and search for toys.</p>
+      <ClippedDrawer />
     </div>
   );
 };
