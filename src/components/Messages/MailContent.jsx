@@ -1,0 +1,207 @@
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import Divider from "@mui/material/Divider";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import { Paper } from "@mui/material";
+
+const MailContent = () => {
+  return (
+    <Paper
+      variant="outlined"
+      sx={{
+        minHeight: 600,
+        borderRadius: "sm",
+        p: 2,
+        mb: 3,
+        mt: 3,
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Avatar
+            src="https://i.pravatar.cc/40?img=3"
+            srcSet="https://i.pravatar.cc/80?img=3"
+          />
+          <Box sx={{ ml: 2 }}>
+            <Typography level="title-sm" textColor="text.primary" mb={0.5}>
+              Alex Jonnold
+            </Typography>
+            <Typography level="body-xs" textColor="text.tertiary">
+              21 Oct 2022
+            </Typography>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            height: "32px",
+            flexDirection: "row",
+            gap: 1.5,
+          }}
+        >
+          <Button
+            size="sm"
+            variant="plain"
+            color="neutral"
+            startDecorator={<ReplyRoundedIcon />}
+            onClick={() => handleSnackbarOpen(0)}
+          >
+            Reply
+          </Button>
+          <Snackbar
+            color="success"
+            open={open[0]}
+            onClose={() => handleSnackbarClose(0)}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            startDecorator={<CheckCircleRoundedIcon />}
+            endDecorator={
+              <Button
+                onClick={() => handleSnackbarClose(0)}
+                size="sm"
+                variant="soft"
+                color="neutral"
+              >
+                Dismiss
+              </Button>
+            }
+          >
+            Your message has been sent.
+          </Snackbar>
+
+          <Button
+            size="sm"
+            variant="plain"
+            color="danger"
+            startDecorator={<DeleteRoundedIcon />}
+            onClick={() => handleSnackbarOpen(2)}
+          >
+            Delete
+          </Button>
+          <Snackbar
+            color="danger"
+            open={open[2]}
+            onClose={() => handleSnackbarClose(2)}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            startDecorator={<CheckCircleRoundedIcon />}
+            endDecorator={
+              <Button
+                onClick={() => handleSnackbarClose(2)}
+                size="sm"
+                variant="soft"
+                color="neutral"
+              >
+                Dismiss
+              </Button>
+            }
+          >
+            Your message has been deleted.
+          </Snackbar>
+        </Box>
+      </Box>
+      <Divider sx={{ mt: 2 }} />
+      <Box
+        sx={{
+          py: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "start",
+        }}
+      >
+        <Typography
+          level="title-lg"
+          textColor="text.primary"
+          endDecorator={
+            <Chip component="span" size="sm" variant="outlined" color="warning">
+              Personal
+            </Chip>
+          }
+        >
+          Details for our Yosemite Park hike
+        </Typography>
+        <Box
+          sx={{
+            mt: 1,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            flexWrap: "wrap",
+          }}
+        >
+          <div>
+            <Typography
+              component="span"
+              level="body-sm"
+              sx={{ mr: 1, display: "inline-block" }}
+            >
+              From
+            </Typography>
+            <Tooltip size="sm" title="Copy email" variant="outlined">
+              <Chip size="sm" variant="soft" color="primary" onClick={() => {}}>
+                alex.jonnold@hike.com
+              </Chip>
+            </Tooltip>
+          </div>
+          <div>
+            <Typography
+              component="span"
+              level="body-sm"
+              sx={{ mr: 1, display: "inline-block" }}
+            >
+              to
+            </Typography>
+            <Tooltip size="sm" title="Copy email" variant="outlined">
+              <Chip size="sm" variant="soft" color="primary" onClick={() => {}}>
+                steve@mail.com
+              </Chip>
+            </Tooltip>
+          </div>
+        </Box>
+      </Box>
+      <Divider />
+      <Typography level="body-sm" mt={2} mb={2}>
+        Hello, my friend!
+        <br />
+        <br />
+        So, it seems we are getting there! Our trip is finally here. As you
+        know, I love Yosemite National Park, a lot of great climbers and
+        explorers have made history there, so I&apos;m very excited to bring you
+        with me in this journey.
+        <br />
+        <br />
+        There are plenty of amazing things to see there, from internationally
+        recognized granite cliffs, waterfalls, clear streams, giant sequoia
+        groves, lakes, mountains, meadows, glaciers, and a lot o biological
+        diversity. It is amazing that almost 95 percent of the park is
+        designated wilderness. Yosemite is one of the largest and least
+        fragmented habitat blocks in the Serra Nevada, and the park supports a
+        fantastic diversity of plants and animals.
+        <br />
+        <br />
+        I really hope you love coming along with me, we will have an awesome
+        time! I&apos;m attaching a few pics I took on the last time I went
+        there-get excited!
+        <br />
+        <br />
+        See you soon, Alex Jonnold
+      </Typography>
+      <Divider />
+    </Paper>
+  );
+};
+
+export default MailContent;
