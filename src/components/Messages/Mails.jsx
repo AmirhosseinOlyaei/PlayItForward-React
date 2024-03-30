@@ -9,6 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton, {
   listItemButtonClasses,
 } from "@mui/material/ListItemButton";
+import SearchMessage from "./SearchMessage";
 
 const data = [
   {
@@ -61,6 +62,9 @@ export default function Mails() {
         mt: 3,
       }}
     >
+      <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
+        <SearchMessage />
+      </Box>
       <Box sx={{ bgcolor: "background.paper", p: 0 }}>
         <List
           sx={{
