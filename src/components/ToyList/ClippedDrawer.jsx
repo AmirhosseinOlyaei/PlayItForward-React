@@ -15,8 +15,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormGroup,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
 import ToyCard from "./ToyCard";
+import ToyListMap from "./ToyListMap";
+
 import { toysData } from "./toysData";
 import CategoryMultipleSelectChip from "./CategoryMultipleSelectChip";
 
@@ -25,7 +30,7 @@ const drawerWidth = 340;
 export default function ClippedDrawer() {
   const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState(toysData);
-
+  const [viewType, setViewType] = useState(false);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -92,6 +97,21 @@ export default function ClippedDrawer() {
               <CategoryMultipleSelectChip />
             </Grid>
           </Grid>
+          <Divider />
+          <Grid item xs={12} sm={12} my={2}>
+            <Typography variant="h6">View</Typography>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={viewType}
+                    onChange={() => setViewType(!viewType)}
+                  />
+                }
+                label={viewType ? "Map" : "Toy Cards"}
+              />
+            </FormGroup>
+          </Grid>
         </Grid>
       </Drawer>
 
@@ -110,15 +130,19 @@ export default function ClippedDrawer() {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {toys.map((toy) => (
-              <Grid item xs={2} sm={4} md={4} key={toy.id}>
-                <ToyCard
-                  title={toy.title}
-                  image={toy.image}
-                  location={toy.location}
-                />
-              </Grid>
-            ))}
+            {viewType ? (
+              <ToyListMap />
+            ) : (
+              toys.map((toy) => (
+                <Grid item xs={2} sm={4} md={4} key={toy.id}>
+                  <ToyCard
+                    title={toy.title}
+                    image={toy.image}
+                    location={toy.location}
+                  />
+                </Grid>
+              ))
+            )}
           </Grid>
         </Box>
       </Box>
