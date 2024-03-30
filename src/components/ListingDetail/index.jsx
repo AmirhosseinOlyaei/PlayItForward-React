@@ -1,11 +1,22 @@
 import styles from "./ListingDetail.module.css";
-import { Button, ButtonGroup } from '@mui/material';
+import { Button, ButtonGroup, Typography, Box, Divider } from '@mui/material';
 import { Input } from '@mui/material';
 import { TextField } from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
-//import {toyPicture} from "../images/LEGOCars.jpg";
+import CssBaseline from '@mui/material/CssBaseline';
+import Drawer from '@mui/material/Drawer';
+import AppBar from '@mui/material/AppBar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InBoxIcon from '@mui/icons-material/MoveToInBox';
+import MailIcon from '@mui/icons-material/Mail';
+import Toolbar from '@mui/material/Toolbar';
 
 
+const drawerWidth = 340;
 
 const ListingDetail = () => {
   const toyLising = {
@@ -14,7 +25,7 @@ const ListingDetail = () => {
     title: "Little Lego cars",
     description: "5 items, multiple colors, size about 2 inches  each, lego original",
     condition: "Like new",
-    delivery_method: "Pickup",
+    delivery_method: ["Pickup", "Dropoff"], 
     pictures: "https://geekculture.co/wp-content/uploads/2020/05/tigermiyaw-8-1200x817.jpg",
     category: "Cars",
     zip_code: 94040,
@@ -38,48 +49,74 @@ const ListingDetail = () => {
 
   };
   return (
-    <Grid container spacing={2}>
-      <Grid xs={8}>
+
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: { width: drawerWidth, BoxSizing: 'border-Box', marginTop: "64px" },
+        }}
+      >
+        
+        <Box sx={{ overflow: 'auto', padding: "0px 20px" }}>
+          
+            <Box sx={{ padding: "20px 0" }}>
+            <Typography variant="h4" sx={{ margin: "5px 0" }}>{toyLising.title}</Typography>
+            <Typography variant="body2">Listed {toyLising.create_date} in {toyLising.zip_code} </Typography>
+            <Typography variant="body2"><span>{toyLising.delivery_method[0]}, {toyLising.delivery_method[1]}</span></Typography>
+            <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
+              <Button variant="contained">Message</Button>
+              <Button variant="contained">Favorites</Button>
+              <Button variant="contained">Share</Button>
+            </Grid>
+            </Box>
+            <Divider/>
+            <Box sx={{ padding: "20px 0" }}>
+              <Typography variant="h6" sx={{ margin: "5px 0" }}>Details</Typography>
+                <div className={styles.detailsRow}>
+                  <div className={styles.detailsLabel}><Typography variant="body2"><b>Category</b></Typography></div>
+                  <div><Typography variant="body2">{toyLising.category}</Typography></div>
+                </div>
+                <div className={styles.detailsRow}>
+                  <div className={styles.detailsLabel}><Typography variant="body2"><b>Condition</b></Typography></div>
+                  <div><Typography variant="body2">{toyLising.condition}</Typography></div>
+                </div>
+                <div className={styles.detailsRow}>
+                  <div className={styles.detailsLabel}><Typography variant="body1"><b>Description</b></Typography></div>  
+                  <div><Typography variant="body2">{toyLising.description}</Typography></div>
+                </div>
+            </Box>
+            <Divider/>
+            <Box sx={{ padding: "20px 0" }}>
+              <Typography variant="h6" sx={{ margin: "5px 0" }}>Toy giver information</Typography>
+                <div className={styles.giverInformation}>
+                  <img src={toyGiver.profile_picture} alt="Toy giver profile picture" width="42px" height="42px" />
+                  <Typography variant="body2" sx={{ marginLeft: "10px", lineHeight: "42px" }}>{toyGiver.nickname}</Typography>
+                </div>
+                <Typography variant="body2">Joined <b>PlayItForward</b> in {toyGiver.create_date}</Typography>
+            </Box>
+            <Divider/>
+            <Box sx={{ padding: "20px 0" }}>
+              <Typography variant="h6" sx={{ margin: "5px 0" }}>Send a message</Typography>
+              <TextField id="outlined-basic" label="Is this still available?" variant="outlined" sx={{ width: "100%" }} />
+              <br/>
+              <Button variant="contained" sx={{ width: "100%", marginTop: "10px" }}>Send</Button>
+            </Box>
+          
+        </Box>
+      </Drawer>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <img src={toyLising.pictures} alt="Toy image" width="100%" />
-      </Grid>
-      <Grid xs={4}>
-        <h1>{toyLising.title}</h1>
-        <p>
-        Listed {new Date - toyLising.create_date} ago in {toyLising.zip_code} {/* possibly need to identify town or district according the zip code*/}
-        </p>
-        <p><span>Delivery method 1</span><span>Delivery method 2</span></p>
-        <div>
-        <ButtonGroup variant="contained" aria-label="Basic button group">
-          <Button>Message</Button>
-          <Button>Favorites</Button>
-          <Button>Share</Button>
-        </ButtonGroup>
-        </div>
-        <h2>Details</h2>
-        <div className={styles.detailsRow}>
-          <div className={styles.detailsLabel}>Category</div>
-          <div>{toyLising.category}</div>
-        </div>
-        <div className={styles.detailsRow}>
-          <div className={styles.detailsLabel}>Condition</div>
-          <div>{toyLising.condition}</div>
-        </div>
-        <div className={styles.detailsRow}>
-          <div className={styles.detailsLabel}>Description</div>  
-          <div>{toyLising.description}</div>
-        </div>
-        <h2>Toy giver information</h2>
-        <div className={styles.giverInformation}>
-          <img src={toyGiver.profile_picture} alt="Toy giver profile picture" width="42px" height="42px"></img>
-          <p>{toyGiver.nickname}</p>
-        </div>
-        <div>Joined PlayItForward in {toyGiver.create_date}</div>
-        <h2>Send a message</h2>
-        <TextField id="outlined-basic" label="Is this still available?" variant="outlined" />
-        <br/><br/>
-        <Button variant="contained">Send</Button>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
+
+
   );
 };
 

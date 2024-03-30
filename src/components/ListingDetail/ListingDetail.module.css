@@ -1,5 +1,7 @@
 .container {
-    display: flex;}
+    display: flex;
+    
+}
 
 .leftPanel {
     width: 100%;
@@ -12,7 +14,6 @@
 
 .detailsRow {
     display: flex;
-    
 }
 
 .detailsLabel {
@@ -31,4 +32,5 @@
     font-weight: 700;
     padding: 0 20px;
     margin: 0;
+    vertical-align: middle;
 }

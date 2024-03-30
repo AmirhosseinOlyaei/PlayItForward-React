@@ -3,9 +3,10 @@ import Grid from '@mui/material/Unstable_Grid2';
 import IconMenu from "./IconMenu";
 import DeleteIcon from '@mui/icons-material/Edit';
 import { Avatar, Button, Divider, Typography, IconButton } from "@mui/material";
+import ImgMediaCard from "./oneLising";
 
 
-const UserProfile = () => {
+const PersonalInfo = () => {
   const user = {
     email: "jH0H0@example.com",
     first_name: "Jen",
@@ -47,8 +48,12 @@ const UserProfile = () => {
       </div>
     </div>
   </Grid>
+
 </Grid>
+
+
+
   );
 };
 
-export default UserProfile;
+export default PersonalInfo;
