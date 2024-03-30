@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom"; // Import RouterLink for navigation
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -7,10 +8,26 @@ import Avatar from "@mui/material/Avatar";
 import SearchIcon from "@mui/icons-material/Search";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
+import MenuIcon from "@mui/icons-material/Menu";
 import AppLogo from "../../pictures/AppLogo.png";
 import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const NavBar = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const isLoggedIn = true; // This should be based on your authentication logic
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar component="nav">
       <Toolbar
@@ -18,31 +35,94 @@ const NavBar = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          py: 1, // Adds padding on the top and bottom for spacing around the logo
+          py: 1,
         }}
       >
-        {/* Grouping items together and using flex for alignment */}
+        {/* Left side with the logo and app name */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Link href="#" sx={{ display: "flex", alignItems: "center" }}>
+          {/* Wrap Avatar with RouterLink to navigate to ListingPage */}
+          <RouterLink
+            to="/ListingPage"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
             <Avatar
               src={AppLogo}
               alt="AppLogo"
-              sx={{ width: 70, height: 70, mr: 2 }}
+              sx={{ width: 70, height: 70 }}
             />
-          </Link>
-          <IconButton color="inherit" sx={{ p: 0 }}>
-            <SearchIcon sx={{ fontSize: 70 }} />
-          </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{
+                ml: 2,
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                color: "white",
+              }}
+            >
+              PlayItForward
+            </Typography>
+          </RouterLink>
         </Box>
 
-        {/* Right group of icons, also aligned using flex and made as large as the logo */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            "& > *:not(:last-child)": { mr: 2 },
+          }}
+        >
           <IconButton color="inherit" sx={{ p: 0 }}>
-            <EmailIcon sx={{ fontSize: 70 }} />
+            <SearchIcon sx={{ fontSize: 30 }} />
           </IconButton>
+          {/* Conditionally render EmailIcon if user is logged in */}
+          {isLoggedIn && (
+            <IconButton color="inherit" sx={{ p: 0 }}>
+              <EmailIcon sx={{ fontSize: 30 }} />
+            </IconButton>
+          )}
           <IconButton color="inherit" sx={{ p: 0 }}>
-            <PersonIcon sx={{ fontSize: 70 }} />
+            <PersonIcon sx={{ fontSize: 30 }} />
           </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="menu"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenuClick}
+            sx={{ p: 0 }}
+          >
+            <MenuIcon sx={{ fontSize: 30 }} />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={open}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={handleMenuClose}>User Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Toys</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Toy Detail</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Create Listing</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Messages</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Sign In / Out</MenuItem>
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>
@@ -50,124 +130,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-// import * as React from "react";
-// import AppBar from "@mui/material/AppBar";
-// import Toolbar from "@mui/material/Toolbar"; // Импортируем Toolbar из Material-UI
-// import IconButton from "@mui/material/IconButton"; // IconButton теперь из Material-UI
-// import Button from "@mui/material/Button";
-// import Box from "@mui/material/Box"; // Box тоже из Material-UI
-// import Avatar from "@mui/material/Avatar";
-// // Иконки уже импортированы из MUI Icons
-// import SearchIcon from "@mui/icons-material/Search";
-// import EmailIcon from "@mui/icons-material/Email";
-// import PersonIcon from "@mui/icons-material/Person";
-// import HomeIcon from "@mui/icons-material/Home";
-// import AppLogo from "../../pictures/AppLogo.png";
-// import Link from "@mui/material/Link";
-// // import { Link } from "react-router-dom"; // Используется для роутинга
-
-// const NavBar = () => {
-//   return (
-//     <AppBar
-//       component="nav"
-//       sx={{
-//         display: "flex",
-//         justifyContent: "space-between", // Стиль остается прежним
-//         padding: "8px 16px", // Стиль остается прежним
-//       }}
-//     >
-//       {/* Изменения начинаются здесь: заменил Box на Toolbar для размещения элементов навигации */}
-//       <Toolbar
-//         sx={{
-//           display: "flex",
-//           justifyContent: "space-between", // Обеспечиваем распределение элементов по краям
-//           width: "98%", // Занимаем всю ширину AppBar
-//         }}
-//       >
-//         {/* Левая группа иконок */}
-//         <Box>
-//           <Link href="#">
-//             <img
-//               src={AppLogo}
-//               alt="AppLogo"
-//               height="60x"
-//               width="60px"
-//               style={{ borderRadius: "100px" }}
-//             />
-//           </Link>
-//           <IconButton color="inherit">
-//             <SearchIcon />
-//             {/* Место для реализации открытия окна поиска */}
-//           </IconButton>
-//         </Box>
-//         {/* Правая группа иконок */}
-//         <Box>
-//           <IconButton color="inherit">
-//             <EmailIcon />
-//           </IconButton>
-//           <IconButton color="inherit">
-//             <PersonIcon />
-//           </IconButton>
-//         </Box>
-//       </Toolbar>
-//     </AppBar>
-//   );
-// };
-
-// export default NavBar;
-
-// // import * as React from "react";
-// // import AppBar from "@mui/material/AppBar";
-// // import IconButton from "@mui/joy/IconButton";
-// // import Box from "@mui/joy/Box";
-// // // Импорт иконок из MUI Icons, если Joy-UI напрямую не предоставляет иконки
-// // import SearchIcon from "@mui/icons-material/Search";
-// // import EmailIcon from "@mui/icons-material/Email";
-// // import PersonIcon from "@mui/icons-material/Person";
-// // import HomeIcon from "@mui/icons-material/Home";
-// // import { Link } from "react-router-dom"; // Используйте, если вы настроили react-router
-// // import { Grid } from "@mui/material";
-
-// // const NavBar = () => {
-// //   return (
-// //     <AppBar
-// //       component="nav"
-// //       sx={{
-// //         display: "flex",
-// //         justifyContent: "space-between",
-// //         // alignItems: "center",
-// //         padding: "8px 16px",
-// //       }}
-// //     >
-// //       <Box
-// //         sx={{
-// //           display: "grid",
-// //           gridTemplateColumns: "1fr auto",
-// //           gap: 2,
-// //           width: "100%",
-// //         }}
-// //       >
-// //         <Box gridColumn="span 1">
-// //           <IconButton color="neutral">
-// //             <HomeIcon />
-// //           </IconButton>
-// //           <IconButton color="neutral">
-// //             <SearchIcon />
-// //             {/* Открытие окна поиска может быть реализовано здесь */}
-// //           </IconButton>
-// //         </Box>
-// //         <Box gridColumn="span 1">
-// //           <IconButton color="neutral">
-// //             <EmailIcon />
-// //           </IconButton>
-// //           <IconButton color="neutral">
-// //             <PersonIcon />
-// //           </IconButton>
-// //         </Box>
-// //       </Box>
-// //     </AppBar>
-// //   );
-// // };
-
-// // export default NavBar;
