@@ -26,12 +26,12 @@ import CustomToolbar from "./CustomToolbar";
 
 const drawerWidth = 340;
 
-export default function LandingWithDrawer() {
+export default function ToysLanding() {
   const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState(toysData);
   const [viewType, setViewType] = useState(false);
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
       <CssBaseline />
       <Drawer
         variant="permanent"
@@ -126,12 +126,13 @@ export default function LandingWithDrawer() {
           mt: 2,
         }}
       >
-        <CustomToolbar />
+        <CustomToolbar position="fixed" />
         <Box sx={{ flexGrow: 1 }}>
           <Grid
             container
-            spacing={{ xs: 2, md: 3 }}
+            spacing={{ xs: 2, sm: 2, md: 2, lg: 2 }}
             columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}
+            m={0}
           >
             {viewType ? (
               <ToyListMap />

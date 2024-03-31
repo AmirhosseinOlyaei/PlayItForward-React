@@ -1,9 +1,9 @@
-import LandingWithDrawer from "./LandingWithDrawer";
+import ToysLanding from "./ToysLanding";
 
 const ToyList = () => {
   return (
     <div>
-      <LandingWithDrawer />
+      <ToysLanding />
     </div>
   );
 };
