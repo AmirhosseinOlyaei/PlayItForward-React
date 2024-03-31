@@ -1,9 +1,11 @@
 import styles from "./UserProfile.module.css";
 import Grid from '@mui/material/Unstable_Grid2';
 import IconMenu from "./IconMenu";
-import DeleteIcon from '@mui/icons-material/Edit';
-import { Avatar, Button, Divider, Typography, IconButton } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import { Avatar, Button, Divider, Typography, IconButton, Box } from "@mui/material";
 import ImgMediaCard from "./oneLising";
+import CssBaseline from '@mui/material/CssBaseline';
+import AppBar from '@mui/material/AppBar';
 
 
 const PersonalInfo = () => {
@@ -21,35 +23,40 @@ const PersonalInfo = () => {
 
   };
   return (
-    <Grid container spacing={4}>
-  <Grid xs={3}>
-    <Button variant="contained">Create New Listing</Button>
+
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      </AppBar>
   <IconMenu/>  
-  </Grid>
-  <Divider orientation="vertical" flexItem />
-  <Grid xs={8}>
+  
+  <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+       
     <div className={styles.userProfile}>
       <div>
-        <Typography variant="h3">{user.first_name} {user.last_name}</Typography>
-        <p>{user.nickname} 
+        <p><Typography variant="h3">{user.first_name} {user.last_name}</Typography></p>
+        <p><Typography variant="body">{user.nickname}   
           <IconButton aria-label="edit" size="small">
-          <DeleteIcon />
+            <EditIcon />
           </IconButton>
+        </Typography> 
         </p>
-        <p>Joined {user.create_date}</p>
-        <p>{user.email}</p>
-        <p>Location: {user.zipcode} 
+        
+        <p><Typography variant="body">Joined {user.create_date}</Typography></p>
+        <p><Typography variant="body">{user.email}</Typography></p>
+        <p><Typography variant="body">Location: {user.zipcode} 
           <IconButton aria-label="edit" size="small">
-            <DeleteIcon />
-          </IconButton></p>
+            <EditIcon />
+          </IconButton>
+        </Typography></p>
       </div>
-      <div>
+      <div className={styles.avatar}>
         <Avatar src={user.profile_picture} variant="rounded" sx={{ width: 150, height: 150 }} alt="profile picture" />
       </div>
     </div>
-  </Grid>
+  </Box>
+</Box>
 
-</Grid>
 
 
 

@@ -26,6 +26,7 @@ export default function ImgMediaCard() {
         modified_by_id: 1,
       };
   return (
+    
     <Card sx={{ maxWidth: 845, padding: "20px", margin: "20px" }}>
       <div className={styles.detailsRow}>
       <CardMedia
