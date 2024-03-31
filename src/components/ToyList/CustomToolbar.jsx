@@ -10,7 +10,7 @@ import MapIcon from "@mui/icons-material/Map";
 
 function CustomToolbar({ viewType, setViewType }) {
   const handleChange = (event, newView) => {
-    setViewType(newView === "module" ? false : true);
+    setViewType(newView === "map");
   };
 
   return (
