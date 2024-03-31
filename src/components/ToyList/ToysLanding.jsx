@@ -151,7 +151,7 @@ export default function ToysLanding() {
               <ToyListMap />
             ) : (
               toys.map((toy) => (
-                <Grid item xs={2} sm={4} md={4} key={toy.id}>
+                <Grid item key={toy.id}>
                   <ToyCard
                     title={toy.title}
                     image={toy.image}
