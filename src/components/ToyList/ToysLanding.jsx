@@ -96,7 +96,7 @@ export default function ToysLanding() {
               <Category />
             </Grid>
             <Divider />
-            <Grid item xs={12} sm={12} my={2}>
+            {/* <Grid item xs={12} sm={12} my={2}>
               <Typography variant="h6">View</Typography>
               <FormGroup>
                 <FormControlLabel
@@ -109,7 +109,7 @@ export default function ToysLanding() {
                   label={viewType ? "Map" : "Toy Cards"}
                 />
               </FormGroup>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Drawer>
@@ -126,7 +126,7 @@ export default function ToysLanding() {
           mt: 2,
         }}
       >
-        <CustomToolbar position="fixed" />
+        <CustomToolbar viewType={viewType} setViewType={setViewType} />
         <Box sx={{ flexGrow: 1 }}>
           <Grid
             container
@@ -134,6 +134,19 @@ export default function ToysLanding() {
             columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}
             m={0}
           >
+            {/* {viewType ? (
+              <ToyListMap />
+            ) : (
+              toys.map((toy) => (
+                <Grid item xs={2} sm={4} md={4} key={toy.id}>
+                  <ToyCard
+                    title={toy.title}
+                    image={toy.image}
+                    location={toy.location}
+                  />
+                </Grid>
+              ))
+            )} */}
             {viewType ? (
               <ToyListMap />
             ) : (
