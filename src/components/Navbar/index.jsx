@@ -10,6 +10,9 @@ const Navbar = () => {
       <Link className={styles.link} to="/toys">
         Toys
       </Link>
+      <Link className={styles.link} to="/toy-details">
+        Toy Details
+      </Link>
       <Link className={styles.link} to="/create">
         Create Listing
       </Link>
