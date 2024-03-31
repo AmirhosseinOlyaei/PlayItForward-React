@@ -20,13 +20,13 @@ import {
 } from "@mui/material";
 import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
-
 import { toysData } from "./toysData";
-import CategoryMultipleSelectChip from "./CategoryMultipleSelectChip";
+import Category from "./Category";
+import CustomToolbar from "./CustomToolbar";
 
 const drawerWidth = 340;
 
-export default function ClippedDrawer() {
+export default function LandingWithDrawer() {
   const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState(toysData);
   const [viewType, setViewType] = useState(false);
@@ -93,42 +93,45 @@ export default function ClippedDrawer() {
 
             {/* categories */}
             <Grid item xs={12} sm={12} my={2}>
-              <CategoryMultipleSelectChip />
+              <Category />
             </Grid>
-          </Grid>
-          <Divider />
-          <Grid item xs={12} sm={12} my={2}>
-            <Typography variant="h6">View</Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={viewType}
-                    onChange={() => setViewType(!viewType)}
-                  />
-                }
-                label={viewType ? "Map" : "Toy Cards"}
-              />
-            </FormGroup>
+            <Divider />
+            <Grid item xs={12} sm={12} my={2}>
+              <Typography variant="h6">View</Typography>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={viewType}
+                      onChange={() => setViewType(!viewType)}
+                    />
+                  }
+                  label={viewType ? "Map" : "Toy Cards"}
+                />
+              </FormGroup>
+            </Grid>
           </Grid>
         </Grid>
       </Drawer>
 
       {/* Main section */}
+      {/* <Grid container spacing={2} m={0}>
+          <Grid item xs={12} sm={11}>
+            <Grid item xs={12} sm={12} mt={1}> */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
-          mt: 5,
+          mt: 2,
         }}
       >
-        {/* <Toolbar /> */}
+        <CustomToolbar />
         <Box sx={{ flexGrow: 1 }}>
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
+            columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}
           >
             {viewType ? (
               <ToyListMap />

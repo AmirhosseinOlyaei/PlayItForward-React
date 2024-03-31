@@ -51,7 +51,7 @@ function getStyles(name, category, theme) {
   };
 }
 
-export default function CategoryMultipleSelectChip() {
+export default function Category() {
   const theme = useTheme();
   const [category, setCategory] = React.useState([]);
 

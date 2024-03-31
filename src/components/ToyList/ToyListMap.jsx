@@ -33,7 +33,7 @@ const ToyListMap = () => {
             address: zip,
             key: googleMapsApiKey,
           },
-        },
+        }
       );
 
       return response.data.results[0].geometry.location;
