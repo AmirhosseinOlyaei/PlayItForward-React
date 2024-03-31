@@ -103,7 +103,7 @@ const ListingDetail = () => {
           
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 5 }}>
         <img src={toyLising.pictures} alt="Toy image" width="100%" />
       </Box>
     </Box>

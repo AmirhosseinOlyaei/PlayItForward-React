@@ -1,8 +1,10 @@
 import styles from "./UserProfile.module.css";
 import Grid from '@mui/material/Unstable_Grid2';
 import IconMenu from "./IconMenu";
-import { Avatar, Button, Divider, Typography, IconButton } from "@mui/material";
+import { Avatar, Button, Divider, Typography, IconButton, Box } from "@mui/material";
 import ImgMediaCard from "./oneLising";
+import CssBaseline from '@mui/material/CssBaseline';
+import AppBar from '@mui/material/AppBar';
 
 
 const MyListings = () => {
@@ -38,18 +40,32 @@ const MyListings = () => {
   };
 
   return (
-    <Grid container spacing={4}>
-  <Grid xs={3}>
-    <Button variant="contained">Create New Listing</Button>
-  <IconMenu/>  
-  </Grid>
-  <Divider orientation="vertical" flexItem />
-  <Grid xs={8}>
-    <Typography variant="h3">My Listings</Typography>
-  <ImgMediaCard/>  
-  <ImgMediaCard/> 
-  </Grid>
-</Grid>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      </AppBar>
+      <IconMenu/>  
+      <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 5 }}>
+        <Typography variant="h3">My Listings</Typography>
+        <ImgMediaCard/>  
+        <ImgMediaCard/> 
+      </Box>
+    </Box>
+
+
+
+
+//     <Grid container spacing={4}>
+//   <Grid xs={3}>
+//   <IconMenu/>  
+//   </Grid>
+//   <Divider orientation="vertical" flexItem />
+//   <Grid xs={8}>
+//     <Typography variant="h3">My Listings</Typography>
+//   <ImgMediaCard/>  
+//   <ImgMediaCard/> 
+//   </Grid>
+// </Grid>
   );
 };
 
