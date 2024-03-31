@@ -7,7 +7,6 @@ import { useState } from "react";
 import {
   Box,
   Drawer,
-  List,
   Typography,
   Divider,
   Grid,
@@ -37,16 +36,16 @@ export default function ClippedDrawer() {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: "border-box",
-            marginTop: "64px",
+            marginTop: "86px",
           },
         }}
       >
+        {/* <Toolbar /> */}
         {/* <List>
           <Typography variant="caption" gutterBottom letterSpacing={1} m={3}>
             PlayItForward
           </Typography>
         </List> */}
-
         {/* side nav contents */}
         <Grid container spacing={2} m={0}>
           <Grid item xs={12} sm={11}>
@@ -101,9 +100,10 @@ export default function ClippedDrawer() {
         sx={{
           flexGrow: 1,
           p: 3,
-          mt: 2,
+          mt: 5,
         }}
       >
+        {/* <Toolbar /> */}
         <Box sx={{ flexGrow: 1 }}>
           <Grid
             container
