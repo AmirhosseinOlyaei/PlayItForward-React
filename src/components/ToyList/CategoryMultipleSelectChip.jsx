@@ -61,7 +61,7 @@ export default function CategoryMultipleSelectChip() {
     } = event;
     setCategory(
       // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value,
+      typeof value === "string" ? value.split(",") : value
     );
   };
 
