@@ -80,7 +80,7 @@ const ListingDetail = () => {
                   <div><Typography variant="body2">{toyLising.condition}</Typography></div>
                 </div>
                 <div className={styles.detailsRow}>
-                  <div className={styles.detailsLabel}><Typography variant="body1"><b>Description</b></Typography></div>  
+                  <div className={styles.detailsLabel}><Typography variant="body2"><b>Description</b></Typography></div>  
                   <div><Typography variant="body2">{toyLising.description}</Typography></div>
                 </div>
             </Box>

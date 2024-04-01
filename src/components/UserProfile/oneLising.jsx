@@ -41,16 +41,16 @@ export default function ImgMediaCard() {
         </Typography>
         
         <div className={styles.detailsRow}>
-          <div className={styles.detailsLabel}>Category</div>
-          <div>{toyLising.category}</div>
+          <div className={styles.detailsLabel}><Typography variant="body2"><b>Category</b></Typography></div>
+          <div><Typography variant="body2">{toyLising.category}</Typography></div>
         </div>
         <div className={styles.detailsRow}>
-          <div className={styles.detailsLabel}>Condition</div>
-          <div>{toyLising.condition}</div>
+          <div className={styles.detailsLabel}><Typography variant="body2"><b>Condition</b></Typography></div>
+          <div><Typography variant="body2">{toyLising.condition}</Typography></div>
         </div>
         <div className={styles.detailsRow}>
-          <div className={styles.detailsLabel}>Description</div>  
-          <div>{toyLising.description}</div>
+          <div className={styles.detailsLabel}><Typography variant="body2"><b>Description</b></Typography></div>  
+          <div><Typography variant="body2">{toyLising.description}</Typography></div>
         </div>
         
       </CardContent>
