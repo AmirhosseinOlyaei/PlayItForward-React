@@ -14,20 +14,25 @@ function CustomToolbar({ viewType, setViewType }) {
   };
 
   return (
-    <Toolbar>
+    <Toolbar sx={{ justifyContent: "space-between" }}>
       <ToggleButtonGroup
         orientation="horizontal"
+        sx={{ width: "100%" }}
         value={viewType ? "map" : "module"}
         exclusive
         onChange={handleChange}
       >
-        <Tooltip title="Grid View">
-          <ToggleButton value="module" aria-label="grid view">
+        <Tooltip title="Grid View" placement="bottom">
+          <ToggleButton
+            value="module"
+            aria-label="grid view"
+            sx={{ width: "50%" }}
+          >
             <ViewModuleIcon />
           </ToggleButton>
         </Tooltip>
-        <Tooltip title="Map View">
-          <ToggleButton value="map" aria-label="map view">
+        <Tooltip title="Map View" placement="bottom">
+          <ToggleButton value="map" aria-label="map view" sx={{ width: "50%" }}>
             <MapIcon />
           </ToggleButton>
         </Tooltip>
