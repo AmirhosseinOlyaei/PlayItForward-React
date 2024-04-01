@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import GoogleIcon from "./GoogleIcon";
+import { Toolbar } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -39,7 +40,15 @@ export default function SignInSide() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "calc(100vh - 64px)" }}>
+      {/* <Toolbar sx={{ height: "90px" }} /> */}
+
+      <Grid
+        container
+        component="main"
+        sx={{ height: "calc(100vh - 93px)" }}
+        mt={9}
+        position={"fixed"}
+      >
         <CssBaseline />
         <Grid
           item
