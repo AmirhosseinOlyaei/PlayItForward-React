@@ -137,19 +137,13 @@ export default function ToysLanding() {
       </Drawer>
 
       {/* Main section */}
-      <Grid container spacing={0} m={0}>
-        <Grid item xs={12} sm={12} mt={2}>
+      <Grid container mt={11}>
+        <Grid item xs={12} sm={12} py={2}>
           <CustomToolbar viewType={viewType} setViewType={setViewType} />
         </Grid>
-        <Grid
-          container
-          spacing={0}
-          columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}
-          mx={2}
-          my={1.5}
-        >
+        <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} mx={2}>
           {viewType ? (
-            <Grid item xs={12} sm={12} m={1}>
+            <Grid item xs={12} sm={12} mx={1}>
               <ToyListMap />
             </Grid>
           ) : (
