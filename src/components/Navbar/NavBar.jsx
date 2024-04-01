@@ -43,7 +43,7 @@ const NavBar = () => {
         {/* Left side with the logo and app name */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <RouterLink
-            to="/ListingPage"
+            to="/toys"
             style={{
               display: "flex",
               alignItems: "center",
@@ -116,16 +116,53 @@ const NavBar = () => {
             open={open}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={handleMenuClose}>User Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Toys</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Toy Detail</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Create Listing</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Messages</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Sign In / Out</MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/profile"
+            >
+              User Profile
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/toys"
+            >
+              Toys
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/toy-details"
+            >
+              Toy Detail
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/create"
+            >
+              Create Listing
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/messages"
+            >
+              Messages
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/login"
+            >
+              Sign In / Out
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>
     </AppBar>
   );
 };
+
 export default NavBar;
