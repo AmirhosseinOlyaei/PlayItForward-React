@@ -1,11 +1,9 @@
-// import ToyList.css
-import styles from "./ToyList.module.css";
-import ClippedDrawer from "./ClippedDrawer";
+import ToysLanding from "./ToysLanding";
 
 const ToyList = () => {
   return (
     <div>
-      <ClippedDrawer />
+      <ToysLanding />
     </div>
   );
 };

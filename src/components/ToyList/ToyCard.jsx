@@ -12,7 +12,8 @@ export default function ToyCard({ title, image, location }) {
   return (
     <Card
       sx={{
-        maxWidth: isSmallScreen ? 200 : 345,
+        minWidth: 250,
+        // maxWidth: isSmallScreen ? 200 : 345,
         flexBasis: isSmallScreen ? "100%" : "345px",
         flexGrow: 1,
       }}

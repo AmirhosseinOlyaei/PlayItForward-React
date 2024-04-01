@@ -11,14 +11,14 @@ function App() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    (async () => {
-      const myData = await getAllData(URL);
-      setMessage(myData.data);
-    })();
+    // (async () => {
+    //   const myData = await getAllData(URL);
+    //   setMessage(myData.data);
+    // })();
 
-    return () => {
-      console.log("unmounting");
-    };
+    // return () => {
+    //   console.log("unmounting");
+    // };
   }, []);
 
   return (

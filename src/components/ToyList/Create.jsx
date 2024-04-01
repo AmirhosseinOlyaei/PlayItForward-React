@@ -14,10 +14,10 @@ const Create = () => {
           fullWidth
           size="large"
           sx={{
-            backgroundColor: "rgba(180, 40, 75, 0.8)", // Updated color
+            backgroundColor: "rgba(33, 150, 243, 0.8)", // Recommended color from Material-UI docs
             color: "white",
             "&:hover": {
-              backgroundColor: "rgba(180, 40, 75, 1)", // Updated color
+              backgroundColor: "rgba(33, 150, 243, 1)", // Recommended color from Material-UI docs
             },
             "& .MuiButton-startIcon": {
               color: "white",
