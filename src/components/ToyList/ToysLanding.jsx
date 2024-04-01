@@ -115,54 +115,43 @@ export default function ToysLanding() {
       </Drawer>
 
       {/* Main section */}
-      {/* <Grid container spacing={2} m={0}>
-          <Grid item xs={12} sm={11}>
-            <Grid item xs={12} sm={12} mt={1}> */}
-      <Box
+
+      {/* <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
           mt: 2,
         }}
-      >
-        <CustomToolbar viewType={viewType} setViewType={setViewType} />
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid
-            container
-            spacing={{ xs: 2, sm: 2, md: 2, lg: 2 }}
-            columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}
-            m={0}
-          >
-            {/* {viewType ? (
+      > */}
+
+      <Grid container spacing={0} m={0}>
+        <Grid item xs={12} sm={12} m={0}>
+          <CustomToolbar viewType={viewType} setViewType={setViewType} />
+        </Grid>
+        <Grid
+          container
+          spacing={0}
+          columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}
+          mx={2}
+        >
+          {viewType ? (
+            <Grid item xs={12} sm={12} m={1}>
               <ToyListMap />
-            ) : (
-              toys.map((toy) => (
-                <Grid item xs={2} sm={4} md={4} key={toy.id}>
-                  <ToyCard
-                    title={toy.title}
-                    image={toy.image}
-                    location={toy.location}
-                  />
-                </Grid>
-              ))
-            )} */}
-            {viewType ? (
-              <ToyListMap />
-            ) : (
-              toys.map((toy) => (
-                <Grid item key={toy.id}>
-                  <ToyCard
-                    title={toy.title}
-                    image={toy.image}
-                    location={toy.location}
-                  />
-                </Grid>
-              ))
-            )}
-          </Grid>
-        </Box>
-      </Box>
+            </Grid>
+          ) : (
+            toys.map((toy) => (
+              <Grid item spacing={2} m={1} key={toy.id}>
+                <ToyCard
+                  title={toy.title}
+                  image={toy.image}
+                  location={toy.location}
+                />
+              </Grid>
+            ))
+          )}
+        </Grid>
+      </Grid>
     </Box>
   );
 }
