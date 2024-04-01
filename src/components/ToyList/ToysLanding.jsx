@@ -17,6 +17,7 @@ import {
   FormGroup,
   FormControlLabel,
   Switch,
+  List,
 } from "@mui/material";
 import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
@@ -46,77 +47,98 @@ export default function ToysLanding() {
         }}
       >
         {/* <Toolbar /> */}
+
+        {/* App name */}
         {/* <List>
           <Typography variant="caption" gutterBottom letterSpacing={1} m={3}>
             PlayItForward
           </Typography>
         </List> */}
+
         {/* side nav contents */}
-        <Grid container spacing={2} m={0}>
-          <Grid item xs={12} sm={11}>
-            <Grid item xs={12} sm={12} mt={1}>
-              <Search />
-            </Grid>
-            <Grid item xs={11} sm={12} my={2}>
-              <Create />
-            </Grid>
-            <Divider />
-            <Grid item xs={12} sm={12} my={2}>
-              <Typography variant="h6">Filters</Typography>
-              <Grid item xs={12} sm={12} my={1}>
-                <GoogleMaps />
-              </Grid>
+        <Grid item xs={11} sm={11} p={2}>
+          {/* Search */}
+          <Grid item xs={12} sm={12} mt={1}>
+            <Search />
+          </Grid>
 
-              {/* delivery */}
-              <Grid item xs={12} sm={12} my={2}>
-                <FormControl fullWidth>
-                  <InputLabel id="select-label">Delivery Method</InputLabel>
-                  <Select
-                    labelId="select-label"
-                    id="simple-select"
-                    value={delivery}
-                    fullWidth
-                    label="Delivery Method"
-                    onChange={(event) => {
-                      setDelivery(event.target.value);
-                      fetchToys({ deliveryMethod: event.target.value });
-                    }}
-                  >
-                    <MenuItem value="All">All</MenuItem>
-                    <MenuItem value="Pick up">Pick up</MenuItem>
-                    <MenuItem value="Drop off">Drop off</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-            <Divider />
+          {/* Create */}
+          <Grid item xs={12} sm={12} my={2}>
+            <Create />
+          </Grid>
 
-            {/* categories */}
-            <Grid item xs={12} sm={12} my={2}>
-              <Category />
-            </Grid>
-            <Divider />
-            {/* <Grid item xs={12} sm={12} my={2}>
-              <Typography variant="h6">View</Typography>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={viewType}
-                      onChange={() => setViewType(!viewType)}
-                    />
-                  }
-                  label={viewType ? "Map" : "Toy Cards"}
-                />
-              </FormGroup>
-            </Grid> */}
+          <Divider />
+
+          {/* Filters */}
+          <Typography variant="h6" my={2}>
+            Filters
+          </Typography>
+          <Grid item xs={12} sm={12} my={1}>
+            <GoogleMaps />
+          </Grid>
+
+          {/* delivery */}
+          <Grid item xs={12} sm={12} my={2}>
+            <FormControl fullWidth>
+              <InputLabel id="select-label">Delivery Method</InputLabel>
+              <Select
+                labelId="select-label"
+                id="simple-select"
+                value={delivery}
+                fullWidth
+                label="Delivery Method"
+                onChange={(event) => {
+                  setDelivery(event.target.value);
+                  fetchToys({ deliveryMethod: event.target.value });
+                }}
+              >
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="Pick up">Pick up</MenuItem>
+                <MenuItem value="Drop off">Drop off</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Divider />
+
+          {/* categories */}
+          <Grid item xs={12} sm={12} my={2}>
+            <Category />
+          </Grid>
+
+          <Divider />
+
+          {/* Views */}
+          <Typography variant="h6" mt={2} mb={4}>
+            Views
+          </Typography>
+          <Grid item xs={12} sm={12} m={-3}>
+            <CustomToolbar viewType={viewType} setViewType={setViewType} />
+          </Grid>
+
+          {/* Views */}
+          <Typography variant="h6" mt={5}>
+            Views
+          </Typography>
+          <Grid item xs={12} sm={12} my={1}>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={viewType}
+                    onChange={() => setViewType(!viewType)}
+                  />
+                }
+                label={viewType ? "Map" : "Toy Cards"}
+              />
+            </FormGroup>
           </Grid>
         </Grid>
       </Drawer>
 
       {/* Main section */}
       <Grid container spacing={0} m={0}>
-        <Grid item xs={12} sm={12} m={0}>
+        <Grid item xs={12} sm={12} mt={2}>
           <CustomToolbar viewType={viewType} setViewType={setViewType} />
         </Grid>
         <Grid
@@ -124,6 +146,7 @@ export default function ToysLanding() {
           spacing={0}
           columns={{ xs: 2, sm: 4, md: 8, lg: 12 }}
           mx={2}
+          my={1.5}
         >
           {viewType ? (
             <Grid item xs={12} sm={12} m={1}>

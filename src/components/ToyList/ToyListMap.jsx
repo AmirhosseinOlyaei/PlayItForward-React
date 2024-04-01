@@ -56,11 +56,11 @@ const ToyListMap = () => {
   }, []);
 
   return (
-    <Box sx={{ width: "100%", height: "100vh" }}>
+    <Box sx={{ width: "100%", height: "calc(100vh - 64px)" }}>
       <GoogleMap
         mapContainerStyle={{
           width: "100%",
-          height: "100vh",
+          height: "100%",
         }}
         center={locations[0]}
         zoom={6}

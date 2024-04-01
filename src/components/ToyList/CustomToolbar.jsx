@@ -19,7 +19,7 @@ function CustomToolbar({ viewType, setViewType }) {
   };
 
   return (
-    <Toolbar sx={{ justifyContent: "space-between" }}>
+    <Toolbar>
       <ToggleButtonGroup
         orientation="horizontal"
         sx={{ width: "100%" }}

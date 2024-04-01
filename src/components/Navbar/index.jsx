@@ -3,7 +3,7 @@ import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   return (
-    <nav className={styles.navbar} style={{ height: "86px" }}>
+    <nav className={styles.navbar}>
       <Link className={styles.link} to="/">
         Home
       </Link>
