@@ -13,9 +13,9 @@ export default function ToyCard({ title, image, location }) {
     <Card
       sx={{
         minWidth: 250,
-        maxWidth: isSmallScreen ? 200 : 345, // limits width on larger screens, expands to fill space on smaller screens
-        flexBasis: isSmallScreen ? "100%" : "345px", // same as above, but sets initial width
-        flexGrow: 1, // allows the card to expand to fill available space horizontally on larger screens
+        // maxWidth: isSmallScreen ? 200 : 345,
+        flexBasis: isSmallScreen ? "100%" : "345px",
+        flexGrow: 1,
       }}
     >
       {image && (
