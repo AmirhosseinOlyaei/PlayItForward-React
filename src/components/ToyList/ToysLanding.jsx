@@ -115,16 +115,6 @@ export default function ToysLanding() {
       </Drawer>
 
       {/* Main section */}
-
-      {/* <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          mt: 2,
-        }}
-      > */}
-
       <Grid container spacing={0} m={0}>
         <Grid item xs={12} sm={12} m={0}>
           <CustomToolbar viewType={viewType} setViewType={setViewType} />
@@ -141,7 +131,15 @@ export default function ToysLanding() {
             </Grid>
           ) : (
             toys.map((toy) => (
-              <Grid item spacing={2} m={1} key={toy.id}>
+              <Grid
+                item
+                spacing={2}
+                m={1}
+                key={toy.id}
+                sx={{
+                  flexGrow: 1,
+                }}
+              >
                 <ToyCard
                   title={toy.title}
                   image={toy.image}
