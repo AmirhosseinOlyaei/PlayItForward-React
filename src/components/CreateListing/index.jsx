@@ -4,7 +4,7 @@ import { useState } from "react";
 import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
 
-const CreateListing = ({ onInputChange }) => {
+const CreateListing = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");

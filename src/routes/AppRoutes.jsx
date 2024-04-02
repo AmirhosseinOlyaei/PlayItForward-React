@@ -21,5 +21,6 @@ const AppRoutes = () => {
     </Routes>
   );
 };
+import CreateListing from "../components/createListing";
 
 export default AppRoutes;

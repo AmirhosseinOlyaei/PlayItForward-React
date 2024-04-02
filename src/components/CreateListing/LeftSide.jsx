@@ -105,49 +105,29 @@ const LeftSide = ({
       : fileName;
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   try {
-  //       // Send a POST request to your backend API with form data
-  //       await axios.post('http://localhost:8000/api/items', formData);
-  //       alert('Data submitted successfully!');
-  //       setFormData({
-  //         title: title,
-  //         category: category,
-  //         condition: condition,
-  //         delivery: delivery,
-  //         description: description,
-  //       });
-  //     } catch (error) {
-  //       console.error('Error submitting data:', error);
-  //       alert('Error submitting data');
-  //     }
-  //   };
-  //   }
+  const handleSubmitPublish = (event) => {
+    event.preventDefault();
+    //   try {
+    //       // Send a POST request to the backend API with form data
+    //       const response = await fetch'http://localhost:8000/api/v1/,
+    //       { method: 'POST',
+    //       body: JSON.stringify({ title, category, condition, delivery, description }),
+    //       headers: { 'Content-Type': 'application/json'
+    //       },
+    //       });
+    //       // Handle response
+    //       const result = await response.json();
+    //       console.log(result);
+    //       });
+    //     } catch (error) {
+    //       console.error('Error submitting data:', error);
+    //       alert('Error submitting data');
+    //     }
+    //   };
+  };
 
   // const [data, setData] = useState(null);
   // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch MongoDB URI from environment variable
-  //       const mongoDBUri = process.env.REACT_APP_MONGODB_URI;
-  //       if (!mongoDBUri) {
-  //         throw new Error("MongoDB URI not found in environment variables.");
-  //       }
-
-  //       const response = await axios.get(`${mongoDBUri}/api/data`); // Adjust endpoint as needed
-  //       setData(response.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
   // if (loading) return <p>Loading...</p>;
 
@@ -266,7 +246,7 @@ const LeftSide = ({
               required
             /> */}
 
-            <form>
+            <form noValidate autoComplete="off" onSubmit={handleSubmitPublish}>
               <TextField
                 id="outlined-basic"
                 type="text"
