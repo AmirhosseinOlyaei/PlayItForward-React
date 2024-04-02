@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Divider, Box, List, ListItem, Button, ListItemButton} from '@mui/material';
+import {Divider, Box, List, ListItem, Button, ListItemButton, Link} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,15 +12,16 @@ import Send from '@mui/icons-material/Send';
 import Person2 from '@mui/icons-material/Person2';
 import ListIcon from '@mui/icons-material/List';
 import MailIcon from '@mui/icons-material/Mail';
+import Create from '../ToyList/Create';
 
 import Drawer from '@mui/material/Drawer';
 
 
 const menuOptions = [
-  { text: "My Listings", icon: <ListIcon /> },
-  { text: "Favorites", icon: <Bookmark /> },
-  { text: "Messages", icon: <MailIcon /> },
-  { text: "Personal Information", icon: <Person2 /> },
+  { text: "My Listings", icon: <ListIcon />, link: "/listings" },
+  { text: "Favorites", icon: <Bookmark />, link: "/favorites" },
+  { text: "Messages", icon: <MailIcon />, link: "/messages" },
+  { text: "Personal Information", icon: <Person2 />, link: "/personal" },
 ]
 function IconMenu() {
   return (
@@ -39,13 +40,14 @@ function IconMenu() {
         <List>
             <ListItem  disablePadding>
               <ListItemButton>
-                <Button variant="contained">Create New Listing</Button>
+                <Create/>
               </ListItemButton>
             </ListItem>
         </List>
         <Divider />
           <List>
-            {menuOptions.map(({text, icon}) => (
+            {menuOptions.map(({text, icon, link}) => (
+            <Link key={text} href={link} sx={{ textDecoration: 'none', color: 'inherit' }}>
               <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
@@ -54,6 +56,7 @@ function IconMenu() {
                   <ListItemText primary={text} />
                 </ListItemButton>
               </ListItem>
+            </Link>  
             ))}
           </List>
         </Box>
