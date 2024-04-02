@@ -10,8 +10,9 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { Paper } from "@mui/material";
+import MessageInput from "./MessageInput";
 
-const MailContent = () => {
+const MailContent = ({ recipient }) => {
   return (
     <Paper
       variant="outlined"
@@ -200,6 +201,7 @@ const MailContent = () => {
         See you soon, Alex Jonnold
       </Typography>
       <Divider />
+      <MessageInput recipient={recipient} />
     </Paper>
   );
 };
