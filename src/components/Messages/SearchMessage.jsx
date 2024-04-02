@@ -3,11 +3,13 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 
-export default function SearchMessage() {
+export default function SearchMessage({ onSearchChange }) {
   const [value, setValue] = useState("");
 
   const handleChange = (event) => {
     setValue(event.target.value);
+
+    onSearchChange(event.target.value);
   };
 
   return (
