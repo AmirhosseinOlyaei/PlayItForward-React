@@ -8,11 +8,9 @@ import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
 
-// This key was created specifically for the demo in mui.com.
-// You need to create a new one for your application.
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-function loadScript(src, position, id) {
+function loadScript(src, position, id, callbackName) {
   if (!position) {
     return;
   }
@@ -21,6 +19,7 @@ function loadScript(src, position, id) {
   script.setAttribute("async", "");
   script.setAttribute("id", id);
   script.src = src;
+  script.onload = callbackName ? window[callbackName] : null; // Call the callback function once the script is loaded
   position.appendChild(script);
 }
 
@@ -32,12 +31,13 @@ export default function GoogleMaps() {
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
 
-  if (typeof window !== "undefined" && !loaded.current) {
+  if (typeof window !== "undefined" && !loaded.current && GOOGLE_MAPS_API_KEY) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initAutocomplete`,
         document.querySelector("head"),
         "google-maps",
+        "initAutocomplete"
       );
     }
 
@@ -49,11 +49,19 @@ export default function GoogleMaps() {
       debounce((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
       }, 400),
-    [],
+    []
   );
 
   React.useEffect(() => {
     let active = true;
+
+    window.initAutocomplete = () => {
+      // Define the callback function for async loading
+      if (!autocompleteService.current) {
+        autocompleteService.current =
+          new window.google.maps.places.AutocompleteService();
+      }
+    };
 
     if (!autocompleteService.current && window.google) {
       autocompleteService.current =
@@ -119,7 +127,7 @@ export default function GoogleMaps() {
 
         const parts = parse(
           option.structured_formatting.main_text,
-          matches.map((match) => [match.offset, match.offset + match.length]),
+          matches.map((match) => [match.offset, match.offset + match.length])
         );
 
         return (

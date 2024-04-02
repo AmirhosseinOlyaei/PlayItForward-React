@@ -144,13 +144,12 @@ export default function ToysLanding() {
         <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} mx={2}>
           {viewType ? (
             <Grid item xs={12} sm={12} mx={1}>
-              <ToyListMap />
+              <ToyListMap toysData={toys} />
             </Grid>
           ) : (
             toys.map((toy) => (
               <Grid
                 item
-                spacing={2}
                 m={1}
                 key={toy.id}
                 sx={{

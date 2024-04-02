@@ -2,7 +2,7 @@ export const toysData = [
   {
     id: 1,
     title: "Toy 1",
-    description:"cool toy 1",
+    description: "cool toy 1",
     location: "Location 1",
     image: "https://source.unsplash.com/random/200x200?toy",
     isFavorite: false,
@@ -11,7 +11,7 @@ export const toysData = [
   {
     id: 2,
     title: "Toy 2",
-    description:"cool toy 2",
+    description: "cool toy 2",
     location: "Location 2",
     image: "https://source.unsplash.com/random/200x200?toy",
     isFavorite: false,
@@ -20,7 +20,7 @@ export const toysData = [
   {
     id: 3,
     title: "Toy 3",
-    description:"cool toy 3",
+    description: "cool toy 3",
     location: "Alaska, USA",
     image: "https://source.unsplash.com/random/200x200?toy",
     isFavorite: false,
@@ -29,16 +29,16 @@ export const toysData = [
   {
     id: 4,
     title: "Toy 4",
-    description:"cool toy 4",
+    description: "cool toy 4",
     location: "Morrisville, NC",
     image: "https://source.unsplash.com/random/200x200?toy",
     isFavorite: false,
     zipCode: "27560",
   },
   {
-    id: 4,
+    id: 5,
     title: "Toy 5",
-    description:"cool toy 5",
+    description: "cool toy 5",
     location: "Corolla, NC",
     image: "https://source.unsplash.com/random/200x200?toy",
     isFavorite: false,
