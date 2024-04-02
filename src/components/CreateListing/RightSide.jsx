@@ -16,6 +16,7 @@ const RightSide = ({
   condition,
   delivery,
   selectedFile,
+  googleValue,
 }) => {
   const userData = {
     zipCode: "11230",
@@ -110,7 +111,7 @@ const RightSide = ({
               color="text.secondary"
               sx={{ mb: 2 }}
             >
-              Listed on {userData.listingDate} in
+              Listed on {userData.listingDate} in {googleValue}
             </Typography>
             <Typography variant="h6" sx={{ mb: 1 }}>
               Details

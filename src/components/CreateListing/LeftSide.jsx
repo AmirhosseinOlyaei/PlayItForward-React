@@ -15,6 +15,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import GoogleMaps from "../ToyList/GoogleMaps";
+import axios from "axios";
 
 const drawerWidth = 340;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -150,6 +151,26 @@ const LeftSide = ({
 
   // if (loading) return <p>Loading...</p>;
 
+  const mongoUrl = import.meta.env.MONGODB_URI;
+  const baseUrl = "http://localhost:8000/api/v1/";
+  fetch(baseUrl).then((res) => res.json().then((data) => console.log(data)));
+
+  // const api = axios.create({
+  //   baseURL: process.env.MONGODB_URI,
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+
+  // const fetchDataFromMongoDB = async () => {
+  //   try {
+  //     const response = await api.get("/api/data"); // Adjust endpoint as needed
+  //     return response.data;
+  //   } catch (error) {
+  //     throw new Error("Error fetching data from MongoDB");
+  //   }
+  // };
+
   return (
     <>
       <Drawer
@@ -171,7 +192,6 @@ const LeftSide = ({
           <h2>Fetched Data:</h2>
           <pre>{JSON.stringify(data, null, 2)}</pre>
         </div> */}
-
         <Box sx={{ overflow: "auto", m: 1 }}>
           <Typography variant="h5">Create Listing</Typography>
           <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -233,7 +253,7 @@ const LeftSide = ({
             noValidate
             autoComplete="off"
           >
-            <GoogleMaps />
+            <GoogleMaps onInputChange />
             {/* <TextField
               type="text"
               id="outlined-basic"
@@ -309,16 +329,18 @@ const LeftSide = ({
                 onChange={handleInputDescriptionChange}
                 inputProps={{ maxLength: 1000 }}
               />
-            </form>
-            <Divider sx={{ marginTop: "20px" }} />
 
-            <Button
-              variant="contained"
-              type="submit"
-              sx={{ marginTop: "20px", width: "41ch", background: "#ff6600" }}
-            >
-              Publish
-            </Button>
+              <Divider sx={{ marginTop: "20px" }} />
+
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{ marginTop: "20px", width: "41ch", background: "#ff6600" }}
+              >
+                Publish
+              </Button>
+            </form>
+            <Button>GET</Button>
           </Box>
         </Box>
       </Drawer>

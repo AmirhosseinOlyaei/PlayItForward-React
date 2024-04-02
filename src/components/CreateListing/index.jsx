@@ -11,7 +11,7 @@ const CreateListing = ({ onInputChange }) => {
   const [condition, setCondition] = useState("");
   const [delivery, setDelivery] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [googleValue, setGoogleValue] = useState("");
+  const [googleValue, setGoogleValue] = useState(null);
 
   const handleTitleChange = (newTitle) => {
     setTitle(newTitle);
@@ -36,6 +36,9 @@ const CreateListing = ({ onInputChange }) => {
   const handleClearPhoto = () => {
     setSelectedFile(null);
   };
+  const handleInputChange = (newvalue) => {
+    setGoogleValue(newvalue);
+  };
 
   return (
     <Container sx={{ display: "flex" }}>
@@ -47,7 +50,7 @@ const CreateListing = ({ onInputChange }) => {
         onDeliveryChange={handleDeliveryChange}
         onFileChange={handleFileChange}
         onClearPhoto={handleClearPhoto}
-        onInputChange={onInputChange}
+        onInputChange={handleInputChange}
         selectedFile={selectedFile}
         title={title}
         description={description}
@@ -55,19 +58,13 @@ const CreateListing = ({ onInputChange }) => {
         condition={condition}
         delivery={delivery}
       />
-      {/* <RightSide
-        title={title}
-        description={description}
-        condition={condition}
-        delivery={delivery}
-        selectedFile={selectedFile}
-      /> */}
       <RightSide
         title={title}
         description={description}
         condition={condition}
         delivery={delivery}
         selectedFile={selectedFile}
+        googleValue={googleValue}
       />
     </Container>
   );
