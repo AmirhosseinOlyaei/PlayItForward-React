@@ -6,6 +6,9 @@ import Grid from '@mui/material/Unstable_Grid2';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
+import MailIcon from '@mui/icons-material/Mail';
+import Bookmark from '@mui/icons-material/Bookmark';
+import ShareIcon from '@mui/icons-material/Share';
 
 
 const drawerWidth = 340;
@@ -60,28 +63,28 @@ const ListingDetail = () => {
           
             <Box sx={{ padding: "20px 0" }}>
             <Typography variant="h4" sx={{ margin: "5px 0" }}>{toyLising.title}</Typography>
-            <Typography variant="body2">Listed {toyLising.create_date} in {toyLising.zip_code} </Typography>
-            <Typography variant="body2"><span>{toyLising.delivery_method[0]}, {toyLising.delivery_method[1]}</span></Typography>
+            <Typography variant="body">Listed {toyLising.create_date} in {toyLising.zip_code} </Typography>
+            <Typography variant="body"><span>{toyLising.delivery_method[0]}, {toyLising.delivery_method[1]}</span></Typography>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
-              <Button variant="contained">Message</Button>
-              <Button variant="contained">Favorites</Button>
-              <Button variant="contained">Share</Button>
+              <Button variant="contained"><MailIcon/>&nbsp;Message</Button>
+              <Button variant="contained"><Bookmark/></Button>
+              <Button variant="contained"><ShareIcon/></Button>
             </Grid>
             </Box>
             <Divider/>
             <Box sx={{ padding: "20px 0" }}>
               <Typography variant="h6" sx={{ margin: "5px 0" }}>Details</Typography>
                 <div className={styles.detailsRow}>
-                  <div className={styles.detailsLabel}><Typography variant="body2"><b>Category</b></Typography></div>
-                  <div><Typography variant="body2">{toyLising.category}</Typography></div>
+                  <div className={styles.detailsLabel}><Typography variant="body"><b>Category</b></Typography></div>
+                  <div><Typography variant="body">{toyLising.category}</Typography></div>
                 </div>
                 <div className={styles.detailsRow}>
-                  <div className={styles.detailsLabel}><Typography variant="body2"><b>Condition</b></Typography></div>
-                  <div><Typography variant="body2">{toyLising.condition}</Typography></div>
+                  <div className={styles.detailsLabel}><Typography variant="body"><b>Condition</b></Typography></div>
+                  <div><Typography variant="body">{toyLising.condition}</Typography></div>
                 </div>
                 <div className={styles.detailsRow}>
-                  <div className={styles.detailsLabel}><Typography variant="body2"><b>Description</b></Typography></div>  
-                  <div><Typography variant="body2">{toyLising.description}</Typography></div>
+                  <div className={styles.detailsLabel}><Typography variant="body"><b>Description</b></Typography></div>  
+                  <div><Typography variant="body">{toyLising.description}</Typography></div>
                 </div>
             </Box>
             <Divider/>
@@ -89,9 +92,9 @@ const ListingDetail = () => {
               <Typography variant="h6" sx={{ margin: "5px 0" }}>Toy giver information</Typography>
                 <div className={styles.giverInformation}>
                   <img src={toyGiver.profile_picture} alt="Toy giver profile picture" width="42px" height="42px" />
-                  <Typography variant="body2" sx={{ marginLeft: "10px", lineHeight: "42px" }}>{toyGiver.nickname}</Typography>
+                  <Typography variant="body" sx={{ marginLeft: "10px", lineHeight: "42px" }}>{toyGiver.nickname}</Typography>
                 </div>
-                <Typography variant="body2">Joined <b>PlayItForward</b> in {toyGiver.create_date}</Typography>
+                <Typography variant="body">Joined <b>PlayItForward</b> in {toyGiver.create_date}</Typography>
             </Box>
             <Divider/>
             <Box sx={{ padding: "20px 0" }}>
