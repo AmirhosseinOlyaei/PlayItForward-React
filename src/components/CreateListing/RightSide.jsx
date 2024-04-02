@@ -8,8 +8,15 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import GoogleMaps from "../ToyList/GoogleMaps";
 
-const RightSide = ({ title, description, condition, delivery }) => {
+const RightSide = ({
+  title,
+  description,
+  condition,
+  delivery,
+  selectedFile,
+}) => {
   const userData = {
     zipCode: "11230",
     sellerName: "James Games",
@@ -26,7 +33,7 @@ const RightSide = ({ title, description, condition, delivery }) => {
           m: 1.5,
         },
 
-        marginTop: "32px",
+        marginTop: "64px",
         flexGrow: 2,
         border: "1px solid lightgrey",
         borderRadius: "5px",
@@ -46,11 +53,30 @@ const RightSide = ({ title, description, condition, delivery }) => {
         }}
       >
         <CardActionArea sx={{ backgroundColor: "#f0f0f0" }}>
-          <CardMedia
+          {selectedFile ? (
+            <CardMedia
+              component="img"
+              image={URL.createObjectURL(selectedFile)}
+              alt="Toy picture"
+            />
+          ) : (
+            <CardMedia
+              component="img"
+              alt="Toy picture"
+              sx={{
+                height: "500px",
+                width: "500px",
+              }}
+            />
+          )}
+          {/* <CardMedia
             component="img"
-            image="https://source.unsplash.com/featured/?toys"
+            //image="https://source.unsplash.com/featured/?toys"
+            image={selectedFile ? URL.createObjectURL(selectedFile) : null}
+            // : "https://source.unsplash.com/featured/?toys"}
             alt="Toy picture"
-          />
+            //sx={{ display: "flex" }}
+          /> */}
         </CardActionArea>
 
         <CardActions
@@ -84,7 +110,7 @@ const RightSide = ({ title, description, condition, delivery }) => {
               color="text.secondary"
               sx={{ mb: 2 }}
             >
-              Listed on {userData.listingDate} in {userData.zipCode}
+              Listed on {userData.listingDate} in
             </Typography>
             <Typography variant="h6" sx={{ mb: 1 }}>
               Details

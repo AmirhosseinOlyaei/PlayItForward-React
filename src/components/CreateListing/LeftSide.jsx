@@ -9,13 +9,15 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
+import GoogleMaps from "../ToyList/GoogleMaps";
 
 const drawerWidth = 340;
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const LeftSide = ({
   onTitleChange,
@@ -28,7 +30,19 @@ const LeftSide = ({
   onConditionChange,
   delivery,
   onDeliveryChange,
+  onFileChange,
+  selectedFile,
+  onClearPhoto,
+  onInputChange,
 }) => {
+  const [formData, setFormData] = useState({
+    title: title,
+    category: category,
+    condition: condition,
+    delivery: delivery,
+    description: description,
+  });
+
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -41,22 +55,17 @@ const LeftSide = ({
     width: 1,
   });
   //Object to implement User
-  const userData = {
-    zipCode: "11230",
-    title: "ExampleTitle",
-    category: "Select from DB",
-    condition: "Select from DB",
-    delivery: "Select from DB",
-    description: "The Toy is very good",
-    sellerName: "James Games",
-  };
-
-  const [zipCode, setZipCode] = useState("");
+  // const userData = {
+  //   zipCode: "11230",
+  //   title: "ExampleTitle",
+  //   category: "Select from DB",
+  //   condition: "Select from DB",
+  //   delivery: "Select from DB",
+  //   description: "The Toy is very good",
+  //   sellerName: "James Games",
+  // };
 
   //To fill and storage ZipCode from User
-  const handleInputChangeZipCode = (e) => {
-    setZipCode(e.target.value);
-  };
 
   const handleInputChangeTitle = (e) => {
     const newTitle = e.target.value;
@@ -77,17 +86,14 @@ const LeftSide = ({
     onDeliveryChange(e.target.value);
   };
 
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+  // const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileInputChange = (e) => {
+    onFileChange(e.target.files[0]);
+    // setSelectedFile(e.target.files[0]);
   };
   const handleUpload = () => {
     // You can handle file upload logic here
     console.log("Selected file:", selectedFile);
-  };
-
-  const handleClearPhoto = () => {
-    setSelectedFile(null);
   };
 
   const maxLength = 37; // Maximum length for the file name including the three dots (...)
@@ -97,6 +103,52 @@ const LeftSide = ({
       ? `${fileName.substring(0, maxLength - 3)}...`
       : fileName;
   };
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   try {
+  //       // Send a POST request to your backend API with form data
+  //       await axios.post('http://localhost:8000/api/items', formData);
+  //       alert('Data submitted successfully!');
+  //       setFormData({
+  //         title: title,
+  //         category: category,
+  //         condition: condition,
+  //         delivery: delivery,
+  //         description: description,
+  //       });
+  //     } catch (error) {
+  //       console.error('Error submitting data:', error);
+  //       alert('Error submitting data');
+  //     }
+  //   };
+  //   }
+
+  // const [data, setData] = useState(null);
+  // const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Fetch MongoDB URI from environment variable
+  //       const mongoDBUri = process.env.REACT_APP_MONGODB_URI;
+  //       if (!mongoDBUri) {
+  //         throw new Error("MongoDB URI not found in environment variables.");
+  //       }
+
+  //       const response = await axios.get(`${mongoDBUri}/api/data`); // Adjust endpoint as needed
+  //       setData(response.data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []); // Empty dependency array ensures useEffect runs only once on component mount
+
+  // if (loading) return <p>Loading...</p>;
 
   return (
     <>
@@ -115,6 +167,11 @@ const LeftSide = ({
         variant="permanent"
         anchor="left"
       >
+        {/* <div>
+          <h2>Fetched Data:</h2>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div> */}
+
         <Box sx={{ overflow: "auto", m: 1 }}>
           <Typography variant="h5">Create Listing</Typography>
           <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
@@ -134,7 +191,7 @@ const LeftSide = ({
                   type="file"
                   id="file-input"
                   accept="image/*"
-                  onChange={handleFileChange}
+                  onChange={handleFileInputChange}
                 />
               </Button>
             </label>
@@ -160,7 +217,7 @@ const LeftSide = ({
               {selectedFile && (
                 <IconButton
                   aria-label="delete"
-                  onClick={() => handleClearPhoto()}
+                  onClick={() => onClearPhoto()}
                   sx={{ padding: 0 }}
                 >
                   <ClearIcon />
@@ -176,7 +233,8 @@ const LeftSide = ({
             noValidate
             autoComplete="off"
           >
-            <TextField
+            <GoogleMaps />
+            {/* <TextField
               type="text"
               id="outlined-basic"
               label="Zip Code"
@@ -186,77 +244,82 @@ const LeftSide = ({
               inputProps={{ maxLength: 5 }}
               helperText="5 digit zip code"
               required
-            />
+            /> */}
 
-            <TextField
-              id="outlined-basic"
-              type="text"
-              label="Title"
-              value={title}
-              onChange={handleInputChangeTitle}
-            />
+            <form>
+              <TextField
+                id="outlined-basic"
+                type="text"
+                label="Title"
+                value={title}
+                onChange={handleInputChangeTitle}
+              />
 
-            <Box sx={{ minWidth: 120 }}>
+              <Box sx={{ minWidth: 120 }}>
+                <FormControl sx={{ marginTop: 1.8, minWidth: "40ch" }}>
+                  <InputLabel id="demo-simple-select-label">
+                    Category
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="categoryselect"
+                    value={category}
+                    label="Category"
+                    onChange={handleInputChangeCategory}
+                  >
+                    <MenuItem value={"Art and Craft"}>Art and Craft</MenuItem>
+                    <MenuItem value={"cars"}>cars</MenuItem>
+                    <MenuItem value={"books"}>books</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
               <FormControl sx={{ marginTop: 1.8, minWidth: "40ch" }}>
-                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <InputLabel id="condition-select-label">Condition</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="categoryselect"
-                  value={category}
-                  label="Category"
-                  onChange={handleInputChangeCategory}
+                  labelId="condition-select-label"
+                  id="condition-select"
+                  value={condition}
+                  label="Condition"
+                  onChange={handleInputChangeCondition}
                 >
-                  <MenuItem value={"Art and Craft"}>Art and Craft</MenuItem>
-                  <MenuItem value={"cars"}>cars</MenuItem>
-                  <MenuItem value={"books"}>books</MenuItem>
+                  <MenuItem value={"New"}>New</MenuItem>
+                  <MenuItem value={"Used"}>Used</MenuItem>
+                  <MenuItem value={"Like new"}>Like new</MenuItem>
                 </Select>
               </FormControl>
-            </Box>
-            <FormControl sx={{ marginTop: 1.8, minWidth: "40ch" }}>
-              <InputLabel id="condition-select-label">Condition</InputLabel>
-              <Select
-                labelId="condition-select-label"
-                id="condition-select"
-                value={condition}
-                label="Condition"
-                onChange={handleInputChangeCondition}
-              >
-                <MenuItem value={"New"}>New</MenuItem>
-                <MenuItem value={"Used"}>Used</MenuItem>
-                <MenuItem value={"Like new"}>Like new</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl sx={{ marginTop: 1.8, minWidth: "40ch" }}>
-              <InputLabel id="delivery-select-label">Delivery</InputLabel>
-              <Select
-                labelId="delivery-select-label"
-                id="delivery-select"
-                value={delivery}
-                label="Delivery"
-                onChange={handleInputChangeDelivery}
-              >
-                <MenuItem value={"Pickup"}>Pickup</MenuItem>
-                <MenuItem value={"Delivery"}>Delivery</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              id="outlined-multiline-static"
-              label="Description"
-              multiline
-              rows={4}
-              value={description}
-              onChange={handleInputDescriptionChange}
-              inputProps={{ maxLength: 1000 }}
-            />
-          </Box>
-          <Divider sx={{ marginTop: "20px" }} />
+              <FormControl sx={{ marginTop: 1.8, minWidth: "40ch" }}>
+                <InputLabel id="delivery-select-label">Delivery</InputLabel>
+                <Select
+                  labelId="delivery-select-label"
+                  id="delivery-select"
+                  value={delivery}
+                  label="Delivery"
+                  onChange={handleInputChangeDelivery}
+                >
+                  <MenuItem value={"Pickup"}>Pickup</MenuItem>
+                  <MenuItem value={"Delivery"}>Delivery</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                id="outlined-multiline-static"
+                label="Description"
+                multiline
+                rows={4}
+                value={description}
+                onChange={handleInputDescriptionChange}
+                inputProps={{ maxLength: 1000 }}
+              />
+            </form>
+            <Divider sx={{ marginTop: "20px" }} />
 
-          <Button
-            variant="contained"
-            sx={{ marginTop: "20px", width: "41ch", background: "#ff6600" }}
-          >
-            Publish
-          </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{ marginTop: "20px", width: "41ch", background: "#ff6600" }}
+            >
+              Publish
+            </Button>
+          </Box>
         </Box>
       </Drawer>
     </>
