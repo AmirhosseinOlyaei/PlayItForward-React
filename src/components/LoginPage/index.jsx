@@ -1,4 +1,3 @@
-import styles from "./LoginPage.module.css";
 import SignInSide from "./SignInSide";
 
 const LoginPage = () => {

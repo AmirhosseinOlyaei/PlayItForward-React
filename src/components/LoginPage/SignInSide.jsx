@@ -8,19 +8,8 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import appLogo from "../../assets/AppLogo.png";
 import GoogleIcon from "./GoogleIcon";
-import { GoogleLogin } from "react-google-login";
-
-const handleLoginSuccess = (response) => {
-  console.log("Login Success:", response);
-  // Handle login success, e.g., store the user's token, navigate to another page
-};
-
-const handleLoginFailure = (error) => {
-  console.log("Login Failed:", error);
-  // Handle login failure, e.g., show an error message
-};
+import { Toolbar } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -31,7 +20,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="">
         PlayItForward
       </Link>{" "}
       {new Date().getFullYear()}
@@ -45,18 +34,21 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleAuth = () => {
+    window.location.href = "http://localhost:8000/api/v1/auth/google";
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      {/* <Toolbar sx={{ height: "90px" }} /> */}
+
+      <Grid
+        container
+        component="main"
+        sx={{ height: "calc(100vh - 93px)" }}
+        mt={9}
+        position={"fixed"}
+      >
         <CssBaseline />
         <Grid
           item
@@ -64,8 +56,7 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
+            backgroundImage: "url(/AppLogo.png)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -73,6 +64,7 @@ export default function SignInSide() {
                 : t.palette.grey[900],
             backgroundSize: "cover",
             backgroundPosition: "center",
+            height: "100%",
           }}
         />
         <Grid
@@ -87,6 +79,7 @@ export default function SignInSide() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            height: "100%",
           }}
         >
           <Box
@@ -101,7 +94,7 @@ export default function SignInSide() {
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <img
-                src={appLogo}
+                src="/AppLogo.png"
                 alt="App Logo"
                 style={{ width: "100%", height: "auto" }}
               />
@@ -112,56 +105,27 @@ export default function SignInSide() {
             <Typography component="p" variant="p" sx={{ mt: 3, mb: 2 }}>
               Welcome to PlayItForward!
             </Typography>
-            <Box
-              // component="form"
-              noValidate
-              sx={{ mt: 1 }}
-            >
-              {/* <Button
+            <Box sx={{ mt: 1 }}>
+              <Button
                 variant="contained"
                 startIcon={<GoogleIcon />}
-                color="primary"
+                // color="primary"
                 fullWidth
-                onSubmit={handleSubmit}
-                sx={{ mt: 3, mb: 2 }}
+                onClick={handleAuth}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  background:
+                    "linear-gradient(45deg, #4285F4 40%, #DB4437 100%)",
+                  color: "white",
+                  "&:hover": {
+                    background:
+                      "linear-gradient(45deg, #34769C 60%, #B3272C 100%)",
+                  },
+                }}
               >
                 Continue with Google
-              </Button> */}
-              <GoogleLogin
-                clientId="927547523211-nockahs0aft0mu0d82vod1kvglvu3d43.apps.googleusercontent.com"
-                onSuccess={handleLoginSuccess}
-                onFailure={handleLoginFailure}
-                cookiePolicy={"single_host_origin"}
-                render={(renderProps) => (
-                  <Button
-                    variant="contained"
-                    startIcon={<GoogleIcon />}
-                    fullWidth
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                    sx={{
-                      mt: 3,
-                      mb: 2,
-                      background:
-                        "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-                      color: "white",
-                      "&:hover": {
-                        background:
-                          "linear-gradient(45deg, #FE6B8B 60%, #FF8E53 100%)",
-                      },
-                    }}
-                  >
-                    Continue with Google
-                  </Button>
-                )}
-              />
-              {/* <GoogleLogin
-                clientId="927547523211-nockahs0aft0mu0d82vod1kvglvu3d43.apps.googleusercontent.com"
-                buttonText="Login with Google"
-                onSuccess={handleLoginSuccess}
-                onFailure={handleLoginFailure}
-                cookiePolicy={"single_host_origin"}
-              /> */}
+              </Button>
 
               <Copyright sx={{ mt: 5 }} />
             </Box>
