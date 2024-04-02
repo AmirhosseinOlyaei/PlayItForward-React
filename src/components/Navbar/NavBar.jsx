@@ -10,15 +10,19 @@ import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
 import MenuIcon from "@mui/icons-material/Menu";
 import AppLogo from "../../pictures/AppLogo.png";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const isLoggedIn = true; // This should be based on your authentication logic
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,7 +46,7 @@ const NavBar = () => {
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {/* Wrap Avatar with RouterLink to navigate to ListingPage */}
           <RouterLink
-            to="/ListingPage"
+            to="/toys"
             style={{
               display: "flex",
               alignItems: "center",
@@ -79,9 +83,22 @@ const NavBar = () => {
             "& > *:not(:last-child)": { mr: 2 },
           }}
         >
-          <IconButton color="inherit" sx={{ p: 0 }}>
-            <SearchIcon sx={{ fontSize: 30 }} />
-          </IconButton>
+          <TextField
+            variant="outlined"
+            size="small"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ fontSize: 30 }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ background: "white", borderRadius: 1 }}
+          />
+
           {/* Conditionally render EmailIcon if user is logged in */}
           {isLoggedIn && (
             <IconButton color="inherit" sx={{ p: 0 }}>
@@ -89,7 +106,9 @@ const NavBar = () => {
             </IconButton>
           )}
           <IconButton color="inherit" sx={{ p: 0 }}>
+            {/* <Link to="/profile"> */}
             <PersonIcon sx={{ fontSize: 30 }} />
+            {/* </Link> */}
           </IconButton>
           <IconButton
             color="inherit"
@@ -122,6 +141,9 @@ const NavBar = () => {
             <MenuItem onClick={handleMenuClose}>Create Listing</MenuItem>
             <MenuItem onClick={handleMenuClose}>Messages</MenuItem>
             <MenuItem onClick={handleMenuClose}>Sign In / Out</MenuItem>
+            <Link to="/favorites">
+              <MenuItem onClick={handleMenuClose}>Favorites</MenuItem>
+            </Link>
           </Menu>
         </Box>
       </Toolbar>
