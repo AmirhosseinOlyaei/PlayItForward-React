@@ -43,6 +43,7 @@ export default function ToysLanding() {
             width: drawerWidth,
             boxSizing: "border-box",
             marginTop: "86px",
+            paddingBottom: "120px",
           },
         }}
       >
@@ -115,42 +116,21 @@ export default function ToysLanding() {
           <Grid item xs={12} sm={12} m={-3}>
             <CustomToolbar viewType={viewType} setViewType={setViewType} />
           </Grid>
-
-          {/* Views */}
-          <Typography variant="h6" mt={5}>
-            Views
-          </Typography>
-          <Grid item xs={12} sm={12} my={1}>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={viewType}
-                    onChange={() => setViewType(!viewType)}
-                  />
-                }
-                label={viewType ? "Map" : "Toy Cards"}
-              />
-            </FormGroup>
-          </Grid>
         </Grid>
       </Drawer>
 
       {/* Main section */}
       <Grid container mt={11}>
-        <Grid item xs={12} sm={12} py={2}>
-          <CustomToolbar viewType={viewType} setViewType={setViewType} />
-        </Grid>
-        <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} mx={2}>
+        <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} m={2}>
           {viewType ? (
-            <Grid item xs={12} sm={12} mx={1}>
+            <Grid item xs={12} sm={12} m={1}>
               <ToyListMap />
             </Grid>
           ) : (
             toys.map((toy) => (
               <Grid
                 item
-                spacing={2}
+                // spacing={2}
                 m={1}
                 key={toy.id}
                 sx={{

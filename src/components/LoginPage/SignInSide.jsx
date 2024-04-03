@@ -1,24 +1,21 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  Link,
+  Paper,
+  Grid,
+  Typography,
+  Container,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
 import GoogleIcon from "./GoogleIcon";
-import { Toolbar } from "@mui/material";
 
-function Copyright(props) {
+function Copyright() {
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="">
         PlayItForward
@@ -29,19 +26,58 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
+const SignInButton = () => {
+  const handleAuth = () => {
+    window.location.href = "http://localhost:8000/auth/google";
+  };
+
+  return (
+    <Button
+      variant="contained"
+      startIcon={<GoogleIcon />}
+      sx={{
+        mt: 3,
+        mb: 6,
+        height: "50px",
+        width: "325px",
+        background: (theme) =>
+          theme.palette.mode === "light"
+            ? "linear-gradient(135deg, #4776E6 0%, #8E54E9 100%)"
+            : "linear-gradient(135deg, #8E54E9 0%, #4776E6 100%)",
+        color: "white",
+        "&:hover": {
+          background: (theme) =>
+            theme.palette.mode === "light"
+              ? "linear-gradient(135deg, #786FEC 0%, #B74AEA 100%)"
+              : "linear-gradient(135deg, #B74AEA 0%, #786FEC 100%)",
+        },
+        boxShadow: (theme) => `0px 10px 10px -5px ${theme.palette.grey[700]}`,
+        "&:active": {
+          boxShadow: (theme) =>
+            `inset 0px 2px 4px 0px ${theme.palette.grey[800]}`,
+        },
+      }}
+      onClick={handleAuth}
+    >
+      <Typography
+        variant="button"
+        sx={{
+          // fontFamily: "Raleway",
+          fontWeight: 600,
+          letterSpacing: 0.5,
+        }}
+      >
+        Continue with Google
+      </Typography>
+    </Button>
+  );
+};
 
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleAuth = () => {
-    window.location.href = "http://localhost:8000/api/v1/auth/google";
-  };
-
   return (
     <ThemeProvider theme={defaultTheme}>
-      {/* <Toolbar sx={{ height: "90px" }} /> */}
-
       <Grid
         container
         component="main"
@@ -64,32 +100,16 @@ export default function SignInSide() {
                 : t.palette.grey[900],
             backgroundSize: "cover",
             backgroundPosition: "center",
-            height: "100%",
           }}
         />
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          md={5}
-          component={Paper}
-          elevation={6}
-          square
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            height: "100%",
-          }}
-        >
-          <Box
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Container
             sx={{
-              my: "auto",
-              mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
+              height: "100%",
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -102,34 +122,12 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Typography component="p" variant="p" sx={{ mt: 3, mb: 2 }}>
+            <Typography component="p" variant="body1" sx={{ mt: 3, mb: 2 }}>
               Welcome to PlayItForward!
             </Typography>
-            <Box sx={{ mt: 1 }}>
-              <Button
-                variant="contained"
-                startIcon={<GoogleIcon />}
-                // color="primary"
-                fullWidth
-                onClick={handleAuth}
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  background:
-                    "linear-gradient(45deg, #4285F4 40%, #DB4437 100%)",
-                  color: "white",
-                  "&:hover": {
-                    background:
-                      "linear-gradient(45deg, #34769C 60%, #B3272C 100%)",
-                  },
-                }}
-              >
-                Continue with Google
-              </Button>
-
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
-          </Box>
+            <SignInButton />
+            <Copyright sx={{ mt: 5 }} />
+          </Container>
         </Grid>
       </Grid>
     </ThemeProvider>
