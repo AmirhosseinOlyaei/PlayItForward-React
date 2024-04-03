@@ -17,6 +17,7 @@ const RightSide = ({
   delivery,
   selectedFile,
   googleValue,
+  value,
 }) => {
   const userData = {
     zipCode: "11230",
@@ -104,15 +105,25 @@ const RightSide = ({
             >
               {title}
             </Typography>
+
             <Typography
               gutterBottom
               variant="body2"
               component="div"
               color="text.secondary"
+              sx={{ mb: 0.5 }}
+            >
+              Listed on {userData.listingDate}
+            </Typography>
+            <Typography
+              variant="body2"
+              component="div"
+              color="text.secondary"
               sx={{ mb: 2 }}
             >
-              Listed on {userData.listingDate} in {googleValue}
+              {value ? value.description : null}
             </Typography>
+
             <Typography variant="h6" sx={{ mb: 1 }}>
               Details
             </Typography>

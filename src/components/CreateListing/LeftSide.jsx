@@ -16,6 +16,7 @@ import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import GoogleMaps from "../ToyList/GoogleMaps";
 import axios from "axios";
+import GoogleZip from "./GoogleZip";
 
 const drawerWidth = 340;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -34,7 +35,8 @@ const LeftSide = ({
   onFileChange,
   selectedFile,
   onClearPhoto,
-  onInputChange,
+  onValueChangeZip,
+  value,
 }) => {
   const [formData, setFormData] = useState({
     title: title,
@@ -233,7 +235,7 @@ const LeftSide = ({
             noValidate
             autoComplete="off"
           >
-            <GoogleMaps onInputChange />
+            <GoogleZip onValueChangeZip={onValueChangeZip} value={value} />
             {/* <TextField
               type="text"
               id="outlined-basic"
@@ -320,7 +322,6 @@ const LeftSide = ({
                 Publish
               </Button>
             </form>
-            <Button>GET</Button>
           </Box>
         </Box>
       </Drawer>

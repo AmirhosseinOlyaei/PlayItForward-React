@@ -12,6 +12,11 @@ const CreateListing = () => {
   const [delivery, setDelivery] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [googleValue, setGoogleValue] = useState(null);
+  const [value, setValue] = useState(null);
+
+  const handleValueChange = (newValue) => {
+    setValue(newValue);
+  };
 
   const handleTitleChange = (newTitle) => {
     setTitle(newTitle);
@@ -51,12 +56,14 @@ const CreateListing = () => {
         onFileChange={handleFileChange}
         onClearPhoto={handleClearPhoto}
         onInputChange={handleInputChange}
+        onValueChangeZip={handleValueChange}
         selectedFile={selectedFile}
         title={title}
         description={description}
         category={category}
         condition={condition}
         delivery={delivery}
+        value={value}
       />
       <RightSide
         title={title}
@@ -65,6 +72,7 @@ const CreateListing = () => {
         delivery={delivery}
         selectedFile={selectedFile}
         googleValue={googleValue}
+        value={value}
       />
     </Container>
   );
