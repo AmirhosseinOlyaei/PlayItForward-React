@@ -43,6 +43,7 @@ export default function ToysLanding() {
             width: drawerWidth,
             boxSizing: "border-box",
             marginTop: "86px",
+            paddingBottom: "120px",
           },
         }}
       >
