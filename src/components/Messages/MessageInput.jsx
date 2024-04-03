@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-function MessageInput({ recipient }) {
+function MessageInput({ recipient, onSend }) {
   const [message, setMessage] = useState("");
 
   const handleMessageChange = (event) => {
@@ -11,9 +11,7 @@ function MessageInput({ recipient }) {
   };
 
   const handleSendClick = () => {
-    // Logic to send message
-    console.log("Message sent:", message);
-    // Clear message input after sending
+    onSend(message);
     setMessage("");
   };
 

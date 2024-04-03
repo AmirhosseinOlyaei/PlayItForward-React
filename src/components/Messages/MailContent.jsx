@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
@@ -12,7 +13,26 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
 
-const MailContent = ({ recipient }) => {
+const MailContent = ({ message }) => {
+  const [sentMessages, setSentMessages] = useState([]);
+  const [open, setOpen] = useState({ reply: false, delete: false });
+
+  const handleSend = (messageContent) => {
+    setSentMessages([
+      ...sentMessages,
+      { sender: message.name, ...messageContent },
+    ]);
+    setOpen({ ...open, reply: true });
+  };
+
+  const handleSnackbarClose = (action) => {
+    setOpen({ ...open, [action]: false });
+  };
+
+  if (!message) {
+    return <Typography>No message selected</Typography>;
+  }
+
   return (
     <Paper
       variant="outlined"
@@ -34,16 +54,13 @@ const MailContent = ({ recipient }) => {
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Avatar
-            src="https://i.pravatar.cc/40?img=3"
-            srcSet="https://i.pravatar.cc/80?img=3"
-          />
+          <Avatar src="message.avatar" srcSet="message.avatar2x" />
           <Box sx={{ ml: 2 }}>
             <Typography level="title-sm" textColor="text.primary" mb={0.5}>
-              Alex Jonnold
+              {message.name}
             </Typography>
             <Typography level="body-xs" textColor="text.tertiary">
-              21 Oct 2022
+              {message.date}
             </Typography>
           </Box>
         </Box>
@@ -59,59 +76,61 @@ const MailContent = ({ recipient }) => {
             size="sm"
             variant="plain"
             color="neutral"
-            startDecorator={<ReplyRoundedIcon />}
-            onClick={() => handleSnackbarOpen(0)}
+            startIcon={<ReplyRoundedIcon />}
+            onClick={() => setOpen({ ...open, reply: true })}
           >
             Reply
           </Button>
           <Snackbar
             color="success"
-            open={open[0]}
-            onClose={() => handleSnackbarClose(0)}
+            open={open.reply}
+            onClose={() => handleSnackbarClose("reply")}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            startDecorator={<CheckCircleRoundedIcon />}
-            endDecorator={
+            message="Your message has been sent."
+            action={
               <Button
-                onClick={() => handleSnackbarClose(0)}
-                size="sm"
-                variant="soft"
-                color="neutral"
+                onClick={() => handleSnackbarClose("reply")}
+                size="small"
+                variant="text"
+                color="inherit"
+                // size="sm"
+                // variant="soft"
+                // color="neutral"
               >
                 Dismiss
               </Button>
             }
-          >
-            Your message has been sent.
-          </Snackbar>
+          />
 
           <Button
             size="sm"
             variant="plain"
             color="danger"
-            startDecorator={<DeleteRoundedIcon />}
-            onClick={() => handleSnackbarOpen(2)}
+            startIcon={<DeleteRoundedIcon />}
+            onClick={() => setOpen({ ...open, delete: true })}
           >
             Delete
           </Button>
           <Snackbar
             color="danger"
-            open={open[2]}
-            onClose={() => handleSnackbarClose(2)}
+            open={open.delete}
+            onClose={() => handleSnackbarClose("delete")}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            startDecorator={<CheckCircleRoundedIcon />}
-            endDecorator={
+            message="Your message has been deleted."
+            action={
               <Button
-                onClick={() => handleSnackbarClose(2)}
-                size="sm"
-                variant="soft"
-                color="neutral"
+                onClick={() => handleSnackbarClose("delete")}
+                size="small"
+                variant="text"
+                color="inherit"
+                // size="sm"
+                // variant="soft"
+                // color="neutral"
               >
                 Dismiss
               </Button>
             }
-          >
-            Your message has been deleted.
-          </Snackbar>
+          />
         </Box>
       </Box>
       <Divider sx={{ mt: 2 }} />
@@ -132,7 +151,7 @@ const MailContent = ({ recipient }) => {
             </Chip>
           }
         >
-          Details for our Yosemite Park hike
+          {message.title}
         </Typography>
         <Box
           sx={{
@@ -153,7 +172,7 @@ const MailContent = ({ recipient }) => {
             </Typography>
             <Tooltip size="sm" title="Copy email" variant="outlined">
               <Chip size="sm" variant="soft" color="primary" onClick={() => {}}>
-                alex.jonnold@hike.com
+                {message.email}
               </Chip>
             </Tooltip>
           </div>
@@ -167,7 +186,7 @@ const MailContent = ({ recipient }) => {
             </Typography>
             <Tooltip size="sm" title="Copy email" variant="outlined">
               <Chip size="sm" variant="soft" color="primary" onClick={() => {}}>
-                steve@mail.com
+                {message.recipientEmail}
               </Chip>
             </Tooltip>
           </div>
@@ -175,33 +194,10 @@ const MailContent = ({ recipient }) => {
       </Box>
       <Divider />
       <Typography level="body-sm" mt={2} mb={2}>
-        Hello, my friend!
-        <br />
-        <br />
-        So, it seems we are getting there! Our trip is finally here. As you
-        know, I love Yosemite National Park, a lot of great climbers and
-        explorers have made history there, so I&apos;m very excited to bring you
-        with me in this journey.
-        <br />
-        <br />
-        There are plenty of amazing things to see there, from internationally
-        recognized granite cliffs, waterfalls, clear streams, giant sequoia
-        groves, lakes, mountains, meadows, glaciers, and a lot o biological
-        diversity. It is amazing that almost 95 percent of the park is
-        designated wilderness. Yosemite is one of the largest and least
-        fragmented habitat blocks in the Serra Nevada, and the park supports a
-        fantastic diversity of plants and animals.
-        <br />
-        <br />
-        I really hope you love coming along with me, we will have an awesome
-        time! I&apos;m attaching a few pics I took on the last time I went
-        there-get excited!
-        <br />
-        <br />
-        See you soon, Alex Jonnold
+        {message.body}
       </Typography>
       <Divider />
-      <MessageInput recipient={recipient} />
+      <MessageInput recipient={message.name} onSend={handleSend} />
     </Paper>
   );
 };

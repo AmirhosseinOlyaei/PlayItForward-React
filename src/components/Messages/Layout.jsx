@@ -111,41 +111,44 @@ const sentMessages = [
     color: "danger.500",
   },
 ];
+
 export default function Layout() {
   const [messages, setMessages] = useState([]);
   const [filter, setFilter] = useState("");
+  const [type, setType] = useState("inbox");
+  const [selectedMessage, setSelectedMessage] = useState(null);
 
   useEffect(() => {
-    // if (filter === "") {
-    //   if (type === "inbox") {
-    //     setMessages(inboxMessages);
-    //   } else if (type === "sent") {
-    //     setMessages(sentMessages);
-    //   }
-    // } else {
+    if (filter === "") {
+      setMessages(type === "inbox" ? inboxMessages : sentMessages);
+      return;
+    }
     setMessages(
       messages.filter(
         (message) =>
           message.title.toLowerCase().includes(filter.toLowerCase()) ||
-          (message.sender &&
-            message.sender.toLowerCase().includes(filter.toLowerCase())) ||
-          (message.recipient &&
-            message.recipient.toLowerCase().includes(filter.toLowerCase())),
+          (message.name &&
+            message.name.toLowerCase().includes(filter.toLowerCase())) ||
+          (message.body &&
+            message.body.toLowerCase().includes(filter.toLowerCase())),
       ),
     );
-    //}
-  }, filter);
+  }, [filter]);
 
-  const handleButtonClick = (type) => {
-    if (type === "inbox") {
-      setMessages(inboxMessages);
-    } else if (type === "sent") {
-      setMessages(sentMessages);
-    }
+  useEffect(() => {
+    setMessages(type === "inbox" ? inboxMessages : sentMessages);
+  }, [type]);
+
+  const handleButtonClick = (e) => {
+    setType(type === "inbox" ? "sent" : "inbox");
   };
 
   const handleSearchChange = (value) => {
     setFilter(value);
+  };
+
+  const handleMessageSelect = (message) => {
+    setSelectedMessage(message);
   };
 
   return (
@@ -177,9 +180,7 @@ export default function Layout() {
           <List>
             {["Inbox", "Sent"].map((text, index) => (
               <ListItem key={text} disablePadding>
-                <ListItemButton
-                  onClick={() => handleButtonClick(text.toLowerCase())}
-                >
+                <ListItemButton onClick={handleButtonClick}>
                   <ListItemIcon>
                     {index % 2 === 0 ? <InboxIcon /> : <OutboxRoundedIcon />}
                   </ListItemIcon>
@@ -195,10 +196,11 @@ export default function Layout() {
           data={messages}
           onSearchChange={handleSearchChange}
           filteredMessages={messages}
+          onMessageSelect={handleMessageSelect}
         />
       </Box>
       <Box sx={{ flex: 1, p: 3 }}>
-        <MailContent />
+        <MailContent message={selectedMessage} />
       </Box>
       {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}></Box> */}
     </Box>

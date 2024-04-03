@@ -50,7 +50,16 @@ import SearchMessage from "./SearchMessage";
 //   },
 // ];
 
-export default function Mails({ onSearchChange, filteredMessages }) {
+export default function Mails({
+  index,
+  onSearchChange,
+  filteredMessages,
+  onMessageSelect,
+}) {
+  const handleMessageSelect = (message) => {
+    onMessageSelect(message);
+  };
+
   return (
     <Paper
       variant="outlined"
@@ -79,8 +88,9 @@ export default function Mails({ onSearchChange, filteredMessages }) {
             // <React.Fragment key={index}>
 
             <>
-              <ListItem key={message.id}>
+              <ListItem index={index}>
                 <ListItemButton
+                  onClick={() => handleMessageSelect(message)}
                   {...(index === 0 && {
                     selected: true,
                     color: "neutral",

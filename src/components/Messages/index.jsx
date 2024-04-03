@@ -1,4 +1,3 @@
-import styles from "./Messages.module.css";
 import Layout from "./Layout";
 
 const Messages = () => {
