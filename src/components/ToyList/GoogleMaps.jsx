@@ -8,41 +8,12 @@ import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
 
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
-function loadScript(src, position, id, callbackName) {
-  if (!position) {
-    return;
-  }
-
-  const script = document.createElement("script");
-  script.setAttribute("async", "");
-  script.setAttribute("id", id);
-  script.src = src;
-  script.onload = callbackName ? window[callbackName] : null; // Call the callback function once the script is loaded
-  position.appendChild(script);
-}
-
 const autocompleteService = { current: null };
 
 export default function GoogleMaps() {
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
-  const loaded = React.useRef(false);
-
-  if (typeof window !== "undefined" && !loaded.current && GOOGLE_MAPS_API_KEY) {
-    if (!document.querySelector("#google-maps")) {
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initAutocomplete`,
-        document.querySelector("head"),
-        "google-maps",
-        "initAutocomplete"
-      );
-    }
-
-    loaded.current = true;
-  }
 
   const fetch = React.useMemo(
     () =>
@@ -54,14 +25,6 @@ export default function GoogleMaps() {
 
   React.useEffect(() => {
     let active = true;
-
-    window.initAutocomplete = () => {
-      // Define the callback function for async loading
-      if (!autocompleteService.current) {
-        autocompleteService.current =
-          new window.google.maps.places.AutocompleteService();
-      }
-    };
 
     if (!autocompleteService.current && window.google) {
       autocompleteService.current =
