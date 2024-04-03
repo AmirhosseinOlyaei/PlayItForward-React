@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function ToyCard({ title, image, location }) {
+export default function ToyCard({ title, zip_code }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -25,7 +25,7 @@ export default function ToyCard({ title, image, location }) {
             paddingTop: "56.25%",
             objectFit: "cover",
           }}
-          image={image}
+          image={"https://source.unsplash.com/random/200x200?toy"}
           title={title}
         />
       )}
@@ -34,7 +34,7 @@ export default function ToyCard({ title, image, location }) {
           {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {location}
+          {zip_code}
         </Typography>
       </CardContent>
     </Card>

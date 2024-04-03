@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
-import { toysData } from "./toysData";
+// import { toysData } from "./toysData";
 import Category from "./Category";
 import CustomToolbar from "./CustomToolbar";
 
@@ -29,8 +29,20 @@ const drawerWidth = 340;
 
 export default function ToysLanding() {
   const [delivery, setDelivery] = useState("All");
-  const [toys, setToys] = useState(toysData);
+  const [toys, setToys] = useState([]);
   const [viewType, setViewType] = useState(false);
+
+  React.useEffect(async () => {
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/toys");
+      const toys = await response.json();
+
+      setToys(toys);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
       <CssBaseline />

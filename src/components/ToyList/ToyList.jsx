@@ -10,8 +10,8 @@ function ToyList() {
         <Grid item xs={12} sm={6} md={4} key={toy.id}>
           <ToyCard
             title={toy.title}
-            image={toy.image}
-            location={toy.location}
+            // image={toy.image}
+            zip_code={toy.zip_code}
           />
         </Grid>
       ))}
