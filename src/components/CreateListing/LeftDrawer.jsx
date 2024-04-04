@@ -38,13 +38,14 @@ const LeftDrawer = ({
   onValueChangeZip,
   value,
 }) => {
-  // const [formData, setFormData] = useState({
-  //   title: title,
-  //   category: category,
-  //   condition: condition,
-  //   delivery: delivery,
-  //   description: description,
-  // });
+  const [formData, setFormData] = useState({
+    title: title,
+    zip_code: value,
+    category: category,
+    condition: condition,
+    delivery_method: delivery,
+    description: description,
+  });
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -95,25 +96,55 @@ const LeftDrawer = ({
       : fileName;
   };
 
-  const handleSubmitPublish = (event) => {
+  const handleSubmitPublish = async (event) => {
     event.preventDefault();
-    //   try {
-    //       // Send a POST request to the backend API with form data
-    //       const response = await fetch'http://localhost:8000/api/v1/,
-    //       { method: 'POST',
-    //       body: JSON.stringify({ title, category, condition, delivery, description }),
-    //       headers: { 'Content-Type': 'application/json'
-    //       },
-    //       });
-    //       // Handle response
-    //       const result = await response.json();
-    //       console.log(result);
-    //       });
-    //     } catch (error) {
-    //       console.error('Error submitting data:', error);
-    //       alert('Error submitting data');
-    //     }
-    //   };
+    console.log("Form data:", {
+      title,
+      category,
+      condition,
+      delivery,
+      description,
+    });
+    if (!title || !category || !condition || !delivery || !description) {
+      alert("Please fill in all fields.");
+    } else {
+      // Send a POST request to the backend API with form data
+      // try {
+      //   // Send a POST request to the backend API with form data
+      //   const response = fetch("http://localhost:8000/api/v1/,", {
+      //     method: "POST",
+      //     body: JSON.stringify({
+      //       title,
+      //       category,
+      //       condition,
+      //       delivery,
+      //       description,
+      //     }),
+      //     headers: { "Content-Type": "application/json" },
+      //   });
+      //   // Handle response
+      //   const result = response.json();
+      //   console.log(result);
+      //   alert("Data submitted successfully");
+      // } catch (error) {
+      //   console.error("Error submitting data:", error);
+      //   alert("Error submitting data");
+      // }
+      try {
+        const response = await axios.post("http://localhost:8000/api/v1/", {
+          title: title,
+          zip_code: value,
+          category: category,
+          condition: condition,
+          delivery_method: delivery,
+          description: description,
+        });
+        alert("Data submitted successfully");
+      } catch (error) {
+        console.error("Error submitting data:", error);
+        alert("Error submitting data");
+      }
+    }
   };
 
   // const [data, setData] = useState(null);
