@@ -1,5 +1,11 @@
+import Layout from "./Layout";
+
 const Messages = () => {
-  return <div></div>;
+  return (
+    <div>
+      <Layout />
+    </div>
+  );
 };
 
 export default Messages;
