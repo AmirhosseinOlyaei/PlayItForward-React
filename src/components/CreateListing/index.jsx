@@ -78,16 +78,6 @@ const CreateListing = () => {
         value={value}
       />
 
-      {/* <RightCardForm
-        title={title}
-        description={description}
-        condition={condition}
-        delivery={delivery}
-        selectedFile={selectedFile}
-        googleValue={googleValue}
-        value={value}
-      /> */}
-
       {/* </Container> */}
     </Box>
   );
