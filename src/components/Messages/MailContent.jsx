@@ -14,6 +14,7 @@ import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
 
 const MailContent = ({ message }) => {
+  console.log(message);
   const [sentMessages, setSentMessages] = useState([]);
   const [open, setOpen] = useState({ reply: false, delete: false });
 
@@ -57,10 +58,10 @@ const MailContent = ({ message }) => {
           <Avatar src="message.avatar" srcSet="message.avatar2x" />
           <Box sx={{ ml: 2 }}>
             <Typography level="title-sm" textColor="text.primary" mb={0.5}>
-              {message.name}
+              Doina F
             </Typography>
             <Typography level="body-xs" textColor="text.tertiary">
-              {message.date}
+              {new Date(message.sent_date).toLocaleDateString()}
             </Typography>
           </Box>
         </Box>
@@ -151,7 +152,7 @@ const MailContent = ({ message }) => {
             </Chip>
           }
         >
-          {message.title}
+          {message.subject}
         </Typography>
         <Box
           sx={{
@@ -171,9 +172,13 @@ const MailContent = ({ message }) => {
               From
             </Typography>
             <Tooltip size="sm" title="Copy email" variant="outlined">
-              <Chip size="sm" variant="soft" color="primary" onClick={() => {}}>
-                {message.email}
-              </Chip>
+              <Chip
+                label="Doina F"
+                size="sm"
+                variant="soft"
+                color="primary"
+                onClick={() => {}}
+              />
             </Tooltip>
           </div>
           <div>
@@ -185,19 +190,23 @@ const MailContent = ({ message }) => {
               to
             </Typography>
             <Tooltip size="sm" title="Copy email" variant="outlined">
-              <Chip size="sm" variant="soft" color="primary" onClick={() => {}}>
-                {message.recipientEmail}
-              </Chip>
+              <Chip
+                label="Dohna16@gmail.com"
+                size="sm"
+                variant="soft"
+                color="primary"
+                onClick={() => {}}
+              />
             </Tooltip>
           </div>
         </Box>
       </Box>
       <Divider />
       <Typography level="body-sm" mt={2} mb={2}>
-        {message.body}
+        {message.content}
       </Typography>
       <Divider />
-      <MessageInput recipient={message.name} onSend={handleSend} />
+      <MessageInput recipient="Doina F" onSend={handleSend} />
     </Paper>
   );
 };
