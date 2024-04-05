@@ -9,6 +9,8 @@ import AppBar from '@mui/material/AppBar';
 import MailIcon from '@mui/icons-material/Mail';
 import Bookmark from '@mui/icons-material/Bookmark';
 import ShareIcon from '@mui/icons-material/Share';
+import ActionButton from "../UserProfile/ActionButton";
+//import GoogleMaps from "../ToyList/GoogleMaps";
 
 
 const drawerWidth = 340;
@@ -55,7 +57,7 @@ const ListingDetail = () => {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, BoxSizing: 'border-Box', marginTop: "64px" },
+          [`& .MuiDrawer-paper`]: { width: drawerWidth, BoxSizing: 'border-Box', marginTop: "86px" },
         }}
       >
         
@@ -66,9 +68,9 @@ const ListingDetail = () => {
             <Typography variant="body">Listed {toyLising.create_date} in {toyLising.zip_code} </Typography>
             <Typography variant="body"><span>{toyLising.delivery_method[0]}, {toyLising.delivery_method[1]}</span></Typography>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
-              <Button variant="contained"><MailIcon/>&nbsp;Message</Button>
-              <Button variant="contained"><Bookmark/></Button>
-              <Button variant="contained"><ShareIcon/></Button>
+              <ActionButton linkTo="/messages" text="Message" startIcon={<MailIcon/>}/>
+              <ActionButton linkTo="" text="" startIcon={<Bookmark/>}/>
+              <ActionButton linkTo="" text="" startIcon={<ShareIcon/>} />
             </Grid>
             </Box>
             <Divider/>
@@ -101,12 +103,12 @@ const ListingDetail = () => {
               <Typography variant="h6" sx={{ margin: "5px 0" }}>Send a message</Typography>
               <TextField id="outlined-basic" label="Is this still available?" variant="outlined" sx={{ width: "100%" }} />
               <br/>
-              <Button variant="contained" sx={{ width: "100%", marginTop: "10px" }}>Send</Button>
+              <ActionButton linkTo="" text="Send" startIcon={<MailIcon/>} /> 
             </Box>
           
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 5 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 12 }}>
         <img src={toyLising.pictures} alt="Toy image" width="100%" />
       </Box>
     </Box>

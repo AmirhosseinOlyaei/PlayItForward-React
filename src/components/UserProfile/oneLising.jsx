@@ -6,7 +6,11 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import styles from "./UserProfile.module.css";
-import { ButtonGroup, Divider } from '@mui/material';
+import { ButtonGroup, Divider, Box } from '@mui/material';
+import ActionButton from './ActionButton';
+import MailIcon from '@mui/icons-material/Mail';
+import ShareIcon from '@mui/icons-material/Share';
+
 
 export default function ImgMediaCard() {
     const toyLising = {
@@ -55,13 +59,13 @@ export default function ImgMediaCard() {
         
       </CardContent>
       </div>
-      <ButtonGroup variant="contained" aria-label="Basic button group">
-            <Button size="small">Mark as Gone</Button>
-            <Button size="small">Mark as Reserved</Button>
-            <Button size="small">Share</Button>
-            <Button size="small">Edit</Button>
-            <Button size="small">Messages</Button>
-        </ButtonGroup> 
+      <Box sx={{margin: "10px 0", display: "flex", justifyContent: "space-between", width: "80%"}}>
+            <ActionButton text={"Mark as Gone"} linkTo={"/"} startIcon={""}/>
+            <ActionButton text={"Mark as Reserved"} linkTo={"/"} startIcon={""}/>
+            <ActionButton linkTo="/messages" text="" startIcon={<MailIcon/>}/>
+            <ActionButton linkTo="" text="" startIcon={<ShareIcon/>} />
+            <ActionButton text={"Edit"} linkTo={"/"} startIcon={""}/>
+        </Box> 
     </Card>
     
     

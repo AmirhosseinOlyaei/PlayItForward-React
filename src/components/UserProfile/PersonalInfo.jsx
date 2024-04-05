@@ -30,7 +30,7 @@ const PersonalInfo = () => {
       </AppBar>
   <IconMenu/>  
   
-  <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 5 }}>
+  <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
        
     <div className={styles.userProfile}>
       <div>
