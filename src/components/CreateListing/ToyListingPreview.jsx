@@ -8,6 +8,7 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelectActualTwoTone";
+import Avatar from "@mui/material/Avatar";
 
 const ToyListingPreview = ({
   title,
@@ -18,10 +19,21 @@ const ToyListingPreview = ({
   value,
 }) => {
   const userData = {
-    zipCode: "11230",
-    sellerName: "James Games",
     listingDate: new Date().toLocaleDateString(),
   };
+  const [user, setUser] = React.useState(userData);
+
+  React.useEffect(() => {
+    async function fetchUserData() {
+      const response = await fetch(
+        "http://localhost:8000/api/v1/users/6609a2873eaffef95345ba02"
+      );
+      const user = await response.json();
+      console.log(user);
+      setUser(user);
+    }
+    fetchUserData();
+  }, []);
 
   return (
     <Grid
@@ -182,10 +194,34 @@ const ToyListingPreview = ({
                 {description}
               </Typography>
               <Divider sx={{ marginTop: 2, width: "290px" }} />
-              <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
-                Seller information
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{ mt: 2, mb: 1 }}
+              >
+                Toy giver information
               </Typography>
-              <Typography variant="body1">{userData.sellerName}</Typography>
+              <Box
+                sx={{
+                  width: "100%",
+                  overflow: "hidden",
+                }}
+              >
+                <Grid
+                  container
+                  spacing={2}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  <Grid item xs={2}>
+                    <Avatar alt="A" src="/static/images/avatar/3.jpg" />
+                  </Grid>
+                  <Grid item xs={10}>
+                    <Typography variant="body1" sx={{ gap: "1px" }}>
+                      {user.first_name} {user.last_name}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Box>
             </CardContent>
 
             <Button

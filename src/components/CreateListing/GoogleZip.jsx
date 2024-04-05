@@ -7,7 +7,6 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
-//import { get } from "https";
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
@@ -27,19 +26,18 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleZip({ onValueChangeZip, value }) {
-  //const [value, setValue] = React.useState(null);
+export default function GoogleZip({
+  onValueChangeLocation,
+  value,
+  onZipCodeChange,
+}) {
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
-  const [zipCode, setZipCode] = React.useState("");
 
-  console.log("zipCode", zipCode);
+  // console.log("zipCode", zipCode);
   console.log("value", value ? value.description : null);
 
-  //   const handleZipCodeChange = (event) => {
-  //     onValueChange();
-  //   };
   const handleLocationChange = (event, newValue) => {
     if (newValue && newValue.place_id) {
       const service = new window.google.maps.places.PlacesService(
@@ -51,13 +49,14 @@ export default function GoogleZip({ onValueChangeZip, value }) {
             component.types.includes("postal_code")
           )?.short_name;
           console.log("Zip Code:", zipCode);
-          setZipCode(zipCode);
+          //setZipCode(zipCode);
+          onZipCodeChange(zipCode);
         }
       });
     }
     setOptions(newValue ? [newValue, ...options] : options);
     // setValue(newValue);
-    onValueChangeZip(newValue);
+    onValueChangeLocation(newValue);
   };
 
   React.useEffect(() => {

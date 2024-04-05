@@ -16,10 +16,28 @@ import ClearIcon from "@mui/icons-material/Clear";
 import GoogleMaps from "../ToyList/GoogleMaps";
 import axios from "axios";
 import GoogleZip from "./GoogleZip";
+import FetchSelectData from "./FetchSelectData";
 
 const drawerWidth = 340;
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-const categories = ["Arts & Crafts", "Books", "Cars"];
+
+const categories = [
+  "Action Figures",
+  "Board Games",
+  "Building Blocks",
+  "Card Games",
+  "Cars",
+  "Dolls",
+  "Plush",
+  "Playsets",
+  "Sports Toys",
+  "Art & Craft",
+  "Games & Puzzles",
+  "Books",
+  "Musical instruments",
+  "Miscellaneous",
+];
+const conditions = ["New", "Like-new", "Lightly-used", "Heavily-used"];
+const deliveryMethods = ["Pickup", "Delivery"];
 
 const LeftDrawer = ({
   onTitleChange,
@@ -35,17 +53,17 @@ const LeftDrawer = ({
   onFileChange,
   selectedFile,
   onClearPhoto,
-  onValueChangeZip,
+  onValueChangeLocation,
   value,
 }) => {
-  const [formData, setFormData] = useState({
-    title: title,
-    zip_code: value,
-    category: category,
-    condition: condition,
-    delivery_method: delivery,
-    description: description,
-  });
+  // const [formData, setFormData] = useState({
+  //   title: title,
+  //   zip_code: value,
+  //   category: category,
+  //   condition: condition,
+  //   delivery_method: delivery,
+  //   description: description,
+  // });
 
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -59,6 +77,13 @@ const LeftDrawer = ({
     width: 1,
   });
 
+  const [zipCode, setZipCode] = useState("");
+
+  console.log("zipCodefromIndex", zipCode);
+
+  const handleZipCodeChange = (newValue) => {
+    setZipCode(newValue);
+  };
   const handleInputChangeTitle = (e) => {
     const newTitle = e.target.value;
     //setTitle(newTitle);
@@ -78,15 +103,13 @@ const LeftDrawer = ({
     onDeliveryChange(e.target.value);
   };
 
-  // const [selectedFile, setSelectedFile] = useState(null);
   const handleFileInputChange = (e) => {
     onFileChange(e.target.files[0]);
-    // setSelectedFile(e.target.files[0]);
   };
-  const handleUpload = () => {
-    // You can handle file upload logic here
-    console.log("Selected file:", selectedFile);
-  };
+  // const handleUpload = () => {
+  //   // You can handle file upload logic here
+  //   console.log("Selected file:", selectedFile);
+  // };
 
   const maxLength = 32; // Maximum length for the file name including the three dots (...)
 
@@ -96,81 +119,45 @@ const LeftDrawer = ({
       : fileName;
   };
 
-  const handleSubmitPublish = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
+
     console.log("Form data:", {
       title,
       category,
       condition,
       delivery,
       description,
+      zipCode,
     });
     if (!title || !category || !condition || !delivery || !description) {
       alert("Please fill in all fields.");
     } else {
-      // Send a POST request to the backend API with form data
-      // try {
-      //   // Send a POST request to the backend API with form data
-      //   const response = fetch("http://localhost:8000/api/v1/,", {
-      //     method: "POST",
-      //     body: JSON.stringify({
-      //       title,
-      //       category,
-      //       condition,
-      //       delivery,
-      //       description,
-      //     }),
-      //     headers: { "Content-Type": "application/json" },
-      //   });
-      //   // Handle response
-      //   const result = response.json();
-      //   console.log(result);
-      //   alert("Data submitted successfully");
-      // } catch (error) {
-      //   console.error("Error submitting data:", error);
-      //   alert("Error submitting data");
-      // }
-      try {
-        const response = await axios.post("http://localhost:8000/api/v1/", {
-          title: title,
-          zip_code: value,
-          category: category,
-          condition: condition,
-          delivery_method: delivery,
-          description: description,
-        });
-        alert("Data submitted successfully");
-      } catch (error) {
-        console.error("Error submitting data:", error);
-        alert("Error submitting data");
-      }
+      console.log("");
+      axiosPostListing();
     }
   };
 
-  // const [data, setData] = useState(null);
-  // const [loading, setLoading] = useState(true);
-
-  // if (loading) return <p>Loading...</p>;
-
-  const mongoUrl = import.meta.env.MONGODB_URI;
-  // const baseUrl = "http://localhost:8000/api/v1/";
-  // fetch(baseUrl).then((res) => res.json().then((data) => console.log(data)));
-
-  // const api = axios.create({
-  //   baseURL: process.env.MONGODB_URI,
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // });
-
-  // const fetchDataFromMongoDB = async () => {
-  //   try {
-  //     const response = await api.get("/api/data"); // Adjust endpoint as needed
-  //     return response.data;
-  //   } catch (error) {
-  //     throw new Error("Error fetching data from MongoDB");
-  //   }
-  // };
+  const axiosPostListing = async () => {
+    const postData = {
+      title: title,
+      description: description,
+      category: category,
+      condition: condition,
+      delivery_method: delivery,
+      zip_code: zipCode,
+      pictures: "https://source.unsplash.com/random/200x200?toy",
+      status: "available",
+    };
+    await axios
+      .post("http://localhost:8000/api/v1/toys", postData)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -188,10 +175,6 @@ const LeftDrawer = ({
         variant="permanent"
         anchor="left"
       >
-        {/* <div>
-         <h2>Fetched Data:</h2>
-         <pre>{JSON.stringify(data, null, 2)}</pre>
-       </div> */}
         <Box sx={{ overflow: "auto", m: 1 }}>
           <Typography
             variant="h5"
@@ -231,7 +214,7 @@ const LeftDrawer = ({
                 />
               </Button>
             </label>
-            {/* {selectedFile && ( */}
+
             <Box
               sx={{
                 display: "flex",
@@ -273,19 +256,7 @@ const LeftDrawer = ({
             noValidate
             autoComplete="off"
           >
-            {/* <TextField
-             type="text"
-             id="outlined-basic"
-             label="Zip Code"
-             value={zipCode}
-             onChange={handleInputChangeZipCode}
-             title="5 digit zip code"
-             inputProps={{ maxLength: 5 }}
-             helperText="5 digit zip code"
-             required
-           /> */}
-
-            <form noValidate autoComplete="off" onSubmit={handleSubmitPublish}>
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
               <TextField
                 id="outlined-basic"
                 type="text"
@@ -293,7 +264,12 @@ const LeftDrawer = ({
                 value={title}
                 onChange={handleInputChangeTitle}
               />
-              <GoogleZip onValueChangeZip={onValueChangeZip} value={value} />
+              <GoogleZip
+                onValueChangeLocation={onValueChangeLocation}
+                value={value}
+                onZipCodeChange={handleZipCodeChange}
+                // zipCode={zipCode}
+              />
 
               <Box sx={{ minWidth: 120 }}>
                 <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
@@ -327,9 +303,15 @@ const LeftDrawer = ({
                   label="Condition"
                   onChange={handleInputChangeCondition}
                 >
-                  <MenuItem value={"New"}>New</MenuItem>
+                  {conditions.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+
+                  {/* <MenuItem value={"New"}>New</MenuItem>
                   <MenuItem value={"Used"}>Used</MenuItem>
-                  <MenuItem value={"Like new"}>Like new</MenuItem>
+                  <MenuItem value={"Like new"}>Like new</MenuItem> */}
                 </Select>
               </FormControl>
               <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
@@ -341,8 +323,13 @@ const LeftDrawer = ({
                   label="Delivery"
                   onChange={handleInputChangeDelivery}
                 >
-                  <MenuItem value={"Pickup"}>Pickup</MenuItem>
-                  <MenuItem value={"Delivery"}>Delivery</MenuItem>
+                  {deliveryMethods.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                  {/* <MenuItem value={"Pickup"}>Pickup</MenuItem>
+                  <MenuItem value={"Delivery"}>Delivery</MenuItem> */}
                 </Select>
               </FormControl>
               <TextField
@@ -372,6 +359,7 @@ const LeftDrawer = ({
             </form>
           </Box>
         </Box>
+        <FetchSelectData />
       </Drawer>
     </>
   );

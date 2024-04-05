@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { Container, Button, Input } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LeftDrawer from "./LeftDrawer";
 import ToyListingPreview from "./ToyListingPreview";
 
@@ -13,8 +13,13 @@ const CreateListing = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [googleValue, setGoogleValue] = useState(null);
   const [value, setValue] = useState(null);
+  // const [zipCode, setZipCode] = useState("");
 
-  const handleValueChange = (newValue) => {
+  // const handleZipCodeChange = (newValue) => {
+  //   setZipCode(newValue);
+  // };
+
+  const handleValueChangeLocation = (newValue) => {
     setValue(newValue);
   };
 
@@ -47,7 +52,6 @@ const CreateListing = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      {/* <Container sx={{ display: "flex" }}> */}
       <LeftDrawer
         onTitleChange={handleTitleChange}
         title={title}
@@ -62,7 +66,9 @@ const CreateListing = () => {
         onFileChange={handleFileChange}
         selectedFile={selectedFile}
         onClearPhoto={handleClearPhoto}
-        onValueChangeZip={handleValueChange}
+        onValueChangeLocation={handleValueChangeLocation}
+        // onZipCodeChange={handleZipCodeChange}
+        // zipCode={zipCode}
         value={value}
         onInputChange={handleInputChange}
         googleValue={googleValue}
@@ -77,8 +83,6 @@ const CreateListing = () => {
         googleValue={googleValue}
         value={value}
       />
-
-      {/* </Container> */}
     </Box>
   );
 };
