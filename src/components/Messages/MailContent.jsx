@@ -42,7 +42,8 @@ const MailContent = ({ message }) => {
         borderRadius: "sm",
         p: 2,
         mb: 3,
-        mt: 3,
+        mt: 8,
+        position: "relative",
       }}
     >
       <Box
@@ -206,7 +207,17 @@ const MailContent = ({ message }) => {
         {message.content}
       </Typography>
       <Divider />
-      <MessageInput recipient="Doina F" onSend={handleSend} />
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          width: "100%", // Ensure full width
+          mt: 2, // Add margin if needed
+          p: 2, // Add padding if needed
+        }}
+      >
+        <MessageInput recipient="Doina F" onSend={handleSend} />
+      </Box>
     </Paper>
   );
 };

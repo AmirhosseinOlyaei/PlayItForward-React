@@ -16,7 +16,12 @@ function MessageInput({ recipient, onSend }) {
   };
 
   return (
-    <Grid container spacing={2} alignItems="center">
+    <Grid
+      container
+      spacing={2}
+      alignItems="center"
+      sx={{ position: "sticky", bottom: 0, bgcolor: "background.paper", p: 2 }}
+    >
       <Grid item xs={9}>
         <TextField
           label={`Reply to ${recipient}`}
@@ -26,7 +31,7 @@ function MessageInput({ recipient, onSend }) {
           onChange={handleMessageChange}
         />
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={3} style={{ textAlign: "right" }}>
         <Button
           variant="contained"
           color="primary"
