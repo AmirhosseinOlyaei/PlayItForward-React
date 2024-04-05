@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
-import { toysData } from "./toysData";
+// import { toysData } from "./toysData";
 import Category from "./Category";
 import CustomToolbar from "./CustomToolbar";
 
@@ -29,8 +29,18 @@ const drawerWidth = 340;
 
 export default function ToysLanding() {
   const [delivery, setDelivery] = useState("All");
-  const [toys, setToys] = useState(toysData);
+  const [toys, setToys] = useState([]);
   const [viewType, setViewType] = useState(false);
+
+  React.useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("http://localhost:8000/api/v1/toys");
+      const toys = await response.json();
+      setToys(toys);
+    }
+    fetchData();
+  }, []);
+
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
       <CssBaseline />
@@ -132,15 +142,15 @@ export default function ToysLanding() {
                 item
                 // spacing={2}
                 m={1}
-                key={toy.id}
+                key={toy._id}
                 sx={{
                   flexGrow: 1,
                 }}
               >
                 <ToyCard
                   title={toy.title}
-                  image={toy.image}
-                  location={toy.location}
+                  // image={toy.image}
+                  location={toy.zip_code}
                 />
               </Grid>
             ))
