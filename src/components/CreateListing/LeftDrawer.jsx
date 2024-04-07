@@ -17,6 +17,9 @@ import GoogleMaps from "../ToyList/GoogleMaps";
 import axios from "axios";
 import GoogleZip from "./GoogleZip";
 import FetchSelectData from "./FetchSelectData";
+import Alert from "@mui/material/Alert";
+import CheckIcon from "@mui/icons-material/Check";
+import SuccessAlert from "./SucsessAlert";
 
 const drawerWidth = 340;
 
@@ -78,6 +81,8 @@ const LeftDrawer = ({
   });
 
   const [zipCode, setZipCode] = useState("");
+  const [error, setError] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
 
   console.log("zipCodefromIndex", zipCode);
 
@@ -120,6 +125,7 @@ const LeftDrawer = ({
   };
 
   const handleSubmit = (event) => {
+    // Prevent default form submission behavior
     event.preventDefault();
 
     console.log("Form data:", {
@@ -130,11 +136,20 @@ const LeftDrawer = ({
       description,
       zipCode,
     });
-    if (!title || !category || !condition || !delivery || !description) {
-      alert("Please fill in all fields.");
+    if (
+      !title ||
+      !category ||
+      !condition ||
+      !delivery ||
+      !description ||
+      !zipCode
+    ) {
+      //alert("Please fill in all fields.");
+      setError(true);
     } else {
       console.log("");
       axiosPostListing();
+      setError(false);
     }
   };
 
@@ -153,10 +168,18 @@ const LeftDrawer = ({
       .post("http://localhost:8000/api/v1/toys", postData)
       .then((response) => {
         console.log(response);
+        // window.location.reload();
+        // navigate("/toys");
+        //alert("Listing created successfully.");
+        setAlertOpen(true);
       })
       .catch((error) => {
         console.log(error);
+        alert("Something went wrong. Please try again.");
       });
+  };
+  const handleAlertClose = () => {
+    setAlertOpen(false);
   };
 
   return (
@@ -176,11 +199,7 @@ const LeftDrawer = ({
         anchor="left"
       >
         <Box sx={{ overflow: "auto", m: 1 }}>
-          <Typography
-            variant="h5"
-            color="text.primary"
-            sx={{ mt: 2, fontWeight: "bold" }}
-          >
+          <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
             Item for Listing
           </Typography>
           <Divider sx={{ marginTop: 1.2, marginBottom: 4 }} />
@@ -270,7 +289,6 @@ const LeftDrawer = ({
                 onZipCodeChange={handleZipCodeChange}
                 // zipCode={zipCode}
               />
-
               <Box sx={{ minWidth: 120 }}>
                 <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
                   <InputLabel id="demo-simple-select-label">
@@ -342,8 +360,17 @@ const LeftDrawer = ({
                 inputProps={{ maxLength: 1000 }}
               />
 
+              {error && (
+                <Alert
+                  severity="error"
+                  sx={{ marginTop: "15px", mr: 0.5 }}
+                  // variant="outlined"
+                  // color="success"
+                >
+                  Please fill in all fields.
+                </Alert>
+              )}
               <Divider sx={{ marginTop: "30px" }} />
-
               <Button
                 variant="contained"
                 type="submit"
@@ -357,6 +384,7 @@ const LeftDrawer = ({
                 Publish
               </Button>
             </form>
+            <SuccessAlert open={alertOpen} onClose={handleAlertClose} />
           </Box>
         </Box>
         <FetchSelectData />
