@@ -85,10 +85,10 @@ const Messages = () => {
     console.log("handle select message", message);
   };
 
-  const deleteMessage = async (id) => {
+  const deleteMessage = async (_id) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/v1/messages/661045bbb70bc331690af1dc`,
+        `http://localhost:8000/api/v1/messages/${_id}`,
         {
           method: "DELETE",
           headers: {
@@ -101,9 +101,9 @@ const Messages = () => {
         throw new Error("Failed to delete message");
       }
 
-      setMessages(messages.filter((message) => message.id !== id));
+      setMessages(messages.filter((message) => message._id !== _id));
       setFilteredMessages(
-        filteredMessages.filter((message) => message.id !== id)
+        filteredMessages.filter((message) => message._id !== _id)
       );
 
       console.log("Message deleted successfully");

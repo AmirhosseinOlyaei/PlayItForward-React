@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-function MessageInput({ recipient, onSend }) {
+function MessageInput({ recipient, onSend, fetchMessages }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,8 +20,8 @@ function MessageInput({ recipient, onSend }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: "6609a2873eaffef95345b9fc", // Replace with actual user id
-          toy_id: "660c4de20dab29b8bab994fc", // Replace with actual toy id
+          user_id: "6609a2873eaffef95345b9fc",
+          toy_id: "660c4de20dab29b8bab994fc",
           date: new Date().toISOString(),
           subject: `Message to ${recipient}`,
           content: message,
@@ -31,14 +31,9 @@ function MessageInput({ recipient, onSend }) {
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
-
-      // Assuming the response body contains the newly created message data,
-      // you can handle it here if necessary.
-
-      // Reset message input after successful send
       setMessage("");
       onSend(message);
-      fetchMessages();
+      // fetchMessages();
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {

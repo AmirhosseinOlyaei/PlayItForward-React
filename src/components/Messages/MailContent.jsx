@@ -13,7 +13,7 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
 
-const MailContent = ({ message, onDelete }) => {
+const MailContent = ({ message, fetchMessages, onDelete }) => {
   // const [sender, setSender] = useState(null);
   // const [receiver, setReceiver] = useState(null);
   const [sentMessages, setSentMessages] = useState([]);
@@ -68,7 +68,7 @@ const MailContent = ({ message, onDelete }) => {
   };
 
   const handleDelete = () => {
-    onDelete(message.id);
+    onDelete(message._id);
     setOpen({ ...open, delete: true });
   };
 
@@ -358,7 +358,7 @@ const MailContent = ({ message, onDelete }) => {
                 </Typography>
                 <Tooltip size="sm" title="Copy email" variant="outlined">
                   <Chip
-                    label="Dohna16@gmail.com"
+                    label="Domna16@gmail.com"
                     size="sm"
                     variant="soft"
                     color="primary"
@@ -382,7 +382,11 @@ const MailContent = ({ message, onDelete }) => {
               p: 2,
             }}
           >
-            <MessageInput recipient="Doina F" onSend={handleSend} />
+            <MessageInput
+              recipient="Doina F"
+              onSend={handleSend}
+              fetchMessages={fetchMessages}
+            />
           </Box>
         </>
       )}
