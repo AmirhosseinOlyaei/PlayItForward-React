@@ -5,14 +5,45 @@ import Grid from "@mui/material/Grid";
 
 function MessageInput({ recipient, onSend }) {
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
   };
 
-  const handleSendClick = () => {
-    onSend(message);
-    setMessage("");
+  const handleSendMessage = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: "6609a2873eaffef95345b9fc", // Replace with actual user id
+          toy_id: "660c4de20dab29b8bab994fc", // Replace with actual toy id
+          date: new Date().toISOString(),
+          subject: `Message to ${recipient}`,
+          content: message,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      // Assuming the response body contains the newly created message data,
+      // you can handle it here if necessary.
+
+      // Reset message input after successful send
+      setMessage("");
+      onSend(message);
+      fetchMessages();
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,13 +67,13 @@ function MessageInput({ recipient, onSend }) {
           variant="contained"
           color="primary"
           fullWidth
-          onClick={handleSendClick}
+          disabled={loading || message.trim() === ""}
+          onClick={handleSendMessage}
         >
-          Send
+          {loading ? "Sending..." : "Send"}
         </Button>
       </Grid>
     </Grid>
   );
 }
-
 export default MessageInput;

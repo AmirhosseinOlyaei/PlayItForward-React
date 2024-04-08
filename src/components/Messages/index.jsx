@@ -85,6 +85,33 @@ const Messages = () => {
     console.log("handle select message", message);
   };
 
+  const deleteMessage = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/messages/661045bbb70bc331690af1dc`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete message");
+      }
+
+      setMessages(messages.filter((message) => message.id !== id));
+      setFilteredMessages(
+        filteredMessages.filter((message) => message.id !== id)
+      );
+
+      console.log("Message deleted successfully");
+    } catch (error) {
+      console.error("Error deleting message:", error);
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -98,7 +125,7 @@ const Messages = () => {
         />
       </Box>
       <Box sx={{ flex: 1, p: 3 }}>
-        <MailContent message={selectedMessage} />
+        <MailContent message={selectedMessage} onDelete={deleteMessage} />
       </Box>
       {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}></Box> */}
     </Box>

@@ -13,7 +13,7 @@ import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
 
-const MailContent = ({ message }) => {
+const MailContent = ({ message, onDelete }) => {
   // const [sender, setSender] = useState(null);
   // const [receiver, setReceiver] = useState(null);
   const [sentMessages, setSentMessages] = useState([]);
@@ -58,13 +58,18 @@ const MailContent = ({ message }) => {
   const handleSend = (messageContent) => {
     setSentMessages([
       ...sentMessages,
-      { sender: message.name, ...messageContent },
+      { sender: message.subject, ...messageContent },
     ]);
     setOpen({ ...open, reply: true });
   };
 
   const handleSnackbarClose = (action) => {
     setOpen({ ...open, [action]: false });
+  };
+
+  const handleDelete = () => {
+    onDelete(message.id);
+    setOpen({ ...open, delete: true });
   };
 
   return (
@@ -268,7 +273,7 @@ const MailContent = ({ message }) => {
                 variant="plain"
                 color="danger"
                 startIcon={<DeleteRoundedIcon />}
-                onClick={() => setOpen({ ...open, delete: true })}
+                onClick={handleDelete}
               >
                 Delete
               </Button>
