@@ -212,7 +212,7 @@ const MailContent = ({ message }) => {
           position: "absolute",
           bottom: 0,
           width: "100%", // Ensure full width
-          mt: 2, // Add margin if needed
+          mt: 4, // Add margin if needed
           p: 2, // Add padding if needed
         }}
       >
