@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
@@ -14,9 +14,46 @@ import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
 
 const MailContent = ({ message }) => {
-  console.log(message);
+  // const [sender, setSender] = useState(null);
+  // const [receiver, setReceiver] = useState(null);
   const [sentMessages, setSentMessages] = useState([]);
   const [open, setOpen] = useState({ reply: false, delete: false });
+
+  // useEffect(() => {
+  //   if (message) {
+  //     fetchSenderDetails(message.user_id_from)
+  //       .then((senderData) => setSender(senderData))
+  //       .catch((error) =>
+  //         console.error("Error fetching sender details:", error)
+  //       );
+
+  //     fetchReceiverDetails(message.user_id_to)
+  //       .then((receiverData) => setReceiver(receiverData))
+  //       .catch((error) =>
+  //         console.error("Error fetching receiver details:", error)
+  //       );
+  //   }
+  // }, [message]);
+
+  // const fetchSenderDetails = async (userId) => {
+  //   try {
+  //     const response = await fetch(`http://localhost:8000/api/users/$(userId)`);
+  //     const data = await response.json();
+  //     return data;
+  //   } catch (error) {
+  //     console.error("Error fetching sender details:", error);
+  //   }
+  // };
+
+  // const fetchReceiverDetails = async (userId) => {
+  //   try {
+  //     const response = await fetch(`http://localhost:8000/api/users/$(userId)`);
+  //     const data = await response.json();
+  //     return data;
+  //   } catch (error) {
+  //     console.error("Error fetching receiver details:", error);
+  //   }
+  // };
 
   const handleSend = (messageContent) => {
     setSentMessages([
@@ -43,65 +80,6 @@ const MailContent = ({ message }) => {
       }}
     >
       {!message ? (
-        // <>
-        //   <Box
-        //     sx={{
-        //       display: "flex",
-        //       justifyContent: "space-between",
-        //       alignItems: "center",
-        //       flexWrap: "wrap",
-        //       gap: 2,
-        //     }}
-        //   >
-        //     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        //       <Avatar />
-        //       <Box sx={{ ml: 2 }}>
-        //         <Typography level="title-sm" textcolor="text.primary" mb={0.5}>
-        //           Placeholder Name
-        //         </Typography>
-        //         <Typography level="body-xs" textcolor="text.tertiary">
-        //           Placeholder Date
-        //         </Typography>
-        //       </Box>
-        //     </Box>
-        //     <Box
-        //       sx={{
-        //         display: "flex",
-        //         height: "32px",
-        //         flexDirection: "row",
-        //         gap: 1.5,
-        //       }}
-        //     >
-        //       <Button size="sm" variant="plain" color="neutral" disabled>
-        //         Reply
-        //       </Button>
-        //       <Button size="sm" variant="plain" color="danger" disabled>
-        //         Delete
-        //       </Button>
-        //     </Box>
-        //     <Divider sx={{ mt: 2 }} />
-        //     <Typography
-        //       level="title-lg"
-        //       textColor="text.primary"
-        //       enddecorator={
-        //         <Chip
-        //           component="span"
-        //           size="sm"
-        //           variant="outlined"
-        //           color="warning"
-        //         >
-        //           Placeholder Subject
-        //         </Chip>
-        //       }
-        //     >
-        //       Placeholder Subject
-        //     </Typography>
-        //     <Typography level="body-sm" mt={2} mb={2}>
-        //       Placeholder Content
-        //     </Typography>
-        //     <Divider />
-        //   </Box>
-        // </>
         <>
           <Box
             sx={{

@@ -11,10 +11,9 @@ import OutboxRoundedIcon from "@mui/icons-material/OutboxRounded";
 
 const drawerWidth = 140;
 
-const DrawerSidebar = () => {
-  const [type, setType] = useState("inbox");
-  const handleButtonClick = (e) => {
-    setType(type === "inbox" ? "sent" : "inbox");
+const DrawerSidebar = ({ onButtonClick }) => {
+  const handleButtonClick = (type) => {
+    onButtonClick(type);
   };
 
   return (
@@ -34,7 +33,9 @@ const DrawerSidebar = () => {
         <List>
           {["Inbox", "Sent"].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton onClick={handleButtonClick}>
+              <ListItemButton
+                onClick={() => handleButtonClick(text.toLowerCase())}
+              >
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <OutboxRoundedIcon />}
                 </ListItemIcon>
