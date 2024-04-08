@@ -8,7 +8,7 @@ import MailContent from "./MailContent";
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
-  const [filter, setFilter] = useState("inbox");
+  const [filter, setFilter] = useState("");
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [loggedInUserId, setLoggedInUserId] = useState(null);
 
@@ -22,6 +22,12 @@ const Messages = () => {
   // useEffect(() => {
   //   console.log("Filtered messages:", filteredMessages);
   // }, [filteredMessages]);
+
+  useEffect(() => {
+    if (loggedInUserId !== null) {
+      updateFilteredMessages();
+    }
+  }, [filter, messages, loggedInUserId]);
 
   const fetchMessages = async () => {
     try {
@@ -38,21 +44,40 @@ const Messages = () => {
     }
   };
 
-  const handleSearchChange = (value) => {
-    console.log("filter value", value);
-    if (value === "inbox") {
-      setFilteredMessages(
-        messages.filter((message) => message.user_id_to === loggedInUserId)
-      );
-      console.log("filtered inboxmessages", filteredMessages);
-    } else if (value === "sent") {
+  const updateFilteredMessages = () => {
+    if (filter === "sent" && loggedInUserId !== null) {
       setFilteredMessages(
         messages.filter((message) => message.user_id_from === loggedInUserId)
       );
-      console.log("filtered sent messages", filteredMessages);
+    } else if (filter === "inbox" && loggedInUserId !== null) {
+      setFilteredMessages(
+        messages.filter((message) => message.user_id_to === loggedInUserId)
+      );
+    } else if (filter === "") {
+      setFilteredMessages(
+        messages.filter(
+          (message) =>
+            message.user_id_to === loggedInUserId ||
+            message.user_id_from === loggedInUserId
+        )
+      );
     } else {
-      setFilteredMessages(messages);
+      setFilteredMessages(
+        messages.filter((message) => {
+          const subject = message.subject ? message.subject.toLowerCase() : "";
+          const content = message.content ? message.content.toLowerCase() : "";
+
+          return (
+            subject.includes(filter.toLowerCase()) ||
+            content.includes(filter.toLowerCase())
+          );
+        })
+      );
     }
+  };
+
+  const handleSearchChange = (value) => {
+    setFilter(value);
   };
 
   const handleMessageSelect = (message) => {
