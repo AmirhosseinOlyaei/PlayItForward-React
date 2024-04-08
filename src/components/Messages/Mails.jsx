@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Paper } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -46,9 +46,7 @@ export default function Mails({
           }}
         >
           {filteredMessages.map((message, index) => (
-            // <React.Fragment key={index}>
-
-            <>
+            <React.Fragment key={index}>
               <ListItem index={index}>
                 <ListItemButton
                   onClick={() => handleMessageSelect(message)}
@@ -85,7 +83,7 @@ export default function Mails({
                           }}
                         />
                       </Box>
-                      <Typography level="body-xs" textColor="text.tertiary">
+                      <Typography level="body-xs" textcolor="text.tertiary">
                         {new Date(message.sent_date).toLocaleDateString()}
                       </Typography>
                     </Box>
@@ -99,8 +97,7 @@ export default function Mails({
                 </ListItemButton>
               </ListItem>
               <Divider sx={{ m: 0 }} />
-              {/* // </React.Fragment> */}
-            </>
+            </React.Fragment>
           ))}
         </List>
       </Box>
