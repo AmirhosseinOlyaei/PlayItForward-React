@@ -14,7 +14,7 @@ const Messages = () => {
 
   useEffect(() => {
     fetchMessages();
-    setLoggedInUserId("6609a2873eaffef95345b9fc");
+    setLoggedInUserId("6609a2873eaffef95345b9fa");
   }, []);
 
   // Added useEffect to observe that React state updates are asynchronous, and the updated value might not be available synchronously after calling the state setter function.
@@ -47,18 +47,25 @@ const Messages = () => {
   const updateFilteredMessages = () => {
     if (filter === "sent" && loggedInUserId !== null) {
       setFilteredMessages(
-        messages.filter((message) => message.user_id_from === loggedInUserId)
+        messages.filter(
+          (message) =>
+            message.user_id_from && message.user_id_from._id === loggedInUserId
+        )
       );
     } else if (filter === "inbox" && loggedInUserId !== null) {
       setFilteredMessages(
-        messages.filter((message) => message.user_id_to === loggedInUserId)
+        messages.filter(
+          (message) =>
+            message.user_id_to && message.user_id_to._id === loggedInUserId
+        )
       );
     } else if (filter === "") {
       setFilteredMessages(
         messages.filter(
           (message) =>
-            message.user_id_to === loggedInUserId ||
-            message.user_id_from === loggedInUserId
+            (message.user_id_to && message.user_id_to._id === loggedInUserId) ||
+            (message.user_id_from &&
+              message.user_id_from._id === loggedInUserId)
         )
       );
     } else {
