@@ -59,19 +59,6 @@ const ToyListingPreview = ({
           maxHeight: "90vh",
           overflow: "auto",
         }}
-        // sx={{
-        //   display: "flex",
-        //   flexWrap: "wrap",
-        //   "& > :not(style)": {
-        //     m: 1.5,
-        //   },
-
-        //
-        //   flexGrow: 2,
-        //   border: "1px solid lightgrey",
-        //   borderRadius: "5px",
-        //   boxShadow: "0 2px 12px rgba(0, 0, 0, 0.2)",
-        // }}
       >
         <Typography variant="h6" sx={{ m: 2 }}>
           Preview

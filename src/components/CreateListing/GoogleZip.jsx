@@ -49,13 +49,11 @@ export default function GoogleZip({
             component.types.includes("postal_code")
           )?.short_name;
           console.log("Zip Code:", zipCode);
-          //setZipCode(zipCode);
           onZipCodeChange(zipCode);
         }
       });
     }
     setOptions(newValue ? [newValue, ...options] : options);
-    // setValue(newValue);
     onValueChangeLocation(newValue);
   };
 

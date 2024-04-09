@@ -4,43 +4,18 @@ import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { Button, Grid, TextField, Input } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
-import GoogleMaps from "../ToyList/GoogleMaps";
 import axios from "axios";
 import GoogleZip from "./GoogleZip";
 import FetchSelectData from "./FetchSelectData";
 import Alert from "@mui/material/Alert";
-import CheckIcon from "@mui/icons-material/Check";
 import SuccessAlert from "./SucsessAlert";
 
 const drawerWidth = 340;
-
-const categories = [
-  "Action Figures",
-  "Board Games",
-  "Building Blocks",
-  "Card Games",
-  "Cars",
-  "Dolls",
-  "Plush",
-  "Playsets",
-  "Sports Toys",
-  "Art & Craft",
-  "Games & Puzzles",
-  "Books",
-  "Musical instruments",
-  "Miscellaneous",
-];
-const conditions = ["New", "Like-new", "Lightly-used", "Heavily-used"];
-const deliveryMethods = ["Pickup", "Delivery"];
 
 const LeftDrawer = ({
   onTitleChange,
@@ -59,15 +34,6 @@ const LeftDrawer = ({
   onValueChangeLocation,
   value,
 }) => {
-  // const [formData, setFormData] = useState({
-  //   title: title,
-  //   zip_code: value,
-  //   category: category,
-  //   condition: condition,
-  //   delivery_method: delivery,
-  //   description: description,
-  // });
-
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -97,15 +63,6 @@ const LeftDrawer = ({
   const handleInputDescriptionChange = (e) => {
     const newDescription = e.target.value;
     onDescriptionChange(newDescription);
-  };
-  const handleInputChangeCategory = (event) => {
-    onCategoryChange(event.target.value);
-  };
-  const handleInputChangeCondition = (event) => {
-    onConditionChange(event.target.value);
-  };
-  const handleInputChangeDelivery = (e) => {
-    onDeliveryChange(e.target.value);
   };
 
   const handleFileInputChange = (e) => {
@@ -168,9 +125,7 @@ const LeftDrawer = ({
       .post("http://localhost:8000/api/v1/toys", postData)
       .then((response) => {
         console.log(response);
-        // window.location.reload();
-        // navigate("/toys");
-        //alert("Listing created successfully.");
+        //alert("Listing created successfully!");
         setAlertOpen(true);
       })
       .catch((error) => {
@@ -180,6 +135,7 @@ const LeftDrawer = ({
   };
   const handleAlertClose = () => {
     setAlertOpen(false);
+    window.location.reload();
   };
 
   return (
@@ -205,34 +161,32 @@ const LeftDrawer = ({
           <Divider sx={{ marginTop: 1.2, marginBottom: 4 }} />
 
           <Box>
-            <label htmlFor="upload-input">
-              <Button
-                component="label"
-                id="upload-input"
-                role={undefined}
-                variant="contained"
-                size="large"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                sx={{
-                  marginTop: 1,
-                  marginBottom: 2,
-                  width: "38.3ch",
-                  backgroundColor: "rgba(33, 150, 243, 0.8)",
-                  "&:hover": {
-                    backgroundColor: "rgba(33, 150, 243, 1)",
-                  },
-                }}
-              >
-                Upload photo
-                <VisuallyHiddenInput
-                  type="file"
-                  id="file-input"
-                  accept="image/*"
-                  onChange={handleFileInputChange}
-                />
-              </Button>
-            </label>
+            <Button
+              component="label"
+              id="upload-input"
+              role={undefined}
+              variant="contained"
+              size="large"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+              sx={{
+                marginTop: 1,
+                marginBottom: 2,
+                width: "38.3ch",
+                backgroundColor: "rgba(33, 150, 243, 0.8)",
+                "&:hover": {
+                  backgroundColor: "rgba(33, 150, 243, 1)",
+                },
+              }}
+            >
+              Upload photo
+              <VisuallyHiddenInput
+                type="file"
+                id="file-input"
+                accept="image/*"
+                onChange={handleFileInputChange}
+              />
+            </Button>
 
             <Box
               sx={{
@@ -277,9 +231,10 @@ const LeftDrawer = ({
           >
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
               <TextField
-                id="outlined-basic"
-                type="text"
+                id="title"
+                name="title"
                 label="Title"
+                type="text"
                 value={title}
                 onChange={handleInputChangeTitle}
               />
@@ -289,69 +244,18 @@ const LeftDrawer = ({
                 onZipCodeChange={handleZipCodeChange}
                 // zipCode={zipCode}
               />
-              <Box sx={{ minWidth: 120 }}>
-                <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
-                  <InputLabel id="demo-simple-select-label">
-                    Category
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="categoryselect"
-                    value={category}
-                    label="Category"
-                    onChange={handleInputChangeCategory}
-                  >
-                    {categories.map((name) => (
-                      <MenuItem key={name} value={name}>
-                        {name}
-                      </MenuItem>
-                    ))}
-                    {/* <MenuItem value={"Art and Craft"}>Art and Craft</MenuItem>
-                   <MenuItem value={"cars"}>cars</MenuItem>
-                   <MenuItem value={"books"}>books</MenuItem> */}
-                  </Select>
-                </FormControl>
-              </Box>
-              <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
-                <InputLabel id="condition-select-label">Condition</InputLabel>
-                <Select
-                  labelId="condition-select-label"
-                  id="condition-select"
-                  value={condition}
-                  label="Condition"
-                  onChange={handleInputChangeCondition}
-                >
-                  {conditions.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
-
-                  {/* <MenuItem value={"New"}>New</MenuItem>
-                  <MenuItem value={"Used"}>Used</MenuItem>
-                  <MenuItem value={"Like new"}>Like new</MenuItem> */}
-                </Select>
-              </FormControl>
-              <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
-                <InputLabel id="delivery-select-label">Delivery</InputLabel>
-                <Select
-                  labelId="delivery-select-label"
-                  id="delivery-select"
-                  value={delivery}
-                  label="Delivery"
-                  onChange={handleInputChangeDelivery}
-                >
-                  {deliveryMethods.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
-                    </MenuItem>
-                  ))}
-                  {/* <MenuItem value={"Pickup"}>Pickup</MenuItem>
-                  <MenuItem value={"Delivery"}>Delivery</MenuItem> */}
-                </Select>
-              </FormControl>
+              <FetchSelectData
+                category={category}
+                onCategoryChange={onCategoryChange}
+                condition={condition}
+                onConditionChange={onConditionChange}
+                delivery={delivery}
+                onDeliveryChange={onDeliveryChange}
+              />
               <TextField
-                id="outlined-multiline-static"
+                type="text"
+                id="description"
+                name="description"
                 label="Description"
                 multiline
                 rows={4}
@@ -361,12 +265,7 @@ const LeftDrawer = ({
               />
 
               {error && (
-                <Alert
-                  severity="error"
-                  sx={{ marginTop: "15px", mr: 0.5 }}
-                  // variant="outlined"
-                  // color="success"
-                >
+                <Alert severity="error" sx={{ marginTop: "15px", mr: 0.5 }}>
                   Please fill in all fields.
                 </Alert>
               )}
@@ -387,7 +286,6 @@ const LeftDrawer = ({
             <SuccessAlert open={alertOpen} onClose={handleAlertClose} />
           </Box>
         </Box>
-        <FetchSelectData />
       </Drawer>
     </>
   );

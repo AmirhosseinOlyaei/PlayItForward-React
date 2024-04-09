@@ -13,11 +13,6 @@ const CreateListing = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [googleValue, setGoogleValue] = useState(null);
   const [value, setValue] = useState(null);
-  // const [zipCode, setZipCode] = useState("");
-
-  // const handleZipCodeChange = (newValue) => {
-  //   setZipCode(newValue);
-  // };
 
   const handleValueChangeLocation = (newValue) => {
     setValue(newValue);
@@ -67,8 +62,6 @@ const CreateListing = () => {
         selectedFile={selectedFile}
         onClearPhoto={handleClearPhoto}
         onValueChangeLocation={handleValueChangeLocation}
-        // onZipCodeChange={handleZipCodeChange}
-        // zipCode={zipCode}
         value={value}
         onInputChange={handleInputChange}
         googleValue={googleValue}
