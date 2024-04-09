@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import NavBar from "./NavBar";
@@ -32,12 +31,6 @@ const Navbar = () => {
       <NavBar />
     </>
   );
-=======
-import NavBar from "./NavBar";
-
-const Navbar = () => {
-  return <NavBar />;
->>>>>>> 118f0243431739973374f34a21555540aa7a6b71
 };
 
 export default Navbar;
