@@ -1,28 +1,26 @@
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom"; // Import RouterLink for navigation
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
-import SearchIcon from "@mui/icons-material/Search";
-import EmailIcon from "@mui/icons-material/Email";
-import PersonIcon from "@mui/icons-material/Person";
-import MenuIcon from "@mui/icons-material/Menu";
-import AppLogo from "../../pictures/AppLogo.png";
-// import Link from "@mui/material/Link";
-import { Link } from "react-router-dom";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Box,
+  Avatar,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import {
+  Search as SearchIcon,
+  Email as EmailIcon,
+  Person as PersonIcon,
+  Menu as MenuIcon,
+} from "@mui/icons-material";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const isLoggedIn = true; // This should be based on your authentication logic
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,7 +31,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar component="nav">
+    <AppBar component="nav" sx={{ bgcolor: "rgba(33, 150, 253, 0.8)" }}>
       <Toolbar
         sx={{
           display: "flex",
@@ -44,7 +42,6 @@ const NavBar = () => {
       >
         {/* Left side with the logo and app name */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {/* Wrap Avatar with RouterLink to navigate to ListingPage */}
           <RouterLink
             to="/toys"
             style={{
@@ -55,7 +52,7 @@ const NavBar = () => {
             }}
           >
             <Avatar
-              src={AppLogo}
+              src="/AppLogo.png"
               alt="AppLogo"
               sx={{ width: 70, height: 70 }}
             />
@@ -83,32 +80,16 @@ const NavBar = () => {
             "& > *:not(:last-child)": { mr: 2 },
           }}
         >
-          <TextField
-            variant="outlined"
-            size="small"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search..."
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: 30 }} />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ background: "white", borderRadius: 1 }}
-          />
-
-          {/* Conditionally render EmailIcon if user is logged in */}
+          <IconButton color="inherit" sx={{ p: 0 }}>
+            <SearchIcon sx={{ fontSize: 30 }} />
+          </IconButton>
           {isLoggedIn && (
             <IconButton color="inherit" sx={{ p: 0 }}>
               <EmailIcon sx={{ fontSize: 30 }} />
             </IconButton>
           )}
           <IconButton color="inherit" sx={{ p: 0 }}>
-            {/* <Link to="/profile"> */}
             <PersonIcon sx={{ fontSize: 30 }} />
-            {/* </Link> */}
           </IconButton>
           <IconButton
             color="inherit"
@@ -135,15 +116,48 @@ const NavBar = () => {
             open={open}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={handleMenuClose}>User Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Toys</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Toy Detail</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Create Listing</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Messages</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Sign In / Out</MenuItem>
-            <Link to="/favorites">
-              <MenuItem onClick={handleMenuClose}>Favorites</MenuItem>
-            </Link>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/profile"
+            >
+              User Profile
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/toys"
+            >
+              Toys
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/toy-details"
+            >
+              Toy Detail
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/create"
+            >
+              Create Listing
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/messages"
+            >
+              Messages
+            </MenuItem>
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/login"
+            >
+              Sign In / Out
+            </MenuItem>
           </Menu>
         </Box>
       </Toolbar>
