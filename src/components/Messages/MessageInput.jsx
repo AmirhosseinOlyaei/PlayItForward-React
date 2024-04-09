@@ -20,8 +20,9 @@ function MessageInput({ recipient, onSend, fetchMessages }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id: "6609a2873eaffef95345b9fc",
-          toy_id: "660c4de20dab29b8bab994fc",
+          user_id_from: "6609a2873eaffef95345b9fa",
+          user_id_to: "6609a2873eaffef95345b9f9",
+          toy_listing_id: "660c4de20dab29b8bab994f8",
           date: new Date().toISOString(),
           subject: `Message to ${recipient}`,
           content: message,
