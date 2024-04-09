@@ -223,7 +223,8 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
               <Avatar src="message.avatar" srcSet="message.avatar2x" />
               <Box sx={{ ml: 2 }}>
                 <Typography level="title-sm" textColor="text.primary" mb={0.5}>
-                  Doina F
+                  {message.user_id_from.first_name}{" "}
+                  {message.user_id_from.last_name}
                 </Typography>
                 <Typography level="body-xs" textColor="text.tertiary">
                   {new Date(message.sent_date).toLocaleDateString()}
@@ -310,7 +311,7 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
                 </Typography>
                 <Tooltip size="sm" title="Copy email" variant="outlined">
                   <Chip
-                    label="Doina F"
+                    label={message.user_id_from.email}
                     size="sm"
                     variant="soft"
                     color="primary"
@@ -328,7 +329,7 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
                 </Typography>
                 <Tooltip size="sm" title="Copy email" variant="outlined">
                   <Chip
-                    label="Domna16@gmail.com"
+                    label={message.user_id_to.email}
                     size="sm"
                     variant="soft"
                     color="primary"
@@ -353,7 +354,7 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
             }}
           >
             <MessageInput
-              recipient="Doina F"
+              recipient={`${message.user_id_from.first_name} ${message.user_id_from.last_name}`}
               onSend={handleSend}
               fetchMessages={fetchMessages}
             />

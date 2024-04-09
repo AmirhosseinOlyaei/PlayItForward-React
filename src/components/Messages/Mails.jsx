@@ -73,7 +73,10 @@ export default function Mails({
                       <Box
                         sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
                       >
-                        <Typography level="body-xs">Doina F</Typography>
+                        <Typography level="body-xs">
+                          {message.user_id_from.first_name}{" "}
+                          {message.user_id_from.last_name}
+                        </Typography>
                         <Box
                           sx={{
                             width: "8px",
