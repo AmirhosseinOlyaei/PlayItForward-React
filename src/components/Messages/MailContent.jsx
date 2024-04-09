@@ -114,9 +114,6 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
                 gap: 1.5,
               }}
             >
-              <Button size="sm" variant="plain" color="neutral" disabled>
-                Reply
-              </Button>
               <Button size="sm" variant="plain" color="danger" disabled>
                 Delete
               </Button>
@@ -241,33 +238,6 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
                 gap: 1.5,
               }}
             >
-              <Button
-                size="sm"
-                variant="plain"
-                color="neutral"
-                startIcon={<ReplyRoundedIcon />}
-                onClick={() => setOpen({ ...open, reply: true })}
-              >
-                Reply
-              </Button>
-              <Snackbar
-                color="success"
-                open={open.reply}
-                onClose={() => handleSnackbarClose("reply")}
-                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                message="Your message has been sent."
-                action={
-                  <Button
-                    onClick={() => handleSnackbarClose("reply")}
-                    size="small"
-                    variant="text"
-                    color="inherit"
-                  >
-                    Dismiss
-                  </Button>
-                }
-              />
-
               <Button
                 size="sm"
                 variant="plain"
