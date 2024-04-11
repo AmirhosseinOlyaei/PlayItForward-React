@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    
+}
+
+.leftPanel {
+    width: 100%;
+}
+
+.rightPanel {
+    width: 600px;
+    padding: 0 20px;
+}
+
+.detailsRow {
+    display: flex;
+}
+
+.detailsLabel {
+    min-width: 120px;
+    
+}
+
+.giverInformation {
+    display: flex;
+    vertical-align: middle;
+    
+}
+
+.giverInformation > p {
+
+    font-weight: 700;
+    padding: 0 20px;
+    margin: 0;
+    vertical-align: middle;
+}
