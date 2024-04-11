@@ -34,7 +34,7 @@ function MessageInput({ recipient, onSend, fetchMessages }) {
       }
       setMessage("");
       onSend(message);
-      // fetchMessages();
+      fetchMessages();
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {

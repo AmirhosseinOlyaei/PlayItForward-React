@@ -8,10 +8,9 @@ import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import ReplyRoundedIcon from "@mui/icons-material/ReplyRounded";
-import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
+import BackgroundLetterAvatars from "./Avatar";
 
 const MailContent = ({ message, fetchMessages, onDelete }) => {
   // const [sender, setSender] = useState(null);
@@ -220,7 +219,10 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
             }}
           >
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Avatar src="message.avatar" srcSet="message.avatar2x" />
+              <BackgroundLetterAvatars
+                firstName={message.user_id_from.first_name}
+                lastName={message.user_id_from.last_name}
+              />
               <Box sx={{ ml: 2 }}>
                 <Typography level="title-sm" textColor="text.primary" mb={0.5}>
                   {message.user_id_from.first_name}{" "}

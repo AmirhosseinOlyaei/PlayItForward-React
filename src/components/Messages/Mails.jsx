@@ -10,6 +10,7 @@ import ListItemButton, {
   listItemButtonClasses,
 } from "@mui/material/ListItemButton";
 import SearchMessage from "./SearchMessage";
+import BackgroundLetterAvatars from "./Avatar";
 
 export default function Mails({
   index,
@@ -57,9 +58,9 @@ export default function Mails({
                   sx={{ p: 2 }}
                 >
                   <Divider sx={{ alignSelf: "flex-start" }}>
-                    <Avatar
-                      alt=""
-                      src="https://avatar.iran.liara.run/public/62"
+                    <BackgroundLetterAvatars
+                      firstName={message.user_id_from.first_name}
+                      lastName={message.user_id_from.last_name}
                     />
                   </Divider>
                   <Box sx={{ pl: 2, width: "100%" }}>
