@@ -14,14 +14,9 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  List,
 } from "@mui/material";
 import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
-// import { toysData } from "./toysData";
 import Category from "./Category";
 import CustomToolbar from "./CustomToolbar";
 
@@ -58,13 +53,6 @@ export default function ToysLanding() {
         }}
       >
         {/* <Toolbar /> */}
-
-        {/* App name */}
-        {/* <List>
-          <Typography variant="caption" gutterBottom letterSpacing={1} m={3}>
-            PlayItForward
-          </Typography>
-        </List> */}
 
         {/* side nav contents */}
         <Grid item xs={11} sm={11} p={2}>
