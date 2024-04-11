@@ -32,9 +32,19 @@ function MessageInput({ recipient, onSend, fetchMessages }) {
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
-      setMessage("");
+
+      // Wait for the fetchMessages to complete
+      await fetchMessages();
+
+      // setMessage("");
       onSend(message);
-      fetchMessages();
+      setLoading(false);
+      // Clear message after a brief delay to ensure UI updates
+      setTimeout(() => {
+        setMessage("");
+      }, 100);
+      // setMessage("");
+      // fetchMessages();
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {

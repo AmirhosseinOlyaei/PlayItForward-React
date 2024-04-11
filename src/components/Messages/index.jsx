@@ -31,7 +31,8 @@ const Messages = () => {
 
   const fetchMessages = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/v1/messages");
+      const url = `http://localhost:8000/api/v1/messages?userId=${loggedInUserId}`;
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
@@ -132,7 +133,11 @@ const Messages = () => {
         />
       </Box>
       <Box sx={{ flex: 1, p: 3 }}>
-        <MailContent message={selectedMessage} onDelete={deleteMessage} />
+        <MailContent
+          message={selectedMessage}
+          onDelete={deleteMessage}
+          fetchMessages={fetchMessages}
+        />
       </Box>
       {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}></Box> */}
     </Box>
