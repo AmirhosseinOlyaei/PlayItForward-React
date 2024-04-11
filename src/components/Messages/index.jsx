@@ -114,6 +114,8 @@ const Messages = () => {
         filteredMessages.filter((message) => message._id !== _id)
       );
 
+      setSelectedMessage(null);
+
       console.log("Message deleted successfully");
     } catch (error) {
       console.error("Error deleting message:", error);
