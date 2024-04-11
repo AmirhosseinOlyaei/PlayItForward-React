@@ -7,6 +7,9 @@ import Snackbar from "@mui/material/Snackbar";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
@@ -238,18 +241,17 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
                 display: "flex",
                 height: "32px",
                 flexDirection: "row",
-                gap: 1.5,
+                alignItems: "center",
+                gap: 0.5,
+                padding: 0,
               }}
             >
-              <Button
-                size="sm"
-                variant="plain"
-                color="danger"
-                startIcon={<DeleteRoundedIcon />}
-                onClick={handleDelete}
-              >
-                Delete
-              </Button>
+              <ListItemButton onClick={handleDelete}>
+                <ListItemIcon>
+                  <DeleteRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Delete" />
+              </ListItemButton>
               <Snackbar
                 color="danger"
                 open={open.delete}
