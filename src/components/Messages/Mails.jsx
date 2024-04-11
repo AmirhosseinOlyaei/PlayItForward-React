@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Paper } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -18,8 +18,11 @@ export default function Mails({
   filteredMessages,
   onMessageSelect,
 }) {
-  const handleMessageSelect = (message) => {
+  const [selectedMessageIndex, setSelectedMessageIndex] = useState(0);
+
+  const handleMessageSelect = (message, index) => {
     onMessageSelect(message);
+    setSelectedMessageIndex(index);
   };
 
   return (
@@ -50,12 +53,15 @@ export default function Mails({
             <React.Fragment key={index}>
               <ListItem index={index}>
                 <ListItemButton
-                  onClick={() => handleMessageSelect(message)}
-                  {...(index === 0 && {
-                    selected: true,
-                    color: "neutral",
-                  })}
-                  sx={{ p: 2 }}
+                  onClick={() => handleMessageSelect(message, index)}
+                  selected={selectedMessageIndex === index}
+                  sx={{
+                    p: 2,
+                    backgroundColor:
+                      selectedMessageIndex === index
+                        ? "var(--joy-palette-primary-selected)"
+                        : "inherit",
+                  }}
                 >
                   <Divider sx={{ alignSelf: "flex-start" }}>
                     <BackgroundLetterAvatars
