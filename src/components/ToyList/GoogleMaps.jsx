@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -8,8 +9,6 @@ import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
 
-// This key was created specifically for the demo in mui.com.
-// You need to create a new one for your application.
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 function loadScript(src, position, id) {
@@ -26,7 +25,7 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps() {
+export default function GoogleMaps({ onLocationSelect }) {
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
@@ -37,7 +36,7 @@ export default function GoogleMaps() {
       loadScript(
         `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
         document.querySelector("head"),
-        "google-maps",
+        "google-maps"
       );
     }
 
@@ -49,7 +48,7 @@ export default function GoogleMaps() {
       debounce((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
       }, 400),
-    [],
+    []
   );
 
   React.useEffect(() => {
@@ -89,6 +88,13 @@ export default function GoogleMaps() {
     };
   }, [value, inputValue, fetch]);
 
+  // This effect calls the onLocationSelect prop whenever value changes
+  useEffect(() => {
+    if (value) {
+      onLocationSelect(value);
+    }
+  }, [value, onLocationSelect]);
+
   return (
     <Autocomplete
       id="google-map-demo"
@@ -119,7 +125,7 @@ export default function GoogleMaps() {
 
         const parts = parse(
           option.structured_formatting.main_text,
-          matches.map((match) => [match.offset, match.offset + match.length]),
+          matches.map((match) => [match.offset, match.offset + match.length])
         );
 
         return (

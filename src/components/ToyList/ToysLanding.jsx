@@ -26,15 +26,47 @@ export default function ToysLanding() {
   const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState([]);
   const [viewType, setViewType] = useState(false);
+  const [location, setLocation] = useState("");
 
   React.useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://localhost:8000/api/v1/toys");
-      const toys = await response.json();
-      setToys(toys);
+      try {
+        const response = await fetch("http://localhost:8000/api/v1/toys");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const toys = await response.json();
+        setToys(toys);
+      } catch (error) {
+        console.error("Failed to fetch toys:", error);
+      }
     }
     fetchData();
   }, []);
+
+  async function fetchToys(deliveryMethod, locationPlaceId) {
+    let queryParts = [];
+    if (deliveryMethod && deliveryMethod !== "All") {
+      queryParts.push(`deliveryMethod=${encodeURIComponent(deliveryMethod)}`);
+    }
+    if (locationPlaceId) {
+      queryParts.push(`location=${encodeURIComponent(locationPlaceId)}`);
+    }
+    const queryString = queryParts.length ? `?${queryParts.join("&")}` : "";
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/v1/toys${queryString}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const filteredToys = await response.json();
+      setToys(filteredToys);
+    } catch (error) {
+      console.error("Failed to fetch toys:", error);
+    }
+  }
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
@@ -52,8 +84,6 @@ export default function ToysLanding() {
           },
         }}
       >
-        {/* <Toolbar /> */}
-
         {/* side nav contents */}
         <Grid item xs={11} sm={11} p={2}>
           {/* Search */}
@@ -73,7 +103,15 @@ export default function ToysLanding() {
             Filters
           </Typography>
           <Grid item xs={12} sm={12} my={1}>
-            <GoogleMaps />
+            <GoogleMaps
+              onLocationSelect={(selectedValue) => {
+                // Use optional chaining in case selectedValue is null or undefined.
+                const placeId = selectedValue?.place_id;
+                if (placeId) {
+                  fetchToys(delivery, placeId);
+                }
+              }}
+            />
           </Grid>
 
           {/* delivery */}
@@ -87,8 +125,11 @@ export default function ToysLanding() {
                 fullWidth
                 label="Delivery Method"
                 onChange={(event) => {
-                  setDelivery(event.target.value);
-                  fetchToys({ deliveryMethod: event.target.value });
+                  const newDeliveryMethod = event.target.value;
+                  setDelivery(newDeliveryMethod);
+                  // Use optional chaining to safely access location's place_id
+                  const placeId = location?.place_id || "";
+                  fetchToys(newDeliveryMethod, placeId);
                 }}
               >
                 <MenuItem value="All">All</MenuItem>
