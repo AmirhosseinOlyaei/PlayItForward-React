@@ -113,9 +113,7 @@ const LeftDrawer = ({
     const imageData = new FormData();
     imageData.append("image", selectedFile);
     console.log("selectedFile", selectedFile);
-    const {
-      data: { imageUrl },
-    } = await axios.post(
+    const response = await axios.post(
       "http://localhost:8000/api/v1/images/upload",
       imageData,
       {
@@ -124,8 +122,11 @@ const LeftDrawer = ({
         },
       }
     );
-
     // After successfully uploading the image Send POST request to /toys endpoint with itle, condition... and image URL
+    // Assuming the backend responds with an object containing the image URL
+    const imageUrl = response.data;
+    console.log("Image URL:", imageUrl);
+
     const postData = {
       title: title,
       description: description,
@@ -133,7 +134,7 @@ const LeftDrawer = ({
       condition: condition,
       delivery_method: delivery,
       zip_code: zipCode,
-      imageUrl: `http://localhost:8000/api/v1/images/${selectedFile.name}`,
+      imageUrl: `http://localhost:8000/api/v1/images/upload/${imageUrl.file.name}`,
       status: "available",
       listed_by_id: {
         _id: "6609a2873eaffef95345b9fb",
