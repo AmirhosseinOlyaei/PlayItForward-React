@@ -13,7 +13,7 @@ import axios from "axios";
 import GoogleZip from "./GoogleZip";
 import FetchSelectData from "./FetchSelectData";
 import Alert from "@mui/material/Alert";
-import SuccessAlert from "./SucsessAlert";
+import SuccessAlert from "./SuccessAlert";
 
 const drawerWidth = 340;
 
@@ -34,6 +34,7 @@ const LeftDrawer = ({
   onValueChangeLocation,
   value,
 }) => {
+  console.log("selectedFile", selectedFile);
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -57,7 +58,6 @@ const LeftDrawer = ({
   };
   const handleInputChangeTitle = (e) => {
     const newTitle = e.target.value;
-    //setTitle(newTitle);
     onTitleChange(newTitle);
   };
   const handleInputDescriptionChange = (e) => {
@@ -68,10 +68,6 @@ const LeftDrawer = ({
   const handleFileInputChange = (e) => {
     onFileChange(e.target.files[0]);
   };
-  // const handleUpload = () => {
-  //   // You can handle file upload logic here
-  //   console.log("Selected file:", selectedFile);
-  // };
 
   const maxLength = 32; // Maximum length for the file name including the three dots (...)
 
@@ -92,6 +88,7 @@ const LeftDrawer = ({
       delivery,
       description,
       zipCode,
+      selectedFile,
     });
     if (
       !title ||
@@ -99,7 +96,8 @@ const LeftDrawer = ({
       !condition ||
       !delivery ||
       !description ||
-      !zipCode
+      !zipCode ||
+      !selectedFile
     ) {
       //alert("Please fill in all fields.");
       setError(true);
@@ -111,6 +109,23 @@ const LeftDrawer = ({
   };
 
   const axiosPostListing = async () => {
+    // Send POST request to /images endpoint to upload the image
+    const imageData = new FormData();
+    imageData.append("image", selectedFile);
+    console.log("selectedFile", selectedFile);
+    const {
+      data: { imageUrl },
+    } = await axios.post(
+      "http://localhost:8000/api/v1/images/upload",
+      imageData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    // After successfully uploading the image Send POST request to /toys endpoint with itle, condition... and image URL
     const postData = {
       title: title,
       description: description,
@@ -118,8 +133,15 @@ const LeftDrawer = ({
       condition: condition,
       delivery_method: delivery,
       zip_code: zipCode,
-      pictures: "https://source.unsplash.com/random/200x200?toy",
+      imageUrl: `http://localhost:8000/api/v1/images/${selectedFile.name}`,
       status: "available",
+      listed_by_id: {
+        _id: "6609a2873eaffef95345b9fb",
+        email: "user3@example.com",
+        first_name: "Emma",
+        last_name: "Johnson",
+        profile_picture: "https://example.com/profiles/user3.jpg",
+      },
     };
     await axios
       .post("http://localhost:8000/api/v1/toys", postData)
@@ -159,69 +181,6 @@ const LeftDrawer = ({
             Item for Listing
           </Typography>
           <Divider sx={{ marginTop: 1.2, marginBottom: 4 }} />
-
-          <Box>
-            <Button
-              component="label"
-              id="upload-input"
-              role={undefined}
-              variant="contained"
-              size="large"
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-              sx={{
-                marginTop: 1,
-                marginBottom: 2,
-                width: "38.3ch",
-                backgroundColor: "rgba(33, 150, 243, 0.8)",
-                "&:hover": {
-                  backgroundColor: "rgba(33, 150, 243, 1)",
-                },
-              }}
-            >
-              Upload photo
-              <VisuallyHiddenInput
-                type="file"
-                id="file-input"
-                accept="image/*"
-                onChange={handleFileInputChange}
-              />
-            </Button>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "41ch",
-                marginBottom: "10px",
-                fontSize: "15px",
-                gap: "5px",
-              }}
-              variant="body1"
-              color="textSecondary"
-            >
-              <Typography
-                variant="body1"
-                color="textSecondary"
-                sx={{ ml: 0.5 }}
-              >
-                {selectedFile ? truncatedFileName(selectedFile.name) : ""}
-              </Typography>
-
-              {selectedFile && (
-                <IconButton
-                  aria-label="delete"
-                  onClick={() => onClearPhoto()}
-                  sx={{ padding: 0, mr: 0 }}
-                >
-                  <ClearIcon />
-                </IconButton>
-              )}
-            </Box>
-            {/* )} */}
-          </Box>
           <Box
             sx={{
               "& .MuiTextField-root": { marginTop: 3, width: "40ch" },
@@ -230,6 +189,68 @@ const LeftDrawer = ({
             autoComplete="off"
           >
             <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+              <Box>
+                <Button
+                  component="label"
+                  id="upload-input"
+                  role={undefined}
+                  variant="contained"
+                  size="large"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                  sx={{
+                    marginTop: 1,
+                    marginBottom: 2,
+                    width: "38.3ch",
+                    backgroundColor: "rgba(33, 150, 243, 0.8)",
+                    "&:hover": {
+                      backgroundColor: "rgba(33, 150, 243, 1)",
+                    },
+                  }}
+                >
+                  Upload photo
+                  <VisuallyHiddenInput
+                    type="file"
+                    id="file-input"
+                    accept="image/*"
+                    onChange={handleFileInputChange}
+                  />
+                </Button>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "41ch",
+                    marginBottom: "10px",
+                    fontSize: "15px",
+                    gap: "5px",
+                  }}
+                  variant="body1"
+                  color="textSecondary"
+                >
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    sx={{ ml: 0.5 }}
+                  >
+                    {selectedFile ? truncatedFileName(selectedFile.name) : ""}
+                  </Typography>
+
+                  {selectedFile && (
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => onClearPhoto()}
+                      sx={{ padding: 0, mr: 0 }}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  )}
+                </Box>
+                {/* )} */}
+              </Box>
               <TextField
                 id="title"
                 name="title"
@@ -242,7 +263,6 @@ const LeftDrawer = ({
                 onValueChangeLocation={onValueChangeLocation}
                 value={value}
                 onZipCodeChange={handleZipCodeChange}
-                // zipCode={zipCode}
               />
               <FetchSelectData
                 category={category}

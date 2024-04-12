@@ -21,16 +21,16 @@ const ToyListingPreview = ({
   const userData = {
     listingDate: new Date().toLocaleDateString(),
   };
-  const [user, setUser] = React.useState(userData);
+  const [user, setUser] = React.useState("");
 
   React.useEffect(() => {
     async function fetchUserData() {
       const response = await fetch(
-        "http://localhost:8000/api/v1/users/6609a2873eaffef95345ba02"
+        "http://localhost:8000/api/v1/users/6609a2873eaffef95345b9fb"
       );
-      const user = await response.json();
-      console.log(user);
-      setUser(user);
+      const currentUser = await response.json();
+      console.log("curUser", currentUser);
+      setUser(currentUser);
     }
     fetchUserData();
   }, []);

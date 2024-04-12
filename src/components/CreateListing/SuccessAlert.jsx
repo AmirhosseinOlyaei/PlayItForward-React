@@ -11,17 +11,14 @@ const SuccessAlert = ({ open, onClose }) => {
   const handleYes = () => {
     onClose();
   };
-  const handleNo = () => {
-    hystory.push("/toys");
-  };
 
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle sx={{ color: "green" }}>Success!</DialogTitle>
       <DialogContent>
         <Typography>
-          Your toy listing has been submitted successfully. Do you want to
-          create one more listing?
+          Your toy listing has been created successfully. Do you want to create
+          one more listing?
         </Typography>
       </DialogContent>
       <DialogActions>
@@ -29,7 +26,7 @@ const SuccessAlert = ({ open, onClose }) => {
           Yes
         </Button>
         <Link to="/toys">
-          <Button onClick={handleNo} variant="contained" color="secondary">
+          <Button variant="contained" color="secondary">
             No
           </Button>
         </Link>
