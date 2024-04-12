@@ -134,7 +134,7 @@ const LeftDrawer = ({
       condition: condition,
       delivery_method: delivery,
       zip_code: zipCode,
-      imageUrl: `http://localhost:8000/api/v1/images/upload/${imageUrl.file.name}`,
+      imageUrl: imageUrl.file.url,
       status: "available",
       listed_by_id: {
         _id: "6609a2873eaffef95345b9fb",
