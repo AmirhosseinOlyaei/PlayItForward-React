@@ -8,10 +8,11 @@ function ToyList() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const fetchToys = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:8000/api/v1/toys");
+        const response = await fetch(apiUrl);
         if (!response.ok) {
           throw new Error("Failed to fetch");
         }
