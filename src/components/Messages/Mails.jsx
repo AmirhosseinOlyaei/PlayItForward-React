@@ -93,7 +93,7 @@ export default function Mails({
                           }}
                         />
                       </Box>
-                      <Typography level="body-xs" textcolor="text.tertiary">
+                      <Typography level="body-xs">
                         {new Date(message.sent_date).toLocaleDateString()}
                       </Typography>
                     </Box>

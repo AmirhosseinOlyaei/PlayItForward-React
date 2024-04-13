@@ -100,12 +100,10 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Avatar />
               <Box sx={{ ml: 2 }}>
-                <Typography level="title-sm" textcolor="text.primary" mb={0.5}>
+                <Typography level="title-sm" mb={0.5}>
                   Name
                 </Typography>
-                <Typography level="body-xs" textcolor="text.tertiary">
-                  Date
-                </Typography>
+                <Typography level="body-xs">Date</Typography>
               </Box>
             </Box>
             <Box
@@ -132,16 +130,14 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
           >
             <Typography
               level="title-lg"
-              textColor="text.primary"
               enddecorator={
                 <Chip
                   component="span"
                   size="sm"
                   variant="outlined"
                   color="warning"
-                >
-                  Personal
-                </Chip>
+                  label="Personal"
+                />
               }
             >
               Subject
@@ -227,11 +223,11 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
                 lastName={message.user_id_from.last_name}
               />
               <Box sx={{ ml: 2 }}>
-                <Typography level="title-sm" textColor="text.primary" mb={0.5}>
+                <Typography level="title-sm" mb={0.5}>
                   {message.user_id_from.first_name}{" "}
                   {message.user_id_from.last_name}
                 </Typography>
-                <Typography level="body-xs" textColor="text.tertiary">
+                <Typography level="body-xs">
                   {new Date(message.sent_date).toLocaleDateString()}
                 </Typography>
               </Box>
@@ -282,16 +278,14 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
           >
             <Typography
               level="title-lg"
-              textColor="text.primary"
               enddecorator={
                 <Chip
                   component="span"
                   size="sm"
                   variant="outlined"
                   color="warning"
-                >
-                  Personal
-                </Chip>
+                  label="Personal"
+                />
               }
             >
               {message.subject}
