@@ -1,11 +1,7 @@
-import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import GoogleMaps from "./GoogleMaps";
-import Create from "./Create";
-import Search from "./Search";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
+  CssBaseline,
   Drawer,
   Typography,
   Divider,
@@ -15,6 +11,9 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import GoogleMaps from "./GoogleMaps";
+import Create from "./Create";
+import Search from "./Search";
 import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
 import Category from "./Category";
@@ -26,47 +25,38 @@ export default function ToysLanding() {
   const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState([]);
   const [viewType, setViewType] = useState(false);
-  const [location, setLocation] = useState("");
+  const [locationId, setLocationId] = useState("");
+  const [error, setError] = useState("");
 
-  React.useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch("http://localhost:8000/api/v1/toys");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const toys = await response.json();
-        setToys(toys);
-      } catch (error) {
-        console.error("Failed to fetch toys:", error);
-      }
-    }
-    fetchData();
-  }, []);
+  useEffect(() => {
+    fetchToys();
+  }, [delivery, locationId]);
 
-  async function fetchToys(deliveryMethod, locationPlaceId) {
-    let queryParts = [];
-    if (deliveryMethod && deliveryMethod !== "All") {
-      queryParts.push(`deliveryMethod=${encodeURIComponent(deliveryMethod)}`);
+  const fetchToys = async () => {
+    let queryParams = [];
+    if (delivery !== "All") {
+      queryParams.push(`delivery_method=${encodeURIComponent(delivery)}`);
     }
-    if (locationPlaceId) {
-      queryParts.push(`location=${encodeURIComponent(locationPlaceId)}`);
+    if (locationId) {
+      queryParams.push(`location=${encodeURIComponent(locationId)}`);
     }
-    const queryString = queryParts.length ? `?${queryParts.join("&")}` : "";
+    const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
 
     try {
       const response = await fetch(
         `http://localhost:8000/api/v1/toys${queryString}`
       );
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Failed to fetch toys from the server.");
       }
-      const filteredToys = await response.json();
-      setToys(filteredToys);
-    } catch (error) {
-      console.error("Failed to fetch toys:", error);
+      const data = await response.json();
+      setToys(data);
+      setError("");
+    } catch (err) {
+      setError(err.message);
+      setToys([]);
     }
-  }
+  };
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
@@ -105,32 +95,21 @@ export default function ToysLanding() {
           <Grid item xs={12} sm={12} my={1}>
             <GoogleMaps
               onLocationSelect={(selectedValue) => {
-                // Use optional chaining in case selectedValue is null or undefined.
-                const placeId = selectedValue?.place_id;
-                if (placeId) {
-                  fetchToys(delivery, placeId);
-                }
+                setLocationId(selectedValue?.place_id || "");
               }}
             />
           </Grid>
 
           {/* delivery */}
-          <Grid item xs={12} sm={12} my={2}>
+          <Grid item xs={12} sm={12} mt={2} mb={2}>
             <FormControl fullWidth>
               <InputLabel id="select-label">Delivery Method</InputLabel>
               <Select
                 labelId="select-label"
                 id="simple-select"
                 value={delivery}
-                fullWidth
+                onChange={(e) => setDelivery(e.target.value)}
                 label="Delivery Method"
-                onChange={(event) => {
-                  const newDeliveryMethod = event.target.value;
-                  setDelivery(newDeliveryMethod);
-                  // Use optional chaining to safely access location's place_id
-                  const placeId = location?.place_id || "";
-                  fetchToys(newDeliveryMethod, placeId);
-                }}
               >
                 <MenuItem value="All">All</MenuItem>
                 <MenuItem value="Pick up">Pick up</MenuItem>
@@ -181,6 +160,11 @@ export default function ToysLanding() {
                   // image={toy.image}
                   location={toy.zip_code}
                 />
+                {error && (
+                  <Typography color="error" m={2}>
+                    {error}
+                  </Typography>
+                )}
               </Grid>
             ))
           )}

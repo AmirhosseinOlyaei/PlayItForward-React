@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -26,10 +26,15 @@ function loadScript(src, position, id) {
 const autocompleteService = { current: null };
 
 export default function GoogleMaps({ onLocationSelect }) {
-  const [value, setValue] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState("");
-  const [options, setOptions] = React.useState([]);
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
   const loaded = React.useRef(false);
+
+  const handleLocationSelect = (newValue) => {
+    setValue(newValue); // This sets the local state with the selected value
+    onLocationSelect(newValue); // This calls the prop function, passing the selected value up to the parent
+  };
 
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
@@ -43,7 +48,7 @@ export default function GoogleMaps({ onLocationSelect }) {
     loaded.current = true;
   }
 
-  const fetch = React.useMemo(
+  const fetch = useMemo(
     () =>
       debounce((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
@@ -51,7 +56,7 @@ export default function GoogleMaps({ onLocationSelect }) {
     []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     let active = true;
 
     if (!autocompleteService.current && window.google) {
@@ -111,7 +116,7 @@ export default function GoogleMaps({ onLocationSelect }) {
       noOptionsText="No locations"
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
-        setValue(newValue);
+        handleLocationSelect(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
