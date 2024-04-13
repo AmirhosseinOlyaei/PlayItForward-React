@@ -112,8 +112,8 @@ export default function ToysLanding() {
                 label="Delivery Method"
               >
                 <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Pick up">Pick up</MenuItem>
-                <MenuItem value="Drop off">Drop off</MenuItem>
+                <MenuItem value="Pickup">Pick up</MenuItem>
+                <MenuItem value="Delivery">Drop off</MenuItem>
               </Select>
             </FormControl>
           </Grid>
