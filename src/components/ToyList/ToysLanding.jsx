@@ -36,7 +36,7 @@ export default function ToysLanding() {
           ? `categories=${selectedCategories.join(",")}`
           : "";
       const deliveryQuery =
-        delivery !== "All" ? `&deliveryMethod=${delivery}` : "";
+        delivery !== "All" ? `&delivery_method=${delivery}` : "";
       const response = await axios.get(
         `http://localhost:8000/api/v1/toys?${categoryQuery}${deliveryQuery}`
       );
@@ -96,8 +96,8 @@ export default function ToysLanding() {
                 onChange={(event) => setDelivery(event.target.value)}
               >
                 <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Pick up">Pick up</MenuItem>
-                <MenuItem value="Drop off">Drop off</MenuItem>
+                <MenuItem value="Pickup">Pick up</MenuItem>
+                <MenuItem value="Delivery">Drop off</MenuItem>
               </Select>
             </FormControl>
           </Grid>
