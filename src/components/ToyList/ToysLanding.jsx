@@ -49,7 +49,7 @@ export default function ToysLanding() {
 
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await axios.get(`${apiUrl}/${queryString}`);
+        const response = await axios.get(`${apiUrl}toys/${queryString}`);
         setToys(response.data);
         setError(""); // Clear any previous errors on successful fetch
       } catch (err) {
@@ -159,7 +159,7 @@ export default function ToysLanding() {
               >
                 <ToyCard
                   title={toy.title}
-                  imageUrl={toy.imageUrl}
+                  // imageUrl={toy.imageUrl}
                   location={toy.zip_code}
                 />
                 {error && (
