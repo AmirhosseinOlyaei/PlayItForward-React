@@ -31,17 +31,21 @@ export default function ToysLanding() {
 
   useEffect(() => {
     const fetchToys = async () => {
-      const apiUrl = import.meta.env.VITE_API_URL;
-      const categoryQuery =
-        selectedCategories.length > 0
-          ? `categories=${selectedCategories.join(",")}`
-          : "";
-      const deliveryQuery =
-        delivery !== "All" ? `&delivery_method=${delivery}` : "";
-      const response = await axios.get(
-        `${apiUrl}/toys?${categoryQuery}${deliveryQuery}`
-      );
-      setToys(response.data);
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const categoryQuery =
+          selectedCategories.length > 0
+            ? `categories=${selectedCategories.join(",")}`
+            : "";
+        const deliveryQuery =
+          delivery !== "All" ? `&delivery_method=${delivery}` : "";
+        const response = await axios.get(
+          `${apiUrl}/toys?${categoryQuery}${deliveryQuery}`
+        );
+        setToys(response.data);
+      } catch (error) {
+        console.error("Failed to fetch toys:", error);
+      }
     };
 
     fetchToys();
