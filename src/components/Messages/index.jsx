@@ -5,16 +5,15 @@ import DrawerSidebar from "./Drawer";
 import Mails from "./Mails";
 import MailContent from "./MailContent";
 
+const loggedInUserId = "6609a2873eaffef95345b9fa";
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [filter, setFilter] = useState("");
   const [selectedMessage, setSelectedMessage] = useState(null);
-  const [loggedInUserId, setLoggedInUserId] = useState(null);
 
   useEffect(() => {
     fetchMessages();
-    setLoggedInUserId("6609a2873eaffef95345b9fa");
   }, []);
 
   // Added useEffect to observe that React state updates are asynchronous, and the updated value might not be available synchronously after calling the state setter function.
@@ -38,8 +37,21 @@ const Messages = () => {
       }
       const data = await response.json();
       console.log("Fetched messages", data);
-      setMessages(data);
-      setFilteredMessages(data);
+
+      setMessages(
+        data.filter(
+          (message) =>
+            message.user_id_from._id === loggedInUserId ||
+            message.user_id_to._id === loggedInUserId
+        )
+      );
+      setFilteredMessages(
+        data.filter(
+          (message) =>
+            message.user_id_from._id === loggedInUserId ||
+            message.user_id_to._id === loggedInUserId
+        )
+      );
     } catch (error) {
       console.log(error);
     }
