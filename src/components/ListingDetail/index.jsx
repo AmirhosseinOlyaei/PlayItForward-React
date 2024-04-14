@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./ListingDetail.module.css";
 import { Button, ButtonGroup, Typography, Box, Divider } from "@mui/material";
 import { Input } from "@mui/material";
@@ -14,7 +13,6 @@ import ShareIcon from "@mui/icons-material/Share";
 const drawerWidth = 340;
 
 const ListingDetail = () => {
-  const [message, setMessage] = useState("");
   const toyLising = {
     user_id: 1,
     given_to_user_id: 2,
@@ -44,36 +42,6 @@ const ListingDetail = () => {
     create_date: "March 2022",
     modified_date: "March 2022",
     modified_by_id: 1,
-  };
-
-  const handleMessageChange = (event) => {
-    setMessage(event.target.value);
-  };
-  const handleSendMessage = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/api/v1/messages", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id_from: "6609a2873eaffef95345b9fa",
-          user_id_to: "6609a2873eaffef95345b9f9",
-          toy_listing_id: "660c4de20dab29b8bab994f8",
-          date: new Date().toISOString(),
-          subject: "Toy subject",
-          content: message,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
-      setMessage("");
-    } catch (error) {
-      console.error("Error sending message:", error);
-    } finally {
-    }
   };
 
   return (
@@ -193,10 +161,8 @@ const ListingDetail = () => {
               Send a message
             </Typography>
             <TextField
-              onChange={handleMessageChange}
               id="outlined-basic"
               label="Is this still available?"
-              value={message}
               variant="outlined"
               sx={{ width: "100%" }}
             />
@@ -204,7 +170,6 @@ const ListingDetail = () => {
             <Button
               variant="contained"
               sx={{ width: "100%", marginTop: "10px" }}
-              onClick={async () => await handleSendMessage()}
             >
               Send
             </Button>
