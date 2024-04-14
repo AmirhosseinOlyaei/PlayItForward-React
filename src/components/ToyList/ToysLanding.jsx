@@ -31,6 +31,7 @@ export default function ToysLanding() {
 
   useEffect(() => {
     const fetchToys = async () => {
+      const apiUrl = import.meta.env.VITE_API_URL;
       const categoryQuery =
         selectedCategories.length > 0
           ? `categories=${selectedCategories.join(",")}`
@@ -38,7 +39,7 @@ export default function ToysLanding() {
       const deliveryQuery =
         delivery !== "All" ? `&delivery_method=${delivery}` : "";
       const response = await axios.get(
-        `http://localhost:8000/api/v1/toys?${categoryQuery}${deliveryQuery}`
+        `${apiUrl}/toys?${categoryQuery}${deliveryQuery}`
       );
       setToys(response.data);
     };
