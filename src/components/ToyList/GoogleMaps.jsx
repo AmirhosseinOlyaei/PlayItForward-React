@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -8,8 +8,6 @@ import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
 
-// This key was created specifically for the demo in mui.com.
-// You need to create a new one for your application.
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 function loadScript(src, position, id) {
@@ -26,33 +24,38 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps() {
-  const [value, setValue] = React.useState(null);
-  const [inputValue, setInputValue] = React.useState("");
-  const [options, setOptions] = React.useState([]);
-  const loaded = React.useRef(false);
+export default function GoogleMaps({ onLocationSelect }) {
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const loaded = useRef(false);
+
+  const handleLocationSelect = (newValue) => {
+    setValue(newValue); // This sets the local state with the selected value
+    onLocationSelect(newValue); // This calls the prop function, passing the selected value up to the parent
+  };
 
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
         `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
         document.querySelector("head"),
-        "google-maps",
+        "google-maps"
       );
     }
 
     loaded.current = true;
   }
 
-  const fetch = React.useMemo(
+  const fetch = useMemo(
     () =>
       debounce((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
       }, 400),
-    [],
+    []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     let active = true;
 
     if (!autocompleteService.current && window.google) {
@@ -89,6 +92,13 @@ export default function GoogleMaps() {
     };
   }, [value, inputValue, fetch]);
 
+  // This effect calls the onLocationSelect prop whenever value changes
+  useEffect(() => {
+    if (value) {
+      onLocationSelect(value);
+    }
+  }, [value, onLocationSelect]);
+
   return (
     <Autocomplete
       id="google-map-demo"
@@ -105,7 +115,7 @@ export default function GoogleMaps() {
       noOptionsText="No locations"
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
-        setValue(newValue);
+        handleLocationSelect(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
@@ -119,7 +129,7 @@ export default function GoogleMaps() {
 
         const parts = parse(
           option.structured_formatting.main_text,
-          matches.map((match) => [match.offset, match.offset + match.length]),
+          matches.map((match) => [match.offset, match.offset + match.length])
         );
 
         return (

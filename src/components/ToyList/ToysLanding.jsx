@@ -28,28 +28,53 @@ export default function ToysLanding() {
   const [toys, setToys] = useState([]);
   const [viewType, setViewType] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [locationId, setLocationId] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchToys = async () => {
+      let queryParams = [];
+      if (delivery !== "All") {
+        queryParams.push(`delivery_method=${encodeURIComponent(delivery)}`);
+      }
+      if (locationId) {
+        queryParams.push(`location=${encodeURIComponent(locationId)}`);
+      }
+      if (selectedCategories.length > 0) {
+        queryParams.push(
+          `categories=${encodeURIComponent(selectedCategories.join(","))}`
+        );
+      }
+      const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
+
+      // try {
+      //   const apiUrl = import.meta.env.VITE_API_URL;
+      //   const categoryQuery =
+      //     selectedCategories.length > 0
+      //       ? `categories=${selectedCategories.join(",")}`
+      //       : "";
+      //   const deliveryQuery =
+      //     delivery !== "All" ? `&delivery_method=${delivery}` : "";
+      //   const response = await axios.get(
+      //     `${apiUrl}/toys?${categoryQuery}${deliveryQuery}`
+      //   );
+      //   setToys(response.data);
+      // } catch (error) {
+      //   console.error("Failed to fetch toys:", error);
+      // }
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
-        const categoryQuery =
-          selectedCategories.length > 0
-            ? `categories=${selectedCategories.join(",")}`
-            : "";
-        const deliveryQuery =
-          delivery !== "All" ? `&delivery_method=${delivery}` : "";
-        const response = await axios.get(
-          `${apiUrl}/toys?${categoryQuery}${deliveryQuery}`
-        );
+        const response = await axios.get(`${apiUrl}/toys${queryString}`);
         setToys(response.data);
-      } catch (error) {
-        console.error("Failed to fetch toys:", error);
+        setError(""); // Clear any previous errors on successful fetch
+      } catch (err) {
+        setError("Failed to fetch toys from the server.");
+        setToys([]); // Clear toys on error
       }
     };
 
     fetchToys();
-  }, [delivery, selectedCategories]);
+  }, [delivery, selectedCategories, locationId]);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
@@ -86,7 +111,11 @@ export default function ToysLanding() {
             Filters
           </Typography>
           <Grid item xs={12} sm={12} my={1}>
-            <GoogleMaps />
+            <GoogleMaps
+              onLocationSelect={(selectedValue) => {
+                setLocationId(selectedValue?.place_id || "");
+              }}
+            />
           </Grid>
 
           {/* delivery */}
@@ -148,6 +177,11 @@ export default function ToysLanding() {
                   // image={toy.image}
                   location={toy.zip_code}
                 />
+                {error && (
+                  <Typography color="error" m={2}>
+                    {error}
+                  </Typography>
+                )}
               </Grid>
             ))
           )}
