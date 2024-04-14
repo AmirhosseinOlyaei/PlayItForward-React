@@ -1,9 +1,6 @@
-import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import GoogleMaps from "./GoogleMaps";
-import Create from "./Create";
-import Search from "./Search";
-import { useState } from "react";
+// src/components/ToyList/ToysLanding.jsx
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Drawer,
@@ -14,14 +11,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  List,
 } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import GoogleMaps from "./GoogleMaps";
+import Create from "./Create";
+import Search from "./Search";
 import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
-// import { toysData } from "./toysData";
 import Category from "./Category";
 import CustomToolbar from "./CustomToolbar";
 
@@ -31,15 +27,24 @@ export default function ToysLanding() {
   const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState([]);
   const [viewType, setViewType] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
-  React.useEffect(() => {
-    async function fetchData() {
-      const response = await fetch("http://localhost:8000/api/v1/toys");
-      const toys = await response.json();
-      setToys(toys);
-    }
-    fetchData();
-  }, []);
+  useEffect(() => {
+    const fetchToys = async () => {
+      const categoryQuery =
+        selectedCategories.length > 0
+          ? `categories=${selectedCategories.join(",")}`
+          : "";
+      const deliveryQuery =
+        delivery !== "All" ? `&deliveryMethod=${delivery}` : "";
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/toys?${categoryQuery}${deliveryQuery}`
+      );
+      setToys(response.data);
+    };
+
+    fetchToys();
+  }, [delivery, selectedCategories]);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
@@ -57,15 +62,6 @@ export default function ToysLanding() {
           },
         }}
       >
-        {/* <Toolbar /> */}
-
-        {/* App name */}
-        {/* <List>
-          <Typography variant="caption" gutterBottom letterSpacing={1} m={3}>
-            PlayItForward
-          </Typography>
-        </List> */}
-
         {/* side nav contents */}
         <Grid item xs={11} sm={11} p={2}>
           {/* Search */}
@@ -96,12 +92,8 @@ export default function ToysLanding() {
                 labelId="select-label"
                 id="simple-select"
                 value={delivery}
-                fullWidth
                 label="Delivery Method"
-                onChange={(event) => {
-                  setDelivery(event.target.value);
-                  fetchToys({ deliveryMethod: event.target.value });
-                }}
+                onChange={(event) => setDelivery(event.target.value)}
               >
                 <MenuItem value="All">All</MenuItem>
                 <MenuItem value="Pick up">Pick up</MenuItem>
@@ -114,7 +106,7 @@ export default function ToysLanding() {
 
           {/* categories */}
           <Grid item xs={12} sm={12} my={2}>
-            <Category />
+            <Category setSelectedCategories={setSelectedCategories} />
           </Grid>
 
           <Divider />
@@ -140,7 +132,6 @@ export default function ToysLanding() {
             toys.map((toy) => (
               <Grid
                 item
-                // spacing={2}
                 m={1}
                 key={toy._id}
                 sx={{
