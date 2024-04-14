@@ -5,14 +5,12 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function ToyCard({ title, images, location }) {
+export default function ToyCard({ title, imageUrl, location }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const imageUrl =
-    images && images.length > 0
-      ? images[0]
-      : "https://via.placeholder.com/1920x1080/eee?text=16:9";
+  const defaultImage = "https://via.placeholder.com/1920x1080/eee?text=16:9";
+  const imageSrc = imageUrl || defaultImage;
 
   return (
     <Card
@@ -29,7 +27,7 @@ export default function ToyCard({ title, images, location }) {
           paddingTop: "56.25%",
           objectFit: "cover",
         }}
-        image={imageUrl}
+        image={imageSrc}
         alt={title}
         loading="lazy"
         title={title}
