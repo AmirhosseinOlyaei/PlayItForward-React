@@ -16,10 +16,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import GoogleMaps from "./GoogleMaps";
 import Create from "./Create";
 import Search from "./Search";
-import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
 import Category from "./Category";
 import CustomToolbar from "./CustomToolbar";
+import ToyList from "./ToyList";
 
 const drawerWidth = 340;
 
@@ -148,27 +148,7 @@ export default function ToysLanding() {
               <ToyListMap />
             </Grid>
           ) : (
-            toys.map((toy) => (
-              <Grid
-                item
-                m={1}
-                key={toy._id}
-                sx={{
-                  flexGrow: 1,
-                }}
-              >
-                <ToyCard
-                  title={toy.title}
-                  // imageUrl={toy.imageUrl}
-                  location={toy.zip_code}
-                />
-                {error && (
-                  <Typography color="error" m={2}>
-                    {error}
-                  </Typography>
-                )}
-              </Grid>
-            ))
+            <ToyList toys={toys} />
           )}
         </Grid>
       </Grid>

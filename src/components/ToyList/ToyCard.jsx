@@ -1,3 +1,4 @@
+// src/components/ToyList/ToyCard.jsx
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -16,7 +17,6 @@ export default function ToyCard({ title, imageUrl, location }) {
     <Card
       sx={{
         minWidth: 250,
-        // maxWidth: isSmallScreen ? 200 : 345,
         flexBasis: isSmallScreen ? "100%" : "345px",
         flexGrow: 1,
       }}
@@ -28,7 +28,6 @@ export default function ToyCard({ title, imageUrl, location }) {
           objectFit: "cover",
         }}
         image={imageSrc}
-        alt={title}
         loading="lazy"
         title={title}
       />
