@@ -5,9 +5,14 @@ import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function ToyCard({ title, location }) {
+export default function ToyCard({ title, images, location }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const imageUrl =
+    images && images.length > 0
+      ? images[0]
+      : "https://via.placeholder.com/1920x1080/eee?text=16:9";
 
   return (
     <Card
@@ -18,17 +23,17 @@ export default function ToyCard({ title, location }) {
         flexGrow: 1,
       }}
     >
-      {/* {image && ( */}
       <CardMedia
         sx={{
           height: 0,
           paddingTop: "56.25%",
           objectFit: "cover",
         }}
-        image={"https://source.unsplash.com/random/200x200?toy"}
+        image={imageUrl}
+        alt={title}
+        loading="lazy"
         title={title}
       />
-      {/* )} */}
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
           {title}
