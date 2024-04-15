@@ -6,10 +6,16 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export default function Search({ onSearchChange }) {
   const [value, setValue] = useState("");
+  const [timer, setTimer] = useState(null);
 
   const handleChange = (event) => {
-    setValue(event.target.value);
-    onSearchChange(event.target.value);
+    const newValue = event.target.value;
+    setValue(newValue);
+    if (timer) clearTimeout(timer);
+    const newTimer = setTimeout(() => {
+      onSearchChange(newValue);
+    }, 2000); // 500 ms delay
+    setTimer(newTimer);
   };
 
   return (
