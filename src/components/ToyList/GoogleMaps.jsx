@@ -1,3 +1,4 @@
+// src/components/ToyList/GoogleMaps.jsx
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -7,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
+import axios from "axios";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -30,9 +32,22 @@ export default function GoogleMaps({ onLocationSelect }) {
   const [options, setOptions] = useState([]);
   const loaded = useRef(false);
 
-  const handleLocationSelect = (newValue) => {
-    setValue(newValue); // This sets the local state with the selected value
-    onLocationSelect(newValue); // This calls the prop function, passing the selected value up to the parent
+  const handleLocationSelect = async (newValue) => {
+    setValue(newValue); // Set the selected location
+
+    // Fetch zip codes for the selected place ID
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/geo/zipcodes?placeId=${newValue.place_id}`
+      );
+      const zipCodes = response.data.zipCodes; // Assuming the API returns an array of zip codes
+
+      // Call the prop function with zip codes
+      onLocationSelect(zipCodes);
+    } catch (error) {
+      console.error("Failed to fetch zip codes:", error);
+      onLocationSelect([]); // Pass an empty array if the fetch fails
+    }
   };
 
   if (typeof window !== "undefined" && !loaded.current) {

@@ -30,6 +30,7 @@ export default function ToysLanding() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [locationId, setLocationId] = useState("");
   const [error, setError] = useState("");
+  const [zipCodes, setZipCodes] = useState([]);
 
   useEffect(() => {
     const fetchToys = async () => {
@@ -45,6 +46,10 @@ export default function ToysLanding() {
           `categories=${encodeURIComponent(selectedCategories.join(","))}`
         );
       }
+      if (zipCodes.length > 0) {
+        queryParams.push(`zipCodes=${encodeURIComponent(zipCodes.join(","))}`);
+      }
+
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
 
       try {
@@ -59,7 +64,7 @@ export default function ToysLanding() {
     };
 
     fetchToys();
-  }, [delivery, selectedCategories, locationId]);
+  }, [delivery, selectedCategories, locationId, zipCodes]);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
@@ -97,8 +102,8 @@ export default function ToysLanding() {
           </Typography>
           <Grid item xs={12} sm={12} my={1}>
             <GoogleMaps
-              onLocationSelect={(selectedValue) => {
-                setLocationId(selectedValue?.place_id || "");
+              onLocationSelect={(zipCodes) => {
+                setZipCodes(zipCodes); // Update state with fetched zip codes
               }}
             />
           </Grid>
