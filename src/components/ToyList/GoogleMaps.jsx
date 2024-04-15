@@ -32,24 +32,6 @@ export default function GoogleMaps({ onLocationSelect }) {
   const [options, setOptions] = useState([]);
   const loaded = useRef(false);
 
-  const handleLocationSelect = async (newValue) => {
-    setValue(newValue); // Set the selected location
-
-    // Fetch zip codes for the selected place ID
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/api/v1/geo/zipcodes?placeId=${newValue.place_id}`
-      );
-      const zipCodes = response.data.zipCodes; // Assuming the API returns an array of zip codes
-
-      // Call the prop function with zip codes
-      onLocationSelect(zipCodes);
-    } catch (error) {
-      console.error("Failed to fetch zip codes:", error);
-      onLocationSelect([]); // Pass an empty array if the fetch fails
-    }
-  };
-
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
@@ -106,13 +88,6 @@ export default function GoogleMaps({ onLocationSelect }) {
       active = false;
     };
   }, [value, inputValue, fetch]);
-
-  // This effect calls the onLocationSelect prop whenever value changes
-  useEffect(() => {
-    if (value) {
-      onLocationSelect(value);
-    }
-  }, [value, onLocationSelect]);
 
   return (
     <Autocomplete
