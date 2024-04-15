@@ -21,6 +21,7 @@ export default function ToysLanding() {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [error, setError] = useState("");
   const [zipCodes, setZipCodes] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
     const fetchToys = async () => {
@@ -35,6 +36,9 @@ export default function ToysLanding() {
       }
       if (zipCodes.length > 0) {
         queryParams.push(`zipCodes=${encodeURIComponent(zipCodes.join(","))}`);
+      }
+      if (searchKeyword) {
+        queryParams.push(`search=${encodeURIComponent(searchKeyword)}`);
       }
 
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
@@ -54,7 +58,7 @@ export default function ToysLanding() {
     };
 
     fetchToys();
-  }, [delivery, selectedCategories, zipCodes]);
+  }, [delivery, selectedCategories, zipCodes, searchKeyword]);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
@@ -78,7 +82,7 @@ export default function ToysLanding() {
         <Grid item xs={11} sm={11} p={2}>
           {/* Search */}
           <Grid item xs={12} sm={12} mt={1}>
-            <Search />
+            <Search onSearchChange={setSearchKeyword} />
           </Grid>
 
           {/* Create */}
