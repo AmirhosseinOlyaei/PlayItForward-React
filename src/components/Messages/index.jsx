@@ -57,43 +57,114 @@ const Messages = () => {
     }
   };
 
+  // const updateFilteredMessages = () => {
+  //   if (filter === "sent" && loggedInUserId !== null) {
+  //     setFilteredMessages(
+  //       messages.filter(
+  //         (message) =>
+  //           message.user_id_from && message.user_id_from._id === loggedInUserId
+  //       )
+  //     );
+  //   } else if (filter === "inbox" && loggedInUserId !== null) {
+  //     setFilteredMessages(
+  //       messages.filter(
+  //         (message) =>
+  //           message.user_id_to && message.user_id_to._id === loggedInUserId
+  //       )
+  //     );
+  //   } else if (filter === "") {
+  //     setFilteredMessages(
+  //       messages.filter(
+  //         (message) =>
+  //           (message.user_id_to && message.user_id_to._id === loggedInUserId) ||
+  //           (message.user_id_from &&
+  //             message.user_id_from._id === loggedInUserId)
+  //       )
+  //     );
+  //   } else {
+  //     setFilteredMessages(
+  //       messages.filter((message) => {
+  //         const fromFirstName = message.user_id_from.first_name
+  //           ? message.user_id_from.first_name.toLowerCase()
+  //           : "";
+  //         const fromLastName = message.user_id_from.last_name
+  //           ? message.user_id_from.last_name.toLowerCase()
+  //           : "";
+  //         const toFirstName = message.user_id_to.first_name
+  //           ? message.user_id_to.first_name.toLowerCase()
+  //           : "";
+  //         const toLastName = message.user_id_to.last_name
+  //           ? message.user_id_to.last_name.toLowerCase()
+  //           : "";
+  //         const subject = message.subject ? message.subject.toLowerCase() : "";
+  //         const content = message.content ? message.content.toLowerCase() : "";
+
+  //         return (
+  //           fromFirstName.includes(filter.toLowerCase()) ||
+  //           fromLastName.includes(filter.toLowerCase()) ||
+  //           toFirstName.includes(filter.toLowerCase()) ||
+  //           toLastName.includes(filter.toLowerCase()) ||
+  //           subject.includes(filter.toLowerCase()) ||
+  //           content.includes(filter.toLowerCase())
+  //         );
+  //       })
+  //     );
+  //   }
+  // };
+
   const updateFilteredMessages = () => {
     if (filter === "sent" && loggedInUserId !== null) {
-      setFilteredMessages(
-        messages.filter(
-          (message) =>
-            message.user_id_from && message.user_id_from._id === loggedInUserId
-        )
-      );
+      filterSentMessages();
     } else if (filter === "inbox" && loggedInUserId !== null) {
-      setFilteredMessages(
-        messages.filter(
-          (message) =>
-            message.user_id_to && message.user_id_to._id === loggedInUserId
-        )
-      );
+      filterInboxMessages();
     } else if (filter === "") {
-      setFilteredMessages(
-        messages.filter(
-          (message) =>
-            (message.user_id_to && message.user_id_to._id === loggedInUserId) ||
-            (message.user_id_from &&
-              message.user_id_from._id === loggedInUserId)
-        )
-      );
+      filterAllMessages();
     } else {
-      setFilteredMessages(
-        messages.filter((message) => {
-          const subject = message.subject ? message.subject.toLowerCase() : "";
-          const content = message.content ? message.content.toLowerCase() : "";
-
-          return (
-            subject.includes(filter.toLowerCase()) ||
-            content.includes(filter.toLowerCase())
-          );
-        })
-      );
+      filterBySearch();
     }
+  };
+
+  const filterSentMessages = () => {
+    setFilteredMessages(
+      messages.filter((message) => message.user_id_from?._id === loggedInUserId)
+    );
+  };
+
+  const filterInboxMessages = () => {
+    setFilteredMessages(
+      messages.filter((message) => message.user_id_to?._id === loggedInUserId)
+    );
+  };
+
+  const filterAllMessages = () => {
+    setFilteredMessages(
+      messages.filter(
+        (message) =>
+          message.user_id_to?._id === loggedInUserId ||
+          message.user_id_from?._id === loggedInUserId
+      )
+    );
+  };
+
+  const filterBySearch = () => {
+    const searchTerm = filter.toLowerCase();
+    setFilteredMessages(
+      messages.filter((message) => {
+        const { user_id_from, user_id_to, subject, content } = message;
+        const fromFirstName = user_id_from?.first_name?.toLowerCase() || "";
+        const fromLastName = user_id_from?.last_name?.toLowerCase() || "";
+        const toFirstName = user_id_to?.first_name?.toLowerCase() || "";
+        const toLastName = user_id_to?.last_name?.toLowerCase() || "";
+        return (
+          fromFirstName.includes(searchTerm) ||
+          fromLastName.includes(searchTerm) ||
+          toFirstName.includes(searchTerm) ||
+          toLastName.includes(searchTerm) ||
+          subject?.toLowerCase().includes(searchTerm) ||
+          content?.toLowerCase().includes(searchTerm)
+        );
+      })
+    );
   };
 
   const handleSearchChange = (value) => {

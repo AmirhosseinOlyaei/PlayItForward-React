@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Paper } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
@@ -11,6 +10,8 @@ import ListItemButton, {
 } from "@mui/material/ListItemButton";
 import SearchMessage from "./SearchMessage";
 import BackgroundLetterAvatars from "./Avatar";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
 
 export default function Mails({
   index,
@@ -19,6 +20,12 @@ export default function Mails({
   onMessageSelect,
 }) {
   const [selectedMessageIndex, setSelectedMessageIndex] = useState(0);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const unread = filteredMessages.filter((message) => !message.read).length;
+    setUnreadCount(unread);
+  }, [filteredMessages]);
 
   const handleMessageSelect = (message, index) => {
     onMessageSelect(message);
@@ -38,6 +45,15 @@ export default function Mails({
     >
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
         <SearchMessage onSearchChange={onSearchChange} />
+        {unreadCount > 0 && (
+          <IconButton color="primary">
+            <Badge badgeContent={unreadCount} color="secondary">
+              {/* You can place your notification icon here */}
+              {/* For example: <NotificationsIcon /> */}
+              New Messages
+            </Badge>
+          </IconButton>
+        )}
       </Box>
       <Box sx={{ bgcolor: "background.paper", p: 0 }}>
         <List
