@@ -1,17 +1,7 @@
 // src/components/ToyList/ToysLanding.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Box,
-  Drawer,
-  Typography,
-  Divider,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import { Box, Drawer, Typography, Divider, Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import GoogleMaps from "./GoogleMaps";
 import Create from "./Create";
@@ -20,6 +10,7 @@ import ToyListMap from "./ToyListMap";
 import Category from "./Category";
 import CustomToolbar from "./CustomToolbar";
 import ToyList from "./ToyList";
+import DeliveryFilter from "./DeliveryFilter";
 
 const drawerWidth = 340;
 
@@ -68,6 +59,8 @@ export default function ToysLanding() {
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
       <CssBaseline />
+
+      {/* side nav bar */}
       <Drawer
         variant="permanent"
         sx={{
@@ -99,30 +92,19 @@ export default function ToysLanding() {
           <Typography variant="h6" my={2}>
             Filters
           </Typography>
+
+          {/* Location */}
           <Grid item xs={12} sm={12} my={1}>
             <GoogleMaps
               onLocationSelect={(zipCodes) => {
-                setZipCodes(zipCodes); // Update state with fetched zip codes
+                setZipCodes(zipCodes);
               }}
             />
           </Grid>
 
           {/* delivery */}
           <Grid item xs={12} sm={12} my={2}>
-            <FormControl fullWidth>
-              <InputLabel id="select-label">Delivery Method</InputLabel>
-              <Select
-                labelId="select-label"
-                id="simple-select"
-                value={delivery}
-                label="Delivery Method"
-                onChange={(event) => setDelivery(event.target.value)}
-              >
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Pickup">Pick up</MenuItem>
-                <MenuItem value="Delivery">Drop off</MenuItem>
-              </Select>
-            </FormControl>
+            <DeliveryFilter delivery={delivery} setDelivery={setDelivery} />
           </Grid>
 
           <Divider />
