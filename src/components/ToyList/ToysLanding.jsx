@@ -28,7 +28,6 @@ export default function ToysLanding() {
   const [toys, setToys] = useState([]);
   const [viewType, setViewType] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [locationId, setLocationId] = useState("");
   const [error, setError] = useState("");
   const [zipCodes, setZipCodes] = useState([]);
 
@@ -37,9 +36,6 @@ export default function ToysLanding() {
       let queryParams = [];
       if (delivery !== "All") {
         queryParams.push(`delivery_method=${encodeURIComponent(delivery)}`);
-      }
-      if (locationId) {
-        queryParams.push(`location=${encodeURIComponent(locationId)}`);
       }
       if (selectedCategories.length > 0) {
         queryParams.push(
@@ -55,16 +51,19 @@ export default function ToysLanding() {
       try {
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await axios.get(`${apiUrl}toys/${queryString}`);
+        if (!response.data || !Array.isArray(response.data)) {
+          throw new Error("Received malformed data from API");
+        }
         setToys(response.data);
-        setError(""); // Clear any previous errors on successful fetch
       } catch (err) {
+        console.error("Error fetching toys:", err.message || "Unknown error");
         setError("Failed to fetch toys from the server.");
-        setToys([]); // Clear toys on error
+        setToys([]); // Ensure toys are reset on error
       }
     };
 
     fetchToys();
-  }, [delivery, selectedCategories, locationId, zipCodes]);
+  }, [delivery, selectedCategories, zipCodes]);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
