@@ -37,11 +37,15 @@ export default function ToysLanding() {
       if (zipCodes.length > 0) {
         queryParams.push(`zipCodes=${encodeURIComponent(zipCodes.join(","))}`);
       }
+      if (searchKeyword.trim() !== "") {
+        queryParams.push(`search=${encodeURIComponent(searchKeyword)}`);
+      }
 
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
 
       try {
-        const apiUrl = import.meta.env.VITE_API_URL;
+        const apiUrl =
+          import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1/";
         const response = await axios.get(`${apiUrl}toys/${queryString}`);
         if (!response.data || !Array.isArray(response.data)) {
           throw new Error("Received malformed data from API");
@@ -55,34 +59,34 @@ export default function ToysLanding() {
     };
 
     fetchToys();
-  }, [delivery, selectedCategories, zipCodes]);
+  }, [delivery, selectedCategories, zipCodes, searchKeyword]); // Include searchKeyword in the dependency array
 
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      const apiUrl = `http://localhost:8000/api/v1/search/${encodeURIComponent(searchKeyword)}`;
-      try {
-        const response = await axios.get(apiUrl);
-        if (response.data && Array.isArray(response.data.dataToyListing)) {
-          setToys(response.data.dataToyListing);
-        } else {
-          console.error(
-            "Expected 'dataToyListing' to be an array, received:",
-            response.data
-          );
-          setToys([]);
-        }
-      } catch (err) {
-        console.error("Error fetching search results:", err);
-        setToys([]);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchSearchResults = async () => {
+  //     const apiUrl = `http://localhost:8000/api/v1/search/${encodeURIComponent(searchKeyword)}`;
+  //     try {
+  //       const response = await axios.get(apiUrl);
+  //       if (response.data && Array.isArray(response.data.dataToyListing)) {
+  //         setToys(response.data.dataToyListing);
+  //       } else {
+  //         console.error(
+  //           "Expected 'dataToyListing' to be an array, received:",
+  //           response.data
+  //         );
+  //         setToys([]);
+  //       }
+  //     } catch (err) {
+  //       console.error("Error fetching search results:", err);
+  //       setToys([]);
+  //     }
+  //   };
 
-    if (searchKeyword.trim() !== "") {
-      fetchSearchResults();
-    } else {
-      setToys([]);
-    }
-  }, [searchKeyword]);
+  //   if (searchKeyword.trim() !== "") {
+  //     fetchSearchResults();
+  //   } else {
+  //     setToys([]);
+  //   }
+  // }, [searchKeyword]);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
