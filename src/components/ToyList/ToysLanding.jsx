@@ -59,34 +59,7 @@ export default function ToysLanding() {
     };
 
     fetchToys();
-  }, [delivery, selectedCategories, zipCodes, searchKeyword]); // Include searchKeyword in the dependency array
-
-  // useEffect(() => {
-  //   const fetchSearchResults = async () => {
-  //     const apiUrl = `http://localhost:8000/api/v1/search/${encodeURIComponent(searchKeyword)}`;
-  //     try {
-  //       const response = await axios.get(apiUrl);
-  //       if (response.data && Array.isArray(response.data.dataToyListing)) {
-  //         setToys(response.data.dataToyListing);
-  //       } else {
-  //         console.error(
-  //           "Expected 'dataToyListing' to be an array, received:",
-  //           response.data
-  //         );
-  //         setToys([]);
-  //       }
-  //     } catch (err) {
-  //       console.error("Error fetching search results:", err);
-  //       setToys([]);
-  //     }
-  //   };
-
-  //   if (searchKeyword.trim() !== "") {
-  //     fetchSearchResults();
-  //   } else {
-  //     setToys([]);
-  //   }
-  // }, [searchKeyword]);
+  }, [delivery, selectedCategories, zipCodes, searchKeyword]);
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
