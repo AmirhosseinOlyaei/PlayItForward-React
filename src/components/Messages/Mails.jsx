@@ -12,6 +12,9 @@ import SearchMessage from "./SearchMessage";
 import BackgroundLetterAvatars from "./Avatar";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
+import MailIcon from "@mui/icons-material/Mail";
+
+const loggedInUserId = "6609a2873eaffef95345b9fa";
 
 export default function Mails({
   index,
@@ -23,12 +26,18 @@ export default function Mails({
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    const unread = filteredMessages.filter((message) => !message.read).length;
+    const unread = filteredMessages.filter(
+      (message) => !message.read && message.user_id_to?._id === loggedInUserId
+    ).length;
     setUnreadCount(unread);
   }, [filteredMessages]);
 
   const handleMessageSelect = (message, index) => {
-    onMessageSelect(message);
+    const updatedMessages = [...filteredMessages];
+    updatedMessages[index].read = true;
+    // onMessageSelect(message);
+    onMessageSelect(updatedMessages[index]);
+    setUnreadCount((prevCount) => Math.max(prevCount - 1, 0));
     setSelectedMessageIndex(index);
   };
 
@@ -48,9 +57,7 @@ export default function Mails({
         {unreadCount > 0 && (
           <IconButton color="primary">
             <Badge badgeContent={unreadCount} color="secondary">
-              {/* You can place your notification icon here */}
-              {/* For example: <NotificationsIcon /> */}
-              New Messages
+              <MailIcon />
             </Badge>
           </IconButton>
         )}
