@@ -55,9 +55,24 @@ export default function Mails({
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
         <SearchMessage onSearchChange={onSearchChange} />
         {unreadCount > 0 && (
-          <IconButton color="primary">
+          <IconButton
+            color="primary"
+            sx={{
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+              "& .MuiIconButton-label": {
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              },
+              "& .MuiBadge-root": {
+                marginTop: "-8px",
+              },
+            }}
+          >
             <Badge badgeContent={unreadCount} color="secondary">
-              <MailIcon />
+              <MailIcon sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
             </Badge>
           </IconButton>
         )}
