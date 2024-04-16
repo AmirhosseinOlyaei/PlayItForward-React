@@ -1,21 +1,25 @@
-// src/components/ToyList/Search.jsx
+// // src/components/ToyList/Search.jsx
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 
 export default function Search({ onSearchChange }) {
   const [value, setValue] = useState("");
-  const [timer, setTimer] = useState(null);
 
   const handleChange = (event) => {
-    const newValue = event.target.value;
-    setValue(newValue);
-    if (timer) clearTimeout(timer);
-    const newTimer = setTimeout(() => {
-      onSearchChange(newValue);
-    }, 2000); // 500 ms delay
-    setTimer(newTimer);
+    setValue(event.target.value);
+  };
+
+  const handleSearch = () => {
+    onSearchChange(value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -25,10 +29,13 @@ export default function Search({ onSearchChange }) {
       variant="outlined"
       value={value}
       onChange={handleChange}
+      onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
       InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon />
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton onClick={handleSearch}>
+              <SearchIcon />
+            </IconButton>
           </InputAdornment>
         ),
       }}
