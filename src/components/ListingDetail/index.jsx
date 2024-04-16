@@ -14,6 +14,7 @@ import ActionButton from "../UserProfile/ActionButton";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { useState } from "react";
+import ShareMenu from "./ShareMenu";
 //import GoogleMaps from "../ToyList/GoogleMaps";
 
 
@@ -26,7 +27,7 @@ const ListingDetail = () => {
   const [toyGiver, setToyGiver] = useState([]);
   const [favorites, setFavorites] = useState({});
   const [isFavorite, setIsFavorite] = useState(false);
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState("Is this still available?");
   const [messageSent, setMessageSent] = useState([]);
 
   React.useEffect(() => {
@@ -34,7 +35,7 @@ const ListingDetail = () => {
       const response = await fetch(`http://localhost:8000/api/v1/toys/${toyId}`);
       const toy = await response.json();
       setToyListing(toy);
-      fetchToyGiver(toy.listed_by_id);
+      fetchToyGiver(toy.listed_by_id._id);
     }
     async function fetchToyGiver(userId) {
       const response = await fetch(`http://localhost:8000/api/v1/users/${userId}`);
@@ -54,14 +55,12 @@ const ListingDetail = () => {
   }
 
   const handleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    
-    console.log(toyListing._id);
     const fav = {
       toy_listing_id: toyListing._id,
       user_id: "6609a2873eaffef95345b9fa", // Replace with the ID of the user who is logged in
     };
-    addFavorite(fav);
+    isFavorite ? deleteFavorite(fav) : addFavorite(fav);
+    setIsFavorite(!isFavorite);
   }
 
   async function addFavorite(fav) {
@@ -72,20 +71,50 @@ const ListingDetail = () => {
       },
       body: JSON.stringify(fav),
     });
-
+    console.log("The toy is added", toyListing._id );
     setFavorites(await response.json());
   }
 
-  async function addFavorite(fav) {
-    const response = await fetch(`http://localhost:8000/api/v1/favorites/${fav._id}`, {
+  async function deleteFavorite(fav) {
+    const response = await fetch(`http://localhost:8000/api/v1/favorites/${toyListing._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-
+    console.log("Deleted from favorites", toyListing._id );
     setFavorites({});
-  }
+  };
+
+  const handleMessageChange = (event) => {
+    setNewMessage(event.target.value);
+  };
+  const handleSendMessage = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/api/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id_from: "6609a2873eaffef95345b9fa",
+          user_id_to: "6609a2873eaffef95345b9f9",
+          toy_listing_id: "660c4de20dab29b8bab994f8",
+          date: new Date().toISOString(),
+          subject: "Toy subject",
+          content: newMessage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+      setNewMessage("Is this still available?");
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
+    }
+  };
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -116,7 +145,8 @@ const ListingDetail = () => {
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
               <ActionButton linkTo="/messages" text="Message" startIcon={<MailIcon/>} fullWidth={false}/>
               <ActionButton linkTo="" text="" startIcon={<Bookmark/>} fullWidth={false} onClick={handleFavorite}/>
-              <ActionButton linkTo="" text="" startIcon={<ShareIcon/>} fullWidth={false}/>
+              {/* <ActionButton linkTo="" text="" startIcon={<ShareIcon/>} fullWidth={false}/> */}
+              <ShareMenu/>
             </Grid>
             </Box>
             <Divider/>
@@ -152,9 +182,9 @@ const ListingDetail = () => {
             <Divider/>
             <Box sx={{ padding: "20px 0" }}>
               <Typography variant="h6" sx={{ margin: "5px 0" }}>Send a message</Typography>
-              <TextField id="outlined-basic" label="Is this still available?" variant="outlined" sx={{ width: "100%" }} />
+              <TextField id="outlined-basic" onChange={handleMessageChange} value={newMessage} variant="outlined" sx={{ width: "100%" }} />
               <br/>
-              <ActionButton linkTo="" text="Send" startIcon={<MailIcon/>} fullWidth={true}/> 
+              <ActionButton linkTo="" text="Send" startIcon={<MailIcon/>} onClick={async () => await handleSendMessage()} fullWidth={true}/> 
             </Box>
         </Box>
       </Drawer>
