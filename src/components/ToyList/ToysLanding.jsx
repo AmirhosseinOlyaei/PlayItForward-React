@@ -11,6 +11,7 @@ import Category from "./Category";
 import CustomToolbar from "./CustomToolbar";
 import ToyList from "./ToyList";
 import DeliveryFilter from "./DeliveryFilter";
+import GoogleZip from "./GoogleZip";
 
 const drawerWidth = 340;
 
@@ -20,12 +21,13 @@ export default function ToysLanding() {
   const [viewType, setViewType] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [error, setError] = useState("");
-  const [zipCodes, setZipCodes] = useState([]);
+  const [zipCode, setZipCode] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   useEffect(() => {
     const fetchToys = async () => {
-      let queryParams = [];
+      const queryParams = [];
       if (delivery !== "All") {
         queryParams.push(`delivery_method=${encodeURIComponent(delivery)}`);
       }
@@ -34,8 +36,8 @@ export default function ToysLanding() {
           `categories=${encodeURIComponent(selectedCategories.join(","))}`
         );
       }
-      if (zipCodes.length > 0) {
-        queryParams.push(`zipCodes=${encodeURIComponent(zipCodes.join(","))}`);
+      if (zipCode) {
+        queryParams.push(`zipCodes=${encodeURIComponent(zipCode)}`); // Directly use zipCode
       }
       if (searchKeyword.trim() !== "") {
         queryParams.push(`search=${encodeURIComponent(searchKeyword)}`);
@@ -59,7 +61,15 @@ export default function ToysLanding() {
     };
 
     fetchToys();
-  }, [delivery, selectedCategories, zipCodes, searchKeyword]);
+  }, [delivery, selectedCategories, zipCode, searchKeyword]);
+
+  const handleZipCodeChange = (newZipCode) => {
+    setZipCode(newZipCode) || "";
+    // You can also trigger a re-fetch or filter update here
+  };
+  const handleLocationChange = (newLocation) => {
+    setSelectedLocation(newLocation); // Update the location state based on selection
+  };
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
@@ -100,10 +110,10 @@ export default function ToysLanding() {
 
           {/* Location */}
           <Grid item xs={12} sm={12} my={1}>
-            <GoogleMaps
-              onLocationSelect={(zipCodes) => {
-                setZipCodes(zipCodes);
-              }}
+            <GoogleZip
+              onZipCodeChange={handleZipCodeChange}
+              value={selectedLocation} // Pass selected location if managed
+              onValueChangeLocation={handleLocationChange} // Handle changes in location selection
             />
           </Grid>
 
