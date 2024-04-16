@@ -174,9 +174,15 @@ const NavBar = () => {
             >
               Sign In / Out
             </MenuItem>
-            <Link href="/favorites">
-              <MenuItem onClick={handleMenuClose}>Favorites</MenuItem>
-            </Link>
+            {/* <Link href="/favorites"> */}
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/favorites"
+            >
+              Favorites
+            </MenuItem>
+            {/* </Link> */}
           </Menu>
         </Box>
       </Toolbar>
