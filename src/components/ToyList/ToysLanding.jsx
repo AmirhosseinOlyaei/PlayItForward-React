@@ -46,8 +46,12 @@ export default function ToysLanding() {
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
 
       try {
-        const apiUrl =
-          import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1/";
+        const apiUrl = import.meta.env.VITE_API_URL;
+        if (!apiUrl) {
+          throw new Error(
+            "API URL is not defined in the environment variables."
+          );
+        }
         const response = await axios.get(`${apiUrl}toys/${queryString}`);
         if (!response.data || !Array.isArray(response.data)) {
           throw new Error("Received malformed data from API");
