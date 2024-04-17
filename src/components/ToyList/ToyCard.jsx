@@ -29,6 +29,7 @@ export default function ToyCard({ toyId, title, imageUrl, location }) {
         minWidth: 250,
         flexBasis: isSmallScreen ? "100%" : "345px",
         flexGrow: 1,
+        overflow: "hidden",
       }}
     >
       <CardActionArea onClick={handleClick}>
@@ -43,7 +44,17 @@ export default function ToyCard({ toyId, title, imageUrl, location }) {
           title={title}
         />
         <CardContent>
-          <Typography gutterBottom variant="h6" component="div">
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="div"
+            noWrap
+            sx={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis", // Add ellipsis when text is too long
+            }}
+          >
             {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
