@@ -19,6 +19,7 @@ import {
   Person as PersonIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
+import ExpandableSearch from "./ExpandableSearch";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -84,6 +85,7 @@ const NavBar = () => {
             "& > *:not(:last-child)": { mr: 2 },
           }}
         >
+          <ExpandableSearch />
           <TextField
             variant="outlined"
             size="small"
