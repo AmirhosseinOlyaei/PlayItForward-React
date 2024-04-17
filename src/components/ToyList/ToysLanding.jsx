@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Box, Drawer, Typography, Divider, Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import GoogleMaps from "./GoogleMaps";
 import Create from "./Create";
 import Search from "./Search";
 import ToyListMap from "./ToyListMap";
@@ -52,7 +51,7 @@ export default function ToysLanding() {
             "API URL is not defined in the environment variables."
           );
         }
-        const response = await axios.get(`${apiUrl}toys/${queryString}`);
+        const response = await axios.get(`${apiUrl}/toys/${queryString}`);
         if (!response.data || !Array.isArray(response.data)) {
           throw new Error("Received malformed data from API");
         }
