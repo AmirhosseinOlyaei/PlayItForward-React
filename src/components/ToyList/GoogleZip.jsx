@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import * as React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
 
+// This key was created specifically for the demo in mui.com.
+// You need to create a new one for your application.
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 function loadScript(src, position, id) {
@@ -24,11 +26,36 @@ function loadScript(src, position, id) {
 
 const autocompleteService = { current: null };
 
-export default function GoogleMaps() {
-  const [value, setValue] = useState(null);
-  const [inputValue, setInputValue] = useState("");
-  const [options, setOptions] = useState([]);
-  const loaded = useRef(false);
+export default function GoogleZip({
+  onValueChangeLocation,
+  value,
+  onZipCodeChange,
+}) {
+  const [inputValue, setInputValue] = React.useState("");
+  const [options, setOptions] = React.useState([]);
+  const loaded = React.useRef(false);
+
+  const handleLocationChange = (event, newValue) => {
+    if (newValue && newValue.place_id) {
+      const service = new window.google.maps.places.PlacesService(
+        document.createElement("div")
+      );
+      service.getDetails({ placeId: newValue.place_id }, (place, status) => {
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          const zipCode = place.address_components.find((component) =>
+            component.types.includes("postal_code")
+          )?.short_name;
+          onZipCodeChange(zipCode);
+        }
+      });
+    } else {
+      onZipCodeChange(""); // Explicitly set zipCode to an empty string when cleared
+    }
+    setOptions(newValue ? [newValue, ...options] : options);
+    onValueChangeLocation(newValue);
+  };
+
+  React.useEffect(() => {}, [value]);
 
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
@@ -50,7 +77,7 @@ export default function GoogleMaps() {
     []
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     let active = true;
 
     if (!autocompleteService.current && window.google) {
@@ -101,10 +128,7 @@ export default function GoogleMaps() {
       filterSelectedOptions
       value={value}
       noOptionsText="No locations"
-      onChange={(event, newValue) => {
-        setOptions(newValue ? [newValue, ...options] : options);
-        setValue(newValue);
-      }}
+      onChange={handleLocationChange}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
