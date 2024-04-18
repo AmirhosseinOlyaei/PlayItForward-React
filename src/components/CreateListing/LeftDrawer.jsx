@@ -162,153 +162,166 @@ const LeftDrawer = ({
   };
 
   return (
-    <>
-      <Drawer
-        sx={{
+    // <Box sx={{ display: "flex", viewHeight: "100vh" }}>
+    <Drawer
+      variant="permanent"
+      sx={{
+        width: drawerWidth,
+        display: "flex",
+        flexShrink: 0,
+        [`& .MuiDrawer-paper`]: {
           width: drawerWidth,
-          display: "flex",
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
-            boxSizing: "border-box",
-            marginTop: "86px",
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Box sx={{ overflow: "auto", m: 1 }}>
-          <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
-            Item for Listing
-          </Typography>
-          <Divider sx={{ marginTop: 1.2, marginBottom: 4 }} />
-          <Box
-            sx={{
-              "& .MuiTextField-root": { marginTop: 3, width: "40ch" },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <Box>
-                <Button
-                  component="label"
-                  id="upload-input"
-                  role={undefined}
-                  variant="contained"
-                  size="large"
-                  tabIndex={-1}
-                  startIcon={<CloudUploadIcon />}
-                  sx={{
-                    marginTop: 1,
-                    marginBottom: 2,
-                    width: "38.3ch",
-                    backgroundColor: "rgba(33, 150, 243, 0.8)",
-                    "&:hover": {
-                      backgroundColor: "rgba(33, 150, 243, 1)",
-                    },
-                  }}
-                >
-                  Upload photo
-                  <VisuallyHiddenInput
-                    type="file"
-                    id="file-input"
-                    accept="image/*"
-                    onChange={handleFileInputChange}
-                  />
-                </Button>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "41ch",
-                    marginBottom: "10px",
-                    fontSize: "15px",
-                    gap: "5px",
-                  }}
-                  variant="body1"
-                  color="textSecondary"
-                >
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                    sx={{ ml: 0.5 }}
-                  >
-                    {selectedFile ? truncatedFileName(selectedFile.name) : ""}
-                  </Typography>
-
-                  {selectedFile && (
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => onClearPhoto()}
-                      sx={{ padding: 0, mr: 0 }}
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                  )}
-                </Box>
-                {/* )} */}
-              </Box>
-              <TextField
-                id="title"
-                name="title"
-                label="Title"
-                type="text"
-                value={title}
-                onChange={handleInputChangeTitle}
-              />
-              <GoogleZip
-                onValueChangeLocation={onValueChangeLocation}
-                value={value}
-                onZipCodeChange={handleZipCodeChange}
-              />
-              <FetchSelectData
-                category={category}
-                onCategoryChange={onCategoryChange}
-                condition={condition}
-                onConditionChange={onConditionChange}
-                delivery={delivery}
-                onDeliveryChange={onDeliveryChange}
-              />
-              <TextField
-                type="text"
-                id="description"
-                name="description"
-                label="Description"
-                multiline
-                rows={4}
-                value={description}
-                onChange={handleInputDescriptionChange}
-                inputProps={{ maxLength: 1000 }}
-              />
-
-              {error && (
-                <Alert severity="error" sx={{ marginTop: "15px", mr: 0.5 }}>
-                  Please fill in all fields.
-                </Alert>
-              )}
-              <Divider sx={{ marginTop: "30px" }} />
+          boxSizing: "border-box",
+          marginTop: "86px",
+          height: "calc(100vh - 90px)",
+        },
+      }}
+      anchor="left"
+    >
+      <Box sx={{ overflow: "auto", ml: 1 }}>
+        <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
+          Toy for Listing
+        </Typography>
+        <Divider sx={{ marginTop: 1.2, marginBottom: 4 }} />
+        <Box
+          sx={{
+            "& .MuiTextField-root": { marginTop: 3, width: "40ch" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <Box>
               <Button
+                component="label"
+                id="upload-input"
+                role={undefined}
                 variant="contained"
-                type="submit"
                 size="large"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
                 sx={{
-                  marginTop: "30px",
+                  marginTop: 1,
+                  marginBottom: 2,
                   width: "38.3ch",
-                  background: "#ff6600",
+                  backgroundColor: "rgba(33, 150, 243, 0.8)",
+                  "&:hover": {
+                    backgroundColor: "rgba(33, 150, 243, 1)",
+                  },
                 }}
               >
-                Publish
+                Upload photo
+                <VisuallyHiddenInput
+                  type="file"
+                  id="file-input"
+                  accept="image/*"
+                  onChange={handleFileInputChange}
+                />
               </Button>
-            </form>
-            <SuccessAlert open={alertOpen} onClose={handleAlertClose} />
-          </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "41ch",
+                  marginBottom: "10px",
+                  fontSize: "15px",
+                  gap: "5px",
+                }}
+                variant="body1"
+                color="textSecondary"
+              >
+                <Typography
+                  variant="body1"
+                  color="textSecondary"
+                  sx={{ ml: 0.5 }}
+                >
+                  {selectedFile ? truncatedFileName(selectedFile.name) : ""}
+                </Typography>
+
+                {selectedFile && (
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => onClearPhoto()}
+                    sx={{ padding: 0, mr: 0 }}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                )}
+              </Box>
+              {/* )} */}
+            </Box>
+            <TextField
+              id="title"
+              name="title"
+              label="Title"
+              type="text"
+              value={title}
+              onChange={handleInputChangeTitle}
+            />
+            <GoogleZip
+              onValueChangeLocation={onValueChangeLocation}
+              value={value}
+              onZipCodeChange={handleZipCodeChange}
+            />
+            <FetchSelectData
+              category={category}
+              onCategoryChange={onCategoryChange}
+              condition={condition}
+              onConditionChange={onConditionChange}
+              delivery={delivery}
+              onDeliveryChange={onDeliveryChange}
+            />
+            <TextField
+              type="text"
+              id="description"
+              name="description"
+              label="Description"
+              multiline
+              rows={4}
+              value={description}
+              onChange={handleInputDescriptionChange}
+              inputProps={{ maxLength: 1000 }}
+            />
+
+            {error && (
+              <Alert severity="error" sx={{ marginTop: "15px", mr: 0.5 }}>
+                Please fill in all fields.
+              </Alert>
+            )}
+            <Divider
+              sx={{
+                marginTop: "40px",
+                //marginBottom: "200px",
+              }}
+            />
+            <Button
+              variant="contained"
+              type="submit"
+              size="large"
+              fullWidth
+              sx={{
+                marginTop: "30px",
+                width: "38.3ch",
+                background: "#ff6600",
+                //position: "fixed",
+                bottom: "5px",
+                // top: "auto",
+                "&:hover": {
+                  backgroundColor: "#fa4002",
+                },
+              }}
+            >
+              Publish
+            </Button>
+          </form>
+          <SuccessAlert open={alertOpen} onClose={handleAlertClose} />
         </Box>
-      </Drawer>
-    </>
+      </Box>
+    </Drawer>
+    // </Box>
   );
 };
 export default LeftDrawer;
