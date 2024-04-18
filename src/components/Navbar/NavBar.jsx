@@ -19,6 +19,7 @@ import {
   Person as PersonIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
+import ExpandableSearch from "./ExpandableSearch";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -81,10 +82,11 @@ const NavBar = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            "& > *:not(:last-child)": { mr: 2 },
+            "& > *:not(:last-child)": { mr: 3 },
           }}
         >
-          <TextField
+          <ExpandableSearch />
+          {/* <TextField
             variant="outlined"
             size="small"
             value={searchQuery}
@@ -98,7 +100,7 @@ const NavBar = () => {
               ),
             }}
             sx={{ background: "white", borderRadius: 1 }}
-          />
+          /> */}
           {isLoggedIn && (
             <IconButton color="inherit" sx={{ p: 0 }}>
               <EmailIcon sx={{ fontSize: 30 }} />
