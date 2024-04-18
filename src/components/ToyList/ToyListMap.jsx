@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { GoogleMap, LoadScript, Marker, InfoBox } from "@react-google-maps/api";
 import { Box, CardActionArea, Typography, IconButton } from "@mui/material";
-import { toysData } from "./toysData";
+// import { toysData } from "./toysData";
 import CloseIcon from "@mui/icons-material/Close";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -17,8 +17,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-const zipCodes = toysData.map((toy) => toy.zipCode);
-const ToyListMap = () => {
+// const zipCodes = toysData.map((toy) => toy.zipCode);
+const ToyListMap = ({ toysData }) => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -36,14 +36,19 @@ const ToyListMap = () => {
         }
       );
 
-      return response.data.results[0].geometry.location;
+      // return response.data.results[0].geometry.location;
+      response.data.results.length > 0
+        ? response.data.results[0].geometry.location
+        : null;
     };
 
     const fetchLocations = async () => {
       const newLocations = [];
 
       for (var toy of toysData) {
-        const location = await getLatLng(toy.zipCode);
+        // debugger;
+        const location = await getLatLng(toy.zip_code);
+        if (!location) continue;
         toy.lat = location.lat;
         toy.lng = location.lng;
         newLocations.push(toy);
