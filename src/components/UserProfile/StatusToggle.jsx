@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import axios from "axios";
+import ActionButton from "./ActionButton";
 
 const StatusToggle = ({ toy, toys, setToys }) => {
   const [status, setStatus] = useState("");
@@ -65,14 +66,25 @@ const StatusToggle = ({ toy, toys, setToys }) => {
     }
   };
   return (
-    <div>
-      <Button variant="contained" onClick={toggleStatusToGone} sx={{ mr: 1 }}>
-        Mark as gone
-      </Button>
-      <Button variant="contained" onClick={toggleStatus}>
-        {toy.status === "available" ? "Mark as reserved" : "Mark as available"}
-      </Button>
-    </div>
+    <>
+      <ActionButton
+        ActionButton
+        text={"Mark as Gone"}
+        linkTo={"/"}
+        startIcon={""}
+        onClick={toggleStatusToGone}
+      />
+
+      <ActionButton
+        text={
+          toy.status === "available" ? "Mark as reserved" : "Mark as available"
+        }
+        linkTo={"/"}
+        startIcon={""}
+        sx={{ ml: 2 }}
+        onClick={toggleStatus}
+      />
+    </>
   );
 };
 
