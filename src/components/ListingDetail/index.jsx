@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ListingDetail.module.css";
-import { Button, ButtonGroup, Typography, Box, Divider, Icon, Avatar } from '@mui/material';
+import { Button, ButtonGroup, Typography, Box, Divider, Avatar, Popover } from '@mui/material';
 import { Input } from '@mui/material';
 import { TextField } from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
@@ -15,10 +15,13 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { useState } from "react";
 import ShareMenu from "./ShareMenu";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 //import GoogleMaps from "../ToyList/GoogleMaps";
 
-
+const url = "http://localhost:8000/api/v1"
 const drawerWidth = 340;
+const toyListingId = "66196e990925b15c9b3c4375"
 
 const ListingDetail = () => {
 
@@ -30,19 +33,21 @@ const ListingDetail = () => {
   const [newMessage, setNewMessage] = useState("Is this still available?");
   const [messageSent, setMessageSent] = useState([]);
 
+
+
   React.useEffect(() => {
     async function fetchToy(toyId) {
-      const response = await fetch(`http://localhost:8000/api/v1/toys/${toyId}`);
+      const response = await fetch(`${url}/toys/${toyId}`);
       const toy = await response.json();
       setToyListing(toy);
       fetchToyGiver(toy.listed_by_id._id);
     }
     async function fetchToyGiver(userId) {
-      const response = await fetch(`http://localhost:8000/api/v1/users/${userId}`);
+      const response = await fetch(`${url}/users/${userId}`);
       const user = await response.json();
       setToyGiver(user);
     }
-    fetchToy("660c4de20dab29b8bab994f9"); // Replace with the ID of the toy you want to fetch
+    fetchToy(toyListingId); // Replace with the ID of the toy you want to fetch
   }, []);
   
   function calculateDate(date) {
@@ -64,7 +69,7 @@ const ListingDetail = () => {
   }
 
   async function addFavorite(fav) {
-    const response = await fetch("http://localhost:8000/api/v1/favorites", {
+    const response = await fetch(`${url}/favorites`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +81,7 @@ const ListingDetail = () => {
   }
 
   async function deleteFavorite(fav) {
-    const response = await fetch(`http://localhost:8000/api/v1/favorites/${toyListing._id}`, {
+    const response = await fetch(`${url}/favorites/${toyListing._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +96,7 @@ const ListingDetail = () => {
   };
   const handleSendMessage = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/v1/messages", {
+      const response = await fetch(`${url}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,17 +141,34 @@ const ListingDetail = () => {
             <Box sx={{ padding: "20px 0" }}>
             <Typography variant="h4" sx={{ margin: "5px 0" }}>{toyListing.title}</Typography>
             
-              <Typography variant="body" paragraph>Listed {calculateDate(toyListing.create_date)} days ago in {toyListing.zip_code} </Typography>
+              <Typography variant="body" paragraph>Listed {calculateDate(toyListing.created_date)} days ago in {toyListing.zip_code} </Typography>
             
             <Box sx={{ display: "flex", justifyContent: "space-between", maxWidth: "80%"}}>
-              <Typography variant="body2" sx={{ display: "flex", alignItems: "center" }}><HomeOutlinedIcon sx={{ fontSize: 32 }}/><b style={{ marginLeft: "10px" }}>{toyListing.delivery_method}</b></Typography>
-              <Typography variant="body2" sx={{ display: "flex", alignItems: "center" }}><LocalShippingOutlinedIcon sx={{ fontSize: 32 }}/><b style={{  marginLeft: "10px" }}>{toyListing.delivery_method}</b></Typography>
+              <Typography variant="body2" sx={{ display: "flex", alignItems: "center" }}>
+                {toyListing.delivery_method == "Delivery" ? (<HomeOutlinedIcon sx={{ fontSize: 32 }}/>) : 
+                (<LocalShippingOutlinedIcon sx={{ fontSize: 32 }}/>)
+                }
+                <b style={{ marginLeft: "10px" }}>{toyListing.delivery_method}</b>
+              </Typography>
+ 
             </Box>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
-              <ActionButton linkTo="/messages" text="Message" startIcon={<MailIcon/>} fullWidth={false}/>
-              <ActionButton linkTo="" text="" startIcon={<Bookmark/>} fullWidth={false} onClick={handleFavorite}/>
-              {/* <ActionButton linkTo="" text="" startIcon={<ShareIcon/>} fullWidth={false}/> */}
-              <ShareMenu/>
+              <ActionButton link={`/messages?id=${toyListingId}`}  text="Message" startIcon={<MailIcon/>} fullWidth={false}/>
+              <ActionButton link="" text="" startIcon={<Bookmark/>} fullWidth={false}/>
+              <CopyToClipboard text={`${url}/toy_details?id=${toyListingId}`} onCopy={() => 
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                  }}> 
+                    <Typography sx={{ p: 2 }}>The link is copied to clipboard.</Typography>
+                </Popover>}>
+                <ActionButton text="" startIcon={<ShareIcon/>} fullWidth={false}/>
+              </CopyToClipboard>
             </Grid>
             </Box>
             <Divider/>
@@ -169,7 +191,7 @@ const ListingDetail = () => {
             <Box sx={{ padding: "20px 0" }}>
               <Typography variant="h6" sx={{ margin: "5px 0" }}>Toy giver information</Typography>
                 <Box className={styles.giverInformation}>
-                  <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Toy giver profile picture" width="42px" height="42px" />
+                  <img src={toyGiver.profile_picture} alt="Toy giver profile picture" width="42px" height="42px" />
                   <Typography variant="body" sx={{ marginLeft: "10px", lineHeight: "42px" }}>{toyGiver.nickname}</Typography>
                 </Box>
                 <Box sx={{ marginTop: "10px" }}>
@@ -189,7 +211,7 @@ const ListingDetail = () => {
         </Box>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 12 }}>
-        <img src="https://geekculture.co/wp-content/uploads/2020/05/tigermiyaw-8-1200x817.jpg" alt="Toy image" width="100%" />
+        <img src={toyListing.imageUrl} alt="Toy image" width="100%" />
       </Box>
     </Box>
   );
