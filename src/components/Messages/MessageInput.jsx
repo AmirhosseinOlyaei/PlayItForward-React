@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-function MessageInput({ recipient, onSend, fetchMessages }) {
+function MessageInput({ recipient, currentMessage, onSend, fetchMessages }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -24,8 +24,8 @@ function MessageInput({ recipient, onSend, fetchMessages }) {
           user_id_to: "6609a2873eaffef95345b9f9",
           toy_listing_id: "660c4de20dab29b8bab994f8",
           date: new Date().toISOString(),
-          subject: `Message to ${recipient}`,
-          content: message,
+          subject: `Re:${currentMessage.subject}`,
+          content: `${message}<br/>---------------<br/>${currentMessage.content}`,
         }),
       });
 

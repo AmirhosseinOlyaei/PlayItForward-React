@@ -15,7 +15,7 @@ import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
 import BackgroundLetterAvatars from "./Avatar";
 
-const MailContent = ({ message, fetchMessages, onDelete }) => {
+const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
   // const [sender, setSender] = useState(null);
   // const [receiver, setReceiver] = useState(null);
   const [sentMessages, setSentMessages] = useState([]);
@@ -339,7 +339,7 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
           </Box>
           <Divider />
           <Typography level="body-sm" mt={2} mb={2}>
-            {message.content}
+            <div dangerouslySetInnerHTML={{ __html: message.content }} />
           </Typography>
           <Divider />
           <Box
@@ -352,6 +352,7 @@ const MailContent = ({ message, fetchMessages, onDelete }) => {
             }}
           >
             <MessageInput
+              currentMessage={message}
               recipient={`${message.user_id_from.first_name} ${message.user_id_from.last_name}`}
               onSend={handleSend}
               fetchMessages={fetchMessages}

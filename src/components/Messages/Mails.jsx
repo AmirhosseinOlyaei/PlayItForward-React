@@ -139,7 +139,11 @@ export default function Mails({
                       <Typography level="title-sm" sx={{ mb: 0.5 }}>
                         {message.subject}
                       </Typography>
-                      <Typography level="body-sm">{message.content}</Typography>
+                      <Typography level="body-sm">
+                        <div
+                          dangerouslySetInnerHTML={{ __html: message.content }}
+                        />
+                      </Typography>
                     </div>
                   </Box>
                 </ListItemButton>
