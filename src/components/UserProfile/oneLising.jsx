@@ -52,7 +52,7 @@ export default function ImgMediaCard({ toy, toys, setToys, url }) {
         <CardMedia
           component="img"
           alt="No picture"
-          sx={{ width: "auto", height: "140px" }}
+          sx={{ width: "160px", height: "180px" }}
           image={toy.imageUrl}
         />
         <CardContent>
@@ -97,16 +97,18 @@ export default function ImgMediaCard({ toy, toys, setToys, url }) {
           margin: "5px 0",
           display: "flex",
           justifyContent: "space-between",
-          width: "80%",
+          maxWidth: "570px",
+          minWidth: "570px",
         }}
       >
         <StatusToggle toy={toy} toys={toys} setToys={setToys} />
         {/* <ActionButton text={"Mark as Gone"} linkTo={"/"} startIcon={""} /> */}
         {/* <ActionButton text={"Mark as Reserved"} linkTo={"/"} startIcon={""} /> */}
-        <ActionButton linkTo="/messages" text="" startIcon={<MailIcon />} />
-        <ActionButton linkTo="" text="" startIcon={<ShareIcon />} />
+        <ActionButton link="/messages" text="" startIcon={<MailIcon />} />
+        <ActionButton link="" text="" startIcon={<ShareIcon />} />
+        <ActionButton link={`/create?id=${toy._id}`} text={"Edit"} />
 
-        <Link to={`/create?id=${toy._id}`}>
+        {/* <Link to={`/create?id=${toy._id}`}>
           <Button
             variant="contained"
             sx={{
@@ -121,7 +123,7 @@ export default function ImgMediaCard({ toy, toys, setToys, url }) {
           >
             Edit
           </Button>
-        </Link>
+        </Link> */}
       </Box>
     </Card>
   );
