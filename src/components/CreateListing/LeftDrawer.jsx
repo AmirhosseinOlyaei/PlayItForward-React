@@ -14,6 +14,8 @@ import GoogleZip from "./GoogleZip";
 import FetchSelectData from "./FetchSelectData";
 import Alert from "@mui/material/Alert";
 import SuccessAlert from "./SuccessAlert";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const drawerWidth = 340;
 
@@ -33,6 +35,9 @@ const LeftDrawer = ({
   onClearPhoto,
   onValueChangeLocation,
   value,
+  onToyChange,
+  toy,
+  handleFetchedFile,
 }) => {
   console.log("selectedFile", selectedFile);
   const VisuallyHiddenInput = styled("input")({
@@ -50,6 +55,48 @@ const LeftDrawer = ({
   const [zipCode, setZipCode] = useState("");
   const [error, setError] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("id");
+
+  console.log("zipCodefromIndex", zipCode);
+  console.log("Toy ID:", id);
+
+  useEffect(() => {
+    const fetchToyData = () => {
+      if (id) {
+        axios
+          .get(`http://localhost:8000/api/v1/toys/${id}`)
+          .then((response) => {
+            const toy = response.data;
+            const fetchedFileName = new File([toy.imageUrl], `${toy.title}.jpg`)
+              .name;
+            console.log("FETCHEDFile", fetchedFileName);
+
+            onTitleChange(toy.title);
+            onDescriptionChange(toy.description);
+            onCategoryChange(toy.category);
+            onConditionChange(toy.condition);
+            onDeliveryChange(toy.delivery_method);
+            //onValueChangeLocation(toy.zip_code);
+            onToyChange(toy);
+            onFileChange(new File([toy.imageUrl], `${toy.title}.jpg`));
+            handleFetchedFile(fetchedFileName);
+
+            console.log("toy", toy);
+
+            setEditMode(true);
+          })
+          .catch((error) => {
+            console.error("Error fetching toy data:", error);
+          });
+      }
+    };
+
+    fetchToyData();
+  }, [id]);
 
   console.log("zipCodefromIndex", zipCode);
 
@@ -67,6 +114,7 @@ const LeftDrawer = ({
 
   const handleFileInputChange = (e) => {
     onFileChange(e.target.files[0]);
+    //console.log("handleFileInputChange", e.target.files[0]);
   };
 
   const maxLength = 32; // Maximum length for the file name including the three dots (...)
@@ -103,9 +151,60 @@ const LeftDrawer = ({
       setError(true);
     } else {
       console.log("");
-      axiosPostListing();
+      editMode ? axiosPutListing() : axiosPostListing();
       setError(false);
     }
+  };
+
+  // Send PUT request to update data in the database
+  const axiosPutListing = async () => {
+    // Send POST request to /images endpoint to upload the image
+
+    const imageData = new FormData();
+    imageData.append("image", selectedFile);
+    console.log("selectedFile", selectedFile);
+    const response = await axios.post(
+      "http://localhost:8000/api/v1/images/upload",
+      imageData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log("POST Response:", response.data);
+    const newImageUrl = response.data;
+    const postData = {
+      title: title,
+      description: description,
+      category: category,
+      condition: condition,
+      delivery_method: delivery,
+      zip_code: zipCode,
+      imageUrl:
+        selectedFile.type === "image/jpeg"
+          ? newImageUrl.file.url
+          : toy.imageUrl,
+    };
+    await axios
+      .put(`http://localhost:8000/api/v1/toys/${id}`, postData)
+      .then((res) => {
+        console.log("PUT Response:", res.data);
+        // // Update the status of the toy in the array of toys in the component state
+        // const updatedToys = toys.map((t) => {
+        //   if (t._id === toy._id) {
+        //     return { ...t, status: newStatus };
+        //   }
+        //   return t;
+        // });
+        setAlertOpen(true);
+        setEditMode(false);
+        console.log("Toy status updated successfully:", response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Something went wrong. Please try again.");
+      });
   };
 
   const axiosPostListing = async () => {
@@ -314,7 +413,7 @@ const LeftDrawer = ({
                 },
               }}
             >
-              Publish
+              {id ? "Save Changes" : "Publish"}
             </Button>
           </form>
           <SuccessAlert open={alertOpen} onClose={handleAlertClose} />

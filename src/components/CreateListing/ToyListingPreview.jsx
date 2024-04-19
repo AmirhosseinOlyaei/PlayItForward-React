@@ -9,6 +9,7 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelectActualTwoTone";
 import Avatar from "@mui/material/Avatar";
+import { toysData } from "../ToyList/toysData";
 
 const ToyListingPreview = ({
   title,
@@ -17,7 +18,13 @@ const ToyListingPreview = ({
   delivery,
   selectedFile,
   value,
+  toy,
+  fetchedFileName,
 }) => {
+  console.log("toyPreview", toy);
+  console.log("selectedFile", selectedFile);
+  console.log("fetchedFileName", fetchedFileName);
+
   const userData = {
     listingDate: new Date().toLocaleDateString(),
   };
@@ -79,7 +86,13 @@ const ToyListingPreview = ({
             {selectedFile ? (
               <CardMedia
                 component="img"
-                image={URL.createObjectURL(selectedFile)}
+                image={
+                  selectedFile.name !== fetchedFileName
+                    ? URL.createObjectURL(selectedFile)
+                    : toy.imageUrl
+                }
+
+                //image={URL.createObjectURL(selectedFile)}
                 //alt="Toy picture"
               />
             ) : (
