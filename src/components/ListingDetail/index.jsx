@@ -239,4 +239,4 @@ export function dateStringToMonthYear(dateString) {
   return new Date(dateString).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 }
 
-export default ListingDetail;
+export default ListingDetail;   
