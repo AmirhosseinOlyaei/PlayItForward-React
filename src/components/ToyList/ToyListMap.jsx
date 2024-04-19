@@ -1,5 +1,5 @@
-// src/components/ToyList/ToyListMap.jsx
 import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleMap, Marker, InfoBox } from "@react-google-maps/api";
 import {
@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardMedia,
   CardActions,
+  CardActionArea,
   Avatar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,11 +17,13 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
 const ToyListMap = ({ toysData }) => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -41,7 +44,6 @@ const ToyListMap = ({ toysData }) => {
         setLoading(false);
       }
     };
-
     fetchLocations();
   }, [toysData]);
 
@@ -94,25 +96,28 @@ const ToyListMap = ({ toysData }) => {
             position={{ lat: selectedLocation.lat, lng: selectedLocation.lng }}
           >
             <Card sx={{ width: 345 }}>
-              <IconButton
-                size="small"
-                onClick={handleInfoBoxCloseClick}
-                style={{ float: "right" }}
+              <CardActionArea
+                onClick={() => navigate(`/toys/${selectedLocation.id}`)}
               >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-              <CardHeader
-                avatar={<Avatar aria-label="recipe">R</Avatar>}
-                title={selectedLocation.title}
-                subheader={selectedLocation.description}
-              />
-              <CardMedia
-                component="img"
-                height="200"
-                width="200"
-                image={selectedLocation.image}
-                alt="toy image"
-              />
+                <IconButton
+                  size="small"
+                  onClick={handleInfoBoxCloseClick}
+                  style={{ float: "right" }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+                <CardHeader
+                  avatar={<Avatar aria-label="recipe">R</Avatar>}
+                  title={selectedLocation.title}
+                  subheader={selectedLocation.description}
+                />
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={selectedLocation.image}
+                  alt="toy image"
+                />
+              </CardActionArea>
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
