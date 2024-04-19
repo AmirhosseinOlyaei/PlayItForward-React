@@ -21,8 +21,8 @@ const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const ToyListMap = ({ toysData }) => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [favorites, setFavorites] = useState(new Set());
   const navigate = useNavigate();
-  const [favorites, setFavorites] = useState(new Set()); // Track favorite toys by IDs
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -30,7 +30,9 @@ const ToyListMap = ({ toysData }) => {
       const results = await Promise.all(promises);
       setLocations(
         results
-          .map((loc, index) => (loc ? { ...toysData[index], ...loc } : null))
+          .map((result, index) =>
+            result ? { ...toysData[index], ...result } : null
+          )
           .filter((loc) => loc)
       );
     };
@@ -60,7 +62,7 @@ const ToyListMap = ({ toysData }) => {
   }, [selectedLocation]);
 
   const toggleFavorite = useCallback((event, id) => {
-    event.stopPropagation(); // Prevent triggering CardActionArea
+    event.stopPropagation();
     setFavorites(
       (prev) =>
         new Set(
@@ -69,6 +71,15 @@ const ToyListMap = ({ toysData }) => {
             : [...prev, id]
         )
     );
+  }, []);
+
+  const handleShareClick = useCallback((event, id) => {
+    event.stopPropagation();
+    const url = `${window.location.origin}/toys/${id}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => alert("URL copied to clipboard!"))
+      .catch((err) => console.error("Failed to copy URL: ", err));
   }, []);
 
   return (
@@ -133,7 +144,9 @@ const ToyListMap = ({ toysData }) => {
                 </IconButton>
                 <IconButton
                   aria-label="share"
-                  onClick={(event) => event.stopPropagation()}
+                  onClick={(event) =>
+                    handleShareClick(event, selectedLocation.id)
+                  }
                 >
                   <ShareIcon />
                 </IconButton>
