@@ -1,19 +1,19 @@
+// src/components/ToyList/ToyListMap.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { GoogleMap, LoadScript, Marker, InfoBox } from "@react-google-maps/api";
-import { Box, CardActionArea, Typography, IconButton } from "@mui/material";
+import { GoogleMap, Marker, InfoBox } from "@react-google-maps/api";
+import {
+  Box,
+  IconButton,
+  Card,
+  CardHeader,
+  CardMedia,
+  CardActions,
+  Avatar,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const ToyListMap = ({ toysData }) => {
