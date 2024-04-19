@@ -24,40 +24,37 @@ const ToyListMap = ({ toysData }) => {
 
   useEffect(() => {
     const getLatLng = async (zip) => {
-      try {
-        const response = await axios.get(
-          `https://maps.googleapis.com/maps/api/geocode/json`,
-          {
-            params: {
-              address: zip,
-              key: googleMapsApiKey,
-            },
-          }
-        );
-        return response.data.results.length > 0
-          ? response.data.results[0].geometry.location
-          : null;
-      } catch (error) {
-        console.error("Failed to fetch geocode for zip:", zip, error);
-        return null; // Handle errors gracefully by returning null if an API call fails
-      }
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json`,
+        {
+          params: {
+            address: zip,
+            key: googleMapsApiKey,
+          },
+        }
+      );
+
+      return response.data.results.length > 0
+        ? response.data.results[0].geometry.location
+        : null;
     };
 
     const fetchLocations = async () => {
-      const promises = toysData.map((toy) =>
-        getLatLng(toy.zip_code).then((location) => {
-          return location
-            ? { ...toy, lat: location.lat, lng: location.lng }
-            : null;
-        })
-      );
-      const results = await Promise.all(promises);
-      const newLocations = results.filter((location) => location !== null); // Filter out any null responses
+      const newLocations = [];
+
+      for (var toy of toysData) {
+        const location = await getLatLng(toy.zip_code);
+        if (!location) continue;
+        toy.lat = location.lat;
+        toy.lng = location.lng;
+        newLocations.push(toy);
+      }
+
       setLocations(newLocations);
     };
 
     fetchLocations();
-  }, [toysData]); // Added dependency to re-run the effect if toysData changes
+  }, []);
 
   return (
     <Box sx={{ width: "100%", height: "calc(100vh - 135px)" }}>
