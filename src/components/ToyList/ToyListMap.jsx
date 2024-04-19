@@ -20,18 +20,27 @@ const ToyListMap = ({ toysData }) => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  const googleMapsApiKey = `${GOOGLE_MAPS_API_KEY}`;
-
   useEffect(() => {
+    const fetchLocations = async () => {
+      const promises = toysData.map((toy) => getLatLng(toy.zip_code));
+      const results = await Promise.all(promises);
+      const newLocations = results
+        .map((result, index) => {
+          if (result) {
+            return { ...toysData[index], ...result };
+          }
+          return null;
+        })
+        .filter((loc) => loc !== null);
+      setLocations(newLocations);
+    };
+
     const getLatLng = async (zip) => {
       try {
         const response = await axios.get(
           `https://maps.googleapis.com/maps/api/geocode/json`,
           {
-            params: {
-              address: zip,
-              key: googleMapsApiKey,
-            },
+            params: { address: zip, key: GOOGLE_MAPS_API_KEY },
           }
         );
         return response.data.results.length > 0
@@ -39,41 +48,35 @@ const ToyListMap = ({ toysData }) => {
           : null;
       } catch (error) {
         console.error("Failed to fetch geocode for zip:", zip, error);
-        return null; // Handle errors gracefully by returning null if an API call fails
+        return null;
       }
     };
 
-    const fetchLocations = async () => {
-      const promises = toysData.map((toy) =>
-        getLatLng(toy.zip_code).then((location) => {
-          return location
-            ? { ...toy, lat: location.lat, lng: location.lng }
-            : null;
-        })
-      );
-      const results = await Promise.all(promises);
-      const newLocations = results.filter((location) => location !== null); // Filter out any null responses
-      setLocations(newLocations);
-    };
-
     fetchLocations();
-  }, [toysData]); // Added dependency to re-run the effect if toysData changes
+  }, [toysData]);
+
+  const handleMarkerClick = (location) => {
+    setSelectedLocation(location);
+  };
+
+  const handleInfoBoxCloseClick = () => {
+    setSelectedLocation(null);
+  };
 
   return (
     <Box sx={{ width: "100%", height: "calc(100vh - 135px)" }}>
       <GoogleMap
-        mapContainerStyle={{
-          width: "100%",
-          height: "100%",
-        }}
-        center={locations[0]}
+        mapContainerStyle={{ width: "100%", height: "100%" }}
+        center={
+          locations.length > 0 ? locations[0] : { lat: 39.5, lng: -98.35 }
+        }
         zoom={6}
       >
         {locations.map((location, index) => (
           <Marker
             key={index}
             position={{ lat: location.lat, lng: location.lng }}
-            onClick={() => setSelectedLocation(location)}
+            onClick={() => handleMarkerClick(location)}
           />
         ))}
         {selectedLocation && (
@@ -83,18 +86,16 @@ const ToyListMap = ({ toysData }) => {
             <Card sx={{ width: 345 }}>
               <IconButton
                 size="small"
-                onClick={() => setSelectedLocation(null)}
+                onClick={handleInfoBoxCloseClick}
                 style={{ float: "right" }}
               >
                 <CloseIcon fontSize="inherit" />
               </IconButton>
-
               <CardHeader
                 avatar={<Avatar aria-label="recipe">R</Avatar>}
                 title={selectedLocation.title}
                 subheader={selectedLocation.description}
               />
-
               <CardMedia
                 component="img"
                 height="200"
