@@ -19,6 +19,8 @@ import { useEffect } from "react";
 
 const drawerWidth = 340;
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const LeftDrawer = ({
   onTitleChange,
   title,
@@ -65,7 +67,7 @@ const LeftDrawer = ({
     const fetchToyData = () => {
       if (id) {
         axios
-          .get(`http://localhost:8000/api/v1/toys/${id}`)
+          .get(`${apiUrl}/toys/${id}`)
           .then((response) => {
             const toy = response.data;
             const fetchedFileName = new File([toy.imageUrl], `${toy.title}.jpg`)
@@ -158,15 +160,11 @@ const LeftDrawer = ({
     const imageData = new FormData();
     imageData.append("image", selectedFile);
     console.log("selectedFile", selectedFile);
-    const response = await axios.post(
-      "http://localhost:8000/api/v1/images/upload",
-      imageData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     console.log("POST Response:", response.data);
     const newImageUrl = response.data;
     const postData = {
@@ -183,7 +181,7 @@ const LeftDrawer = ({
           : toy.imageUrl,
     };
     await axios
-      .put(`http://localhost:8000/api/v1/toys/${id}`, postData)
+      .put(`${apiUrl}/toys/${id}`, postData)
       .then((res) => {
         console.log("PUT Response:", res.data);
         setAlertOpen(true);
@@ -201,15 +199,11 @@ const LeftDrawer = ({
     const imageData = new FormData();
     imageData.append("image", selectedFile);
     console.log("selectedFile", selectedFile);
-    const response = await axios.post(
-      "http://localhost:8000/api/v1/images/upload",
-      imageData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     // After successfully uploading the image Send POST request to /toys endpoint with itle, condition... and image URL
     // Assuming the backend responds with an object containing the image URL
     const imageUrl = response.data;
@@ -233,7 +227,7 @@ const LeftDrawer = ({
       },
     };
     await axios
-      .post("http://localhost:8000/api/v1/toys", postData)
+      .post(`${apiUrl}/toys`, postData)
       .then((response) => {
         console.log(response);
         //alert("Listing created successfully!");

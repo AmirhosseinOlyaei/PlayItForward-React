@@ -11,6 +11,8 @@ import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelec
 import Avatar from "@mui/material/Avatar";
 import { toysData } from "../ToyList/toysData";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const ToyListingPreview = ({
   title,
   description,
@@ -32,9 +34,7 @@ const ToyListingPreview = ({
 
   React.useEffect(() => {
     async function fetchUserData() {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/users/6609a2873eaffef95345b9fb"
-      );
+      const response = await fetch(`${apiUrl}/users/6609a2873eaffef95345b9fb`);
       const currentUser = await response.json();
       console.log("curUser", currentUser);
       setUser(currentUser);
