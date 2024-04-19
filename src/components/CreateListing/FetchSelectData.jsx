@@ -56,10 +56,6 @@ export default function FetchSelectData({
     onDeliveryChange(e.target.value);
   };
 
-  console.log("categ", categories);
-  console.log("cond", conditions);
-  console.log("deliv", deliveriesMethod);
-
   return (
     <div>
       <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
@@ -71,6 +67,9 @@ export default function FetchSelectData({
           value={category}
           label="Category"
           onChange={handleInputChangeCategory}
+          // SelectLabelProps={{
+          //   style: category ? "red" : null,
+          // }}
         >
           {categories.map((name) => (
             <MenuItem key={name} value={name}>

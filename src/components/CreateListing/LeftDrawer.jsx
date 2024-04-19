@@ -61,9 +61,6 @@ const LeftDrawer = ({
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
 
-  console.log("zipCodefromIndex", zipCode);
-  console.log("Toy ID:", id);
-
   useEffect(() => {
     const fetchToyData = () => {
       if (id) {
@@ -97,8 +94,6 @@ const LeftDrawer = ({
 
     fetchToyData();
   }, [id]);
-
-  console.log("zipCodefromIndex", zipCode);
 
   const handleZipCodeChange = (newValue) => {
     setZipCode(newValue);
@@ -181,6 +176,7 @@ const LeftDrawer = ({
       condition: condition,
       delivery_method: delivery,
       zip_code: zipCode,
+      //zip_code: value === undefined ? toy.zip_code : zipCode,
       imageUrl:
         selectedFile.type === "image/jpeg"
           ? newImageUrl.file.url
@@ -190,13 +186,6 @@ const LeftDrawer = ({
       .put(`http://localhost:8000/api/v1/toys/${id}`, postData)
       .then((res) => {
         console.log("PUT Response:", res.data);
-        // // Update the status of the toy in the array of toys in the component state
-        // const updatedToys = toys.map((t) => {
-        //   if (t._id === toy._id) {
-        //     return { ...t, status: newStatus };
-        //   }
-        //   return t;
-        // });
         setAlertOpen(true);
         setEditMode(false);
         console.log("Toy status updated successfully:", response.data);
@@ -261,7 +250,6 @@ const LeftDrawer = ({
   };
 
   return (
-    // <Box sx={{ display: "flex", viewHeight: "100vh" }}>
     <Drawer
       variant="permanent"
       sx={{
@@ -281,7 +269,7 @@ const LeftDrawer = ({
         <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
           Toy for Listing
         </Typography>
-        <Divider sx={{ marginTop: 1.2, marginBottom: 4 }} />
+        <Divider sx={{ marginTop: 1.2, marginBottom: 2 }} />
         <Box
           sx={{
             "& .MuiTextField-root": { marginTop: 3, width: "40ch" },
@@ -325,7 +313,7 @@ const LeftDrawer = ({
                   alignItems: "center",
                   justifyContent: "space-between",
                   width: "41ch",
-                  marginBottom: "10px",
+                  marginBottom: "12px",
                   fontSize: "15px",
                   gap: "5px",
                 }}
@@ -344,7 +332,7 @@ const LeftDrawer = ({
                   <IconButton
                     aria-label="delete"
                     onClick={() => onClearPhoto()}
-                    sx={{ padding: 0, mr: 0 }}
+                    sx={{ padding: 0, mr: 0, mb: 1 }}
                   >
                     <ClearIcon />
                   </IconButton>
@@ -359,11 +347,24 @@ const LeftDrawer = ({
               type="text"
               value={title}
               onChange={handleInputChangeTitle}
+              InputProps={{
+                style: {
+                  fontSize: "16px",
+                  fontWeight: "400",
+                  color: "#1e1e1e",
+                },
+              }}
+              // InputLabelProps={{
+              //   style: {
+              //     color: title ? null : "red",
+              //   },
+              // }}
             />
             <GoogleZip
               onValueChangeLocation={onValueChangeLocation}
               value={value}
               onZipCodeChange={handleZipCodeChange}
+              editMode={editMode}
             />
             <FetchSelectData
               category={category}
@@ -382,7 +383,17 @@ const LeftDrawer = ({
               rows={4}
               value={description}
               onChange={handleInputDescriptionChange}
-              inputProps={{ maxLength: 1000 }}
+              // InputLabelProps={{
+              //   style: { color: description ? null : "red" },
+              // }}
+              InputProps={{
+                style: {
+                  fontSize: "16px",
+                  fontWeight: "400",
+                  color: "#1e1e1e",
+                  maxLength: 1000,
+                },
+              }}
             />
 
             {error && (
@@ -393,7 +404,6 @@ const LeftDrawer = ({
             <Divider
               sx={{
                 marginTop: "40px",
-                //marginBottom: "200px",
               }}
             />
             <Button
@@ -407,20 +417,22 @@ const LeftDrawer = ({
                 background: "#ff6600",
                 //position: "fixed",
                 bottom: "5px",
-                // top: "auto",
                 "&:hover": {
-                  backgroundColor: "#fa4002",
+                  backgroundColor: "#ffa162",
                 },
               }}
             >
-              {id ? "Save Changes" : "Publish"}
+              {editMode ? "Save Changes" : "Publish"}
             </Button>
           </form>
-          <SuccessAlert open={alertOpen} onClose={handleAlertClose} />
+          <SuccessAlert
+            open={alertOpen}
+            onClose={handleAlertClose}
+            editMode={editMode}
+          />
         </Box>
       </Box>
     </Drawer>
-    // </Box>
   );
 };
 export default LeftDrawer;
