@@ -1,5 +1,5 @@
 // src/components/ToyList/ToyListMap.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { GoogleMap, Marker, InfoBox } from "@react-google-maps/api";
 import {
@@ -19,49 +19,59 @@ const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const ToyListMap = ({ toysData }) => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchLocations = async () => {
-      const promises = toysData.map((toy) => getLatLng(toy.zip_code));
-      const results = await Promise.all(promises);
-      const newLocations = results
-        .map((result, index) => {
-          if (result) {
-            return { ...toysData[index], ...result };
-          }
-          return null;
-        })
-        .filter((loc) => loc !== null);
-      setLocations(newLocations);
-    };
-
-    const getLatLng = async (zip) => {
+      setLoading(true);
       try {
-        const response = await axios.get(
-          `https://maps.googleapis.com/maps/api/geocode/json`,
-          {
-            params: { address: zip, key: GOOGLE_MAPS_API_KEY },
-          }
-        );
-        return response.data.results.length > 0
-          ? response.data.results[0].geometry.location
-          : null;
-      } catch (error) {
-        console.error("Failed to fetch geocode for zip:", zip, error);
-        return null;
+        const promises = toysData.map((toy) => getLatLng(toy.zip_code));
+        const results = await Promise.all(promises);
+        const newLocations = results
+          .map((result, index) =>
+            result ? { ...toysData[index], ...result } : null
+          )
+          .filter((loc) => loc !== null);
+        setLocations(newLocations);
+      } catch (err) {
+        setError("Failed to load locations");
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchLocations();
   }, [toysData]);
 
-  const handleMarkerClick = (location) => {
-    setSelectedLocation(location);
+  const getLatLng = async (zip) => {
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json`,
+        {
+          params: { address: zip, key: GOOGLE_MAPS_API_KEY },
+        }
+      );
+      return response.data.results.length > 0
+        ? response.data.results[0].geometry.location
+        : null;
+    } catch (error) {
+      console.error("Failed to fetch geocode for zip:", zip, error);
+      return null;
+    }
   };
 
-  const handleInfoBoxCloseClick = () => {
+  const handleMarkerClick = useCallback((location) => {
+    setSelectedLocation(location);
+  }, []);
+
+  const handleInfoBoxCloseClick = useCallback(() => {
     setSelectedLocation(null);
-  };
+  }, []);
+
+  if (loading) return <Box>Loading...</Box>;
+  if (error) return <Box>Error: {error}</Box>;
 
   return (
     <Box sx={{ width: "100%", height: "calc(100vh - 135px)" }}>
