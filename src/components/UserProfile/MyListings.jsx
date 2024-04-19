@@ -55,17 +55,7 @@ const MyListings = () => {
 
 
 
-//     <Grid container spacing={4}>
-//   <Grid xs={3}>
-//   <IconMenu/>  
-//   </Grid>
-//   <Divider orientation="vertical" flexItem />
-//   <Grid xs={8}>
-//     <Typography variant="h3">My Listings</Typography>
-//   <ImgMediaCard/>  
-//   <ImgMediaCard/> 
-//   </Grid>
-// </Grid>
+
   );
 };
 

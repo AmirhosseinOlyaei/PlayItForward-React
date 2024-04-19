@@ -19,7 +19,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 //import GoogleMaps from "../ToyList/GoogleMaps";
 
-const url = "http://localhost:8000/api/v1"
+const apiUrl = import.meta.env.VITE_API_URL
 const drawerWidth = 340;
 const toyListingId = "66196e990925b15c9b3c4375";
 const authorizedUser = "6609a2873eaffef95345b9fa";
@@ -38,19 +38,19 @@ const ListingDetail = () => {
 
   React.useEffect(() => {
     async function fetchToy(toyId) {
-      const response = await fetch(`${url}/toys/${toyId}`);
+      const response = await fetch(`${apiUrl}/toys/${toyId}`);
       const toy = await response.json();
       setToyListing(toy);
       fetchToyGiver(toy.listed_by_id._id);
       checkFavorite(authorizedUser,toy.listed_by_id._id)
     }
     async function fetchToyGiver(userId) {
-      const response = await fetch(`${url}/users/${userId}`);
+      const response = await fetch(`${apiUrl}/users/${userId}`);
       const user = await response.json();
       setToyGiver(user);
     }
     async function checkFavorite (userId, toyId) {
-      const response = await fetch(`${url}/favorites/check-favorite/${userId}/${toyId}`);
+      const response = await fetch(`${apiUrl}/favorites/check-favorite/${userId}/${toyId}`);
       const favoriteCheck = await response.json();
       setIsFavorite(favoriteCheck);
     }
@@ -76,7 +76,7 @@ const ListingDetail = () => {
   }
 
   async function addFavorite(fav) {
-    const response = await fetch(`${url}/favorites`, {
+    const response = await fetch(`${apiUrl}/favorites`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const ListingDetail = () => {
   }
 
   async function deleteFavorite(fav) {
-    const response = await fetch(`${url}/favorites/${toyListing._id}`, {
+    const response = await fetch(`${apiUrl}/favorites/${toyListing._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +103,7 @@ const ListingDetail = () => {
   };
   const handleSendMessage = async () => {
     try {
-      const response = await fetch(`${url}/messages`, {
+      const response = await fetch(`${apiUrl}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -175,7 +175,7 @@ const ListingDetail = () => {
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
               <ActionButton link={`/messages?id=${toyListingId}`}  text="&nbsp;Message" startIcon={<MailIcon/>} fullWidth={false}/>
               <ActionButton link="" text="" startIcon={<Bookmark/>} fullWidth={false}/>
-              <CopyToClipboard text={`${url}/toy_details?id=${toyListingId}`} onCopy={() => openPopup()}> 
+              <CopyToClipboard text={`${apiUrl}/toy_details?id=${toyListingId}`} onCopy={() => openPopup()}> 
                 <ActionButton text="" startIcon={<ShareIcon/>} fullWidth={false}/>
               </CopyToClipboard>
               {isOpen && (<Popover
