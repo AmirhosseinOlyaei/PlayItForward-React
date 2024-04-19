@@ -12,7 +12,7 @@ const Favorites = () => {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       </AppBar>
       <IconMenu/>  
-      <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 5 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 12 }}>
         <Typography variant="h3">My Favorites</Typography>
         
       </Box>
