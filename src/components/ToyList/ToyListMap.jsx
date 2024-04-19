@@ -21,59 +21,55 @@ const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const ToyListMap = ({ toysData }) => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [favorites, setFavorites] = useState(new Set()); // Track favorite toys by IDs
 
   useEffect(() => {
     const fetchLocations = async () => {
-      setLoading(true);
-      try {
-        const promises = toysData.map((toy) => getLatLng(toy.zip_code));
-        const results = await Promise.all(promises);
-        const newLocations = results
-          .map((result, index) =>
-            result ? { ...toysData[index], ...result } : null
-          )
-          .filter((loc) => loc !== null);
-        setLocations(newLocations);
-      } catch (err) {
-        setError("Failed to load locations");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+      const promises = toysData.map((toy) => getLatLng(toy.zip_code));
+      const results = await Promise.all(promises);
+      setLocations(
+        results
+          .map((loc, index) => (loc ? { ...toysData[index], ...loc } : null))
+          .filter((loc) => loc)
+      );
     };
     fetchLocations();
   }, [toysData]);
 
   const getLatLng = async (zip) => {
-    try {
-      const response = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json`,
-        {
-          params: { address: zip, key: GOOGLE_MAPS_API_KEY },
-        }
-      );
-      return response.data.results.length > 0
-        ? response.data.results[0].geometry.location
-        : null;
-    } catch (error) {
-      console.error("Failed to fetch geocode for zip:", zip, error);
-      return null;
-    }
+    const response = await axios.get(
+      `https://maps.googleapis.com/maps/api/geocode/json`,
+      {
+        params: { address: zip, key: GOOGLE_MAPS_API_KEY },
+      }
+    );
+    return response.data.results.length > 0
+      ? response.data.results[0].geometry.location
+      : null;
   };
 
   const handleMarkerClick = useCallback((location) => {
     setSelectedLocation(location);
   }, []);
 
-  const handleInfoBoxCloseClick = useCallback(() => {
-    setSelectedLocation(null);
-  }, []);
+  const handleMapClick = useCallback(() => {
+    if (selectedLocation) {
+      setSelectedLocation(null);
+    }
+  }, [selectedLocation]);
 
-  if (loading) return <Box>Loading...</Box>;
-  if (error) return <Box>Error: {error}</Box>;
+  const toggleFavorite = useCallback((event, id) => {
+    event.stopPropagation(); // Prevent triggering CardActionArea
+    setFavorites(
+      (prev) =>
+        new Set(
+          prev.has(id)
+            ? [...prev].filter((favId) => favId !== id)
+            : [...prev, id]
+        )
+    );
+  }, []);
 
   return (
     <Box sx={{ width: "100%", height: "calc(100vh - 135px)" }}>
@@ -83,6 +79,7 @@ const ToyListMap = ({ toysData }) => {
           locations.length > 0 ? locations[0] : { lat: 39.5, lng: -98.35 }
         }
         zoom={6}
+        onClick={handleMapClick}
       >
         {locations.map((location, index) => (
           <Marker
@@ -95,17 +92,10 @@ const ToyListMap = ({ toysData }) => {
           <InfoBox
             position={{ lat: selectedLocation.lat, lng: selectedLocation.lng }}
           >
-            <Card sx={{ width: 345 }}>
+            <Card sx={{ width: 345, position: "relative" }}>
               <CardActionArea
                 onClick={() => navigate(`/toys/${selectedLocation.id}`)}
               >
-                <IconButton
-                  size="small"
-                  onClick={handleInfoBoxCloseClick}
-                  style={{ float: "right" }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
                 <CardHeader
                   avatar={<Avatar aria-label="recipe">R</Avatar>}
                   title={selectedLocation.title}
@@ -118,11 +108,33 @@ const ToyListMap = ({ toysData }) => {
                   alt="toy image"
                 />
               </CardActionArea>
+              <IconButton
+                aria-label="close"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setSelectedLocation(null);
+                }}
+                sx={{ position: "absolute", top: 8, right: 8 }}
+              >
+                <CloseIcon />
+              </IconButton>
               <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={(event) =>
+                    toggleFavorite(event, selectedLocation.id)
+                  }
+                >
+                  <FavoriteIcon
+                    color={
+                      favorites.has(selectedLocation.id) ? "error" : "inherit"
+                    }
+                  />
                 </IconButton>
-                <IconButton aria-label="share">
+                <IconButton
+                  aria-label="share"
+                  onClick={(event) => event.stopPropagation()}
+                >
                   <ShareIcon />
                 </IconButton>
               </CardActions>
