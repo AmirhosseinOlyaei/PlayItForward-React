@@ -21,7 +21,8 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const url = "http://localhost:8000/api/v1"
 const drawerWidth = 340;
-const toyListingId = "66196e990925b15c9b3c4375"
+const toyListingId = "66196e990925b15c9b3c4375";
+const authorizedUser = "6609a2873eaffef95345b9fa";
 
 const ListingDetail = () => {
 
@@ -41,11 +42,17 @@ const ListingDetail = () => {
       const toy = await response.json();
       setToyListing(toy);
       fetchToyGiver(toy.listed_by_id._id);
+      checkFavorite(authorizedUser,toy.listed_by_id._id)
     }
     async function fetchToyGiver(userId) {
       const response = await fetch(`${url}/users/${userId}`);
       const user = await response.json();
       setToyGiver(user);
+    }
+    async function checkFavorite (userId, toyId) {
+      const response = await fetch(`${url}/favorites/check-favorite/${userId}/${toyId}`);
+      const favoriteCheck = await response.json();
+      setIsFavorite(favoriteCheck);
     }
     fetchToy(toyListingId); // Replace with the ID of the toy you want to fetch
   }, []);
@@ -62,7 +69,7 @@ const ListingDetail = () => {
   const handleFavorite = () => {
     const fav = {
       toy_listing_id: toyListing._id,
-      user_id: "6609a2873eaffef95345b9fa", // Replace with the ID of the user who is logged in
+      user_id: authorizedUser, // Replace with the ID of the user who is logged in
     };
     isFavorite ? deleteFavorite(fav) : addFavorite(fav);
     setIsFavorite(!isFavorite);
@@ -120,6 +127,19 @@ const ListingDetail = () => {
     } finally {
     }
   };
+
+  const [isOpen, setIsOpen] = useState(null);
+
+  const openPopup = () => setIsOpen(true);
+  const closePopup = () => setIsOpen(false);
+  
+
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
+
+  // const open = Boolean(anchorEl);
+  // const id = open ? 'simple-popover' : undefined;
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -153,22 +173,19 @@ const ListingDetail = () => {
  
             </Box>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
-              <ActionButton link={`/messages?id=${toyListingId}`}  text="Message" startIcon={<MailIcon/>} fullWidth={false}/>
+              <ActionButton link={`/messages?id=${toyListingId}`}  text="&nbsp;Message" startIcon={<MailIcon/>} fullWidth={false}/>
               <ActionButton link="" text="" startIcon={<Bookmark/>} fullWidth={false}/>
-              <CopyToClipboard text={`${url}/toy_details?id=${toyListingId}`} onCopy={() => 
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
+              <CopyToClipboard text={`${url}/toy_details?id=${toyListingId}`} onCopy={() => openPopup()}> 
+                <ActionButton text="" startIcon={<ShareIcon/>} fullWidth={false}/>
+              </CopyToClipboard>
+              {isOpen && (<Popover
+                  open={isOpen}
                   anchorOrigin={{
                   vertical: 'bottom',
                   horizontal: 'left',
                   }}> 
                     <Typography sx={{ p: 2 }}>The link is copied to clipboard.</Typography>
-                </Popover>}>
-                <ActionButton text="" startIcon={<ShareIcon/>} fullWidth={false}/>
-              </CopyToClipboard>
+                </Popover>)}
             </Grid>
             </Box>
             <Divider/>
@@ -206,7 +223,7 @@ const ListingDetail = () => {
               <Typography variant="h6" sx={{ margin: "5px 0" }}>Send a message</Typography>
               <TextField id="outlined-basic" onChange={handleMessageChange} value={newMessage} variant="outlined" sx={{ width: "100%" }} />
               <br/>
-              <ActionButton linkTo="" text="Send" startIcon={<MailIcon/>} onClick={async () => await handleSendMessage()} fullWidth={true}/> 
+              <ActionButton linkTo="" text="&nbsp;Send" startIcon={<MailIcon/>} onClick={async () => await handleSendMessage()} fullWidth={true}/> 
             </Box>
         </Box>
       </Drawer>

@@ -10,7 +10,7 @@ const ActionButton = ( {link, text, startIcon, fullWidth, onClick }) => {
         fullWidth={fullWidth}
         variant="contained"
         // color="primary"
-        startIcon={startIcon}
+        
         size="large"
         sx={{
           backgroundColor: "rgba(33, 150, 243, 0.8)", // Recommended color from Material-UI docs
@@ -23,7 +23,7 @@ const ActionButton = ( {link, text, startIcon, fullWidth, onClick }) => {
           },
         }}
       >
-        {text}
+       {startIcon} {text}
       </Button>
     </Link>
   );
