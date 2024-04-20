@@ -10,7 +10,7 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import ToyCard from "../ToyList/ToyCard";
+import ToyCard from "../../ToyList/ToyCard";
 
 const Favorites = () => {
   const [delivery, setDelivery] = useState("All");
@@ -20,15 +20,13 @@ const Favorites = () => {
   const [favToysList, setFavToysList] = useState([]);
 
   const initialized = useRef(false);
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
       async function fetchData() {
         try {
-          const response = await fetch(
-            "http://localhost:8000/api/v1/favorites"
-          );
+          const response = await fetch(`${apiUrl}/favorites`);
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
@@ -41,14 +39,13 @@ const Favorites = () => {
       fetchData();
     }
   }, []);
+  console.log("toy", favoriteToys);
 
   useEffect(() => {
     async function getToyById() {
       try {
         favoriteToys.map(async function (toy) {
-          const response = await fetch(
-            `http://localhost:8000/api/v1/toys/${toy.toy_listing_id}`
-          );
+          const response = await fetch(`${apiUrl}/toys/${toy.toy_listing_id}`);
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
