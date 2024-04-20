@@ -10,7 +10,7 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import ToyCard from "../ToyList/ToyCard";
+import ToyCard from "../../ToyList/ToyCard";
 
 const Favorites = () => {
   const [delivery, setDelivery] = useState("All");

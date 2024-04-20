@@ -7,8 +7,7 @@ import Messages from "../components/Messages";
 import CreateListing from "../components/CreateListing";
 import PersonalInfo from "../components/UserProfile/PersonalInfo";
 import NotFoundPage from "../components/NotFoundPage";
-import Favorites from "../components/UserProfile/Favorites";
-import FavoritesPage from "../components/Favorites";
+import Favorites from "../components/UserProfile/Favorites/index";
 
 const AppRoutes = () => {
   return (
@@ -22,7 +21,7 @@ const AppRoutes = () => {
       <Route path="/messages" Component={Messages} />
       <Route path="/create" Component={CreateListing} />
       <Route path="/personal" Component={PersonalInfo} />
-      <Route path="/favorites" Component={FavoritesPage} />
+      <Route path="/favorites" Component={Favorites} />
       <Route component={NotFoundPage} />
     </Routes>
   );
