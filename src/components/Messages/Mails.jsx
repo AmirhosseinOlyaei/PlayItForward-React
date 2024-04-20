@@ -23,21 +23,11 @@ export default function Mails({
   onMessageSelect,
 }) {
   const [selectedMessageIndex, setSelectedMessageIndex] = useState(0);
-  const [unreadCount, setUnreadCount] = useState(0);
-
-  useEffect(() => {
-    const unread = filteredMessages.filter(
-      (message) => !message.read && message.user_id_to?._id === loggedInUserId
-    ).length;
-    setUnreadCount(unread);
-  }, [filteredMessages]);
 
   const handleMessageSelect = (message, index) => {
     const updatedMessages = [...filteredMessages];
     updatedMessages[index].read = true;
-    // onMessageSelect(message);
     onMessageSelect(updatedMessages[index]);
-    setUnreadCount((prevCount) => Math.max(prevCount - 1, 0));
     setSelectedMessageIndex(index);
   };
 
@@ -54,28 +44,6 @@ export default function Mails({
     >
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2 }}>
         <SearchMessage onSearchChange={onSearchChange} />
-        {unreadCount > 0 && (
-          <IconButton
-            color="primary"
-            sx={{
-              "&:hover": {
-                backgroundColor: "transparent",
-              },
-              "& .MuiIconButton-label": {
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              },
-              "& .MuiBadge-root": {
-                marginTop: "-8px",
-              },
-            }}
-          >
-            <Badge badgeContent={unreadCount} color="secondary">
-              <MailIcon sx={{ color: "rgba(0, 0, 0, 0.54)" }} />
-            </Badge>
-          </IconButton>
-        )}
       </Box>
       <Box sx={{ bgcolor: "background.paper", p: 0 }}>
         <List

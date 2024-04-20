@@ -11,6 +11,8 @@ const Messages = () => {
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [filter, setFilter] = useState("");
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [sentMessageCount, setSentMessageCount] = useState(0);
+  const [inboxMessageCount, setInboxMessageCount] = useState(0);
 
   useEffect(() => {
     fetchMessages();
@@ -52,6 +54,15 @@ const Messages = () => {
             message.user_id_to._id === loggedInUserId
         )
       );
+
+      const sentCount = data.filter(
+        (message) => message.user_id_from._id === loggedInUserId
+      ).length;
+      const inboxCount = data.filter(
+        (message) => message.user_id_to._id === loggedInUserId
+      ).length;
+      setSentMessageCount(sentCount);
+      setInboxMessageCount(inboxCount);
     } catch (error) {
       console.log(error);
     }
@@ -208,7 +219,11 @@ const Messages = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <DrawerSidebar onButtonClick={handleSearchChange} />
+      <DrawerSidebar
+        onButtonClick={handleSearchChange}
+        sentMessageCount={sentMessageCount}
+        inboxMessageCount={inboxMessageCount}
+      />
       <Box sx={{ flex: 1, p: 3 }}>
         <Mails
           data={messages}

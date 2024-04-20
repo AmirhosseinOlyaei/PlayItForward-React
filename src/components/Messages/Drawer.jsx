@@ -8,10 +8,15 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import OutboxRoundedIcon from "@mui/icons-material/OutboxRounded";
+import Badge from "@mui/material/Badge";
 
 const drawerWidth = 140;
 
-const DrawerSidebar = ({ onButtonClick }) => {
+const DrawerSidebar = ({
+  onButtonClick,
+  sentMessageCount,
+  inboxMessageCount,
+}) => {
   const handleButtonClick = (type) => {
     onButtonClick(type);
   };
@@ -37,7 +42,15 @@ const DrawerSidebar = ({ onButtonClick }) => {
                 onClick={() => handleButtonClick(text.toLowerCase())}
               >
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <OutboxRoundedIcon />}
+                  {index % 2 === 0 ? (
+                    <Badge badgeContent={inboxMessageCount} color="secondary">
+                      <InboxIcon />
+                    </Badge>
+                  ) : (
+                    <Badge badgeContent={sentMessageCount} color="secondary">
+                      <OutboxRoundedIcon />
+                    </Badge>
+                  )}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
