@@ -149,7 +149,7 @@ export default function ToysLanding() {
         <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} m={2}>
           {viewType ? (
             <Grid item xs={12} sm={12} m={1}>
-              <ToyListMap />
+              <ToyListMap toysData={toys} />
             </Grid>
           ) : (
             <ToyList toys={toys} />
