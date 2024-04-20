@@ -1,17 +1,21 @@
+// src/components/ToyList/ToyList.jsx
+import React from "react";
 import { Grid } from "@mui/material";
 import ToyCard from "./ToyCard";
 
-function ToyList() {
-  const toys = useSelector((state) => state.toys);
+function ToyList({ toys, error }) {
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <Grid container spacing={{ xs: 2, md: 3 }}>
+    <Grid container>
       {toys.map((toy) => (
-        <Grid item xs={12} sm={6} md={4} key={toy.id}>
+        <Grid item flexGrow={1} m={1} key={toy._id}>
           <ToyCard
             title={toy.title}
-            image={toy.image}
-            location={toy.location}
+            imageUrl={toy.imageUrl}
+            location={toy.zip_code}
           />
         </Grid>
       ))}

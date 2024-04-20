@@ -1,18 +1,22 @@
-import * as React from "react";
+// src/components/ToyList/Category.jsx
+import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
-import { Typography } from "@mui/material";
+import {
+  Box,
+  OutlinedInput,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Chip,
+  Typography,
+} from "@mui/material";
 
 const categories = [
   "Arts & Crafts",
   "Books",
   "Cars",
+  "Dolls",
   "Clothes",
   "Plush",
   "Sports",
@@ -20,11 +24,11 @@ const categories = [
   "Health",
   "Educational Toys",
   "Outdoor Play",
-  "Board Games & Puzzles",
-  "Video Games",
+  "Games",
+  "Puzzles",
   "Electronic Toys",
-  "Action Figures and Dolls",
-  "Building Sets",
+  "Action Figures",
+  "Building Blocks",
   "Musical instruments",
   "Baby and Toddler Toys",
   "Costumes and Pretend Play",
@@ -42,27 +46,27 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, category, theme) {
+function getStyles(name, selectedCategories, theme) {
   return {
     fontWeight:
-      category.indexOf(name) === -1
+      selectedCategories.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
 }
 
-export default function Category() {
+function Category({ setSelectedCategories }) {
   const theme = useTheme();
-  const [category, setCategory] = React.useState([]);
+  const [selectedCategories, setSelectedCategoriesState] = useState([]);
 
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setCategory(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    const value =
+      typeof event.target.value === "string"
+        ? event.target.value.split(",")
+        : event.target.value;
+
+    setSelectedCategoriesState(value);
+    setSelectedCategories(value);
   };
 
   return (
@@ -70,13 +74,13 @@ export default function Category() {
       <Typography variant="h6" my={1.5}>
         Categories
       </Typography>
-      <FormControl sx={{ width: "100%" }}>
+      <FormControl fullWidth>
         <InputLabel id="demo-multiple-chip-label">Toy</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={category}
+          value={selectedCategories}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Toy" />}
           renderValue={(selected) => (
@@ -92,7 +96,7 @@ export default function Category() {
             <MenuItem
               key={name}
               value={name}
-              style={getStyles(name, category, theme)}
+              style={getStyles(name, selectedCategories, theme)}
             >
               {name}
             </MenuItem>
@@ -102,3 +106,5 @@ export default function Category() {
     </div>
   );
 }
+
+export default Category;

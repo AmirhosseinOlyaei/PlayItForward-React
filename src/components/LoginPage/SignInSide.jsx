@@ -28,7 +28,7 @@ function Copyright() {
 
 const SignInButton = () => {
   const handleAuth = () => {
-    window.location.href = "http://localhost:8000/auth/google";
+    window.location.href = import.meta.env.VITE_AUTH_URL;
   };
 
   return (
