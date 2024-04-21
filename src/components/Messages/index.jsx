@@ -30,10 +30,13 @@ const Messages = () => {
     }
   }, [filter, messages, loggedInUserId]);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const fetchMessages = async () => {
     try {
-      const url = `http://localhost:8000/api/v1/messages?userId=${loggedInUserId}`;
-      const response = await fetch(url);
+      const response = await fetch(
+        `${apiUrl}/messages?userId=${loggedInUserId}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
@@ -189,15 +192,12 @@ const Messages = () => {
 
   const deleteMessage = async (_id) => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/v1/messages/${_id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${apiUrl}/messages/${_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to delete message");
