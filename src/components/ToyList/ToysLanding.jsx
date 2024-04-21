@@ -1,29 +1,16 @@
-import * as React from "react";
+// src/components/ToyList/ToysLanding.jsx
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Box, Drawer, Typography, Divider, Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import GoogleMaps from "./GoogleMaps";
 import Create from "./Create";
 import Search from "./Search";
-import { useState } from "react";
-import {
-  Box,
-  Drawer,
-  Typography,
-  Divider,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  List,
-} from "@mui/material";
-import ToyCard from "./ToyCard";
 import ToyListMap from "./ToyListMap";
-// import { toysData } from "./toysData";
 import Category from "./Category";
 import CustomToolbar from "./CustomToolbar";
+import ToyList from "./ToyList";
+import DeliveryFilter from "./DeliveryFilter";
+import GoogleZip from "./GoogleZip";
 
 const drawerWidth = 340;
 
@@ -31,19 +18,67 @@ export default function ToysLanding() {
   const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState([]);
   const [viewType, setViewType] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [error, setError] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
-  React.useEffect(() => {
-    async function fetchData() {
-      const response = await fetch("http://localhost:8000/api/v1/toys");
-      const toys = await response.json();
-      setToys(toys);
-    }
-    fetchData();
-  }, []);
+  useEffect(() => {
+    const fetchToys = async () => {
+      const queryParams = [];
+      if (delivery !== "All") {
+        queryParams.push(`delivery_method=${encodeURIComponent(delivery)}`);
+      }
+      if (selectedCategories.length > 0) {
+        queryParams.push(
+          `categories=${encodeURIComponent(selectedCategories.join(","))}`
+        );
+      }
+      if (zipCode) {
+        queryParams.push(`zipCodes=${encodeURIComponent(zipCode)}`); // Directly use zipCode
+      }
+      if (searchKeyword.trim() !== "") {
+        queryParams.push(`search=${encodeURIComponent(searchKeyword)}`);
+      }
+
+      const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
+
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        if (!apiUrl) {
+          throw new Error(
+            "API URL is not defined in the environment variables."
+          );
+        }
+        const response = await axios.get(`${apiUrl}/toys/${queryString}`);
+        if (!response.data || !Array.isArray(response.data)) {
+          throw new Error("Received malformed data from API");
+        }
+        setToys(response.data);
+      } catch (err) {
+        console.error("Error fetching toys:", err.message || "Unknown error");
+        setError("Failed to fetch toys from the server.");
+        setToys([]); // Ensure toys are reset on error
+      }
+    };
+
+    fetchToys();
+  }, [delivery, selectedCategories, zipCode, searchKeyword]);
+
+  const handleZipCodeChange = (newZipCode) => {
+    setZipCode(newZipCode) || "";
+    // You can also trigger a re-fetch or filter update here
+  };
+  const handleLocationChange = (newLocation) => {
+    setSelectedLocation(newLocation); // Update the location state based on selection
+  };
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
       <CssBaseline />
+
+      {/* side nav bar */}
       <Drawer
         variant="permanent"
         sx={{
@@ -57,20 +92,11 @@ export default function ToysLanding() {
           },
         }}
       >
-        {/* <Toolbar /> */}
-
-        {/* App name */}
-        {/* <List>
-          <Typography variant="caption" gutterBottom letterSpacing={1} m={3}>
-            PlayItForward
-          </Typography>
-        </List> */}
-
         {/* side nav contents */}
         <Grid item xs={11} sm={11} p={2}>
           {/* Search */}
           <Grid item xs={12} sm={12} mt={1}>
-            <Search />
+            <Search onSearchChange={setSearchKeyword} />
           </Grid>
 
           {/* Create */}
@@ -84,37 +110,26 @@ export default function ToysLanding() {
           <Typography variant="h6" my={2}>
             Filters
           </Typography>
+
+          {/* Location */}
           <Grid item xs={12} sm={12} my={1}>
-            <GoogleMaps />
+            <GoogleZip
+              onZipCodeChange={handleZipCodeChange}
+              value={selectedLocation} // Pass selected location if managed
+              onValueChangeLocation={handleLocationChange} // Handle changes in location selection
+            />
           </Grid>
 
           {/* delivery */}
           <Grid item xs={12} sm={12} my={2}>
-            <FormControl fullWidth>
-              <InputLabel id="select-label">Delivery Method</InputLabel>
-              <Select
-                labelId="select-label"
-                id="simple-select"
-                value={delivery}
-                fullWidth
-                label="Delivery Method"
-                onChange={(event) => {
-                  setDelivery(event.target.value);
-                  fetchToys({ deliveryMethod: event.target.value });
-                }}
-              >
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="Pick up">Pick up</MenuItem>
-                <MenuItem value="Drop off">Drop off</MenuItem>
-              </Select>
-            </FormControl>
+            <DeliveryFilter delivery={delivery} setDelivery={setDelivery} />
           </Grid>
 
           <Divider />
 
           {/* categories */}
           <Grid item xs={12} sm={12} my={2}>
-            <Category />
+            <Category setSelectedCategories={setSelectedCategories} />
           </Grid>
 
           <Divider />
@@ -134,26 +149,10 @@ export default function ToysLanding() {
         <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} m={2}>
           {viewType ? (
             <Grid item xs={12} sm={12} m={1}>
-              <ToyListMap />
+              <ToyListMap toysData={toys} />
             </Grid>
           ) : (
-            toys.map((toy) => (
-              <Grid
-                item
-                // spacing={2}
-                m={1}
-                key={toy._id}
-                sx={{
-                  flexGrow: 1,
-                }}
-              >
-                <ToyCard
-                  title={toy.title}
-                  // image={toy.image}
-                  location={toy.zip_code}
-                />
-              </Grid>
-            ))
+            <ToyList toys={toys} />
           )}
         </Grid>
       </Grid>

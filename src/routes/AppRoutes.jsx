@@ -7,13 +7,14 @@ import Messages from "../components/Messages";
 import CreateListing from "../components/CreateListing";
 import PersonalInfo from "../components/UserProfile/PersonalInfo";
 import NotFoundPage from "../components/NotFoundPage";
-import Favorites from "../components/UserProfile/Favorites";
+import Favorites from "../components/UserProfile/Favorites/index";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route exact path="/" Component={ToyList} />
       <Route path="/toys" Component={ToyList} />
+      <Route path="/toys/:id" Component={ListingDetail} />
       <Route path="/toy-details" Component={ListingDetail} />
       <Route path="/login" Component={LoginPage} />
       <Route path="/listings" Component={MyListings} />

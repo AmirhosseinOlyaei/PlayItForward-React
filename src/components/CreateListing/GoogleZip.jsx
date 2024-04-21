@@ -30,6 +30,7 @@ export default function GoogleZip({
   onValueChangeLocation,
   value,
   onZipCodeChange,
+  editMode,
 }) {
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
@@ -136,7 +137,12 @@ export default function GoogleZip({
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Add a location" fullWidth />
+        <TextField
+          {...params}
+          label="Enter a Zip Code"
+          fullWidth
+          InputLabelProps={{ style: { color: editMode ? "red" : "" } }}
+        />
       )}
       renderOption={(props, option) => {
         const matches =

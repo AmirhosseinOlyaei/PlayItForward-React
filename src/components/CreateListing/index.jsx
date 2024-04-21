@@ -13,6 +13,8 @@ const CreateListing = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [googleValue, setGoogleValue] = useState(null);
   const [value, setValue] = useState(null);
+  const [toy, setToy] = useState({});
+  const [fetchedFileName, setFetchedFileName] = useState("");
 
   const handleValueChangeLocation = (newValue) => {
     setValue(newValue);
@@ -45,6 +47,13 @@ const CreateListing = () => {
     setGoogleValue(newvalue);
   };
 
+  const handleToyChange = (newToy) => {
+    setToy(newToy);
+  };
+  const handleFetchedFile = (fetchedFileName) => {
+    setFetchedFileName(fetchedFileName);
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <LeftDrawer
@@ -65,6 +74,9 @@ const CreateListing = () => {
         value={value}
         onInputChange={handleInputChange}
         googleValue={googleValue}
+        onToyChange={handleToyChange}
+        toy={toy}
+        handleFetchedFile={handleFetchedFile}
       />
 
       <ToyListingPreview
@@ -75,6 +87,8 @@ const CreateListing = () => {
         selectedFile={selectedFile}
         googleValue={googleValue}
         value={value}
+        toy={toy}
+        fetchedFileName={fetchedFileName}
       />
     </Box>
   );

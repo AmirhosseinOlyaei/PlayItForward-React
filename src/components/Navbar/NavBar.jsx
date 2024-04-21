@@ -9,6 +9,9 @@ import {
   Typography,
   Menu,
   MenuItem,
+  TextField,
+  InputAdornment,
+  Link,
 } from "@mui/material";
 import {
   Search as SearchIcon,
@@ -16,11 +19,13 @@ import {
   Person as PersonIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
+import ExpandableSearch from "./ExpandableSearch";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const isLoggedIn = true; // This should be based on your authentication logic
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -77,12 +82,25 @@ const NavBar = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            "& > *:not(:last-child)": { mr: 2 },
+            "& > *:not(:last-child)": { mr: 3 },
           }}
         >
-          <IconButton color="inherit" sx={{ p: 0 }}>
-            <SearchIcon sx={{ fontSize: 30 }} />
-          </IconButton>
+          <ExpandableSearch />
+          {/* <TextField
+            variant="outlined"
+            size="small"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ fontSize: 30 }} />
+                </InputAdornment>
+              ),
+            }}
+            sx={{ background: "white", borderRadius: 1 }}
+          /> */}
           {isLoggedIn && (
             <IconButton color="inherit" sx={{ p: 0 }}>
               <EmailIcon sx={{ fontSize: 30 }} />
@@ -158,6 +176,15 @@ const NavBar = () => {
             >
               Sign In / Out
             </MenuItem>
+            {/* <Link href="/favorites"> */}
+            <MenuItem
+              onClick={handleMenuClose}
+              component={RouterLink}
+              to="/favorites"
+            >
+              Favorites
+            </MenuItem>
+            {/* </Link> */}
           </Menu>
         </Box>
       </Toolbar>
