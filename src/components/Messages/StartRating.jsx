@@ -55,7 +55,14 @@ export default function StarRating({ message, loggedInUserId, setOpen, open }) {
   return (
     <Box
       sx={{
-        "& > legend": { mt: 2 },
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        "& > div": {
+          marginTop: "10px",
+          display: "flex",
+          alignItems: "center",
+        },
       }}
     >
       <div>
@@ -63,8 +70,23 @@ export default function StarRating({ message, loggedInUserId, setOpen, open }) {
           name="user-rating"
           value={rating}
           onChange={handleRatingChange}
+          sx={{
+            marginRight: "10px",
+            alignSelf: "flex-start",
+          }}
         />
-        <Button onClick={handleRatingSubmit}>Submit</Button>
+        <Button
+          onClick={handleRatingSubmit}
+          variant="contained"
+          color="primary"
+          style={{
+            backgroundColor: "rgba(33, 150, 253, 0.8)",
+            height: "24px",
+            alignSelf: "flex-start",
+          }}
+        >
+          Submit
+        </Button>
       </div>
     </Box>
   );

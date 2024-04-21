@@ -10,9 +10,6 @@ import ListItemButton, {
 } from "@mui/material/ListItemButton";
 import SearchMessage from "./SearchMessage";
 import BackgroundLetterAvatars from "./Avatar";
-import Badge from "@mui/material/Badge";
-import IconButton from "@mui/material/IconButton";
-import MailIcon from "@mui/icons-material/Mail";
 
 const loggedInUserId = "6609a2873eaffef95345b9fa";
 

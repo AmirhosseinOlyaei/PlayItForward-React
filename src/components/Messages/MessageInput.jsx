@@ -59,22 +59,28 @@ function MessageInput({ recipient, currentMessage, onSend, fetchMessages }) {
       alignItems="center"
       sx={{ position: "sticky", bottom: 0, bgcolor: "background.paper", p: 2 }}
     >
-      <Grid item xs={9}>
+      <Grid item xs={12} sm={12} md={12} lg={10}>
         <TextField
           label={`Reply to ${recipient}`}
           variant="outlined"
           fullWidth
           value={message}
           onChange={handleMessageChange}
+          disabled={!currentMessage}
         />
       </Grid>
-      <Grid item xs={3} style={{ textAlign: "right" }}>
+      <Grid item xs={12} sm={12} md={12} lg={2} style={{ textAlign: "right" }}>
         <Button
           variant="contained"
           color="primary"
           fullWidth
-          disabled={loading || message.trim() === ""}
+          disabled={loading || message.trim() === "" || !currentMessage}
           onClick={handleSendMessage}
+          style={
+            message.trim() !== ""
+              ? { backgroundColor: "rgba(33, 150, 253, 0.8)" }
+              : null
+          }
         >
           {loading ? "Sending..." : "Send"}
         </Button>

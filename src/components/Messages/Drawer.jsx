@@ -43,11 +43,27 @@ const DrawerSidebar = ({
               >
                 <ListItemIcon>
                   {index % 2 === 0 ? (
-                    <Badge badgeContent={inboxMessageCount} color="secondary">
+                    <Badge
+                      badgeContent={inboxMessageCount}
+                      color="secondary"
+                      sx={{
+                        "& .MuiBadge-badge": {
+                          backgroundColor: "rgba(33, 150, 253, 0.8)",
+                        },
+                      }}
+                    >
                       <InboxIcon />
                     </Badge>
                   ) : (
-                    <Badge badgeContent={sentMessageCount} color="secondary">
+                    <Badge
+                      badgeContent={sentMessageCount}
+                      color="secondary"
+                      sx={{
+                        "& .MuiBadge-badge": {
+                          backgroundColor: "rgba(33, 150, 253, 0.8)",
+                        },
+                      }}
+                    >
                       <OutboxRoundedIcon />
                     </Badge>
                   )}

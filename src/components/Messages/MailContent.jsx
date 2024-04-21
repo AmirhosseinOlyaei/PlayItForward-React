@@ -38,8 +38,31 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
       toast((t) => (
         <div>
           Would you like to rate the user?
-          <button onClick={() => handleRatingSubmit(t.id, true)}>Yes</button>
-          <button onClick={() => handleRatingDismiss(t.id)}>No</button>
+          <button
+            onClick={() => handleRatingSubmit(t.id, true)}
+            style={{
+              backgroundColor: "rgba(33, 150, 253, 0.8)",
+              color: "#fff",
+              padding: "5px 10px",
+              borderRadius: "5px",
+              marginRight: "1px",
+              border: "none",
+            }}
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => handleRatingDismiss(t.id)}
+            style={{
+              backgroundColor: "rgba(33, 150, 253, 0.8)",
+              color: "#fff",
+              padding: "5px 10px",
+              borderRadius: "5px",
+              border: "none",
+            }}
+          >
+            No
+          </button>
         </div>
       ));
     }
@@ -125,13 +148,24 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
     setOpen({ ...open, delete: true });
   };
 
+  const handleCopyEmail = (email) => {
+    navigator.clipboard
+      .writeText(email)
+      .then(() => {
+        console.log("Email copied to clipboard");
+      })
+      .catch((error) => {
+        console.error("Error copying email to clipboard:", error);
+      });
+  };
+
   return (
     <>
       <Toaster />
       <Paper
         variant="outlined"
         sx={{
-          minHeight: 600,
+          minHeight: 800,
           borderRadius: "sm",
           p: 2,
           mb: 3,
@@ -212,15 +246,15 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   >
                     From
                   </Typography>
-                  <Tooltip size="sm" title="Copy email" variant="outlined">
-                    <Chip
-                      label="sender@mail.com"
-                      size="sm"
-                      variant="soft"
-                      color="primary"
-                      onClick={() => {}}
-                    />
-                  </Tooltip>
+
+                  <Chip
+                    label="sender@mail.com"
+                    size="sm"
+                    variant="soft"
+                    color="primary"
+                    style={{ backgroundColor: "rgba(33, 150, 253, 0.8)" }}
+                    onClick={() => {}}
+                  />
                 </div>
                 <div>
                   <Typography
@@ -230,15 +264,15 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   >
                     to
                   </Typography>
-                  <Tooltip size="sm" title="Copy email" variant="outlined">
-                    <Chip
-                      label="receiver@mail.com"
-                      size="sm"
-                      variant="soft"
-                      color="primary"
-                      onClick={() => {}}
-                    />
-                  </Tooltip>
+
+                  <Chip
+                    label="receiver@mail.com"
+                    size="sm"
+                    variant="soft"
+                    color="primary"
+                    style={{ backgroundColor: "rgba(33, 150, 253, 0.8)" }}
+                    onClick={() => {}}
+                  />
                 </div>
               </Box>
             </Box>
@@ -375,7 +409,10 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                       size="sm"
                       variant="soft"
                       color="primary"
-                      onClick={() => {}}
+                      style={{ backgroundColor: "rgba(33, 150, 253, 0.8)" }}
+                      onClick={() =>
+                        handleCopyEmail(message.user_id_from.email)
+                      }
                     />
                   </Tooltip>
                 </div>
@@ -393,7 +430,8 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                       size="sm"
                       variant="soft"
                       color="primary"
-                      onClick={() => {}}
+                      style={{ backgroundColor: "rgba(33, 150, 253, 0.8)" }}
+                      onClick={() => handleCopyEmail(message.user_id_to.email)}
                     />
                   </Tooltip>
                 </div>
