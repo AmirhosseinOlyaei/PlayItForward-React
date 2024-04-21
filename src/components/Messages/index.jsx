@@ -203,10 +203,27 @@ const Messages = () => {
         throw new Error("Failed to delete message");
       }
 
-      setMessages(messages.filter((message) => message._id !== _id));
+      // setMessages(messages.filter((message) => message._id !== _id));
+      // setFilteredMessages(
+      //   filteredMessages.filter((message) => message._id !== _id)
+      // );
+
+      // Update the messages array and filteredMessages array
+      const updatedMessages = messages.filter((message) => message._id !== _id);
+      setMessages(updatedMessages);
       setFilteredMessages(
         filteredMessages.filter((message) => message._id !== _id)
       );
+
+      // Recalculate message counts
+      const sentCount = updatedMessages.filter(
+        (message) => message.user_id_from._id === loggedInUserId
+      ).length;
+      const inboxCount = updatedMessages.filter(
+        (message) => message.user_id_to._id === loggedInUserId
+      ).length;
+      setSentMessageCount(sentCount);
+      setInboxMessageCount(inboxCount);
 
       setSelectedMessage(null);
 
