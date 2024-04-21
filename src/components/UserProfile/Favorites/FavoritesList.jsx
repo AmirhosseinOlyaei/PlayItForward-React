@@ -1,4 +1,5 @@
-import { useFavorites } from "./path/to/FavoritesContext";
+import { useFavorites } from "../../../contexts/FavoritesContext";
+import styles from "./Favorites.module.css";
 
 const FavoritesList = () => {
   const { favorites } = useFavorites();

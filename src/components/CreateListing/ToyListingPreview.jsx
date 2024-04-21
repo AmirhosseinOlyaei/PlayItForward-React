@@ -9,6 +9,9 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelectActualTwoTone";
 import Avatar from "@mui/material/Avatar";
+import { toysData } from "../ToyList/toysData";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const ToyListingPreview = ({
   title,
@@ -17,7 +20,13 @@ const ToyListingPreview = ({
   delivery,
   selectedFile,
   value,
+  toy,
+  fetchedFileName,
 }) => {
+  console.log("toyPreview", toy);
+  console.log("selectedFile", selectedFile);
+  console.log("fetchedFileName", fetchedFileName);
+
   const userData = {
     listingDate: new Date().toLocaleDateString(),
   };
@@ -25,9 +34,7 @@ const ToyListingPreview = ({
 
   React.useEffect(() => {
     async function fetchUserData() {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/users/6609a2873eaffef95345b9fb"
-      );
+      const response = await fetch(`${apiUrl}/users/6609a2873eaffef95345b9fb`);
       const currentUser = await response.json();
       console.log("curUser", currentUser);
       setUser(currentUser);
@@ -48,11 +55,11 @@ const ToyListingPreview = ({
           alignItems: "center",
           flexGrow: 1,
           p: 3,
-          marginTop: "105px",
+          marginTop: "104px",
           border: "1px solid lightgrey",
           borderRadius: "5px",
           boxShadow: "0 2px 12px rgba(0, 0, 0, 0.2)",
-          //height: "84vh",
+          height: "84vh",
           marginLeft: "20px",
           marginRight: "20px",
           maxWidth: "1000px",
@@ -79,7 +86,13 @@ const ToyListingPreview = ({
             {selectedFile ? (
               <CardMedia
                 component="img"
-                image={URL.createObjectURL(selectedFile)}
+                image={
+                  selectedFile.name !== fetchedFileName
+                    ? URL.createObjectURL(selectedFile)
+                    : toy.imageUrl
+                }
+
+                //image={URL.createObjectURL(selectedFile)}
                 //alt="Toy picture"
               />
             ) : (

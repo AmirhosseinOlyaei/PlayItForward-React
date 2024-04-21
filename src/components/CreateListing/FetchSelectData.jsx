@@ -4,6 +4,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function FetchSelectData({
   category,
   onCategoryChange,
@@ -20,23 +22,17 @@ export default function FetchSelectData({
     const fetchData = async () => {
       try {
         // Fetch names list for selector Catgory
-        const response1 = await fetch(
-          "http://localhost:8000/api/v1/toys/enums/category"
-        );
+        const response1 = await fetch(`${apiUrl}/toys/enums/category`);
         const data1 = await response1.json();
         setCategories(data1);
 
         // Fetch names list for selector Conditions
-        const response2 = await fetch(
-          "http://localhost:8000/api/v1/toys/enums/condition"
-        );
+        const response2 = await fetch(`${apiUrl}/toys/enums/condition`);
         const data2 = await response2.json();
         setConditions(data2);
 
         // Fetch names list for selector Delivery_Method
-        const response3 = await fetch(
-          "http://localhost:8000/api/v1/toys/enums/delivery_method"
-        );
+        const response3 = await fetch(`${apiUrl}/toys/enums/delivery_method`);
         const data3 = await response3.json();
         setDeliveriesMethod(data3);
       } catch (error) {
@@ -56,10 +52,6 @@ export default function FetchSelectData({
     onDeliveryChange(e.target.value);
   };
 
-  console.log("categ", categories);
-  console.log("cond", conditions);
-  console.log("deliv", deliveriesMethod);
-
   return (
     <div>
       <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
@@ -71,6 +63,9 @@ export default function FetchSelectData({
           value={category}
           label="Category"
           onChange={handleInputChangeCategory}
+          // SelectLabelProps={{
+          //   style: category ? "red" : null,
+          // }}
         >
           {categories.map((name) => (
             <MenuItem key={name} value={name}>
