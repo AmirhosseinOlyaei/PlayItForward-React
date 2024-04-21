@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./ListingDetail.module.css";
 import { Button, ButtonGroup, Typography, Box, Divider, Avatar, Popover } from '@mui/material';
 import { Input } from '@mui/material';
@@ -8,7 +8,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
 import MailIcon from '@mui/icons-material/Mail';
-import Bookmark from '@mui/icons-material/Bookmark';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShareIcon from '@mui/icons-material/Share';
 import ActionButton from "../UserProfile/ActionButton";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -21,8 +21,8 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const apiUrl = import.meta.env.VITE_API_URL
 const drawerWidth = 340;
-const toyListingId = "66196e990925b15c9b3c4375";
-const authorizedUser = "6609a2873eaffef95345b9fa";
+const toyListingId = "66196e990925b15c9b3c4375"; // Replace with the ID of the toy listing, which comes from the URL
+const authorizedUser = "6609a2873eaffef95345b9fa"; // Replace with the ID of the user who is logged in
 
 const ListingDetail = () => {
 
@@ -41,8 +41,8 @@ const ListingDetail = () => {
       const response = await fetch(`${apiUrl}/toys/${toyId}`);
       const toy = await response.json();
       setToyListing(toy);
-      fetchToyGiver(toy.listed_by_id._id);
-      checkFavorite(authorizedUser,toy.listed_by_id._id)
+      fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
+      checkFavorite(authorizedUser, toyListingId); // Check if the user has favorited the toy. Parameters: (userId, toyId)
     }
     async function fetchToyGiver(userId) {
       const response = await fetch(`${apiUrl}/users/${userId}`);
@@ -109,9 +109,9 @@ const ListingDetail = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id_from: "6609a2873eaffef95345b9fa",
-          user_id_to: "6609a2873eaffef95345b9f9",
-          toy_listing_id: "660c4de20dab29b8bab994f8",
+          user_id_from: authorizedUser,
+          user_id_to: toy.listed_by_id._id,
+          toy_listing_id: toyListingId,
           date: new Date().toISOString(),
           subject: "Toy subject",
           content: newMessage,
@@ -128,18 +128,14 @@ const ListingDetail = () => {
     }
   };
 
-  const [isOpen, setIsOpen] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const openPopup = () => setIsOpen(true);
-  const closePopup = () => setIsOpen(false);
-  
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
-  // const open = Boolean(anchorEl);
-  // const id = open ? 'simple-popover' : undefined;
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => setIsOpen(false), 3000);
+    }
+  }, [isOpen]);
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -174,18 +170,20 @@ const ListingDetail = () => {
             </Box>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
               <ActionButton link={`/messages?id=${toyListingId}`}  text="&nbsp;Message" startIcon={<MailIcon/>} fullWidth={false}/>
-              <ActionButton link="" text="" startIcon={<Bookmark/>} fullWidth={false}/>
-              <CopyToClipboard text={`${apiUrl}/toy_details?id=${toyListingId}`} onCopy={() => openPopup()}> 
-                <ActionButton text="" startIcon={<ShareIcon/>} fullWidth={false}/>
+              <ActionButton link="" text="" startIcon={<FavoriteBorderIcon/>} fullWidth={false} onClick={handleFavorite}/>
+              <CopyToClipboard text={`${apiUrl}/toy_details?id=${toyListingId}`} onCopy={() => setIsOpen(true)}> 
+                <ActionButton text="" startIcon={<ShareIcon/>} fullWidth={false} onClick={(event) => setAnchorEl(event.currentTarget)}/>
               </CopyToClipboard>
-              {isOpen && (<Popover
+              <Popover
                   open={isOpen}
                   anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                  }}> 
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  anchorEl = {anchorEl}
+                  > 
                     <Typography sx={{ p: 2 }}>The link is copied to clipboard.</Typography>
-                </Popover>)}
+              </Popover>
             </Grid>
             </Box>
             <Divider/>
