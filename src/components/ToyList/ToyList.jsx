@@ -13,6 +13,7 @@ function ToyList({ toys, error }) {
       {toys.map((toy) => (
         <Grid item flexGrow={1} m={1} key={toy._id}>
           <ToyCard
+            toyId={toy._id}
             title={toy.title}
             imageUrl={toy.imageUrl}
             location={toy.zip_code}
