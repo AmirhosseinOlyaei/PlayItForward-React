@@ -31,40 +31,42 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
 
     if (
       !open.ratingToastDisplayed &&
-      message.user_id_from._id !== loggedInUserId &&
-      !localStorage.getItem(`rated_${message.user_id_from._id}`)
+      message.user_id_from._id !== loggedInUserId
     ) {
       setOpen((prevOpen) => ({ ...prevOpen, ratingToastDisplayed: true }));
-      toast((t) => (
-        <div>
-          Would you like to rate the user?
-          <button
-            onClick={() => handleRatingSubmit(t.id, true)}
-            style={{
-              backgroundColor: "rgba(33, 150, 253, 0.8)",
-              color: "#fff",
-              padding: "5px 10px",
-              borderRadius: "5px",
-              marginRight: "1px",
-              border: "none",
-            }}
-          >
-            Yes
-          </button>
-          <button
-            onClick={() => handleRatingDismiss(t.id)}
-            style={{
-              backgroundColor: "rgba(33, 150, 253, 0.8)",
-              color: "#fff",
-              padding: "5px 10px",
-              borderRadius: "5px",
-              border: "none",
-            }}
-          >
-            No
-          </button>
-        </div>
-      ));
+      toast(
+        (t) => (
+          <div>
+            Would you like to rate the user?
+            <button
+              onClick={() => handleRatingSubmit(t.id, true)}
+              style={{
+                backgroundColor: "rgba(33, 150, 253, 0.8)",
+                color: "#fff",
+                padding: "5px 10px",
+                borderRadius: "5px",
+                marginRight: "1px",
+                border: "none",
+              }}
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => handleRatingDismiss(t.id)}
+              style={{
+                backgroundColor: "rgba(33, 150, 253, 0.8)",
+                color: "#fff",
+                padding: "5px 10px",
+                borderRadius: "5px",
+                border: "none",
+              }}
+            >
+              No
+            </button>
+          </div>
+        ),
+        { id: "rating-toast" }
+      );
     }
   };
 
