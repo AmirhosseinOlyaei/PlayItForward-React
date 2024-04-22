@@ -26,7 +26,7 @@ const PersonalInfo = () => {
   //   modified_date: "March 2022",
   //   modified_by_id: 1,
   // };
-
+  const apiUrl = import.meta.env.VITE_API_URL
   const [userSignedIn, setUserSignedIn] = React.useState({});
   const [editNickNameMode, setEditNickNameMode] = React.useState(false);
   const [newNickname, setNewNickname] = React.useState(userSignedIn.nickname);
@@ -36,7 +36,7 @@ const PersonalInfo = () => {
 
   React.useEffect(() => {
     async function fetchUser(userId) {
-      const response = await fetch(`http://localhost:8000/api/v1/users/${userId}`);
+      const response = await fetch(`${apiUrl}/users/${userId}`);
       const user = await response.json();
       setUserSignedIn(user);
       setNewNickname(user.nickname);
@@ -64,7 +64,7 @@ const PersonalInfo = () => {
   }
 
 async function updateNickname (newNickname) {
-  const response = await fetch(`http://localhost:8000/api/v1/users/${currentUserId}`, {
+  const response = await fetch(`${apiUrl}//users/${currentUserId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -79,7 +79,7 @@ async function updateNickname (newNickname) {
 
 async function updateZipcode (newZipcode) {
   console.log(newZipcode, userSignedIn.id);
-  const response = await fetch(`http://localhost:8000/api/v1/users/${currentUserId}`, {
+  const response = await fetch(`${apiUrl}//users/${currentUserId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

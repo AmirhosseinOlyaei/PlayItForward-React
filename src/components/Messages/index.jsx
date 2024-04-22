@@ -5,16 +5,17 @@ import DrawerSidebar from "./Drawer";
 import Mails from "./Mails";
 import MailContent from "./MailContent";
 
+const loggedInUserId = "6609a2873eaffef95345b9fa";
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [filter, setFilter] = useState("");
   const [selectedMessage, setSelectedMessage] = useState(null);
-  const [loggedInUserId, setLoggedInUserId] = useState(null);
+  const [sentMessageCount, setSentMessageCount] = useState(0);
+  const [inboxMessageCount, setInboxMessageCount] = useState(0);
 
   useEffect(() => {
     fetchMessages();
-    setLoggedInUserId("6609a2873eaffef95345b9fa");
   }, []);
 
   // Added useEffect to observe that React state updates are asynchronous, and the updated value might not be available synchronously after calling the state setter function.
@@ -29,59 +30,155 @@ const Messages = () => {
     }
   }, [filter, messages, loggedInUserId]);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const fetchMessages = async () => {
     try {
-      const url = `http://localhost:8000/api/v1/messages?userId=${loggedInUserId}`;
-      const response = await fetch(url);
+      const response = await fetch(
+        `${apiUrl}/messages?userId=${loggedInUserId}`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
       const data = await response.json();
       console.log("Fetched messages", data);
-      setMessages(data);
-      setFilteredMessages(data);
+
+      setMessages(
+        data.filter(
+          (message) =>
+            message.user_id_from._id === loggedInUserId ||
+            message.user_id_to._id === loggedInUserId
+        )
+      );
+      setFilteredMessages(
+        data.filter(
+          (message) =>
+            message.user_id_from._id === loggedInUserId ||
+            message.user_id_to._id === loggedInUserId
+        )
+      );
+
+      const sentCount = data.filter(
+        (message) => message.user_id_from._id === loggedInUserId
+      ).length;
+      const inboxCount = data.filter(
+        (message) => message.user_id_to._id === loggedInUserId
+      ).length;
+      setSentMessageCount(sentCount);
+      setInboxMessageCount(inboxCount);
     } catch (error) {
       console.log(error);
     }
   };
 
+  // const updateFilteredMessages = () => {
+  //   if (filter === "sent" && loggedInUserId !== null) {
+  //     setFilteredMessages(
+  //       messages.filter(
+  //         (message) =>
+  //           message.user_id_from && message.user_id_from._id === loggedInUserId
+  //       )
+  //     );
+  //   } else if (filter === "inbox" && loggedInUserId !== null) {
+  //     setFilteredMessages(
+  //       messages.filter(
+  //         (message) =>
+  //           message.user_id_to && message.user_id_to._id === loggedInUserId
+  //       )
+  //     );
+  //   } else if (filter === "") {
+  //     setFilteredMessages(
+  //       messages.filter(
+  //         (message) =>
+  //           (message.user_id_to && message.user_id_to._id === loggedInUserId) ||
+  //           (message.user_id_from &&
+  //             message.user_id_from._id === loggedInUserId)
+  //       )
+  //     );
+  //   } else {
+  //     setFilteredMessages(
+  //       messages.filter((message) => {
+  //         const fromFirstName = message.user_id_from.first_name
+  //           ? message.user_id_from.first_name.toLowerCase()
+  //           : "";
+  //         const fromLastName = message.user_id_from.last_name
+  //           ? message.user_id_from.last_name.toLowerCase()
+  //           : "";
+  //         const toFirstName = message.user_id_to.first_name
+  //           ? message.user_id_to.first_name.toLowerCase()
+  //           : "";
+  //         const toLastName = message.user_id_to.last_name
+  //           ? message.user_id_to.last_name.toLowerCase()
+  //           : "";
+  //         const subject = message.subject ? message.subject.toLowerCase() : "";
+  //         const content = message.content ? message.content.toLowerCase() : "";
+
+  //         return (
+  //           fromFirstName.includes(filter.toLowerCase()) ||
+  //           fromLastName.includes(filter.toLowerCase()) ||
+  //           toFirstName.includes(filter.toLowerCase()) ||
+  //           toLastName.includes(filter.toLowerCase()) ||
+  //           subject.includes(filter.toLowerCase()) ||
+  //           content.includes(filter.toLowerCase())
+  //         );
+  //       })
+  //     );
+  //   }
+  // };
+
   const updateFilteredMessages = () => {
     if (filter === "sent" && loggedInUserId !== null) {
-      setFilteredMessages(
-        messages.filter(
-          (message) =>
-            message.user_id_from && message.user_id_from._id === loggedInUserId
-        )
-      );
+      filterSentMessages();
     } else if (filter === "inbox" && loggedInUserId !== null) {
-      setFilteredMessages(
-        messages.filter(
-          (message) =>
-            message.user_id_to && message.user_id_to._id === loggedInUserId
-        )
-      );
+      filterInboxMessages();
     } else if (filter === "") {
-      setFilteredMessages(
-        messages.filter(
-          (message) =>
-            (message.user_id_to && message.user_id_to._id === loggedInUserId) ||
-            (message.user_id_from &&
-              message.user_id_from._id === loggedInUserId)
-        )
-      );
+      filterAllMessages();
     } else {
-      setFilteredMessages(
-        messages.filter((message) => {
-          const subject = message.subject ? message.subject.toLowerCase() : "";
-          const content = message.content ? message.content.toLowerCase() : "";
-
-          return (
-            subject.includes(filter.toLowerCase()) ||
-            content.includes(filter.toLowerCase())
-          );
-        })
-      );
+      filterBySearch();
     }
+  };
+
+  const filterSentMessages = () => {
+    setFilteredMessages(
+      messages.filter((message) => message.user_id_from?._id === loggedInUserId)
+    );
+  };
+
+  const filterInboxMessages = () => {
+    setFilteredMessages(
+      messages.filter((message) => message.user_id_to?._id === loggedInUserId)
+    );
+  };
+
+  const filterAllMessages = () => {
+    setFilteredMessages(
+      messages.filter(
+        (message) =>
+          message.user_id_to?._id === loggedInUserId ||
+          message.user_id_from?._id === loggedInUserId
+      )
+    );
+  };
+
+  const filterBySearch = () => {
+    const searchTerm = filter.toLowerCase();
+    setFilteredMessages(
+      messages.filter((message) => {
+        const { user_id_from, user_id_to, subject, content } = message;
+        const fromFirstName = user_id_from?.first_name?.toLowerCase() || "";
+        const fromLastName = user_id_from?.last_name?.toLowerCase() || "";
+        const toFirstName = user_id_to?.first_name?.toLowerCase() || "";
+        const toLastName = user_id_to?.last_name?.toLowerCase() || "";
+        return (
+          fromFirstName.includes(searchTerm) ||
+          fromLastName.includes(searchTerm) ||
+          toFirstName.includes(searchTerm) ||
+          toLastName.includes(searchTerm) ||
+          subject?.toLowerCase().includes(searchTerm) ||
+          content?.toLowerCase().includes(searchTerm)
+        );
+      })
+    );
   };
 
   const handleSearchChange = (value) => {
@@ -95,24 +192,38 @@ const Messages = () => {
 
   const deleteMessage = async (_id) => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/v1/messages/${_id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${apiUrl}/messages/${_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to delete message");
       }
 
-      setMessages(messages.filter((message) => message._id !== _id));
+      // setMessages(messages.filter((message) => message._id !== _id));
+      // setFilteredMessages(
+      //   filteredMessages.filter((message) => message._id !== _id)
+      // );
+
+      // Update the messages array and filteredMessages array
+      const updatedMessages = messages.filter((message) => message._id !== _id);
+      setMessages(updatedMessages);
       setFilteredMessages(
         filteredMessages.filter((message) => message._id !== _id)
       );
+
+      // Recalculate message counts
+      const sentCount = updatedMessages.filter(
+        (message) => message.user_id_from._id === loggedInUserId
+      ).length;
+      const inboxCount = updatedMessages.filter(
+        (message) => message.user_id_to._id === loggedInUserId
+      ).length;
+      setSentMessageCount(sentCount);
+      setInboxMessageCount(inboxCount);
 
       setSelectedMessage(null);
 
@@ -125,7 +236,11 @@ const Messages = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <DrawerSidebar onButtonClick={handleSearchChange} />
+      <DrawerSidebar
+        onButtonClick={handleSearchChange}
+        sentMessageCount={sentMessageCount}
+        inboxMessageCount={inboxMessageCount}
+      />
       <Box sx={{ flex: 1, p: 3 }}>
         <Mails
           data={messages}
@@ -136,6 +251,7 @@ const Messages = () => {
       </Box>
       <Box sx={{ flex: 1, p: 3 }}>
         <MailContent
+          loggedInUserId={loggedInUserId}
           message={selectedMessage}
           onDelete={deleteMessage}
           fetchMessages={fetchMessages}
