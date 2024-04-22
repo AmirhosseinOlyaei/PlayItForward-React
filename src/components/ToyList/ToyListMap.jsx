@@ -105,7 +105,7 @@ const ToyListMap = ({ toysData }) => {
           >
             <Card sx={{ width: 345, position: "relative" }}>
               <CardActionArea
-                onClick={() => navigate(`/toys/${selectedLocation.id}`)}
+                onClick={() => navigate(`/toys/${selectedLocation._id}`)}
               >
                 <CardHeader
                   avatar={<Avatar aria-label="recipe">R</Avatar>}
@@ -115,7 +115,7 @@ const ToyListMap = ({ toysData }) => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image={selectedLocation.image}
+                  image={selectedLocation.imageUrl}
                   alt="toy image"
                 />
               </CardActionArea>
@@ -133,19 +133,19 @@ const ToyListMap = ({ toysData }) => {
                 <IconButton
                   aria-label="add to favorites"
                   onClick={(event) =>
-                    toggleFavorite(event, selectedLocation.id)
+                    toggleFavorite(event, selectedLocation._id)
                   }
                 >
                   <FavoriteIcon
                     color={
-                      favorites.has(selectedLocation.id) ? "error" : "inherit"
+                      favorites.has(selectedLocation._id) ? "error" : "inherit"
                     }
                   />
                 </IconButton>
                 <IconButton
                   aria-label="share"
                   onClick={(event) =>
-                    handleShareClick(event, selectedLocation.id)
+                    handleShareClick(event, selectedLocation._id)
                   }
                 >
                   <ShareIcon />
