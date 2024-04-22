@@ -17,6 +17,7 @@ import axios from "axios";
 
 const MyListings = () => {
   const currentUserId = "6609a2873eaffef95345b9fb";
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const [toys, setToys] = useState([]);
   useEffect(() => {
@@ -25,7 +26,7 @@ const MyListings = () => {
       try {
         const response = await axios.get(
           // `http://localhost:8000/api/v1/toys?requester=${currentUserId}`
-          `http://localhost:8000/api/v1/toys`
+          `${apiUrl}/toys`
         );
         setToys(response.data);
       } catch (error) {
@@ -69,11 +70,6 @@ const MyListings = () => {
         })}
       </Box>
     </Box>
-
-
-
-
-
   );
 };
 
