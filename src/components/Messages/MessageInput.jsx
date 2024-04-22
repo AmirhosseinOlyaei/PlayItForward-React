@@ -12,9 +12,10 @@ function MessageInput({ recipient, currentMessage, onSend, fetchMessages }) {
   };
 
   const handleSendMessage = async () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/api/v1/messages", {
+      const response = await fetch(`${apiUrl}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,8 +44,6 @@ function MessageInput({ recipient, currentMessage, onSend, fetchMessages }) {
       setTimeout(() => {
         setMessage("");
       }, 100);
-      // setMessage("");
-      // fetchMessages();
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
