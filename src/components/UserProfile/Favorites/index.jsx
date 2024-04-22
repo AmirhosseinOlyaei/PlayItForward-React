@@ -76,7 +76,7 @@ const Favorites = () => {
           <ul>
             {favToysList.map((toy, index) => (
               <li key={index}>
-                <ToyCard title={toy.title} location={toy.zip_code} />
+                <ToyCard title={toy.title} location={toy.zip_code} toyId={toy._id}/>
               </li>
             ))}
           </ul>
