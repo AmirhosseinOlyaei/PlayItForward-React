@@ -1,25 +1,25 @@
 import React, { useEffect } from "react";
 import styles from "./ListingDetail.module.css";
-import { Button, ButtonGroup, Typography, Box, Divider, Avatar, Popover } from '@mui/material';
-import { Input } from '@mui/material';
-import { TextField } from "@mui/material";
+import { Typography, Box, Divider, Avatar, Popover, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import CssBaseline from '@mui/material/CssBaseline';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
 import MailIcon from '@mui/icons-material/Mail';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ActionButton from "../UserProfile/ActionButton";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import { useState } from "react";
-import ShareMenu from "./ShareMenu";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import ToyMap from "./ToyMap";
 
-//import GoogleMaps from "../ToyList/GoogleMaps";
+
 
 const apiUrl = import.meta.env.VITE_API_URL
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const drawerWidth = 340;
 const toyListingId = "66196e990925b15c9b3c4375"; // Replace with the ID of the toy listing, which comes from the URL
 const authorizedUser = "6609a2873eaffef95345b9fa"; // Replace with the ID of the user who is logged in
@@ -29,7 +29,6 @@ const ListingDetail = () => {
 
   const [toyListing, setToyListing] = useState([]);
   const [toyGiver, setToyGiver] = useState([]);
-  const [favorites, setFavorites] = useState({});
   const [isFavorite, setIsFavorite] = useState(false);
   const [newMessage, setNewMessage] = useState("Is this still available?");
   const [messageSent, setMessageSent] = useState([]);
@@ -68,7 +67,7 @@ const ListingDetail = () => {
 
   const handleFavorite = () => {
     const fav = {
-      toy_listing_id: toyListing._id,
+      toy_listing_id: toyListingId,
       user_id: authorizedUser, // Replace with the ID of the user who is logged in
     };
     isFavorite ? deleteFavorite(fav) : addFavorite(fav);
@@ -84,7 +83,6 @@ const ListingDetail = () => {
       body: JSON.stringify(fav),
     });
     console.log("The toy is added", toyListing._id );
-    setFavorites(await response.json());
   }
 
   async function deleteFavorite(fav) {
@@ -95,7 +93,6 @@ const ListingDetail = () => {
       },
     });
     console.log("Deleted from favorites", toyListing._id );
-    setFavorites({});
   };
 
   const handleMessageChange = (event) => {
@@ -170,7 +167,7 @@ const ListingDetail = () => {
             </Box>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
               <ActionButton link={`/messages?id=${toyListingId}`}  text="&nbsp;Message" startIcon={<MailIcon/>} fullWidth={false}/>
-              <ActionButton link="" text="" startIcon={<FavoriteBorderIcon/>} fullWidth={false} onClick={handleFavorite}/>
+              <ActionButton link="" text="" startIcon={isFavorite ? <FavoriteIcon/> : <FavoriteBorderIcon/>} fullWidth={false} onClick={handleFavorite}/>
               <CopyToClipboard text={`${apiUrl}/toy_details?id=${toyListingId}`} onCopy={() => setIsOpen(true)}> 
                 <ActionButton text="" startIcon={<ShareIcon/>} fullWidth={false} onClick={(event) => setAnchorEl(event.currentTarget)}/>
               </CopyToClipboard>
@@ -202,9 +199,14 @@ const ListingDetail = () => {
                   <div><Typography variant="body">{toyListing.description}</Typography></div>
                 </div>
             </Box>
+            <Box sx={{ padding: "20px 0" }}>
+
+                  <ToyMap />
+
+            </Box>
             <Divider/>
             <Box sx={{ padding: "20px 0" }}>
-              <Typography variant="h6" sx={{ margin: "5px 0" }}>Toy giver information</Typography>
+              <Typography variant="h6" sx={{ margin: "5px 0" }}>Posted by</Typography>
                 <Box className={styles.giverInformation}>
                   <img src={toyGiver.profile_picture} alt="Toy giver profile picture" width="42px" height="42px" />
                   <Typography variant="body" sx={{ marginLeft: "10px", lineHeight: "42px" }}>{toyGiver.nickname}</Typography>
