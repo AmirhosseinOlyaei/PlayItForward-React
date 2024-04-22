@@ -31,8 +31,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
 
     if (
       !open.ratingToastDisplayed &&
-      message.user_id_from._id !== loggedInUserId &&
-      !localStorage.getItem(`rated_${message.user_id_from._id}`)
+      message.user_id_from._id !== loggedInUserId
     ) {
       setOpen((prevOpen) => ({ ...prevOpen, ratingToastDisplayed: true }));
       toast(
