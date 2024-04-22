@@ -104,9 +104,10 @@ export default function ToysLanding() {
           zIndex: (theme) => theme.zIndex.drawer + 1,
           marginRight: 2,
           display: { sm: "none" },
-          top: 86,
+          top: 86.5,
           left: 35,
-          backgroundColor: "primary.main",
+          // backgroundColor: "primary.main",
+          backgroundColor: "rgba(33, 150, 253, 0.8)",
           color: "white",
           borderRadius: 2, // Setting borderRadius to 0 to make the button square
           width: 60,
