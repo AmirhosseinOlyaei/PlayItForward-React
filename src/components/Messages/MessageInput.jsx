@@ -26,7 +26,8 @@ function MessageInput({ recipient, currentMessage, onSend, fetchMessages }) {
           toy_listing_id: "660c4de20dab29b8bab994f8",
           date: new Date().toISOString(),
           subject: `Re:${currentMessage.subject}`,
-          content: `${message}<br/>---------------<br/>${currentMessage.content}`,
+          // content: `${message}<br/>---------------<br/>${currentMessage.content}`,
+          content: `${message}<hr>${currentMessage.content}`,
         }),
       });
 
