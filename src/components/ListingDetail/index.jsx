@@ -15,18 +15,19 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ToyMap from "./ToyMap";
+import { useParams } from "react-router-dom";
 
 
 
 const apiUrl = import.meta.env.VITE_API_URL
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const drawerWidth = 340;
-const toyListingId = "66196e990925b15c9b3c4375"; // Replace with the ID of the toy listing, which comes from the URL
+// const toyListingId = "66196e990925b15c9b3c4375"; // Replace with the ID of the toy listing, which comes from the URL
 const authorizedUser = "6609a2873eaffef95345b9fa"; // Replace with the ID of the user who is logged in
 
 const ListingDetail = () => {
 
-
+  const { id } = useParams();
   const [toyListing, setToyListing] = useState([]);
   const [toyGiver, setToyGiver] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -41,7 +42,7 @@ const ListingDetail = () => {
       const toy = await response.json();
       setToyListing(toy);
       fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
-      checkFavorite(authorizedUser, toyListingId); // Check if the user has favorited the toy. Parameters: (userId, toyId)
+      checkFavorite(authorizedUser, id); // Check if the user has favorited the toy. Parameters: (userId, toyId)
     }
     async function fetchToyGiver(userId) {
       const response = await fetch(`${apiUrl}/users/${userId}`);
@@ -53,7 +54,7 @@ const ListingDetail = () => {
       const favoriteCheck = await response.json();
       setIsFavorite(favoriteCheck);
     }
-    fetchToy(toyListingId); // Replace with the ID of the toy you want to fetch
+    fetchToy(id); // Replace with the ID of the toy you want to fetch
   }, []);
   
   function calculateDate(date) {
@@ -67,7 +68,7 @@ const ListingDetail = () => {
 
   const handleFavorite = () => {
     const fav = {
-      toy_listing_id: toyListingId,
+      toy_listing_id: id,
       user_id: authorizedUser, // Replace with the ID of the user who is logged in
     };
     isFavorite ? deleteFavorite(fav) : addFavorite(fav);
@@ -99,6 +100,7 @@ const ListingDetail = () => {
     setNewMessage(event.target.value);
   };
   const handleSendMessage = async () => {
+    console.log(id, toyListing.listed_by_id._id)
     try {
       const response = await fetch(`${apiUrl}/messages`, {
         method: "POST",
@@ -107,10 +109,10 @@ const ListingDetail = () => {
         },
         body: JSON.stringify({
           user_id_from: authorizedUser,
-          user_id_to: toy.listed_by_id._id,
-          toy_listing_id: toyListingId,
+          user_id_to: toyListing.listed_by_id._id,
+          toy_listing_id: id,
           date: new Date().toISOString(),
-          subject: "Toy subject",
+          subject: toyListing.title,
           content: newMessage,
         }),
       });
@@ -145,7 +147,7 @@ const ListingDetail = () => {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, BoxSizing: 'border-Box', marginTop: "86px" },
+          [`& .MuiDrawer-paper`]: { width: drawerWidth, BoxSizing: 'border-Box', marginTop: "86px", height: "calc(100vh - 90px)", },
         }}
       >
         
@@ -166,9 +168,9 @@ const ListingDetail = () => {
  
             </Box>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
-              <ActionButton link={`/messages?id=${toyListingId}`}  text="&nbsp;Message" startIcon={<MailIcon/>} fullWidth={false}/>
+              <ActionButton link={`/messages?id=${id}`}  text="&nbsp;Message" startIcon={<MailIcon/>} fullWidth={false}/>
               <ActionButton link="" text="" startIcon={isFavorite ? <FavoriteIcon/> : <FavoriteBorderIcon/>} fullWidth={false} onClick={handleFavorite}/>
-              <CopyToClipboard text={`${apiUrl}/toy_details?id=${toyListingId}`} onCopy={() => setIsOpen(true)}> 
+              <CopyToClipboard text={`${apiUrl}/toys/${id}`} onCopy={() => setIsOpen(true)}> 
                 <ActionButton text="" startIcon={<ShareIcon/>} fullWidth={false} onClick={(event) => setAnchorEl(event.currentTarget)}/>
               </CopyToClipboard>
               <Popover
