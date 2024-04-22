@@ -106,14 +106,14 @@ export default function ToysLanding() {
           display: { sm: "none" },
           top: 80,
           left: 45,
-          // backgroundColor: "primary.main",
-          // color: "white",
-          // "&:hover": {
-          //   backgroundColor: "primary.dark",
-          // },
+          backgroundColor: "primary.main",
+          color: "white",
+          borderRadius: 2, // Setting borderRadius to 0 to make the button square
+          "&:hover": {
+            backgroundColor: "primary.dark",
+          },
         }}
       >
-        {/* <MenuIcon /> */}
         <MenuOpenIcon />
       </IconButton>
 
