@@ -15,7 +15,7 @@ const AppRoutes = () => {
       <Route exact path="/" Component={ToyList} />
       <Route path="/toys" Component={ToyList} />
       <Route path="/toys/:id" Component={ListingDetail} />
-      <Route path="/toy-details" Component={ListingDetail} />
+      {/* <Route path="/toy-details" Component={ListingDetail} /> */}
       <Route path="/login" Component={LoginPage} />
       <Route path="/listings" Component={MyListings} />
       <Route path="/messages" Component={Messages} />
