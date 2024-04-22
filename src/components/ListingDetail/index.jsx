@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect} from "react";
+import { useNavigate } from 'react-router-dom';
 import styles from "./ListingDetail.module.css";
 import { Typography, Box, Divider, Avatar, Popover, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -16,6 +17,7 @@ import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ToyMap from "./ToyMap";
 import { useParams } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 
@@ -135,6 +137,14 @@ const ListingDetail = () => {
       setTimeout(() => setIsOpen(false), 3000);
     }
   }, [isOpen]);
+
+
+    const navigate = useNavigate();
+
+    const handleBack = () => {
+        navigate(-1);  // Navigate back to the previous page
+    };
+
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -152,20 +162,17 @@ const ListingDetail = () => {
       >
         
         <Box sx={{ overflow: 'auto', padding: "0px 20px" }}>
-          
-            <Box sx={{ padding: "20px 0" }}>
+          <ActionButton link=""  text="Back" startIcon={<ArrowBackIcon/>} onClick={handleBack} fullWidth={false}/>
+          <Box sx={{ padding: "20px 0" }}>
             <Typography variant="h4" sx={{ margin: "5px 0" }}>{toyListing.title}</Typography>
-            
-              <Typography variant="body" paragraph>Listed {calculateDate(toyListing.created_date)} days ago in {toyListing.zip_code} </Typography>
-            
+            <Typography variant="body" paragraph>Listed {calculateDate(toyListing.created_date)} days ago in {toyListing.zip_code} </Typography>
             <Box sx={{ display: "flex", justifyContent: "space-between", maxWidth: "80%"}}>
               <Typography variant="body2" sx={{ display: "flex", alignItems: "center" }}>
-                {toyListing.delivery_method == "Delivery" ? (<HomeOutlinedIcon sx={{ fontSize: 32 }}/>) : 
-                (<LocalShippingOutlinedIcon sx={{ fontSize: 32 }}/>)
+                {toyListing.delivery_method === "Delivery" ? (<LocalShippingOutlinedIcon sx={{ fontSize: 32 }}/>) : 
+                (<HomeOutlinedIcon sx={{ fontSize: 32 }}/>)
                 }
                 <b style={{ marginLeft: "10px" }}>{toyListing.delivery_method}</b>
               </Typography>
- 
             </Box>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
               <ActionButton link={`/messages?id=${id}`}  text="&nbsp;Message" startIcon={<MailIcon/>} fullWidth={false}/>
@@ -181,7 +188,7 @@ const ListingDetail = () => {
                   }}
                   anchorEl = {anchorEl}
                   > 
-                    <Typography sx={{ p: 2 }}>The link is copied to clipboard.</Typography>
+                <Typography sx={{ p: 2 }}>The link is copied to clipboard.</Typography>
               </Popover>
             </Grid>
             </Box>
