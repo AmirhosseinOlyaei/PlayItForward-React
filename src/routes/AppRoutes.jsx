@@ -22,7 +22,7 @@ const AppRoutes = () => {
       <Route path="/create" Component={CreateListing} />
       <Route path="/personal" Component={PersonalInfo} />
       <Route path="/favorites" Component={Favorites} />
-      <Route component={NotFoundPage} />
+      <Route path="*" Component={NotFoundPage} />
     </Routes>
   );
 };
