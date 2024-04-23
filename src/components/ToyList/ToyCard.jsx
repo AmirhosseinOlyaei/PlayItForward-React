@@ -1,6 +1,5 @@
 // src/components/ToyList/ToyCard.jsx
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardActionArea,
@@ -11,17 +10,18 @@ import {
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function ToyCard({ toyId, title, imageUrl, location }) {
+export default function ToyCard({
+  toyId,
+  title,
+  imageUrl,
+  location,
+  onCardClick,
+}) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const navigate = useNavigate(); // Create an instance of navigate
 
   const defaultImage = "https://via.placeholder.com/1920x1080/eee?text=16:9";
   const imageSrc = imageUrl || defaultImage;
-
-  const handleClick = () => {
-    navigate(`/toys/${toyId}`);
-  };
 
   return (
     <Card
@@ -32,7 +32,7 @@ export default function ToyCard({ toyId, title, imageUrl, location }) {
         overflow: "hidden",
       }}
     >
-      <CardActionArea onClick={handleClick}>
+      <CardActionArea onClick={() => onCardClick(toyId)}>
         <CardMedia
           sx={{
             height: 0,

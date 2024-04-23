@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Search as SearchIcon, Menu as MenuIcon } from "@mui/icons-material";
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ const NavBar = () => {
             onClick={handleMenuClick}
             sx={{ p: 1 }}
           >
-            <MenuIcon sx={{ fontSize: 35 }} />
+            <MenuIcon sx={{ fontSize: 39 }} />
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -109,13 +109,16 @@ const NavBar = () => {
             open={open}
             onClose={handleMenuClose}
           >
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/personal"
-            >
-              User Profile
-            </MenuItem>
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/personal"
+              >
+                User Profile
+              </MenuItem>
+            )}
+
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
@@ -123,20 +126,27 @@ const NavBar = () => {
             >
               Toys
             </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/create"
-            >
-              Create Listing
-            </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/messages"
-            >
-              Messages
-            </MenuItem>
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/create"
+              >
+                Create Listing
+              </MenuItem>
+            )}
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/messages"
+              >
+                Messages
+              </MenuItem>
+            )}
+
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
