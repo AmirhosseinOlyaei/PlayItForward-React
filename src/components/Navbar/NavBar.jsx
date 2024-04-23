@@ -1,6 +1,6 @@
 // src/components/Navbar/NavBar.jsx
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -16,6 +16,7 @@ import { Search as SearchIcon, Menu as MenuIcon } from "@mui/icons-material";
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -23,6 +24,11 @@ const NavBar = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleSearchClick = () => {
+    navigate("/toys"); // Navigate to the ToyLanding page
+    // If needed, trigger search logic or state changes here
   };
 
   return (
@@ -75,7 +81,7 @@ const NavBar = () => {
             "& > *:not(:last-child)": { mr: 3 },
           }}
         >
-          <IconButton color="inherit" sx={{ p: 1 }}>
+          <IconButton color="inherit" sx={{ p: 1 }} onClick={handleSearchClick}>
             <SearchIcon sx={{ fontSize: 30 }} />
           </IconButton>
           <IconButton
