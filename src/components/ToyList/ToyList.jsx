@@ -3,7 +3,7 @@ import React from "react";
 import { Grid } from "@mui/material";
 import ToyCard from "./ToyCard";
 
-function ToyList({ toys, error }) {
+function ToyList({ toys, error, onClick }) {
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -17,6 +17,7 @@ function ToyList({ toys, error }) {
             title={toy.title}
             imageUrl={toy.imageUrl}
             location={toy.zip_code}
+            onClick={() => onCardClick(toy._id)}
           />
         </Grid>
       ))}

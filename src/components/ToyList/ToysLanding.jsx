@@ -90,6 +90,12 @@ export default function ToysLanding() {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleCardClick = () => {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition.toString());
+    // navigate to detail page
+  };
+
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
       <CssBaseline />
@@ -264,10 +270,10 @@ export default function ToysLanding() {
         <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} m={2}>
           {viewType ? (
             <Grid item xs={12} sm={12} m={1}>
-              <ToyListMap toysData={toys} />
+              <ToyListMap toysData={toys} onClick={handleCardClick} />
             </Grid>
           ) : (
-            <ToyList toys={toys} />
+            <ToyList toys={toys} onClick={handleCardClick} />
           )}
         </Grid>
       </Grid>
