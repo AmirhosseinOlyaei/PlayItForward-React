@@ -22,6 +22,7 @@ import CustomToolbar from "./CustomToolbar";
 import ToyList from "./ToyList";
 import DeliveryFilter from "./DeliveryFilter";
 import GoogleZip from "./GoogleZip";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 340;
 
@@ -35,6 +36,7 @@ export default function ToysLanding() {
   const [zipCode, setZipCode] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchToys = async () => {
@@ -90,10 +92,10 @@ export default function ToysLanding() {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleCardClick = () => {
+  const handleCardClick = (toyId) => {
     const scrollPosition = window.scrollY;
     localStorage.setItem("scrollPosition", scrollPosition.toString());
-    // navigate to detail page
+    navigate(`/toys/${toyId}`); // Navigate to the detail page
   };
 
   return (
