@@ -7,6 +7,19 @@ import UserContext from "./context/userContext";
 function App() {
   const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/user`)
+      .then((response) => {
+        setUser(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setUser(null);
+      });
+  }, []);
+
   return (
     <>
       <UserContext.Provider value={user}>
