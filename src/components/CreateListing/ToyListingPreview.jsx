@@ -9,6 +9,7 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelectActualTwoTone";
 import Avatar from "@mui/material/Avatar";
+import UserContext from "../../context/userContext";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -26,14 +27,15 @@ const ToyListingPreview = ({
   console.log("selectedFile", selectedFile);
   console.log("fetchedFileName", fetchedFileName);
 
+  const { user } = React.useContext(UserContext);
   const userData = {
     listingDate: new Date().toLocaleDateString(),
   };
-  const [user, setUser] = React.useState("");
+  const [userInfo, setUserInfo] = React.useState("");
 
   React.useEffect(() => {
     async function fetchUserData() {
-      const response = await fetch(`${apiUrl}/users/6609a2873eaffef95345b9fb`);
+      const response = await fetch(`${apiUrl}/users/${user._id}`);
       const currentUser = await response.json();
       console.log("curUser", currentUser);
       setUser(currentUser);
@@ -216,7 +218,7 @@ const ToyListingPreview = ({
                   </Grid>
                   <Grid item xs={10}>
                     <Typography variant="body1" sx={{ gap: "1px" }}>
-                      {user.first_name} {user.last_name}
+                      {userInfo.first_name} {userInfo.last_name}
                     </Typography>
                   </Grid>
                 </Grid>

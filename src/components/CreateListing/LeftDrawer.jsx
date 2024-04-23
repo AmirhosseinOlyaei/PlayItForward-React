@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
@@ -16,6 +16,7 @@ import Alert from "@mui/material/Alert";
 import SuccessAlert from "./SuccessAlert";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import UserContext from "../../context/userContext";
 
 const drawerWidth = 340;
 
@@ -53,7 +54,7 @@ const LeftDrawer = ({
     whiteSpace: "nowrap",
     width: 1,
   });
-
+  const { user } = useContext(UserContext);
   const [zipCode, setZipCode] = useState("");
   const [error, setError] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
@@ -219,11 +220,7 @@ const LeftDrawer = ({
       imageUrl: imageUrl.file.url,
       status: "available",
       listed_by_id: {
-        _id: "6609a2873eaffef95345b9fb",
-        email: "user3@example.com",
-        first_name: "Emma",
-        last_name: "Johnson",
-        profile_picture: "https://example.com/profiles/user3.jpg",
+        _id: user._id,
       },
     };
     await axios
