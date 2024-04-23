@@ -1,5 +1,5 @@
 // src/components/Navbar/NavBar.jsx
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   AppBar,
@@ -12,8 +12,10 @@ import {
   MenuItem,
 } from "@mui/material";
 import { Search as SearchIcon, Menu as MenuIcon } from "@mui/icons-material";
+import UserContext from "../../context/userContext";
 
 const NavBar = () => {
+  const { user } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
