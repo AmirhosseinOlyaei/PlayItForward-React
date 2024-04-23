@@ -92,7 +92,7 @@ const NavBar = () => {
             onClick={handleMenuClick}
             sx={{ p: 1 }}
           >
-            <MenuIcon sx={{ fontSize: 40 }} />
+            <MenuIcon sx={{ fontSize: 35 }} />
           </IconButton>
           <Menu
             id="menu-appbar"
