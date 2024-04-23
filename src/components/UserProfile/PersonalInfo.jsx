@@ -11,22 +11,11 @@ import { useState, useEffect } from "react";
 import { dateStringToMonthYear } from "../ListingDetail";
 import DoneIcon from '@mui/icons-material/Done';
 
-
+const apiUrl = import.meta.env.VITE_API_URL
 
 const PersonalInfo = () => {
-  // const user = {
-  //   email: "jH0H0@example.com",
-  //   first_name: "Jen",
-  //   last_name: "Hill",
-  //   profile_picture: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-  //   nickname: "Jennickname",
-  //   zipcode: 94040,
-  //   created_by_id: 1,
-  //   create_date: "March 2022",
-  //   modified_date: "March 2022",
-  //   modified_by_id: 1,
-  // };
-  const apiUrl = import.meta.env.VITE_API_URL
+  
+
   const [userSignedIn, setUserSignedIn] = React.useState({});
   const [editNickNameMode, setEditNickNameMode] = React.useState(false);
   const [newNickname, setNewNickname] = React.useState(userSignedIn.nickname);
@@ -64,7 +53,7 @@ const PersonalInfo = () => {
   }
 
 async function updateNickname (newNickname) {
-  const response = await fetch(`${apiUrl}//users/${currentUserId}`, {
+  const response = await fetch(`${apiUrl}/users/${currentUserId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -79,7 +68,7 @@ async function updateNickname (newNickname) {
 
 async function updateZipcode (newZipcode) {
   console.log(newZipcode, userSignedIn.id);
-  const response = await fetch(`${apiUrl}//users/${currentUserId}`, {
+  const response = await fetch(`${apiUrl}/users/${currentUserId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
