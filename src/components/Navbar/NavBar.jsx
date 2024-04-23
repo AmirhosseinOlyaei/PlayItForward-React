@@ -106,7 +106,7 @@ const NavBar = () => {
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
-              to="/profile"
+              to="/personal"
             >
               User Profile
             </MenuItem>
