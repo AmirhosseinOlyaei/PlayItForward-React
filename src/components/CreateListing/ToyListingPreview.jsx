@@ -9,7 +9,6 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelectActualTwoTone";
 import Avatar from "@mui/material/Avatar";
-import { toysData } from "../ToyList/toysData";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
