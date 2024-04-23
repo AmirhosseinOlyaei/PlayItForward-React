@@ -53,6 +53,7 @@ const ListingDetail = () => {
       const response = await fetch(`${apiUrl}/favorites/check-favorite/${userId}/${toyId}`);
       const favoriteCheck = await response.json();
       setIsFavorite(favoriteCheck);
+      console.log(favoriteCheck);
     }
     fetchToy(id); // Replace with the ID of the toy you want to fetch
   }, []);
