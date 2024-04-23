@@ -17,7 +17,9 @@ import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ToyMap from "./ToyMap";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 
 
 
@@ -30,11 +32,13 @@ const authorizedUser = "6609a2873eaffef95345b9fa"; // Replace with the ID of the
 const ListingDetail = () => {
 
   const { id } = useParams();
+ // const { user } = useContext(UserContext);
   const [toyListing, setToyListing] = useState({});
   const [toyGiver, setToyGiver] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteId, setFavoriteId] = useState(null);
   const [newMessage, setNewMessage] = useState("Is this still available?");
-  const [messageSent, setMessageSent] = useState([]);
+  const [messageSent, setMessageSent] = useState(false);
 
   React.useEffect(() => {
     async function fetchToy(toyId) {
@@ -52,11 +56,15 @@ const ListingDetail = () => {
     async function checkFavorite (userId, toyId) {
       const response = await fetch(`${apiUrl}/favorites/check-favorite/${userId}/${toyId}`);
       const favoriteCheck = await response.json();
-      setIsFavorite(favoriteCheck);
-      console.log(favoriteCheck);
+      setIsFavorite(favoriteCheck.isFavorite);
+      if (favoriteCheck.isFavorite) 
+        {
+          setFavoriteId(favoriteCheck.favorite_Id);
+        }
+    
     }
     fetchToy(id); // Replace with the ID of the toy you want to fetch
-  }, []);
+  }, [isFavorite]);
   
   function calculateDate(date) {
     const today = new Date();
@@ -72,8 +80,10 @@ const ListingDetail = () => {
       toy_listing_id: id,
       user_id: authorizedUser, // Replace with the ID of the user who is logged in
     };
-    isFavorite ? deleteFavorite(fav) : addFavorite(fav);
-    setIsFavorite(!isFavorite);
+    
+    isFavorite ? deleteFavorite(favoriteId) : addFavorite(fav);
+    setIsFavorite(!isFavorite); // Update the state with the new value of isFavorite);
+    
   }
 
   async function addFavorite(fav) {
@@ -84,22 +94,23 @@ const ListingDetail = () => {
       },
       body: JSON.stringify(fav),
     });
-    console.log("The toy is added", toyListing._id );
+    
   }
 
-  async function deleteFavorite(fav) {
-    const response = await fetch(`${apiUrl}/favorites/${toyListing._id}`, {
+  async function deleteFavorite(favId) {
+    const response = await fetch(`${apiUrl}/favorites/${favId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log("Deleted from favorites", toyListing._id );
+    
   };
 
   const handleMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
+  
   const handleSendMessage = async () => {
     console.log(id, toyListing.listed_by_id._id)
     try {
@@ -126,6 +137,7 @@ const ListingDetail = () => {
       console.error("Error sending message:", error);
     } finally {
     }
+    setMessageSent(true);
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -157,8 +169,6 @@ const ListingDetail = () => {
         const latitude = location.lat;
         const longitude = location.lng;
         setMapPosition({ lat: latitude, lng: longitude, city: city, state: state });
-        console.log("mapPosition", mapPosition);
-    
       })
       .catch(error => console.error("Error:", error));
   }, [toyListing]);
@@ -247,9 +257,11 @@ const ListingDetail = () => {
             <Divider/>
             <Box sx={{ padding: "20px 0" }}>
               <Typography variant="h6" sx={{ margin: "5px 0" }}>Send a message</Typography>
+              {messageSent ? <Typography variant="body" sx={{ color: "red" }}>Message sent.</Typography> : ""}
               <TextField id="outlined-basic" onChange={handleMessageChange} value={newMessage} variant="outlined" sx={{ width: "100%" }} />
               <br/>
-              <ActionButton linkTo="" text="&nbsp;Send" startIcon={<MailIcon/>} onClick={async () => await handleSendMessage()} fullWidth={true}/> 
+              <ActionButton linkTo="" text="&nbsp;Send" startIcon={<MailIcon/>} onClick={async () => await handleSendMessage()} fullWidth={true}/>
+      
             </Box>
         </Box>
       </Drawer>
