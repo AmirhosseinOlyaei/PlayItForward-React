@@ -111,13 +111,16 @@ const NavBar = () => {
             open={open}
             onClose={handleMenuClose}
           >
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/personal"
-            >
-              User Profile
-            </MenuItem>
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/personal"
+              >
+                User Profile
+              </MenuItem>
+            )}
+
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
@@ -125,20 +128,27 @@ const NavBar = () => {
             >
               Toys
             </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/create"
-            >
-              Create Listing
-            </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/messages"
-            >
-              Messages
-            </MenuItem>
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/create"
+              >
+                Create Listing
+              </MenuItem>
+            )}
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/messages"
+              >
+                Messages
+              </MenuItem>
+            )}
+
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
