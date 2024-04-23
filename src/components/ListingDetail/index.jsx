@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect} from "react";
+import { useNavigate } from 'react-router-dom';
 import styles from "./ListingDetail.module.css";
 import { Typography, Box, Divider, Avatar, Popover, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -16,6 +17,7 @@ import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ToyMap from "./ToyMap";
 import { useParams } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 
 
@@ -28,13 +30,11 @@ const authorizedUser = "6609a2873eaffef95345b9fa"; // Replace with the ID of the
 const ListingDetail = () => {
 
   const { id } = useParams();
-  const [toyListing, setToyListing] = useState([]);
+  const [toyListing, setToyListing] = useState({});
   const [toyGiver, setToyGiver] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [newMessage, setNewMessage] = useState("Is this still available?");
   const [messageSent, setMessageSent] = useState([]);
-
-
 
   React.useEffect(() => {
     async function fetchToy(toyId) {
@@ -42,7 +42,7 @@ const ListingDetail = () => {
       const toy = await response.json();
       setToyListing(toy);
       fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
-      checkFavorite(authorizedUser, id); // Check if the user has favorited the toy. Parameters: (userId, toyId)
+      checkFavorite(authorizedUser, toyId); // Check if the user has favorited the toy. Parameters: (userId, toyId)
     }
     async function fetchToyGiver(userId) {
       const response = await fetch(`${apiUrl}/users/${userId}`);
@@ -53,6 +53,7 @@ const ListingDetail = () => {
       const response = await fetch(`${apiUrl}/favorites/check-favorite/${userId}/${toyId}`);
       const favoriteCheck = await response.json();
       setIsFavorite(favoriteCheck);
+      console.log(favoriteCheck);
     }
     fetchToy(id); // Replace with the ID of the toy you want to fetch
   }, []);
@@ -135,6 +136,32 @@ const ListingDetail = () => {
       setTimeout(() => setIsOpen(false), 3000);
     }
   }, [isOpen]);
+
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+      navigate(-1);  // Navigate back to the previous page
+  };
+  const [mapPosition, setMapPosition] = useState({ lat: null, lng: null, city: "", state: "" });
+  useEffect(() => {
+    if (!toyListing.zip_code) {
+      return
+    }
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${toyListing.zip_code}|country:us&key=${GOOGLE_MAPS_API_KEY}`)
+      .then(response => response.json())
+      .then(data => {
+
+        const location = data.results[0].geometry.location;
+        const city = data.results[0].address_components[1].long_name;
+        const state = data.results[0].address_components[2].long_name;
+        const latitude = location.lat;
+        const longitude = location.lng;
+        setMapPosition({ lat: latitude, lng: longitude, city: city, state: state });
+        console.log("mapPosition", mapPosition);
+    
+      })
+      .catch(error => console.error("Error:", error));
+  }, [toyListing]);
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -152,20 +179,17 @@ const ListingDetail = () => {
       >
         
         <Box sx={{ overflow: 'auto', padding: "0px 20px" }}>
-          
-            <Box sx={{ padding: "20px 0" }}>
+          <ActionButton link=""  text="&nbsp;Back" startIcon={<ArrowBackIcon/>} onClick={handleBack} fullWidth={false}/>
+          <Box sx={{ padding: "20px 0" }}>
             <Typography variant="h4" sx={{ margin: "5px 0" }}>{toyListing.title}</Typography>
-            
-              <Typography variant="body" paragraph>Listed {calculateDate(toyListing.created_date)} days ago in {toyListing.zip_code} </Typography>
-            
+            <Typography variant="body" paragraph>Listed {calculateDate(toyListing.created_date)} days ago in {mapPosition.city}, {mapPosition.state} </Typography>
             <Box sx={{ display: "flex", justifyContent: "space-between", maxWidth: "80%"}}>
               <Typography variant="body2" sx={{ display: "flex", alignItems: "center" }}>
-                {toyListing.delivery_method == "Delivery" ? (<HomeOutlinedIcon sx={{ fontSize: 32 }}/>) : 
-                (<LocalShippingOutlinedIcon sx={{ fontSize: 32 }}/>)
+                {toyListing.delivery_method === "Delivery" ? (<LocalShippingOutlinedIcon sx={{ fontSize: 32 }}/>) : 
+                (<HomeOutlinedIcon sx={{ fontSize: 32 }}/>)
                 }
                 <b style={{ marginLeft: "10px" }}>{toyListing.delivery_method}</b>
               </Typography>
- 
             </Box>
             <Grid xs={12} sx={{ margin: "10px 0", display: "flex", justifyContent: "space-between" }}>
               <ActionButton link={`/messages?id=${id}`}  text="&nbsp;Message" startIcon={<MailIcon/>} fullWidth={false}/>
@@ -181,7 +205,7 @@ const ListingDetail = () => {
                   }}
                   anchorEl = {anchorEl}
                   > 
-                    <Typography sx={{ p: 2 }}>The link is copied to clipboard.</Typography>
+                <Typography sx={{ p: 2 }}>The link is copied to clipboard.</Typography>
               </Popover>
             </Grid>
             </Box>
@@ -203,8 +227,8 @@ const ListingDetail = () => {
             </Box>
             <Box sx={{ padding: "20px 0" }}>
 
-                  <ToyMap />
-
+                  {mapPosition.lat && <ToyMap lat={mapPosition.lat} lng={mapPosition.lng}/>}
+                  <Typography variant="body">{mapPosition.city}, {mapPosition.state}</Typography>
             </Box>
             <Divider/>
             <Box sx={{ padding: "20px 0" }}>
