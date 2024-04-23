@@ -5,7 +5,7 @@ import ToyListingPreview from "./ToyListingPreview";
 import UserContext from "../../context/userContext";
 
 const CreateListing = () => {
-  const { user } = useContext(UserContext);
+  const user = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");

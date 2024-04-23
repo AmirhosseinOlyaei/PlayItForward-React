@@ -27,7 +27,7 @@ const ToyListingPreview = ({
   console.log("selectedFile", selectedFile);
   console.log("fetchedFileName", fetchedFileName);
 
-  const { user } = useContext(UserContext);
+  const user = useContext(UserContext);
   const userData = {
     listingDate: new Date().toLocaleDateString(),
   };
