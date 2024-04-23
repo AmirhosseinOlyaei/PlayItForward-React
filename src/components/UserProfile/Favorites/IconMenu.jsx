@@ -71,35 +71,6 @@ function IconMenu() {
         </List>
       </Box>
     </Drawer>
-
-    // <MenuList sx={{ width: 250 }}>
-    //   <MenuItem>
-    //     <ListItemIcon>
-    //       <List fontSize="small" />
-    //     </ListItemIcon>
-    //     <ListItemText>My Listings</ListItemText>
-    //   </MenuItem>
-    //   <MenuItem>
-    //     <ListItemIcon>
-    //       <Bookmark fontSize="small" />
-    //     </ListItemIcon>
-    //     <ListItemText>Favorites</ListItemText>
-    //   </MenuItem>
-    //   <MenuItem>
-    //     <ListItemIcon>
-    //       <Badge badgeContent={4} color="primary">
-    //         <Send fontSize="small" />
-    //       </Badge>
-    //     </ListItemIcon>
-    //     <ListItemText>Messages</ListItemText>
-    //   </MenuItem>
-    //   <MenuItem>
-    //     <ListItemIcon>
-    //       <Person2 fontSize="small" />
-    //     </ListItemIcon>
-    //     <ListItemText>Personal Information</ListItemText>
-    //   </MenuItem>
-    // </MenuList>
   );
 }
 

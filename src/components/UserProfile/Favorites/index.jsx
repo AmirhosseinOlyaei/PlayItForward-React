@@ -9,55 +9,97 @@ import {
   CssBaseline,
   Typography,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
-import ToyCard from "../../ToyList/ToyCard";
+import FavoriteCard from "./FavoriteCard";
+import axios from "axios";
 
 const Favorites = () => {
-  const [delivery, setDelivery] = useState("All");
+  const currentUserId = "6609a2873eaffef95345b9fa";
+
   const [favoriteToys, setFavoriteToys] = useState([]);
-  const [viewType, setViewType] = useState(false);
-  const [toy, setToy] = useState(null);
   const [favToysList, setFavToysList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [filteredFavToysByUser, setFilteredFavToysByUser] = useState([]);
+  // const [favoriteToys]
 
-  const initialized = useRef(false);
   const apiUrl = import.meta.env.VITE_API_URL;
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      async function fetchData() {
-        try {
-          const response = await fetch(`${apiUrl}/favorites`);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const favToys = await response.json();
-          setFavoriteToys(favToys);
-        } catch (error) {
-          console.error("Error while receiving data:", error);
-        }
-      }
-      fetchData();
-    }
-  }, []);
-  console.log("toy", favoriteToys);
 
   useEffect(() => {
-    async function getToyById() {
+    async function getFavToys() {
       try {
-        favoriteToys.map(async function (toy) {
-          const response = await fetch(`${apiUrl}/toys/${toy.toy_listing_id}`);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
+        // Fetch favorite toys list from /favorites endpoint
+        const response = await fetch(`${apiUrl}/favorites`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch favorite toys");
+        }
+        const favToys = await response.json();
+        setFavoriteToys(favToys);
+
+        console.log("Fetched favorite toys", favToys);
+
+        // Filter favorite toys by current user
+        const filteredFavToysByUser = favToys.filter(
+          (toy) => toy.user_id === currentUserId
+        );
+
+        setFilteredFavToysByUser(filteredFavToysByUser);
+
+        // Set state with filtered favorite toys
+
+        console.log(
+          "Filtered favorite toys by current user",
+          filteredFavToysByUser
+        );
+
+        // Extract toy IDs from filteredFavToysByUser
+        const toyIDs = filteredFavToysByUser.map((toy) => toy.toy_listing_id);
+        console.log("Toy IDs", toyIDs);
+
+        // Fetch toys using the IDs
+        const toyFetchPromises = toyIDs.map(async (toyId) => {
+          const toyResponse = await fetch(`${apiUrl}/toys/${toyId}`);
+
+          if (!toyResponse.ok) {
+            throw new Error(`Failed to fetch toy with ID ${toyId}`);
           }
-          const t = await response.json();
-          setFavToysList((favToysList) => [...favToysList, t]);
+          return toyResponse.json();
         });
+        const toyResponses = await Promise.all(toyFetchPromises);
+        console.log("Fetched toys", toyResponses);
+        // Set state with the fetched toys
+        //setFavToysList((prevList) => [...prevList, ...toyResponses]);
+        setFavToysList(toyResponses);
       } catch (error) {
         console.error("Error while receiving data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
-    getToyById();
-  }, [favoriteToys]);
+    // Run getFavToys when dependencies (apiUrl, currentUserId) change
+    getFavToys();
+  }, [apiUrl, currentUserId]);
+
+  console.log("LIST", favToysList);
+
+  // Delete toy from favorites
+  const deleteFromFavorite = async (favoriteId) => {
+    try {
+      const filteredToy = filteredFavToysByUser.filter(
+        (toy) => toy.toy_listing_id === favoriteId
+      );
+      console.log("Filtered toy:", filteredToy);
+
+      // Delete toy from favorites
+      await axios.delete(`${apiUrl}/favorites/${filteredToy[0]._id}`);
+      console.log("Deleted favorite with ID:", favoriteId);
+      setFavToysList((prevList) =>
+        prevList.filter((toy) => toy._id !== favoriteId)
+      );
+    } catch (error) {
+      console.error("Error while deleting toy:", error);
+    }
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -71,15 +113,28 @@ const Favorites = () => {
         <br />
         <br />
         <Typography variant="h4">My Favorites</Typography>
-        <p>This is the page where users can view favorite toy listings.</p>
-        {favToysList.length > 0 ? (
-          <ul>
-            {favToysList.map((toy, index) => (
-              <li key={index}>
-                <ToyCard title={toy.title} location={toy.zip_code} toyId={toy._id}/>
-              </li>
+
+        {isLoading ? (
+          // Display loading indicator while data is being fetched
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="200px" // Adjust the height as needed
+          >
+            <CircularProgress sx={{ mt: 5 }} />
+          </Box>
+        ) : favToysList.length > 0 ? (
+          <div>
+            {favToysList.map((toy) => (
+              <FavoriteCard
+                toy={toy}
+                key={toy._id}
+                toyId={toy._id}
+                deleteFromFavorite={deleteFromFavorite}
+              />
             ))}
-          </ul>
+          </div>
         ) : (
           <p>No favorites added yet.</p>
         )}
