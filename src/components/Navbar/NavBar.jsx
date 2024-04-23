@@ -1,3 +1,4 @@
+// src/components/Navbar/NavBar.jsx
 import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
@@ -9,23 +10,12 @@ import {
   Typography,
   Menu,
   MenuItem,
-  TextField,
-  InputAdornment,
-  Link,
 } from "@mui/material";
-import {
-  Search as SearchIcon,
-  Email as EmailIcon,
-  Person as PersonIcon,
-  Menu as MenuIcon,
-} from "@mui/icons-material";
-import ExpandableSearch from "./ExpandableSearch";
+import { Search as SearchIcon, Menu as MenuIcon } from "@mui/icons-material";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const isLoggedIn = true; // This should be based on your authentication logic
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -155,7 +145,6 @@ const NavBar = () => {
             >
               Sign In / Out
             </MenuItem>
-            {/* <Link href="/favorites"> */}
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
@@ -163,7 +152,6 @@ const NavBar = () => {
             >
               Favorites
             </MenuItem>
-            {/* </Link> */}
           </Menu>
         </Box>
       </Toolbar>
