@@ -11,7 +11,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
 import ActionButton from "../ActionButton";
-import StatusToggle from "../StatusToggle";
 import { useNavigate } from "react-router-dom";
 
 export default function FavoriteCard({ toy, toyId, deleteFromFavorite }) {

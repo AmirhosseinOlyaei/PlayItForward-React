@@ -8,15 +8,9 @@ import {
   ListItemButton,
   Link,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import MenuList from "@mui/material/MenuList";
-import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import Typography from "@mui/material/Typography";
 import Bookmark from "@mui/icons-material/Bookmark";
-import ContentCopy from "@mui/icons-material/ContentCopy";
-import Send from "@mui/icons-material/Send";
 import Person2 from "@mui/icons-material/Person2";
 import ListIcon from "@mui/icons-material/List";
 import MailIcon from "@mui/icons-material/Mail";
