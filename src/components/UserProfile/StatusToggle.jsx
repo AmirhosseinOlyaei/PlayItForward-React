@@ -7,6 +7,8 @@ const StatusToggle = ({ toy, toys, setToys }) => {
   const [status, setStatus] = useState("");
   const [statusToGone, setStatusToGone] = useState("");
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const toyToUpdate = toys.find((t) => t._id === toy._id);
     if (toyToUpdate) {
@@ -17,12 +19,9 @@ const StatusToggle = ({ toy, toys, setToys }) => {
   const toggleStatus = async () => {
     try {
       const newStatus = status === "available" ? "reserved" : "available";
-      const response = await axios.put(
-        `http://localhost:8000/api/v1/toys/${toy._id}`,
-        {
-          status: newStatus,
-        }
-      );
+      const response = await axios.put(`${apiUrl}/toys/${toy._id}`, {
+        status: newStatus,
+      });
       // Update the status of the toy in the array of toys in the component state
       const updatedToys = toys.map((t) => {
         if (t._id === toy._id) {
@@ -43,12 +42,9 @@ const StatusToggle = ({ toy, toys, setToys }) => {
   const toggleStatusToGone = async () => {
     try {
       const newStatus = "gone";
-      const response = await axios.put(
-        `http://localhost:8000/api/v1/toys/${toy._id}`,
-        {
-          status: newStatus,
-        }
-      );
+      const response = await axios.put(`${apiUrl}/toys/${toy._id}`, {
+        status: newStatus,
+      });
       // Update the status of the toy in the array of toys in the component state
       const updatedToys = toys.map((t) => {
         if (t._id === toy._id) {
