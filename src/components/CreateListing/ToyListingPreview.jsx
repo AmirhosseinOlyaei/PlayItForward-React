@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -27,18 +27,18 @@ const ToyListingPreview = ({
   console.log("selectedFile", selectedFile);
   console.log("fetchedFileName", fetchedFileName);
 
-  const { user } = React.useContext(UserContext);
+  const { user } = useContext(UserContext);
   const userData = {
     listingDate: new Date().toLocaleDateString(),
   };
-  const [userInfo, setUserInfo] = React.useState("");
+  const [userInfo, setUserInfo] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchUserData() {
       const response = await fetch(`${apiUrl}/users/${user._id}`);
       const currentUser = await response.json();
       console.log("curUser", currentUser);
-      setUser(currentUser);
+      setUserInfo(currentUser);
     }
     fetchUserData();
   }, []);

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
@@ -16,7 +16,6 @@ import Alert from "@mui/material/Alert";
 import SuccessAlert from "./SuccessAlert";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import UserContext from "../../context/userContext";
 
 const drawerWidth = 340;
 
@@ -41,6 +40,7 @@ const LeftDrawer = ({
   onToyChange,
   toy,
   handleFetchedFile,
+  user,
 }) => {
   console.log("selectedFile", selectedFile);
   const VisuallyHiddenInput = styled("input")({
@@ -54,7 +54,6 @@ const LeftDrawer = ({
     whiteSpace: "nowrap",
     width: 1,
   });
-  const { user } = useContext(UserContext);
   const [zipCode, setZipCode] = useState("");
   const [error, setError] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
