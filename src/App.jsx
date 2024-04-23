@@ -1,15 +1,19 @@
 // src/App.jsx
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 import UserContext from "./context/userContext";
+import axios from "axios";
 
 function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/user`)
+      .get(`${import.meta.env.VITE_API_URL}/user`, {
+        withCredentials: true,
+      })
       .then((response) => {
         setUser(response.data);
         console.log(response.data);
