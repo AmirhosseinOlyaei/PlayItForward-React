@@ -85,7 +85,7 @@ export default function FavoriteCard({ toy, toyId, deleteFromFavorite }) {
           margin: "5px 0",
           display: "flex",
           justifyContent: "space-between",
-          maxWidth: "390px",
+          maxWidth: "330px",
           //minWidth: "570px",
         }}
       >
@@ -95,7 +95,7 @@ export default function FavoriteCard({ toy, toyId, deleteFromFavorite }) {
           onClick={() => deleteFromFavorite(toy._id)}
         />
         <ActionButton link="/messages" text="" startIcon={<MailIcon />} />
-        <ActionButton link="" text="" startIcon={<ShareIcon />} />
+        {/* <ActionButton link="" text="" startIcon={<ShareIcon />} /> */}
       </Box>
     </Card>
   );
