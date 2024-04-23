@@ -1,33 +1,20 @@
-// import { useState, useEffect } from "react";
+// src/App.jsx
 import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
-
-// import { getAllData } from "./util/index";
-
-// const URL = "http://localhost:8000/api/v1/";
+import UserContext from "./context/userContext";
 
 function App() {
-  // const [message, setMessage] = useState("");
-
-  // useEffect(() => {
-  // (async () => {
-  //   const myData = await getAllData(URL);
-  //   setMessage(myData.data);
-  // })();
-
-  // return () => {
-  //   console.log("unmounting");
-  // };
-  // }, []);
+  const [user, setUser] = useState(null);
 
   return (
     <>
-      <Router>
-        <Navbar />
-        <AppRoutes />
-        {/* <p>{message}</p> */}
-      </Router>
+      <UserContext.Provider value={user}>
+        <Router>
+          <Navbar />
+          <AppRoutes />
+        </Router>
+      </UserContext.Provider>
     </>
   );
 }
