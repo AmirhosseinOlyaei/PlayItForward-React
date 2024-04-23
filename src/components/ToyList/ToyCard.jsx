@@ -10,7 +10,13 @@ import {
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-export default function ToyCard({ toyId, title, imageUrl, location, onClick }) {
+export default function ToyCard({
+  toyId,
+  title,
+  imageUrl,
+  location,
+  onCardClick,
+}) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -26,7 +32,7 @@ export default function ToyCard({ toyId, title, imageUrl, location, onClick }) {
         overflow: "hidden",
       }}
     >
-      <CardActionArea onClick={onClick}>
+      <CardActionArea onClick={() => onCardClick(toyId)}>
         <CardMedia
           sx={{
             height: 0,
