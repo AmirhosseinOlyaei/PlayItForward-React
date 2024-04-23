@@ -85,29 +85,8 @@ const NavBar = () => {
             "& > *:not(:last-child)": { mr: 3 },
           }}
         >
-          <ExpandableSearch />
-          {/* <TextField
-            variant="outlined"
-            size="small"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search..."
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: 30 }} />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ background: "white", borderRadius: 1 }}
-          /> */}
-          {isLoggedIn && (
-            <IconButton color="inherit" sx={{ p: 0 }}>
-              <EmailIcon sx={{ fontSize: 30 }} />
-            </IconButton>
-          )}
-          <IconButton color="inherit" sx={{ p: 0 }}>
-            <PersonIcon sx={{ fontSize: 30 }} />
+          <IconButton color="inherit" sx={{ p: 1 }}>
+            <SearchIcon sx={{ fontSize: 30 }} />
           </IconButton>
           <IconButton
             color="inherit"
@@ -115,9 +94,9 @@ const NavBar = () => {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenuClick}
-            sx={{ p: 0 }}
+            sx={{ p: 1 }}
           >
-            <MenuIcon sx={{ fontSize: 30 }} />
+            <MenuIcon sx={{ fontSize: 35 }} />
           </IconButton>
           <Menu
             id="menu-appbar"
