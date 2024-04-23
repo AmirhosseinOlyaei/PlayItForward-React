@@ -120,13 +120,6 @@ const NavBar = () => {
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
-              to="/toy-details"
-            >
-              Toy Detail
-            </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
               to="/create"
             >
               Create Listing
@@ -144,13 +137,6 @@ const NavBar = () => {
               to="/login"
             >
               Sign In / Out
-            </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/favorites"
-            >
-              Favorites
             </MenuItem>
           </Menu>
         </Box>
