@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import LeftDrawer from "./LeftDrawer";
 import ToyListingPreview from "./ToyListingPreview";
 
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 const CreateListing = () => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -56,40 +62,67 @@ const CreateListing = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <LeftDrawer
-        onTitleChange={handleTitleChange}
-        title={title}
-        onDescriptionChange={handleDescriptionChange}
-        description={description}
-        onCategoryChange={handleCategoryChange}
-        category={category}
-        onConditionChange={handleConditionChange}
-        condition={condition}
-        onDeliveryChange={handleDeliveryChange}
-        delivery={delivery}
-        onFileChange={handleFileChange}
-        selectedFile={selectedFile}
-        onClearPhoto={handleClearPhoto}
-        onValueChangeLocation={handleValueChangeLocation}
-        value={value}
-        onInputChange={handleInputChange}
-        googleValue={googleValue}
-        onToyChange={handleToyChange}
-        toy={toy}
-        handleFetchedFile={handleFetchedFile}
-      />
+      {isSmallScreen ? (
+        <LeftDrawer
+          onTitleChange={handleTitleChange}
+          title={title}
+          onDescriptionChange={handleDescriptionChange}
+          description={description}
+          onCategoryChange={handleCategoryChange}
+          category={category}
+          onConditionChange={handleConditionChange}
+          condition={condition}
+          onDeliveryChange={handleDeliveryChange}
+          delivery={delivery}
+          onFileChange={handleFileChange}
+          selectedFile={selectedFile}
+          onClearPhoto={handleClearPhoto}
+          onValueChangeLocation={handleValueChangeLocation}
+          value={value}
+          onInputChange={handleInputChange}
+          googleValue={googleValue}
+          onToyChange={handleToyChange}
+          toy={toy}
+          handleFetchedFile={handleFetchedFile}
+        />
+      ) : (
+        <>
+          <LeftDrawer
+            onTitleChange={handleTitleChange}
+            title={title}
+            onDescriptionChange={handleDescriptionChange}
+            description={description}
+            onCategoryChange={handleCategoryChange}
+            category={category}
+            onConditionChange={handleConditionChange}
+            condition={condition}
+            onDeliveryChange={handleDeliveryChange}
+            delivery={delivery}
+            onFileChange={handleFileChange}
+            selectedFile={selectedFile}
+            onClearPhoto={handleClearPhoto}
+            onValueChangeLocation={handleValueChangeLocation}
+            value={value}
+            onInputChange={handleInputChange}
+            googleValue={googleValue}
+            onToyChange={handleToyChange}
+            toy={toy}
+            handleFetchedFile={handleFetchedFile}
+          />
 
-      <ToyListingPreview
-        title={title}
-        description={description}
-        condition={condition}
-        delivery={delivery}
-        selectedFile={selectedFile}
-        googleValue={googleValue}
-        value={value}
-        toy={toy}
-        fetchedFileName={fetchedFileName}
-      />
+          <ToyListingPreview
+            title={title}
+            description={description}
+            condition={condition}
+            delivery={delivery}
+            selectedFile={selectedFile}
+            googleValue={googleValue}
+            value={value}
+            toy={toy}
+            fetchedFileName={fetchedFileName}
+          />
+        </>
+      )}
     </Box>
   );
 };
