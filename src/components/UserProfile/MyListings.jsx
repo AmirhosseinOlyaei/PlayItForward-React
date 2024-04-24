@@ -1,3 +1,4 @@
+import UserContext from "../../context/userContext";
 import styles from "./UserProfile.module.css";
 import Grid from "@mui/material/Unstable_Grid2";
 import IconMenu from "./IconMenu";
@@ -14,11 +15,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import UserContext from "../../context/userContext";
 
-const MyListings = () => {
-  const user = useContext(UserContext);
-  const currentUserId = user._id;
+const MyListings = (user) => {
+  const currentUserId = user && user.user ? user.user._id : "";
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [toys, setToys] = useState([]);
@@ -28,7 +27,7 @@ const MyListings = () => {
       try {
         const response = await axios.get(
           // `http://localhost:8000/api/v1/toys?requester=${currentUserId}`
-          `${apiUrl}/toys?requester=${currentUserId}`
+          `${apiUrl}/toys`
         );
         setToys(response.data);
       } catch (error) {
