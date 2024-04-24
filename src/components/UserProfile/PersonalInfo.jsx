@@ -14,7 +14,6 @@ import ImgMediaCard from "./oneLising";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import React from "react";
-import { useState, useEffect } from "react";
 import { dateStringToMonthYear } from "../ListingDetail";
 import DoneIcon from "@mui/icons-material/Done";
 
@@ -26,7 +25,7 @@ const PersonalInfo = (user) => {
   const [newNickname, setNewNickname] = React.useState(userSignedIn.nickname);
   const [newZipcode, setNewZipcode] = React.useState(userSignedIn.zipcode);
   const [editZipcodeMode, setEditZipcodeMode] = React.useState(false);
-  const currentUserId = user.user._id;
+  const currentUserId = user && user.user ? user.user._id : "";
 
   React.useEffect(() => {
     async function fetchUser(userId) {
@@ -37,7 +36,7 @@ const PersonalInfo = (user) => {
       setNewZipcode(user.zipcode);
     }
     fetchUser(currentUserId);
-  }, []);
+  }, [currentUserId]);
 
   const handleEditNickName = () => {
     setEditNickNameMode(true);
