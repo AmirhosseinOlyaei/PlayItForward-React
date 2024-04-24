@@ -11,7 +11,7 @@ const Messages = () => {
   const loggedInUserId = user ? user._id : "";
   const [messages, setMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("inbox");
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [sentMessageCount, setSentMessageCount] = useState(0);
   const [inboxMessageCount, setInboxMessageCount] = useState(0);
@@ -45,19 +45,10 @@ const Messages = () => {
       const data = await response.json();
       console.log("Fetched messages", data);
 
-      setMessages(
-        data.filter(
-          (message) =>
-            message.user_id_from._id === loggedInUserId ||
-            message.user_id_to._id === loggedInUserId
-        )
-      );
+      setMessages(data);
+
       setFilteredMessages(
-        data.filter(
-          (message) =>
-            message.user_id_from._id === loggedInUserId ||
-            message.user_id_to._id === loggedInUserId
-        )
+        data.filter((message) => message.user_id_to._id === loggedInUserId)
       );
 
       const sentCount = data.filter(
@@ -134,7 +125,7 @@ const Messages = () => {
     } else if (filter === "inbox" && loggedInUserId !== null) {
       filterInboxMessages();
     } else if (filter === "") {
-      filterAllMessages();
+      filterInboxMessages();
     } else {
       filterBySearch();
     }
@@ -152,28 +143,14 @@ const Messages = () => {
     );
   };
 
-  const filterAllMessages = () => {
-    setFilteredMessages(
-      messages.filter(
-        (message) =>
-          message.user_id_to?._id === loggedInUserId ||
-          message.user_id_from?._id === loggedInUserId
-      )
-    );
-  };
-
   const filterBySearch = () => {
     const searchTerm = filter.toLowerCase();
     setFilteredMessages(
       messages.filter((message) => {
-        const { user_id_from, user_id_to, subject, content } = message;
-        const fromFirstName = user_id_from?.first_name?.toLowerCase() || "";
-        const fromLastName = user_id_from?.last_name?.toLowerCase() || "";
+        const { user_id_to, subject, content } = message;
         const toFirstName = user_id_to?.first_name?.toLowerCase() || "";
         const toLastName = user_id_to?.last_name?.toLowerCase() || "";
         return (
-          fromFirstName.includes(searchTerm) ||
-          fromLastName.includes(searchTerm) ||
           toFirstName.includes(searchTerm) ||
           toLastName.includes(searchTerm) ||
           subject?.toLowerCase().includes(searchTerm) ||
