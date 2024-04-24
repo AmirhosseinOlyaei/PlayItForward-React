@@ -458,6 +458,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                 recipient={`${message.user_id_from.first_name} ${message.user_id_from.last_name}`}
                 onSend={handleSend}
                 fetchMessages={fetchMessages}
+                loggedInUserId={loggedInUserId}
               />
             </Box>
           </>

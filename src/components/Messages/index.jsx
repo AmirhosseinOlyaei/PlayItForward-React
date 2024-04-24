@@ -5,8 +5,8 @@ import DrawerSidebar from "./Drawer";
 import Mails from "./Mails";
 import MailContent from "./MailContent";
 
-const loggedInUserId = "6609a2873eaffef95345b9fa";
-const Messages = () => {
+const Messages = (user) => {
+  const loggedInUserId = user.user._id;
   const [messages, setMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [filter, setFilter] = useState("");
