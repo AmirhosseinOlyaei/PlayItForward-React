@@ -45,16 +45,22 @@ const Messages = () => {
       const data = await response.json();
       console.log("Fetched messages", data);
 
-      setMessages(data);
-
-      setFilteredMessages(
-        data.filter((message) => message.user_id_to._id === loggedInUserId)
+      const sortedMessages = data.sort(
+        (a, b) => new Date(b.sent_date) - new Date(a.sent_date)
       );
 
-      const sentCount = data.filter(
+      setMessages(sortedMessages);
+
+      setFilteredMessages(
+        sortedMessages.filter(
+          (message) => message.user_id_to._id === loggedInUserId
+        )
+      );
+
+      const sentCount = sortedMessages.filter(
         (message) => message.user_id_from._id === loggedInUserId
       ).length;
-      const inboxCount = data.filter(
+      const inboxCount = sortedMessages.filter(
         (message) => message.user_id_to._id === loggedInUserId
       ).length;
       setSentMessageCount(sentCount);
