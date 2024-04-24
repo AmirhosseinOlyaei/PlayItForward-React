@@ -23,7 +23,7 @@ const AppRoutes = () => {
       <Route path="/messages" element={<Messages user={user} />} />
       <Route path="/create" element={<CreateListing user={user} />} />
       <Route path="/personal" element={<PersonalInfo user={user} />} />
-      <Route path="/favorites" element={<Favorites />} />
+      <Route path="/favorites" element={<Favorites user={user} />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

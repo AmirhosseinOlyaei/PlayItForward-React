@@ -12,18 +12,18 @@ import {
 } from "@mui/material";
 import ToyCard from "../../ToyList/ToyCard";
 
-const Favorites = () => {
+const Favorites = (user) => {
   const [delivery, setDelivery] = useState("All");
   const [favoriteToys, setFavoriteToys] = useState([]);
   const [viewType, setViewType] = useState(false);
   const [toy, setToy] = useState(null);
   const [favToysList, setFavToysList] = useState([]);
+  const currentUserId = user && user.user ? user.user._id : "";
 
   const initialized = useRef(false);
   const apiUrl = import.meta.env.VITE_API_URL;
   useEffect(() => {
     if (!initialized.current) {
-      initialized.current = true;
       async function fetchData() {
         try {
           const response = await fetch(`${apiUrl}/favorites`);
@@ -76,7 +76,11 @@ const Favorites = () => {
           <ul>
             {favToysList.map((toy, index) => (
               <li key={index}>
-                <ToyCard title={toy.title} location={toy.zip_code} toyId={toy._id}/>
+                <ToyCard
+                  title={toy.title}
+                  location={toy.zip_code}
+                  toyId={toy._id}
+                />
               </li>
             ))}
           </ul>
