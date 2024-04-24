@@ -12,11 +12,13 @@ import {
 import ImgMediaCard from "./oneLising";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import UserContext from "../../context/userContext";
 
 const MyListings = () => {
-  const currentUserId = "6609a2873eaffef95345b9fb";
+  const user = useContext(UserContext);
+  const currentUserId = user._id;
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [toys, setToys] = useState([]);
@@ -26,7 +28,7 @@ const MyListings = () => {
       try {
         const response = await axios.get(
           // `http://localhost:8000/api/v1/toys?requester=${currentUserId}`
-          `${apiUrl}/toys`
+          `${apiUrl}/toys?requester=${currentUserId}`
         );
         setToys(response.data);
       } catch (error) {
