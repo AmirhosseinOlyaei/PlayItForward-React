@@ -17,7 +17,13 @@ import BackgroundLetterAvatars from "./Avatar";
 import StarRating from "./StartRating";
 import toast, { Toaster } from "react-hot-toast";
 
-const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
+const MailContent = ({
+  message,
+  fetchMessages,
+  onDelete,
+  loggedInUserId,
+  loggedInUserName,
+}) => {
   const [sentMessages, setSentMessages] = useState([]);
   const [open, setOpen] = useState({
     reply: false,
@@ -328,7 +334,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                     />
                   )}
                   <Typography level="body-xs">
-                    {new Date(message.sent_date).toLocaleDateString()}
+                    {new Date(message.sent_date).toLocaleString()}
                   </Typography>
                 </Box>
               </Box>
@@ -461,6 +467,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                 onSend={handleSend}
                 fetchMessages={fetchMessages}
                 loggedInUserId={loggedInUserId}
+                loggedInUserName={loggedInUserName}
               />
             </Box>
           </>

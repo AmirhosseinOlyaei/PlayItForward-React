@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import DrawerSidebar from "./Drawer";
@@ -8,7 +9,9 @@ import UserContext from "../../context/userContext";
 
 const Messages = () => {
   const user = useContext(UserContext);
+  const { id } = useParams();
   const loggedInUserId = user ? user._id : "";
+  const loggedInUserName = user ? user.nickname : "";
   const [messages, setMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [filter, setFilter] = useState("inbox");
@@ -18,7 +21,7 @@ const Messages = () => {
 
   useEffect(() => {
     fetchMessages();
-  }, []);
+  }, [loggedInUserId]);
 
   // Added useEffect to observe that React state updates are asynchronous, and the updated value might not be available synchronously after calling the state setter function.
 
@@ -36,18 +39,27 @@ const Messages = () => {
 
   const fetchMessages = async () => {
     try {
+      const queryParams = new URLSearchParams(window.location.search);
+
       const response = await fetch(
         `${apiUrl}/messages?userId=${loggedInUserId}`
       );
+
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
       const data = await response.json();
       console.log("Fetched messages", data);
 
-      const sortedMessages = data.sort(
+      let sortedMessages = data.sort(
         (a, b) => new Date(b.sent_date) - new Date(a.sent_date)
       );
+
+      if (id) {
+        sortedMessages = sortedMessages.filter(
+          (message) => message.toy_listing_id._id === id
+        );
+      }
 
       setMessages(sortedMessages);
 
@@ -56,13 +68,16 @@ const Messages = () => {
           (message) => message.user_id_to._id === loggedInUserId
         )
       );
-
+      console.log("sortedMessages", sortedMessages);
+      console.log(loggedInUserId);
       const sentCount = sortedMessages.filter(
         (message) => message.user_id_from._id === loggedInUserId
       ).length;
+      console.log("sentCount", sentCount);
       const inboxCount = sortedMessages.filter(
         (message) => message.user_id_to._id === loggedInUserId
       ).length;
+      console.log("inboxCount", inboxCount);
       setSentMessageCount(sentCount);
       setInboxMessageCount(inboxCount);
     } catch (error) {
@@ -246,6 +261,7 @@ const Messages = () => {
       <Box sx={{ flex: 1, p: 3 }}>
         <MailContent
           loggedInUserId={loggedInUserId}
+          loggedInUserName={loggedInUserName}
           message={selectedMessage}
           onDelete={deleteMessage}
           fetchMessages={fetchMessages}

@@ -9,6 +9,7 @@ function MessageInput({
   onSend,
   fetchMessages,
   loggedInUserId,
+  loggedInUserName,
 }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,7 @@ function MessageInput({
           toy_listing_id: currentMessage.toy_listing_id,
           date: new Date().toISOString(),
           subject: `Re:${currentMessage.subject}`,
-          content: `${message}<hr>${currentMessage.content}`,
+          content: `${loggedInUserName}:${message}<hr>${currentMessage.content}`,
         }),
       });
 
