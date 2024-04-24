@@ -250,7 +250,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   </Typography>
 
                   <Chip
-                    label="sender@mail.com"
+                    label="sender's first and last name"
                     size="sm"
                     variant="soft"
                     color="primary"
@@ -268,7 +268,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   </Typography>
 
                   <Chip
-                    label="receiver@mail.com"
+                    label="receiver's first and last name"
                     size="sm"
                     variant="soft"
                     color="primary"
@@ -407,7 +407,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   </Typography>
                   <Tooltip size="sm" title="Copy email" variant="outlined">
                     <Chip
-                      label={message.user_id_from.email}
+                      label={`${message.user_id_from.first_name} ${message.user_id_from.last_name}`}
                       size="sm"
                       variant="soft"
                       color="primary"
@@ -428,7 +428,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   </Typography>
                   <Tooltip size="sm" title="Copy email" variant="outlined">
                     <Chip
-                      label={message.user_id_to.email}
+                      label={`${message.user_id_to.first_name} ${message.user_id_to.last_name}`}
                       size="sm"
                       variant="soft"
                       color="primary"
