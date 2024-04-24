@@ -268,17 +268,17 @@ export default function ToysLanding() {
       </Drawer>
 
       {/* Main section */}
-      <Grid container mt={11}>
-        <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} m={2}>
+      <Grid container spacing={0} mt={11.8}>
+        {/* <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} m={2}> */}
           {viewType ? (
-            <Grid item xs={12} sm={12} m={1}>
+            <Grid item xs={12} sm={12} m={2}>
               <ToyListMap toysData={toys} onCardClick={handleCardClick} />
             </Grid>
           ) : (
             <ToyList toys={toys} onCardClick={handleCardClick} />
           )}
         </Grid>
-      </Grid>
+      {/* </Grid> */}
     </Box>
   );
 }
