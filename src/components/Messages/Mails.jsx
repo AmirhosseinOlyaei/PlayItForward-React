@@ -11,8 +11,6 @@ import ListItemButton, {
 import SearchMessage from "./SearchMessage";
 import BackgroundLetterAvatars from "./Avatar";
 
-const loggedInUserId = "6609a2873eaffef95345b9fa";
-
 export default function Mails({
   index,
   onSearchChange,
