@@ -1,14 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./ListingDetail.module.css";
-import {
-  Typography,
-  Box,
-  Divider,
-  Avatar,
-  Popover,
-  TextField,
-} from "@mui/material";
+import { Box, Divider, Avatar, Popover, TextField } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
@@ -25,16 +18,14 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import ToyMap from "./ToyMap";
 import { useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import UserContext from "../../context/userContext";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const drawerWidth = 340;
 // const toyListingId = "66196e990925b15c9b3c4375"; // Replace with the ID of the toy listing, which comes from the URL
 
-const ListingDetail = () => {
-  const user = useContext(UserContext);
-  const authorizedUser = user._id;
+const ListingDetail = (user) => {
+  const authorizedUser = user && user.user ? user.user._id : "";
   const { id } = useParams();
   const [toyListing, setToyListing] = useState({});
   const [toyGiver, setToyGiver] = useState([]);
