@@ -1,9 +1,11 @@
 import Box from "@mui/material/Box";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import LeftDrawer from "./LeftDrawer";
 import ToyListingPreview from "./ToyListingPreview";
+import UserContext from "../../context/userContext";
 
-const CreateListing = (user) => {
+const CreateListing = () => {
+  const user = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -14,7 +16,7 @@ const CreateListing = (user) => {
   const [value, setValue] = useState(null);
   const [toy, setToy] = useState({});
   const [fetchedFileName, setFetchedFileName] = useState("");
-
+  const userId = user ? user._id : "";
   const handleValueChangeLocation = (newValue) => {
     setValue(newValue);
   };
@@ -76,7 +78,7 @@ const CreateListing = (user) => {
         onToyChange={handleToyChange}
         toy={toy}
         handleFetchedFile={handleFetchedFile}
-        user={user.user}
+        userId={userId}
       />
 
       <ToyListingPreview

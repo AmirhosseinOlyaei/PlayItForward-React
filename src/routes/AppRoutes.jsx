@@ -19,10 +19,10 @@ const AppRoutes = () => {
       <Route path="/toys" element={<ToyList />} />
       <Route path="/toys/:id" element={<ListingDetail />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/listings" element={<MyListings user={user} />} />
-      <Route path="/messages" element={<Messages user={user} />} />
-      <Route path="/create" element={<CreateListing user={user} />} />
-      <Route path="/personal" element={<PersonalInfo user={user} />} />
+      <Route path="/listings" element={<MyListings />} />
+      <Route path="/messages" element={<Messages />} />
+      <Route path="/create" element={<CreateListing />} />
+      <Route path="/personal" element={<PersonalInfo />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

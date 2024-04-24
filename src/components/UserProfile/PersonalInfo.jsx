@@ -13,19 +13,21 @@ import {
 import ImgMediaCard from "./oneLising";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
-import React from "react";
+import React, { useContext } from "react";
 import { dateStringToMonthYear } from "../ListingDetail";
 import DoneIcon from "@mui/icons-material/Done";
+import UserContext from "../../context/userContext";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const PersonalInfo = (user) => {
+const PersonalInfo = () => {
+  const user = useContext(UserContext);
   const [userSignedIn, setUserSignedIn] = React.useState({});
   const [editNickNameMode, setEditNickNameMode] = React.useState(false);
   const [newNickname, setNewNickname] = React.useState(userSignedIn.nickname);
   const [newZipcode, setNewZipcode] = React.useState(userSignedIn.zipcode);
   const [editZipcodeMode, setEditZipcodeMode] = React.useState(false);
-  const currentUserId = user && user.user ? user.user._id : "";
+  const currentUserId = user && user ? user._id : "";
 
   React.useEffect(() => {
     async function fetchUser(userId) {

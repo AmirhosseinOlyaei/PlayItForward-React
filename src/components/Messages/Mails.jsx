@@ -11,12 +11,12 @@ import ListItemButton, {
 import SearchMessage from "./SearchMessage";
 import BackgroundLetterAvatars from "./Avatar";
 
-export default function Mails({
+const Mails = ({
   index,
   onSearchChange,
   filteredMessages,
   onMessageSelect,
-}) {
+}) => {
   const [selectedMessageIndex, setSelectedMessageIndex] = useState(0);
 
   const handleMessageSelect = (message, index) => {
@@ -118,4 +118,6 @@ export default function Mails({
       </Box>
     </Paper>
   );
-}
+};
+
+export default Mails;
