@@ -153,14 +153,23 @@ const Messages = () => {
     const searchTerm = filter.toLowerCase();
     setFilteredMessages(
       messages.filter((message) => {
-        const { user_id_to, subject, content } = message;
+        const { user_id_to, user_id_from, subject, content } = message;
         const toFirstName = user_id_to?.first_name?.toLowerCase() || "";
         const toLastName = user_id_to?.last_name?.toLowerCase() || "";
+        const fromFirstName = user_id_from?.first_name?.toLowerCase() || "";
+        const fromLastName = user_id_from?.last_name?.toLowerCase() || "";
+
         return (
-          toFirstName.includes(searchTerm) ||
-          toLastName.includes(searchTerm) ||
-          subject?.toLowerCase().includes(searchTerm) ||
-          content?.toLowerCase().includes(searchTerm)
+          (user_id_to?._id === loggedInUserId &&
+            (toFirstName.includes(searchTerm) ||
+              toLastName.includes(searchTerm) ||
+              subject?.toLowerCase().includes(searchTerm) ||
+              content?.toLowerCase().includes(searchTerm))) ||
+          (user_id_from?._id === loggedInUserId &&
+            (fromFirstName.includes(searchTerm) ||
+              fromLastName.includes(searchTerm) ||
+              subject?.toLowerCase().includes(searchTerm) ||
+              content?.toLowerCase().includes(searchTerm)))
         );
       })
     );
