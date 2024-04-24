@@ -8,6 +8,8 @@ import {
   Avatar,
   Popover,
   TextField,
+  IconButton,
+  Snackbar,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -24,9 +26,11 @@ import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ToyMap from "./ToyMap";
 import { useParams } from "react-router-dom";
-import { useContext } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import UserContext from "../../context/userContext";
+import { Button } from "@mui/base";
+import CloseIcon from '@mui/icons-material/Close';
+import toast, { Toaster } from "react-hot-toast";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -36,6 +40,8 @@ const drawerWidth = 340;
 const ListingDetail = () => {
   const user = useContext(UserContext);
   const authorizedUser = user ? user._id : "";
+  const authorizedUserNickName = user ? user.nickname : "";
+
   const { id } = useParams();
  // const user = useContext(UserContext);
   const [toyListing, setToyListing] = useState({});
@@ -131,10 +137,10 @@ const ListingDetail = () => {
           toy_listing_id: id,
           date: new Date().toISOString(),
           subject: toyListing.title,
-          content: newMessage,
+          content: authorizedUserNickName + ": " + newMessage,
         }),
       });
-
+      toast.success("Message sent successfully");
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
@@ -155,6 +161,7 @@ const ListingDetail = () => {
     }
   }, [isOpen]);
 
+  // Handle back button click
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -166,6 +173,8 @@ const ListingDetail = () => {
     city: "",
     state: "",
   });
+
+  // Fetch map position
   useEffect(() => {
     if (!toyListing.zip_code) {
       return;
@@ -191,7 +200,33 @@ const ListingDetail = () => {
       .catch((error) => console.error("Error:", error));
   }, [toyListing]);
 
+  const [openToast, setOpenToast] = useState(false);
+  const handleCloseToast = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenToast(false);  
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleCloseToast}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseToast}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   return (
+    <>
+    <Toaster />
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
@@ -393,9 +428,16 @@ const ListingDetail = () => {
               linkTo=""
               text="&nbsp;Send"
               startIcon={<MailIcon />}
-              onClick={async () => await handleSendMessage()}
+              onClick={async () => {await handleSendMessage();}}
               fullWidth={true}
             />
+            {/* <Snackbar
+              open={openToast}
+              autoHideDuration={6000}
+              onClose={handleCloseToast}
+              message="Message sent!"
+              action={action}
+            /> */}
           </Box>
         </Box>
       </Drawer>
@@ -403,6 +445,7 @@ const ListingDetail = () => {
         <img src={toyListing.imageUrl} alt="Toy image" width="100%" />
       </Box>
     </Box>
+    </>
   );
 };
 
