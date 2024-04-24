@@ -34,7 +34,7 @@ const drawerWidth = 340;
 
 const ListingDetail = () => {
   const user = useContext(UserContext);
-  const authorizedUser = user._id;
+  const authorizedUser = user ? user._id : "";
   const { id } = useParams();
   const [toyListing, setToyListing] = useState({});
   const [toyGiver, setToyGiver] = useState([]);
@@ -48,7 +48,7 @@ const ListingDetail = () => {
       const toy = await response.json();
       setToyListing(toy);
       fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
-      checkFavorite(authorizedUser, toyId); // Check if the user has favorited the toy. Parameters: (userId, toyId)
+      if (authorizedUser !== "") checkFavorite(authorizedUser, toyId); // Check if the user has favorited the toy. Parameters: (userId, toyId)
     }
     async function fetchToyGiver(userId) {
       const response = await fetch(`${apiUrl}/users/${userId}`);
@@ -64,7 +64,7 @@ const ListingDetail = () => {
       console.log(favoriteCheck);
     }
     fetchToy(id); // Replace with the ID of the toy you want to fetch
-  }, []);
+  }, [authorizedUser]);
 
   function calculateDate(date) {
     const today = new Date();

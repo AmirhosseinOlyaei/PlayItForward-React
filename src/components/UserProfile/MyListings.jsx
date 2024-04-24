@@ -16,8 +16,9 @@ import AppBar from "@mui/material/AppBar";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
-const MyListings = (user) => {
-  const currentUserId = user && user.user ? user.user._id : "";
+const MyListings = () => {
+  const user = useContext(UserContext);
+  const currentUserId = user && user ? user._id : "";
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [toys, setToys] = useState([]);

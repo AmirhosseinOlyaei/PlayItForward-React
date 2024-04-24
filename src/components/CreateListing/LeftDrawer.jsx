@@ -40,7 +40,7 @@ const LeftDrawer = ({
   onToyChange,
   toy,
   handleFetchedFile,
-  user,
+  userId,
 }) => {
   console.log("selectedFile", selectedFile);
   const VisuallyHiddenInput = styled("input")({
@@ -219,7 +219,7 @@ const LeftDrawer = ({
       imageUrl: imageUrl.file.url,
       status: "available",
       listed_by_id: {
-        _id: user._id,
+        _id: userId,
       },
     };
     await axios
