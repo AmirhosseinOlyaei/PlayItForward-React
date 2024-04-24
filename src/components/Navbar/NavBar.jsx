@@ -1,5 +1,6 @@
+// src/components/Navbar/NavBar.jsx
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -9,23 +10,13 @@ import {
   Typography,
   Menu,
   MenuItem,
-  TextField,
-  InputAdornment,
-  Link,
 } from "@mui/material";
-import {
-  Search as SearchIcon,
-  Email as EmailIcon,
-  Person as PersonIcon,
-  Menu as MenuIcon,
-} from "@mui/icons-material";
-import ExpandableSearch from "./ExpandableSearch";
+import { Search as SearchIcon, Menu as MenuIcon } from "@mui/icons-material";
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const isLoggedIn = true; // This should be based on your authentication logic
-  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,6 +24,11 @@ const NavBar = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleSearchClick = () => {
+    navigate("/toys"); // Navigate to the ToyLanding page
+    // If needed, trigger search logic or state changes here
   };
 
   return (
@@ -85,29 +81,8 @@ const NavBar = () => {
             "& > *:not(:last-child)": { mr: 3 },
           }}
         >
-          <ExpandableSearch />
-          {/* <TextField
-            variant="outlined"
-            size="small"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search..."
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ fontSize: 30 }} />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ background: "white", borderRadius: 1 }}
-          /> */}
-          {isLoggedIn && (
-            <IconButton color="inherit" sx={{ p: 0 }}>
-              <EmailIcon sx={{ fontSize: 30 }} />
-            </IconButton>
-          )}
-          <IconButton color="inherit" sx={{ p: 0 }}>
-            <PersonIcon sx={{ fontSize: 30 }} />
+          <IconButton color="inherit" sx={{ p: 1 }} onClick={handleSearchClick}>
+            <SearchIcon sx={{ fontSize: 30 }} />
           </IconButton>
           <IconButton
             color="inherit"
@@ -115,9 +90,9 @@ const NavBar = () => {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenuClick}
-            sx={{ p: 0 }}
+            sx={{ p: 1 }}
           >
-            <MenuIcon sx={{ fontSize: 30 }} />
+            <MenuIcon sx={{ fontSize: 39 }} />
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -134,13 +109,16 @@ const NavBar = () => {
             open={open}
             onClose={handleMenuClose}
           >
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/profile"
-            >
-              User Profile
-            </MenuItem>
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/personal"
+              >
+                User Profile
+              </MenuItem>
+            )}
+
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
@@ -148,27 +126,27 @@ const NavBar = () => {
             >
               Toys
             </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/toy-details"
-            >
-              Toy Detail
-            </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/create"
-            >
-              Create Listing
-            </MenuItem>
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/messages"
-            >
-              Messages
-            </MenuItem>
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/create"
+              >
+                Create Listing
+              </MenuItem>
+            )}
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/messages"
+              >
+                Messages
+              </MenuItem>
+            )}
+
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
@@ -176,15 +154,6 @@ const NavBar = () => {
             >
               Sign In / Out
             </MenuItem>
-            {/* <Link href="/favorites"> */}
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/favorites"
-            >
-              Favorites
-            </MenuItem>
-            {/* </Link> */}
           </Menu>
         </Box>
       </Toolbar>

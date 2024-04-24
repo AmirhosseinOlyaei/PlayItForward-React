@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -9,7 +9,7 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelectActualTwoTone";
 import Avatar from "@mui/material/Avatar";
-import { toysData } from "../ToyList/toysData";
+import UserContext from "../../context/userContext";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -27,17 +27,18 @@ const ToyListingPreview = ({
   console.log("selectedFile", selectedFile);
   console.log("fetchedFileName", fetchedFileName);
 
+  const user = useContext(UserContext);
   const userData = {
     listingDate: new Date().toLocaleDateString(),
   };
-  const [user, setUser] = React.useState("");
+  const [userInfo, setUserInfo] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     async function fetchUserData() {
-      const response = await fetch(`${apiUrl}/users/6609a2873eaffef95345b9fb`);
+      const response = await fetch(`${apiUrl}/users/${user._id}`);
       const currentUser = await response.json();
       console.log("curUser", currentUser);
-      setUser(currentUser);
+      setUserInfo(currentUser);
     }
     fetchUserData();
   }, []);
@@ -217,7 +218,7 @@ const ToyListingPreview = ({
                   </Grid>
                   <Grid item xs={10}>
                     <Typography variant="body1" sx={{ gap: "1px" }}>
-                      {user.first_name} {user.last_name}
+                      {userInfo.first_name} {userInfo.last_name}
                     </Typography>
                   </Grid>
                 </Grid>

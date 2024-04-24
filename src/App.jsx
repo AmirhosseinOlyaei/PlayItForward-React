@@ -1,33 +1,37 @@
-// import { useState, useEffect } from "react";
+// src/App.jsx
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
-
-// import { getAllData } from "./util/index";
-
-// const URL = "http://localhost:8000/api/v1/";
+import UserContext from "./context/userContext";
+import axios from "axios";
 
 function App() {
-  // const [message, setMessage] = useState("");
+  const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  // (async () => {
-  //   const myData = await getAllData(URL);
-  //   setMessage(myData.data);
-  // })();
-
-  // return () => {
-  //   console.log("unmounting");
-  // };
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/user`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setUser(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setUser(null);
+      });
+  }, []);
 
   return (
     <>
-      <Router>
-        <Navbar />
-        <AppRoutes />
-        {/* <p>{message}</p> */}
-      </Router>
+      <UserContext.Provider value={user}>
+        <Router>
+          <Navbar user={user} />
+          <AppRoutes />
+        </Router>
+      </UserContext.Provider>
     </>
   );
 }

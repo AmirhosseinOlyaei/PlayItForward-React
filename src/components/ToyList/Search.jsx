@@ -1,5 +1,5 @@
 // // src/components/ToyList/Search.jsx
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
@@ -7,6 +7,11 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export default function Search({ onSearchChange }) {
   const [value, setValue] = useState("");
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus(); // Set focus on the input field when the component is rendered
+  }, []);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -39,6 +44,7 @@ export default function Search({ onSearchChange }) {
           </InputAdornment>
         ),
       }}
+      inputRef={inputRef}
     />
   );
 }

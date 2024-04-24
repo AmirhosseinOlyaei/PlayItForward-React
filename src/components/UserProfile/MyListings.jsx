@@ -1,3 +1,4 @@
+import UserContext from "../../context/userContext";
 import styles from "./UserProfile.module.css";
 import Grid from "@mui/material/Unstable_Grid2";
 import IconMenu from "./IconMenu";
@@ -12,11 +13,12 @@ import {
 import ImgMediaCard from "./oneLising";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const MyListings = () => {
-  const currentUserId = "6609a2873eaffef95345b9fb";
+  const user = useContext(UserContext);
+  const currentUserId = user && user ? user._id : "";
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [toys, setToys] = useState([]);

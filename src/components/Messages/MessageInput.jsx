@@ -3,7 +3,13 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-function MessageInput({ recipient, currentMessage, onSend, fetchMessages }) {
+function MessageInput({
+  recipient,
+  currentMessage,
+  onSend,
+  fetchMessages,
+  loggedInUserId,
+}) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -21,9 +27,9 @@ function MessageInput({ recipient, currentMessage, onSend, fetchMessages }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_id_from: "6609a2873eaffef95345b9fa",
-          user_id_to: "6609a2873eaffef95345b9f9",
-          toy_listing_id: "660c4de20dab29b8bab994f8",
+          user_id_from: loggedInUserId,
+          user_id_to: currentMessage.user_id_from?._id,
+          toy_listing_id: currentMessage.toy_listing_id,
           date: new Date().toISOString(),
           subject: `Re:${currentMessage.subject}`,
           // content: `${message}<br/>---------------<br/>${currentMessage.content}`,

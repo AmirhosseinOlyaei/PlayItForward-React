@@ -22,6 +22,7 @@ import CustomToolbar from "./CustomToolbar";
 import ToyList from "./ToyList";
 import DeliveryFilter from "./DeliveryFilter";
 import GoogleZip from "./GoogleZip";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 340;
 
@@ -35,6 +36,7 @@ export default function ToysLanding() {
   const [zipCode, setZipCode] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchToys = async () => {
@@ -88,6 +90,12 @@ export default function ToysLanding() {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleCardClick = (toyId) => {
+    const scrollPosition = window.scrollY;
+    localStorage.setItem("scrollPosition", scrollPosition.toString());
+    navigate(`/toys/${toyId}`); // Navigate to the detail page
   };
 
   return (
@@ -264,10 +272,10 @@ export default function ToysLanding() {
         <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} m={2}>
           {viewType ? (
             <Grid item xs={12} sm={12} m={1}>
-              <ToyListMap toysData={toys} />
+              <ToyListMap toysData={toys} onCardClick={handleCardClick} />
             </Grid>
           ) : (
-            <ToyList toys={toys} />
+            <ToyList toys={toys} onCardClick={handleCardClick} />
           )}
         </Grid>
       </Grid>
