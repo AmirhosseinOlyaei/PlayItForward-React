@@ -158,7 +158,7 @@ const LeftDrawer = ({
     // Send POST request to /images endpoint to upload the image
 
     const imageData = new FormData();
-    imageData.append("image", selectedFile);
+    imageData.append("file", selectedFile);
     console.log("selectedFile", selectedFile);
     const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
       headers: {
@@ -197,7 +197,7 @@ const LeftDrawer = ({
   const axiosPostListing = async () => {
     // Send POST request to /images endpoint to upload the image
     const imageData = new FormData();
-    imageData.append("image", selectedFile);
+    imageData.append("file", selectedFile);
     console.log("selectedFile", selectedFile);
     const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
       headers: {
