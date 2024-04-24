@@ -32,7 +32,7 @@ const authorizedUser = "6609a2873eaffef95345b9fa"; // Replace with the ID of the
 const ListingDetail = () => {
 
   const { id } = useParams();
- // const { user } = useContext(UserContext);
+ // const user = useContext(UserContext);
   const [toyListing, setToyListing] = useState({});
   const [toyGiver, setToyGiver] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
