@@ -134,9 +134,11 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
   // };
 
   const handleSend = (messageContent) => {
+    const senderName = `${message.user_id_from.first_name} ${message.user_id_from.last_name}`;
+    const messageWithSender = `${senderName}: ${message.content}`;
     setSentMessages([
       ...sentMessages,
-      { sender: message.subject, ...messageContent },
+      { sender: message.subject, messageWithSender, ...messageContent },
     ]);
     setOpen({ ...open, reply: true });
   };
