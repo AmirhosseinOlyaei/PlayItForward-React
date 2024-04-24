@@ -22,7 +22,7 @@ const AppRoutes = () => {
       <Route path="/listings" element={<MyListings user={user} />} />
       <Route path="/messages" element={<Messages user={user} />} />
       <Route path="/create" element={<CreateListing user={user} />} />
-      <Route path="/personal" element={<PersonalInfo />} />
+      <Route path="/personal" element={<PersonalInfo user={user} />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
