@@ -1,14 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import DrawerSidebar from "./Drawer";
 import Mails from "./Mails";
 import MailContent from "./MailContent";
-import UserContext from "../../context/userContext";
 
-const Messages = () => {
-  const user = useContext(UserContext);
-  const loggedInUserId = user._id;
+const Messages = (user) => {
+  const loggedInUserId = user.user._id;
   const [messages, setMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [filter, setFilter] = useState("");
