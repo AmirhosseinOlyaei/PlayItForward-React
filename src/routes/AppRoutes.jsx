@@ -21,7 +21,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/listings" element={<MyListings user={user} />} />
       <Route path="/messages" element={<Messages user={user} />} />
-      <Route path="/create" element={<CreateListing />} />
+      <Route path="/create" element={<CreateListing user={user} />} />
       <Route path="/personal" element={<PersonalInfo />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="*" element={<NotFoundPage />} />
