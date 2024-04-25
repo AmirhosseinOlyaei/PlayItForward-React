@@ -287,7 +287,7 @@ const LeftDrawer = ({
                 startIcon={<CloudUploadIcon />}
                 sx={{
                   marginTop: 2,
-                  marginBottom: 2,
+                  marginBottom: 1.2,
                   //width: "38.3ch",
                   backgroundColor: "rgba(33, 150, 243, 0.8)",
                   "&:hover": {
