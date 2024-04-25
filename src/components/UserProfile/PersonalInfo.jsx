@@ -2,12 +2,7 @@ import styles from "./UserProfile.module.css";
 import Grid from "@mui/material/Unstable_Grid2";
 import IconMenu from "./IconMenu";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  Avatar,
-  Typography,
-  IconButton,
-  Box,
-} from "@mui/material";
+import { Avatar, Typography, IconButton, Box } from "@mui/material";
 import ImgMediaCard from "./oneLising";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
@@ -45,8 +40,6 @@ const PersonalInfo = () => {
     updateNickname(newNickname);
   };
 
-  
-
   async function updateNickname(newNickname) {
     const response = await fetch(`${apiUrl}/users/${currentUserId}`, {
       method: "PUT",
@@ -61,7 +54,7 @@ const PersonalInfo = () => {
     setUserSignedIn(updatedUser);
   }
 
-console.log("userSignedIn.created_date", userSignedIn.modified_date);
+  console.log("userSignedIn.created_date", userSignedIn.modified_date);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -85,7 +78,7 @@ console.log("userSignedIn.created_date", userSignedIn.modified_date);
             </p>
             <p>
               <Typography variant="body">
-                Nickname: {" "}
+                Nickname:{" "}
                 {editNickNameMode ? (
                   <input
                     type="text"
@@ -121,28 +114,25 @@ console.log("userSignedIn.created_date", userSignedIn.modified_date);
                 E-mail: {userSignedIn.email}
               </Typography>
             </p>
-            
           </div>
           <div className={styles.avatar}>
-
             {userSignedIn.profile_picture ? (
               <Avatar
-              src={userSignedIn.profile_picture}
-              variant="rounded"
-              style={{ width: 150, height: 150 }}
-              alt="profile picture"
-            />
-            ) : (
-              userSignedIn.first_name && userSignedIn.last_name ? (
-                <BackgroundLetterAvatars 
-                  firstName={userSignedIn.first_name} 
-                  lastName={userSignedIn.last_name} 
-                  style={{ 
-                    width: "150px", 
-                    height: "150px" }} />
-            )
-              : null
-            )}
+                src={userSignedIn.profile_picture}
+                variant="rounded"
+                sx={{ width: 200, height: 200 }}
+                alt="profile picture"
+              />
+            ) : userSignedIn.first_name && userSignedIn.last_name ? (
+              <BackgroundLetterAvatars
+                firstName={userSignedIn.first_name}
+                lastName={userSignedIn.last_name}
+                style={{
+                  width: "150px",
+                  height: "150px",
+                }}
+              />
+            ) : null}
           </div>
         </div>
       </Box>
