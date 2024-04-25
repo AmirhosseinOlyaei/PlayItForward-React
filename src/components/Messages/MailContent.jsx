@@ -334,7 +334,12 @@ const MailContent = ({
                     />
                   )}
                   <Typography level="body-xs">
-                    {new Date(message.sent_date).toLocaleString()}
+                    {new Date(message.sent_date).toLocaleDateString()},{" "}
+                    {new Date(message.sent_date).toLocaleTimeString([], {
+                      hour12: true,
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
                   </Typography>
                 </Box>
               </Box>
