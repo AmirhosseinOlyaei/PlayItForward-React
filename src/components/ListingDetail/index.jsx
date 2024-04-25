@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./ListingDetail.module.css";
 import {
   Typography,
@@ -8,8 +7,7 @@ import {
   Avatar,
   Popover,
   TextField,
-  IconButton,
-  Snackbar,
+  Dialog,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -25,25 +23,25 @@ import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined
 import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ToyMap from "./ToyMap";
-import { useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import UserContext from "../../context/userContext";
-import { Button } from "@mui/base";
-import CloseIcon from '@mui/icons-material/Close';
 import toast, { Toaster } from "react-hot-toast";
 import BackgroundLetterAvatars from "../Messages/Avatar";
+import Slide from "@mui/material/Slide";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const drawerWidth = 340;
-// const toyListingId = "66196e990925b15c9b3c4375"; // Replace with the ID of the toy listing, which comes from the URL
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-const ListingDetail = () => {
+const ListingDetail = ({id, onClose}) => {
   const user = useContext(UserContext);
   const authorizedUser = user ? user._id : "";
   const authorizedUserNickName = user ? user.nickname : "";
 
-  const { id } = useParams();
+ // const { id } = useParams();
  // const user = useContext(UserContext);
   const [toyListing, setToyListing] = useState({});
   const [toyGiver, setToyGiver] = useState([]);
@@ -161,12 +159,6 @@ const ListingDetail = () => {
     }
   }, [isOpen]);
 
-  // Handle back button click
-  const navigate = useNavigate();
-
-  const handleBack = () => {
-    navigate(-1); // Navigate back to the previous page
-  };
   const [mapPosition, setMapPosition] = useState({
     lat: null,
     lng: null,
@@ -200,13 +192,13 @@ const ListingDetail = () => {
       .catch((error) => console.error("Error:", error));
   }, [toyListing]);
 
- 
-  
-
-
-
   return (
-    <>
+    <Dialog
+    fullScreen
+    open={true}
+    onClose={onClose}
+    TransitionComponent={Transition}
+  >
     <Toaster />
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -222,19 +214,19 @@ const ListingDetail = () => {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             BoxSizing: "border-Box",
-            marginTop: "86px",
+            marginTop: "0px",
             height: "calc(100vh - 90px)",
           },
         }}
       >
         <Box sx={{ overflow: "auto", padding: "0px 20px" }}>
-          <ActionButton
+           <ActionButton
             link=""
-            text="&nbsp;Back"
+            text="&nbsp;Back to Catalogue"
             startIcon={<ArrowBackIcon />}
-            onClick={handleBack}
+            onClick={onClose}
             fullWidth={false}
-          />
+          /> 
           <Box sx={{ padding: "20px 0" }}>
             <Typography variant="h4" sx={{ margin: "5px 0" }}>
               {toyListing.title}
@@ -292,7 +284,7 @@ const ListingDetail = () => {
                 </>
               ) }
               <CopyToClipboard
-                text={`${apiUrl}/toys/${id}`}
+                text={`${window.location.origin}/toys/${id}`}
                 onCopy={() => setIsOpen(true)}
               >
                 <ActionButton
@@ -418,11 +410,11 @@ const ListingDetail = () => {
           )}
         </Box>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 0 }}>
         <img src={toyListing.imageUrl} alt="Toy image" width="100%" />
       </Box>
     </Box>
-    </>
+  </Dialog>
   );
 };
 
