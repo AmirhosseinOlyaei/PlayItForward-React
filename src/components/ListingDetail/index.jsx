@@ -36,13 +36,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ListingDetail = ({id, onClose}) => {
+const ListingDetail = ({ id, onClose }) => {
   const user = useContext(UserContext);
   const authorizedUser = user ? user._id : "";
   const authorizedUserNickName = user ? user.nickname : "";
 
- // const { id } = useParams();
- // const user = useContext(UserContext);
+  // const { id } = useParams();
+  // const user = useContext(UserContext);
   const [toyListing, setToyListing] = useState({});
   const [toyGiver, setToyGiver] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -68,11 +68,9 @@ const ListingDetail = ({id, onClose}) => {
       );
       const favoriteCheck = await response.json();
       setIsFavorite(favoriteCheck.isFavorite);
-      if (favoriteCheck.isFavorite) 
-        {
-          setFavoriteId(favoriteCheck.favorite_Id);
-        }
-    
+      if (favoriteCheck.isFavorite) {
+        setFavoriteId(favoriteCheck.favorite_Id);
+      }
     }
     fetchToy(id); // Replace with the ID of the toy you want to fetch
   }, [authorizedUser]);
@@ -90,11 +88,10 @@ const ListingDetail = ({id, onClose}) => {
       toy_listing_id: id,
       user_id: authorizedUser, // Replace with the ID of the user who is logged in
     };
-    
+
     isFavorite ? deleteFavorite(favoriteId) : addFavorite(fav);
     setIsFavorite(!isFavorite); // Update the state with the new value of isFavorite);
-    
-  }
+  };
 
   async function addFavorite(fav) {
     const response = await fetch(`${apiUrl}/favorites`, {
@@ -104,7 +101,6 @@ const ListingDetail = ({id, onClose}) => {
       },
       body: JSON.stringify(fav),
     });
-    
   }
 
   async function deleteFavorite(favId) {
@@ -114,13 +110,12 @@ const ListingDetail = ({id, onClose}) => {
         "Content-Type": "application/json",
       },
     });
-    
-  };
+  }
 
   const handleMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
-  
+
   const handleSendMessage = async () => {
     console.log(id, toyListing.listed_by_id._id);
     try {
@@ -187,233 +182,241 @@ const ListingDetail = ({id, onClose}) => {
           city: city,
           state: state,
         });
-       
       })
       .catch((error) => console.error("Error:", error));
   }, [toyListing]);
 
   return (
     <Dialog
-    fullScreen
-    open={true}
-    onClose={onClose}
-    TransitionComponent={Transition}
-  >
-    <Toaster />
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      ></AppBar>
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
+      fullScreen
+      open={true}
+      onClose={onClose}
+      TransitionComponent={Transition}
+    >
+      <Toaster />
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        ></AppBar>
+        <Drawer
+          variant="permanent"
+          sx={{
             width: drawerWidth,
-            BoxSizing: "border-Box",
-            marginTop: "0px",
-          },
-        }}
-      >
-        <Box sx={{ overflow: "auto", padding: "0px 20px"}} marginTop={2}>
-           <ActionButton
-            link=""
-            text="&nbsp;Back to Catalogue"
-            startIcon={<ArrowBackIcon />}
-            onClick={onClose}
-            fullWidth
-          /> 
-          <Box sx={{ padding: "20px 0" }}>
-            <Typography variant="h4" sx={{ margin: "5px 0" }}>
-              {toyListing.title}
-            </Typography>
-            <Typography variant="body" paragraph>
-              Listed {calculateDate(toyListing.created_date)} days ago in{" "}
-              {mapPosition.city}, {mapPosition.state}{" "}
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                maxWidth: "80%",
-              }}
-            >
-              <Typography
-                variant="body2"
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                {toyListing.delivery_method === "Delivery" ? (
-                  <LocalShippingOutlinedIcon sx={{ fontSize: 32 }} />
-                ) : (
-                  <HomeOutlinedIcon sx={{ fontSize: 32 }} />
-                )}
-                <b style={{ marginLeft: "10px" }}>
-                  {toyListing.delivery_method}
-                </b>
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: {
+              width: drawerWidth,
+              BoxSizing: "border-Box",
+              marginTop: "0px",
+            },
+          }}
+        >
+          <Box sx={{ overflow: "auto", padding: "0px 20px" }} marginTop={2}>
+            <ActionButton
+              link=""
+              text="&nbsp;Back to Catalogue"
+              startIcon={<ArrowBackIcon />}
+              onClick={onClose}
+              fullWidth
+            />
+            <Box sx={{ padding: "20px 0" }}>
+              <Typography variant="h4" sx={{ margin: "5px 0" }}>
+                {toyListing.title}
               </Typography>
-            </Box>
-            <Grid
-              xs={12}
-              sx={{
-                margin: "10px 0",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-            {user && (
-            <>
-                <ActionButton
-                  link={`/messages/${id}`}
-                  text="&nbsp;Message"
-                  startIcon={<MailIcon />}
-                  fullWidth={false}
-                />
-                <ActionButton
-                  link=""
-                  text=""
-                  startIcon={
-                    isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />
-                  }
-                  fullWidth={false}
-                  onClick={handleFavorite}
-                /> 
-                </>
-              ) }
-              <CopyToClipboard
-                text={`${window.location.origin}/toys/${id}`}
-                onCopy={() => setIsOpen(true)}
-              >
-                <ActionButton
-                  text=""
-                  startIcon={<ShareIcon />}
-                  fullWidth={false}
-                  onClick={(event) => setAnchorEl(event.currentTarget)}
-                />
-              </CopyToClipboard>
-              <Popover
-                open={isOpen}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
+              <Typography variant="body" paragraph>
+                Listed {calculateDate(toyListing.created_date)} days ago in{" "}
+                {mapPosition.city}, {mapPosition.state}{" "}
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  maxWidth: "80%",
                 }}
-                anchorEl={anchorEl}
               >
-                <Typography sx={{ p: 2 }}>
-                  The link is copied to clipboard.
+                <Typography
+                  variant="body2"
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  {toyListing.delivery_method === "Delivery" ? (
+                    <LocalShippingOutlinedIcon sx={{ fontSize: 32 }} />
+                  ) : (
+                    <HomeOutlinedIcon sx={{ fontSize: 32 }} />
+                  )}
+                  <b style={{ marginLeft: "10px" }}>
+                    {toyListing.delivery_method}
+                  </b>
                 </Typography>
-              </Popover>
-            </Grid>
-          </Box>
-          <Divider />
-          <Box sx={{ padding: "20px 0" }}>
-            <Typography variant="h6" sx={{ margin: "5px 0" }}>
-              Details
-            </Typography>
-            <div className={styles.detailsRow}>
-              <div className={styles.detailsLabel}>
-                <Typography variant="body">
-                  <b>Category</b>
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="body">{toyListing.category}</Typography>
-              </div>
-            </div>
-            <div className={styles.detailsRow}>
-              <div className={styles.detailsLabel}>
-                <Typography variant="body">
-                  <b>Condition</b>
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="body">{toyListing.condition}</Typography>
-              </div>
-            </div>
-            <div className={styles.detailsRow}>
-              <div className={styles.detailsLabel}>
-                <Typography variant="body">
-                  <b>Description</b>
-                </Typography>
-              </div>
-              <div>
-                <Typography variant="body">{toyListing.description}</Typography>
-              </div>
-            </div>
-          </Box>
-          <Box sx={{ padding: "20px 0" }}>
-            {mapPosition.lat && (
-              <ToyMap lat={mapPosition.lat} lng={mapPosition.lng} />
-            )}
-            <Typography variant="body">
-              {mapPosition.city}, {mapPosition.state}
-            </Typography>
-          </Box>
-          <Divider />
-          <Box sx={{ padding: "20px 0" }}>
-            <Typography variant="h6" sx={{ margin: "5px 0" }}>
-              Posted by
-            </Typography>
-            <Box className={styles.giverInformation}>
-              {toyGiver.first_name && toyGiver.last_name ? <BackgroundLetterAvatars 
-                firstName={toyGiver.first_name} 
-                lastName={toyGiver.last_name} /> : null}
-              <Typography
-                variant="body"
-                sx={{ marginLeft: "10px", lineHeight: "42px" }}
+              </Box>
+              <Grid
+                xs={12}
+                sx={{
+                  margin: "10px 0",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
               >
-                {toyGiver.nickname}
-              </Typography>
-            </Box>
-            <Box sx={{ marginTop: "10px" }}>
-              <Typography variant="body">
-                <Avatar
-                  src="/AppLogo.png"
-                  alt="AppLogo"
-                  sx={{
-                    width: 30,
-                    height: 30,
-                    display: "inline-block",
-                    verticalAlign: "middle",
+                {user && (
+                  <>
+                    <ActionButton
+                      link={`/messages/${id}`}
+                      text="&nbsp;Message"
+                      startIcon={<MailIcon />}
+                      fullWidth={false}
+                    />
+                    <ActionButton
+                      link=""
+                      text=""
+                      startIcon={
+                        isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />
+                      }
+                      fullWidth={false}
+                      onClick={handleFavorite}
+                    />
+                  </>
+                )}
+                <CopyToClipboard
+                  text={`${window.location.origin}/toys/${id}`}
+                  onCopy={() => setIsOpen(true)}
+                >
+                  <ActionButton
+                    text=""
+                    startIcon={<ShareIcon />}
+                    fullWidth={false}
+                    onClick={(event) => setAnchorEl(event.currentTarget)}
+                  />
+                </CopyToClipboard>
+                <Popover
+                  open={isOpen}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
                   }}
-                />
-                Joined <b>PlayItForward</b> in{" "}
-                {dateStringToMonthYear(toyGiver.created_date)}
-              </Typography>
+                  anchorEl={anchorEl}
+                >
+                  <Typography sx={{ p: 2 }}>
+                    The link is copied to clipboard.
+                  </Typography>
+                </Popover>
+              </Grid>
             </Box>
-          </Box>
-          <Divider />
-          {user && (
+            <Divider />
             <Box sx={{ padding: "20px 0" }}>
               <Typography variant="h6" sx={{ margin: "5px 0" }}>
-                Send a message
+                Details
               </Typography>
-              <TextField
-                id="outlined-basic"
-                onChange={handleMessageChange}
-                value={newMessage}
-                variant="outlined"
-                sx={{ width: "100%" }}
-              />
-              <br />
-              <ActionButton
-                linkTo=""
-                text="&nbsp;Send"
-                startIcon={<MailIcon />}
-                onClick={async () => {await handleSendMessage();}}
-                fullWidth={true}
-              />
-            </Box> 
-          )}
+              <div className={styles.detailsRow}>
+                <div className={styles.detailsLabel}>
+                  <Typography variant="body">
+                    <b>Category</b>
+                  </Typography>
+                </div>
+                <div>
+                  <Typography variant="body">{toyListing.category}</Typography>
+                </div>
+              </div>
+              <div className={styles.detailsRow}>
+                <div className={styles.detailsLabel}>
+                  <Typography variant="body">
+                    <b>Condition</b>
+                  </Typography>
+                </div>
+                <div>
+                  <Typography variant="body">{toyListing.condition}</Typography>
+                </div>
+              </div>
+              <div className={styles.detailsRow}>
+                <div className={styles.detailsLabel}>
+                  <Typography variant="body">
+                    <b>Description</b>
+                  </Typography>
+                </div>
+                <div>
+                  <Typography variant="body">
+                    {toyListing.description}
+                  </Typography>
+                </div>
+              </div>
+            </Box>
+            <Box sx={{ padding: "20px 0" }}>
+              {mapPosition.lat && (
+                <ToyMap lat={mapPosition.lat} lng={mapPosition.lng} />
+              )}
+              <Typography variant="body">
+                {mapPosition.city}, {mapPosition.state}
+              </Typography>
+            </Box>
+            <Divider />
+            <Box sx={{ padding: "20px 0" }}>
+              <Typography variant="h6" sx={{ margin: "5px 0" }}>
+                Posted by
+              </Typography>
+              <Box className={styles.giverInformation}>
+                {toyGiver.first_name && toyGiver.last_name ? (
+                  <BackgroundLetterAvatars
+                    firstName={toyGiver.first_name}
+                    lastName={toyGiver.last_name}
+                  />
+                ) : null}
+                <Typography
+                  variant="body"
+                  sx={{ marginLeft: "10px", lineHeight: "42px" }}
+                >
+                  {toyGiver.nickname}
+                </Typography>
+              </Box>
+              <Box sx={{ marginTop: "10px" }}>
+                <Typography variant="body">
+                  <Avatar
+                    src="/AppLogo.png"
+                    alt="AppLogo"
+                    sx={{
+                      width: 30,
+                      height: 30,
+                      display: "inline-block",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                  Joined <b>PlayItForward</b> in{" "}
+                  {dateStringToMonthYear(toyGiver.created_date)}
+                </Typography>
+              </Box>
+            </Box>
+            <Divider />
+            {user && (
+              <Box sx={{ padding: "20px 0" }}>
+                <Typography variant="h6" sx={{ margin: "5px 0" }}>
+                  Send a message
+                </Typography>
+                <TextField
+                  id="outlined-basic"
+                  onChange={handleMessageChange}
+                  value={newMessage}
+                  variant="outlined"
+                  sx={{ width: "100%" }}
+                  disabled={authorizedUser === toyListing.listed_by_id?._id}
+                />
+                <br />
+                <ActionButton
+                  linkTo=""
+                  text="&nbsp;Send"
+                  startIcon={<MailIcon />}
+                  onClick={async () => {
+                    await handleSendMessage();
+                  }}
+                  fullWidth={true}
+                  disabled={authorizedUser === toyListing.listed_by_id?._id}
+                />
+              </Box>
+            )}
+          </Box>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 0 }}>
+          <img src={toyListing.imageUrl} alt="Toy image" width="100%" />
         </Box>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 0 }}>
-        <img src={toyListing.imageUrl} alt="Toy image" width="100%" />
       </Box>
-    </Box>
-  </Dialog>
+    </Dialog>
   );
 };
 
