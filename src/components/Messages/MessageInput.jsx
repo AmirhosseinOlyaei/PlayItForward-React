@@ -9,6 +9,7 @@ function MessageInput({
   onSend,
   fetchMessages,
   loggedInUserId,
+  loggedInUserName,
 }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,8 +33,7 @@ function MessageInput({
           toy_listing_id: currentMessage.toy_listing_id,
           date: new Date().toISOString(),
           subject: `Re:${currentMessage.subject}`,
-          // content: `${message}<br/>---------------<br/>${currentMessage.content}`,
-          content: `${message}<hr>${currentMessage.content}`,
+          content: `${loggedInUserName}:${message}<hr>${currentMessage.content}`,
         }),
       });
 
@@ -72,7 +72,10 @@ function MessageInput({
           fullWidth
           value={message}
           onChange={handleMessageChange}
-          disabled={!currentMessage}
+          disabled={
+            !currentMessage ||
+            currentMessage.user_id_from?._id === loggedInUserId
+          }
         />
       </Grid>
       <Grid item xs={12} sm={12} md={12} lg={2} style={{ textAlign: "right" }}>
@@ -80,7 +83,12 @@ function MessageInput({
           variant="contained"
           color="primary"
           fullWidth
-          disabled={loading || message.trim() === "" || !currentMessage}
+          disabled={
+            loading ||
+            message.trim() === "" ||
+            !currentMessage ||
+            currentMessage.user_id_from?._id === loggedInUserId
+          }
           onClick={handleSendMessage}
           style={
             message.trim() !== ""

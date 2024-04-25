@@ -8,6 +8,8 @@ import {
   Avatar,
   Popover,
   TextField,
+  IconButton,
+  Snackbar,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -26,6 +28,9 @@ import ToyMap from "./ToyMap";
 import { useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import UserContext from "../../context/userContext";
+import { Button } from "@mui/base";
+import CloseIcon from '@mui/icons-material/Close';
+import toast, { Toaster } from "react-hot-toast";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -35,12 +40,16 @@ const drawerWidth = 340;
 const ListingDetail = () => {
   const user = useContext(UserContext);
   const authorizedUser = user ? user._id : "";
+  const authorizedUserNickName = user ? user.nickname : "";
+
   const { id } = useParams();
+ // const user = useContext(UserContext);
   const [toyListing, setToyListing] = useState({});
   const [toyGiver, setToyGiver] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteId, setFavoriteId] = useState(null);
   const [newMessage, setNewMessage] = useState("Is this still available?");
-  const [messageSent, setMessageSent] = useState([]);
+  const [messageSent, setMessageSent] = useState(false);
 
   React.useEffect(() => {
     async function fetchToy(toyId) {
@@ -60,8 +69,12 @@ const ListingDetail = () => {
         `${apiUrl}/favorites/check-favorite/${userId}/${toyId}`
       );
       const favoriteCheck = await response.json();
-      setIsFavorite(favoriteCheck);
-      console.log(favoriteCheck);
+      setIsFavorite(favoriteCheck.isFavorite);
+      if (favoriteCheck.isFavorite) 
+        {
+          setFavoriteId(favoriteCheck.favorite_Id);
+        }
+    
     }
     fetchToy(id); // Replace with the ID of the toy you want to fetch
   }, [authorizedUser]);
@@ -79,9 +92,11 @@ const ListingDetail = () => {
       toy_listing_id: id,
       user_id: authorizedUser, // Replace with the ID of the user who is logged in
     };
-    isFavorite ? deleteFavorite(fav) : addFavorite(fav);
-    setIsFavorite(!isFavorite);
-  };
+    
+    isFavorite ? deleteFavorite(favoriteId) : addFavorite(fav);
+    setIsFavorite(!isFavorite); // Update the state with the new value of isFavorite);
+    
+  }
 
   async function addFavorite(fav) {
     const response = await fetch(`${apiUrl}/favorites`, {
@@ -91,22 +106,23 @@ const ListingDetail = () => {
       },
       body: JSON.stringify(fav),
     });
-    console.log("The toy is added", toyListing._id);
+    
   }
 
-  async function deleteFavorite(fav) {
-    const response = await fetch(`${apiUrl}/favorites/${toyListing._id}`, {
+  async function deleteFavorite(favId) {
+    const response = await fetch(`${apiUrl}/favorites/${favId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log("Deleted from favorites", toyListing._id);
-  }
+    
+  };
 
   const handleMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
+  
   const handleSendMessage = async () => {
     console.log(id, toyListing.listed_by_id._id);
     try {
@@ -121,10 +137,10 @@ const ListingDetail = () => {
           toy_listing_id: id,
           date: new Date().toISOString(),
           subject: toyListing.title,
-          content: newMessage,
+          content: authorizedUserNickName + ": " + newMessage,
         }),
       });
-
+      toast.success("Message sent successfully");
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
@@ -133,6 +149,7 @@ const ListingDetail = () => {
       console.error("Error sending message:", error);
     } finally {
     }
+    setMessageSent(true);
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -144,6 +161,7 @@ const ListingDetail = () => {
     }
   }, [isOpen]);
 
+  // Handle back button click
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -155,6 +173,8 @@ const ListingDetail = () => {
     city: "",
     state: "",
   });
+
+  // Fetch map position
   useEffect(() => {
     if (!toyListing.zip_code) {
       return;
@@ -180,7 +200,33 @@ const ListingDetail = () => {
       .catch((error) => console.error("Error:", error));
   }, [toyListing]);
 
+  const [openToast, setOpenToast] = useState(false);
+  const handleCloseToast = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenToast(false);  
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleCloseToast}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseToast}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   return (
+    <>
+    <Toaster />
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
@@ -246,7 +292,7 @@ const ListingDetail = () => {
               }}
             >
               <ActionButton
-                link={`/messages?id=${id}`}
+                link={`/messages/${id}`}
                 text="&nbsp;Message"
                 startIcon={<MailIcon />}
                 fullWidth={false}
@@ -382,9 +428,16 @@ const ListingDetail = () => {
               linkTo=""
               text="&nbsp;Send"
               startIcon={<MailIcon />}
-              onClick={async () => await handleSendMessage()}
+              onClick={async () => {await handleSendMessage();}}
               fullWidth={true}
             />
+            {/* <Snackbar
+              open={openToast}
+              autoHideDuration={6000}
+              onClose={handleCloseToast}
+              message="Message sent!"
+              action={action}
+            /> */}
           </Box>
         </Box>
       </Drawer>
@@ -392,6 +445,7 @@ const ListingDetail = () => {
         <img src={toyListing.imageUrl} alt="Toy image" width="100%" />
       </Box>
     </Box>
+    </>
   );
 };
 
@@ -402,5 +456,4 @@ export function dateStringToMonthYear(dateString) {
     year: "numeric",
   });
 }
-
 export default ListingDetail;

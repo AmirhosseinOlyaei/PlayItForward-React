@@ -17,7 +17,13 @@ import BackgroundLetterAvatars from "./Avatar";
 import StarRating from "./StartRating";
 import toast, { Toaster } from "react-hot-toast";
 
-const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
+const MailContent = ({
+  message,
+  fetchMessages,
+  onDelete,
+  loggedInUserId,
+  loggedInUserName,
+}) => {
   const [sentMessages, setSentMessages] = useState([]);
   const [open, setOpen] = useState({
     reply: false,
@@ -134,9 +140,11 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
   // };
 
   const handleSend = (messageContent) => {
+    const senderName = `${message.user_id_from.first_name} ${message.user_id_from.last_name}`;
+    const messageWithSender = `${senderName}: ${message.content}`;
     setSentMessages([
       ...sentMessages,
-      { sender: message.subject, ...messageContent },
+      { sender: message.subject, messageWithSender, ...messageContent },
     ]);
     setOpen({ ...open, reply: true });
   };
@@ -250,7 +258,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   </Typography>
 
                   <Chip
-                    label="sender@mail.com"
+                    label="sender's first and last name"
                     size="sm"
                     variant="soft"
                     color="primary"
@@ -268,7 +276,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   </Typography>
 
                   <Chip
-                    label="receiver@mail.com"
+                    label="receiver's first and last name"
                     size="sm"
                     variant="soft"
                     color="primary"
@@ -326,7 +334,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                     />
                   )}
                   <Typography level="body-xs">
-                    {new Date(message.sent_date).toLocaleDateString()}
+                    {new Date(message.sent_date).toLocaleString()}
                   </Typography>
                 </Box>
               </Box>
@@ -407,7 +415,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   </Typography>
                   <Tooltip size="sm" title="Copy email" variant="outlined">
                     <Chip
-                      label={message.user_id_from.email}
+                      label={`${message.user_id_from.first_name} ${message.user_id_from.last_name}`}
                       size="sm"
                       variant="soft"
                       color="primary"
@@ -428,7 +436,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                   </Typography>
                   <Tooltip size="sm" title="Copy email" variant="outlined">
                     <Chip
-                      label={message.user_id_to.email}
+                      label={`${message.user_id_to.first_name} ${message.user_id_to.last_name}`}
                       size="sm"
                       variant="soft"
                       color="primary"
@@ -459,6 +467,7 @@ const MailContent = ({ message, fetchMessages, onDelete, loggedInUserId }) => {
                 onSend={handleSend}
                 fetchMessages={fetchMessages}
                 loggedInUserId={loggedInUserId}
+                loggedInUserName={loggedInUserName}
               />
             </Box>
           </>
