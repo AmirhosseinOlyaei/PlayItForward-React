@@ -61,7 +61,6 @@ const PersonalInfo = () => {
     setUserSignedIn(updatedUser);
   }
 
-console.log("userSignedIn.created_date", userSignedIn.modified_date);
 
 function stringToColor(string) {
   let hash = 0;

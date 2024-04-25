@@ -24,7 +24,7 @@ const menuOptions = [
   { id: 3, text: "Personal Information", icon: <Person2 />, link: "/personal" },
 ]
 function IconMenu({activeTab}) {
-  console.log("activeTab", activeTab);
+  
 
   return (
     
