@@ -54,7 +54,7 @@ const MyListings = () => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       ></AppBar>
-      <IconMenu />
+      <IconMenu activeTab={"My Listings"}/>
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
         {/* <ImgMediaCard /> */}
 

@@ -11,7 +11,7 @@ const Favorites = () => {
       <CssBaseline />
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       </AppBar>
-      <IconMenu/>  
+      <IconMenu activeTab={"Favorites"}/>  
       <Box component="main" sx={{ flexGrow: 1, p: 3,  mt: 12 }}>
         <Typography variant="h3">My Favorites</Typography>
         

@@ -23,7 +23,7 @@ const menuOptions = [
   { text: "Messages", icon: <MailIcon />, link: "/messages" },
   { text: "Personal Information", icon: <Person2 />, link: "/personal" },
 ]
-function IconMenu() {
+function IconMenu({activeTab}) {
   return (
     
 
@@ -48,7 +48,7 @@ function IconMenu() {
           <List>
             {menuOptions.map(({text, icon, link}) => (
             <Link key={text} href={link} sx={{ textDecoration: 'none', color: 'inherit' }}>
-              <ListItem key={text} disablePadding>
+              <ListItem key={text} disablePadding sx = { activeTab === text ? ({ bgcolor: '#CAE6FC', }) : ""}>
                 <ListItemButton>
                   <ListItemIcon>
                     {icon}

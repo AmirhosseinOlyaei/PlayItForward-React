@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./UserProfile.module.css";
 import Grid from "@mui/material/Unstable_Grid2";
-import IconMenu from "./IconMenu";
+import IconMenu from "../IconMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   AppBar,
@@ -66,7 +66,7 @@ const Favorites = () => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       ></AppBar>
-      <IconMenu />
+      <IconMenu activeTab={"Favorites"} />
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 5 }}>
         <br />
         <br />

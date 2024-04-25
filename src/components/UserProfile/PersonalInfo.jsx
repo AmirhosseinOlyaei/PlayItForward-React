@@ -62,6 +62,45 @@ const PersonalInfo = () => {
   }
 
 console.log("userSignedIn.created_date", userSignedIn.modified_date);
+
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+
+  return color;
+}
+
+function stringAvatar(firstName, lastName) {
+  const name = `${firstName} ${lastName}`;
+
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${firstName[0]}${lastName[0]}`,
+  };
+}
+
+ function BackgroundLetterAvatarsBigger ({ firstName, lastName }) {
+  return (
+    <>
+      <Avatar {...stringAvatar(firstName, lastName)} style={{ width: 150, height: 150, borderRadius: 75, fontSize: 60 }}/>
+    </>
+  );
+}
+
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -69,7 +108,7 @@ console.log("userSignedIn.created_date", userSignedIn.modified_date);
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       ></AppBar>
-      <IconMenu />
+      <IconMenu activeTab={"Personal Information"} />
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
         <div className={styles.userProfile}>
@@ -129,19 +168,16 @@ console.log("userSignedIn.created_date", userSignedIn.modified_date);
               <Avatar
               src={userSignedIn.profile_picture}
               variant="rounded"
-              style={{ width: 150, height: 150 }}
+              style={{ width: 150, height: 150, borderRadius: 75 }}
               alt="profile picture"
             />
-            ) : (
+              ) : ( 
               userSignedIn.first_name && userSignedIn.last_name ? (
-                <BackgroundLetterAvatars 
+                <BackgroundLetterAvatarsBigger 
                   firstName={userSignedIn.first_name} 
                   lastName={userSignedIn.last_name} 
-                  style={{ 
-                    width: "150px", 
-                    height: "150px" }} />
-            )
-              : null
+                  />
+              ) : null 
             )}
           </div>
         </div>
