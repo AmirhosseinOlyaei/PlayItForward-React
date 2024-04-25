@@ -25,11 +25,9 @@ const MyListings = () => {
   const [toys, setToys] = useState([]);
   useEffect(() => {
     const fetchToysByUser = async () => {
-      //setCurrentUserId("6609a2873eaffef95345b9fb");
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/toys/user/${currentUserId}`
-          // `${apiUrl}/toys/user/${currentUserId}`
+          `${apiUrl}/toys/user/${currentUserId}`
         );
         setToys(response.data);
       } catch (error) {
@@ -67,6 +65,8 @@ const MyListings = () => {
               toys={toys}
               setToys={setToys}
               // url={`/toys/${toy._id}`}
+              toyId={toy._id}
+
               //handleOptionSelect={handleOptionSelect}
             />
           );
