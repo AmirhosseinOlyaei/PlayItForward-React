@@ -9,9 +9,9 @@ function ToyList({ toys, error, onCardClick }) {
   }
 
   return (
-    <Grid container spacing={2} m={0} mr={2}>
+    <Grid container spacing={1.5} m={0} ml={.5} mr={2}>
       {toys.map((toy) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={toy._id}>
+        <Grid item xs={12} sm={6} md={6} lg={4} xl={3} key={toy._id}>
           <ToyCard
             toyId={toy._id}
             title={toy.title}

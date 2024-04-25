@@ -194,7 +194,7 @@ export default function ToysLanding() {
           <Typography variant="h6" mt={2} mb={4}>
             Views
           </Typography>
-          <Grid item xs={12} sm={12} m={-3}>
+          <Grid item xs={12} sm={12} m={-2}>
             <CustomToolbar viewType={viewType} setViewType={setViewType} />
           </Grid>
         </Grid>
@@ -268,8 +268,7 @@ export default function ToysLanding() {
       </Drawer>
 
       {/* Main section */}
-      <Grid container spacing={0} mt={11.8}>
-        {/* <Grid container columns={{ xs: 2, sm: 4, md: 8, lg: 12 }} m={2}> */}
+      <Grid container spacing={0} mt={12}>
           {viewType ? (
             <Grid item xs={12} sm={12} m={2}>
               <ToyListMap toysData={toys} onCardClick={handleCardClick} />
@@ -278,7 +277,6 @@ export default function ToysLanding() {
             <ToyList toys={toys} onCardClick={handleCardClick} />
           )}
         </Grid>
-      {/* </Grid> */}
     </Box>
   );
 }
