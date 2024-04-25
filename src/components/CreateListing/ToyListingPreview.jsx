@@ -22,6 +22,7 @@ const ToyListingPreview = ({
   value,
   toy,
   fetchedFileName,
+  userId,
 }) => {
   console.log("toyPreview", toy);
   console.log("selectedFile", selectedFile);
@@ -41,7 +42,7 @@ const ToyListingPreview = ({
       setUserInfo(currentUser);
     }
     fetchUserData();
-  }, []);
+  }, [userId]);
 
   return (
     <Grid

@@ -97,8 +97,8 @@ export default function ImgMediaCard({ toy, toys, setToys, url }) {
           margin: "5px 0",
           display: "flex",
           justifyContent: "space-between",
-          maxWidth: "570px",
-          minWidth: "570px",
+          maxWidth: "620px",
+          minWidth: "620px",
         }}
       >
         <StatusToggle toy={toy} toys={toys} setToys={setToys} />

@@ -54,7 +54,7 @@ export default function FetchSelectData({
 
   return (
     <div>
-      <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
+      <FormControl sx={{ marginTop: 3.0 }} fullWidth>
         <InputLabel id="category-select-label">Category</InputLabel>
         <Select
           id="category"
@@ -75,7 +75,7 @@ export default function FetchSelectData({
         </Select>
       </FormControl>
 
-      <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
+      <FormControl sx={{ marginTop: 3.0 }} fullWidth>
         <InputLabel id="condition-select-label">Condition</InputLabel>
         <Select
           id="condition"
@@ -92,7 +92,7 @@ export default function FetchSelectData({
           ))}
         </Select>
       </FormControl>
-      <FormControl sx={{ marginTop: 3.0, minWidth: "40ch" }}>
+      <FormControl sx={{ marginTop: 3.0 }} fullWidth>
         <InputLabel id="delivery-select-label">Delivery Method</InputLabel>
         <Select
           labelId="delivery-select-label"
