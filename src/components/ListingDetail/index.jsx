@@ -215,17 +215,16 @@ const ListingDetail = ({id, onClose}) => {
             width: drawerWidth,
             BoxSizing: "border-Box",
             marginTop: "0px",
-            height: "calc(100vh - 90px)",
           },
         }}
       >
-        <Box sx={{ overflow: "auto", padding: "0px 20px" }}>
+        <Box sx={{ overflow: "auto", padding: "0px 20px"}} marginTop={2}>
            <ActionButton
             link=""
             text="&nbsp;Back to Catalogue"
             startIcon={<ArrowBackIcon />}
             onClick={onClose}
-            fullWidth={false}
+            fullWidth
           /> 
           <Box sx={{ padding: "20px 0" }}>
             <Typography variant="h4" sx={{ margin: "5px 0" }}>
