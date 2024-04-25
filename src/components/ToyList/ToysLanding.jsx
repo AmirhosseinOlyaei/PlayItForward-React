@@ -257,22 +257,29 @@ export default function ToysLanding() {
           <Typography variant="h6" mt={2} mb={4}>
             Views
           </Typography>
-          <Grid item xs={12} sm={12} m={-3}>
+          <Grid item xs={12} sm={12} m={-3} mb={1}>
             <CustomToolbar viewType={viewType} setViewType={setViewType} />
           </Grid>
+
+          <Divider />
+
+          {/* counter */}
+          <Typography variant="h6" mt={2} mb={4}>
+            Total Toys: {toys.length}
+          </Typography>
         </Grid>
       </Drawer>
 
       {/* Main section */}
       <Grid container spacing={0} mt={12}>
-          {viewType ? (
-            <Grid item xs={12} sm={12} m={2}>
-              <ToyListMap toysData={toys} onCardClick={handleCardClick} />
-            </Grid>
-          ) : (
-            <ToyList toys={toys} onCardClick={handleCardClick} />
-          )}
-        </Grid>
+        {viewType ? (
+          <Grid item xs={12} sm={12} m={2}>
+            <ToyListMap toysData={toys} onCardClick={handleCardClick} />
+          </Grid>
+        ) : (
+          <ToyList toys={toys} onCardClick={handleCardClick} />
+        )}
+      </Grid>
     </Box>
   );
 }
