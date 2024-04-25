@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./UserProfile.module.css";
 import Grid from "@mui/material/Unstable_Grid2";
-import IconMenu from "./IconMenu";
+import IconMenu from "../../UserProfile/IconMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   AppBar,
@@ -76,7 +76,11 @@ const Favorites = () => {
           <ul>
             {favToysList.map((toy, index) => (
               <li key={index}>
-                <ToyCard title={toy.title} location={toy.zip_code} toyId={toy._id}/>
+                <ToyCard
+                  title={toy.title}
+                  location={toy.zip_code}
+                  toyId={toy._id}
+                />
               </li>
             ))}
           </ul>
