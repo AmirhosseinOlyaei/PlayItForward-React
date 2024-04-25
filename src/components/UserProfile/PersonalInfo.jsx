@@ -4,8 +4,6 @@ import IconMenu from "./IconMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Avatar,
-  Button,
-  Divider,
   Typography,
   IconButton,
   Box,
@@ -17,6 +15,7 @@ import React, { useContext } from "react";
 import { dateStringToMonthYear } from "../ListingDetail";
 import DoneIcon from "@mui/icons-material/Done";
 import UserContext from "../../context/userContext";
+import BackgroundLetterAvatars from "../Messages/Avatar";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -25,8 +24,6 @@ const PersonalInfo = () => {
   const [userSignedIn, setUserSignedIn] = React.useState({});
   const [editNickNameMode, setEditNickNameMode] = React.useState(false);
   const [newNickname, setNewNickname] = React.useState(userSignedIn.nickname);
-  const [newZipcode, setNewZipcode] = React.useState(userSignedIn.zipcode);
-  const [editZipcodeMode, setEditZipcodeMode] = React.useState(false);
   const currentUserId = user && user ? user._id : "";
 
   React.useEffect(() => {
@@ -35,7 +32,6 @@ const PersonalInfo = () => {
       const user = await response.json();
       setUserSignedIn(user);
       setNewNickname(user.nickname);
-      setNewZipcode(user.zipcode);
     }
     fetchUser(currentUserId);
   }, [currentUserId]);
@@ -49,14 +45,7 @@ const PersonalInfo = () => {
     updateNickname(newNickname);
   };
 
-  const handleEditZipCode = () => {
-    setEditZipcodeMode(true);
-  };
-
-  const handleSaveZipCode = () => {
-    setEditZipcodeMode(false);
-    updateZipcode(newZipcode);
-  };
+  
 
   async function updateNickname(newNickname) {
     const response = await fetch(`${apiUrl}/users/${currentUserId}`, {
@@ -72,21 +61,7 @@ const PersonalInfo = () => {
     setUserSignedIn(updatedUser);
   }
 
-  async function updateZipcode(newZipcode) {
-    console.log(newZipcode, userSignedIn.id);
-    const response = await fetch(`${apiUrl}/users/${currentUserId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        zipcode: newZipcode,
-      }),
-    });
-    const updatedUser = await response.json();
-    setUserSignedIn(updatedUser);
-  }
-
+console.log("userSignedIn.created_date", userSignedIn.modified_date);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -105,12 +80,12 @@ const PersonalInfo = () => {
             <p>
               <Typography variant="body">
                 Joined <b>PlayItForward</b> in{" "}
-                {dateStringToMonthYear(userSignedIn.create_date)}
+                {dateStringToMonthYear(userSignedIn.modified_date)}
               </Typography>
             </p>
             <p>
               <Typography variant="body">
-                Nickname:
+                Nickname: {" "}
                 {editNickNameMode ? (
                   <input
                     type="text"
@@ -146,47 +121,28 @@ const PersonalInfo = () => {
                 E-mail: {userSignedIn.email}
               </Typography>
             </p>
-            <p>
-              <Typography variant="body">
-                Location:
-                {editZipcodeMode ? (
-                  <input
-                    type="text"
-                    value={newZipcode}
-                    onChange={(e) => setNewZipcode(e.target.value)}
-                  />
-                ) : (
-                  userSignedIn.zipcode
-                )}{" "}
-                &nbsp; &nbsp;
-                {editZipcodeMode ? (
-                  <IconButton
-                    aria-label="save"
-                    size="small"
-                    onClick={handleSaveZipCode}
-                  >
-                    {" "}
-                    <DoneIcon />{" "}
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    aria-label="edit"
-                    size="small"
-                    onClick={handleEditZipCode}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                )}
-              </Typography>
-            </p>
+            
           </div>
           <div className={styles.avatar}>
-            <Avatar
-              src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+            {userSignedIn.profile_picture ? (
+              <Avatar
+              src={userSignedIn.profile_picture}
               variant="rounded"
-              sx={{ width: 150, height: 150 }}
+              style={{ width: 150, height: 150 }}
               alt="profile picture"
             />
+            ) : (
+              userSignedIn.first_name && userSignedIn.last_name ? (
+                <BackgroundLetterAvatars 
+                  firstName={userSignedIn.first_name} 
+                  lastName={userSignedIn.last_name} 
+                  style={{ 
+                    width: "150px", 
+                    height: "150px" }} />
+            )
+              : null
+            )}
           </div>
         </div>
       </Box>

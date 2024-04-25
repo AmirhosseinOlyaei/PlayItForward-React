@@ -23,6 +23,8 @@ import ToyList from "./ToyList";
 import DeliveryFilter from "./DeliveryFilter";
 import GoogleZip from "./GoogleZip";
 import { useNavigate } from "react-router-dom";
+import ListingDetail from "../ListingDetail";
+import { useParams } from "react-router-dom/dist";
 
 const drawerWidth = 340;
 
@@ -37,6 +39,7 @@ export default function ToysLanding() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const navigate = useNavigate();
+  const { selectedToyId } = useParams();
 
   useEffect(() => {
     const fetchToys = async () => {
@@ -279,6 +282,8 @@ export default function ToysLanding() {
           )}
         </Grid>
       </Grid>
+      {selectedToyId && <ListingDetail id={selectedToyId} onClose={() => navigate(-1)}/>}
     </Box>
+
   );
 }
