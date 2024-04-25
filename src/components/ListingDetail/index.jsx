@@ -257,7 +257,7 @@ const ListingDetail = ({ id, onClose }) => {
                   justifyContent: "space-between",
                 }}
               >
-                {user && (
+                {authorizedUser !== toyListing.listed_by_id?._id && (
                   <>
                     <ActionButton
                       link={`/messages/${id}`}
@@ -379,7 +379,7 @@ const ListingDetail = ({ id, onClose }) => {
                     }}
                   />
                   Joined <b>PlayItForward</b> in{" "}
-                  {dateStringToMonthYear(toyGiver.created_date)}
+                  {dateStringToMonthYear(toyGiver.modified_date)}
                 </Typography>
               </Box>
             </Box>
