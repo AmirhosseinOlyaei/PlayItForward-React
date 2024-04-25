@@ -26,9 +26,7 @@ export default function ToyCard({
   return (
     <Card
       sx={{
-        minWidth: 345,
-        flexBasis: isSmallScreen ? "100%" : "345px",
-        flexGrow: 1,
+        width: "100%",
         overflow: "hidden",
       }}
     >
