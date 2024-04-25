@@ -272,21 +272,25 @@ const ListingDetail = () => {
                 justifyContent: "space-between",
               }}
             >
-              <ActionButton
-                link={`/messages/${id}`}
-                text="&nbsp;Message"
-                startIcon={<MailIcon />}
-                fullWidth={false}
-              />
-              <ActionButton
-                link=""
-                text=""
-                startIcon={
-                  isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />
-                }
-                fullWidth={false}
-                onClick={handleFavorite}
-              />
+            {user && (
+            <>
+                <ActionButton
+                  link={`/messages/${id}`}
+                  text="&nbsp;Message"
+                  startIcon={<MailIcon />}
+                  fullWidth={false}
+                />
+                <ActionButton
+                  link=""
+                  text=""
+                  startIcon={
+                    isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />
+                  }
+                  fullWidth={false}
+                  onClick={handleFavorite}
+                /> 
+                </>
+              ) }
               <CopyToClipboard
                 text={`${apiUrl}/toys/${id}`}
                 onCopy={() => setIsOpen(true)}
@@ -390,33 +394,28 @@ const ListingDetail = () => {
             </Box>
           </Box>
           <Divider />
-          <Box sx={{ padding: "20px 0" }}>
-            <Typography variant="h6" sx={{ margin: "5px 0" }}>
-              Send a message
-            </Typography>
-            <TextField
-              id="outlined-basic"
-              onChange={handleMessageChange}
-              value={newMessage}
-              variant="outlined"
-              sx={{ width: "100%" }}
-            />
-            <br />
-            <ActionButton
-              linkTo=""
-              text="&nbsp;Send"
-              startIcon={<MailIcon />}
-              onClick={async () => {await handleSendMessage();}}
-              fullWidth={true}
-            />
-            {/* <Snackbar
-              open={openToast}
-              autoHideDuration={6000}
-              onClose={handleCloseToast}
-              message="Message sent!"
-              action={action}
-            /> */}
-          </Box>
+          {user && (
+            <Box sx={{ padding: "20px 0" }}>
+              <Typography variant="h6" sx={{ margin: "5px 0" }}>
+                Send a message
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                onChange={handleMessageChange}
+                value={newMessage}
+                variant="outlined"
+                sx={{ width: "100%" }}
+              />
+              <br />
+              <ActionButton
+                linkTo=""
+                text="&nbsp;Send"
+                startIcon={<MailIcon />}
+                onClick={async () => {await handleSendMessage();}}
+                fullWidth={true}
+              />
+            </Box> 
+          )}
         </Box>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
