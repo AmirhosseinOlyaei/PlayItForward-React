@@ -18,12 +18,14 @@ import Drawer from '@mui/material/Drawer';
 
 
 const menuOptions = [
-  { text: "My Listings", icon: <ListIcon />, link: "/listings" },
-  { text: "Favorites", icon: <Bookmark />, link: "/favorites" },
-  { text: "Messages", icon: <MailIcon />, link: "/messages" },
-  { text: "Personal Information", icon: <Person2 />, link: "/personal" },
+  { id: 0, text: "My Listings", icon: <ListIcon />, link: "/listings" },
+  { id: 1, text: "Favorites", icon: <Bookmark />, link: "/favorites" },
+  { id: 2, text: "Messages", icon: <MailIcon />, link: "/messages" },
+  { id: 3, text: "Personal Information", icon: <Person2 />, link: "/personal" },
 ]
 function IconMenu({activeTab}) {
+  console.log("activeTab", activeTab);
+
   return (
     
 
@@ -46,14 +48,14 @@ function IconMenu({activeTab}) {
         </List>
         <Divider />
           <List>
-            {menuOptions.map(({text, icon, link}) => (
-            <Link key={text} href={link} sx={{ textDecoration: 'none', color: 'inherit' }}>
-              <ListItem key={text} disablePadding sx = { activeTab === text ? ({ bgcolor: '#CAE6FC', }) : ""}>
+            {menuOptions.map((item) => (
+            <Link key={item.text} href={item.link} sx={{ textDecoration: 'none', color: 'inherit' }}>
+              <ListItem key={item.text} disablePadding sx = { item.id ==  activeTab ? ({ bgcolor: '#CAE6FC', }) : ""}>
                 <ListItemButton>
                   <ListItemIcon>
-                    {icon}
+                    {item.icon}
                   </ListItemIcon>
-                  <ListItemText primary={text} />
+                  <ListItemText primary={item.text} />
                 </ListItemButton>
               </ListItem>
             </Link>  

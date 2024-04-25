@@ -108,7 +108,7 @@ function stringAvatar(firstName, lastName) {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       ></AppBar>
-      <IconMenu activeTab={"Personal Information"} />
+      <IconMenu activeTab="3" />
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
         <div className={styles.userProfile}>

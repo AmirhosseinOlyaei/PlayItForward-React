@@ -66,7 +66,7 @@ const Favorites = () => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       ></AppBar>
-      <IconMenu activeTab={"Favorites"} />
+      <IconMenu activeTab="1" />
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 5 }}>
         <br />
         <br />
