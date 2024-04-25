@@ -31,6 +31,7 @@ import UserContext from "../../context/userContext";
 import { Button } from "@mui/base";
 import CloseIcon from '@mui/icons-material/Close';
 import toast, { Toaster } from "react-hot-toast";
+import BackgroundLetterAvatars from "../Messages/Avatar";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -49,7 +50,6 @@ const ListingDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
   const [newMessage, setNewMessage] = useState("Is this still available?");
-  const [messageSent, setMessageSent] = useState(false);
 
   React.useEffect(() => {
     async function fetchToy(toyId) {
@@ -195,34 +195,15 @@ const ListingDetail = () => {
           city: city,
           state: state,
         });
-        console.log("mapPosition", mapPosition);
+       
       })
       .catch((error) => console.error("Error:", error));
   }, [toyListing]);
 
-  const [openToast, setOpenToast] = useState(false);
-  const handleCloseToast = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenToast(false);  
-  };
+ 
+  
 
-  const action = (
-    <React.Fragment>
-      <Button color="secondary" size="small" onClick={handleCloseToast}>
-        UNDO
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleCloseToast}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
+
 
   return (
     <>
@@ -381,12 +362,9 @@ const ListingDetail = () => {
               Posted by
             </Typography>
             <Box className={styles.giverInformation}>
-              <img
-                src={toyGiver.profile_picture}
-                alt="Toy giver profile picture"
-                width="42px"
-                height="42px"
-              />
+              {toyGiver.first_name && toyGiver.last_name ? <BackgroundLetterAvatars 
+                firstName={toyGiver.first_name} 
+                lastName={toyGiver.last_name} /> : null}
               <Typography
                 variant="body"
                 sx={{ marginLeft: "10px", lineHeight: "42px" }}
@@ -407,7 +385,7 @@ const ListingDetail = () => {
                   }}
                 />
                 Joined <b>PlayItForward</b> in{" "}
-                {dateStringToMonthYear(toyGiver.create_date)}
+                {dateStringToMonthYear(toyGiver.created_date)}
               </Typography>
             </Box>
           </Box>
