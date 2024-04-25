@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import DrawerSidebar from "./Drawer";
@@ -8,17 +9,19 @@ import UserContext from "../../context/userContext";
 
 const Messages = () => {
   const user = useContext(UserContext);
+  const { id } = useParams();
   const loggedInUserId = user ? user._id : "";
+  const loggedInUserName = user ? user.nickname : "";
   const [messages, setMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("inbox");
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [sentMessageCount, setSentMessageCount] = useState(0);
   const [inboxMessageCount, setInboxMessageCount] = useState(0);
 
   useEffect(() => {
     fetchMessages();
-  }, []);
+  }, [loggedInUserId]);
 
   // Added useEffect to observe that React state updates are asynchronous, and the updated value might not be available synchronously after calling the state setter function.
 
@@ -36,36 +39,45 @@ const Messages = () => {
 
   const fetchMessages = async () => {
     try {
+      const queryParams = new URLSearchParams(window.location.search);
+
       const response = await fetch(
         `${apiUrl}/messages?userId=${loggedInUserId}`
       );
+
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
       const data = await response.json();
       console.log("Fetched messages", data);
 
-      setMessages(
-        data.filter(
-          (message) =>
-            message.user_id_from._id === loggedInUserId ||
-            message.user_id_to._id === loggedInUserId
-        )
-      );
-      setFilteredMessages(
-        data.filter(
-          (message) =>
-            message.user_id_from._id === loggedInUserId ||
-            message.user_id_to._id === loggedInUserId
-        )
+      let sortedMessages = data.sort(
+        (a, b) => new Date(b.sent_date) - new Date(a.sent_date)
       );
 
-      const sentCount = data.filter(
+      if (id) {
+        sortedMessages = sortedMessages.filter(
+          (message) => message.toy_listing_id._id === id
+        );
+      }
+
+      setMessages(sortedMessages);
+
+      setFilteredMessages(
+        sortedMessages.filter(
+          (message) => message.user_id_to._id === loggedInUserId
+        )
+      );
+      console.log("sortedMessages", sortedMessages);
+      console.log(loggedInUserId);
+      const sentCount = sortedMessages.filter(
         (message) => message.user_id_from._id === loggedInUserId
       ).length;
-      const inboxCount = data.filter(
+      console.log("sentCount", sentCount);
+      const inboxCount = sortedMessages.filter(
         (message) => message.user_id_to._id === loggedInUserId
       ).length;
+      console.log("inboxCount", inboxCount);
       setSentMessageCount(sentCount);
       setInboxMessageCount(inboxCount);
     } catch (error) {
@@ -134,7 +146,7 @@ const Messages = () => {
     } else if (filter === "inbox" && loggedInUserId !== null) {
       filterInboxMessages();
     } else if (filter === "") {
-      filterAllMessages();
+      filterInboxMessages();
     } else {
       filterBySearch();
     }
@@ -152,32 +164,27 @@ const Messages = () => {
     );
   };
 
-  const filterAllMessages = () => {
-    setFilteredMessages(
-      messages.filter(
-        (message) =>
-          message.user_id_to?._id === loggedInUserId ||
-          message.user_id_from?._id === loggedInUserId
-      )
-    );
-  };
-
   const filterBySearch = () => {
     const searchTerm = filter.toLowerCase();
     setFilteredMessages(
       messages.filter((message) => {
-        const { user_id_from, user_id_to, subject, content } = message;
-        const fromFirstName = user_id_from?.first_name?.toLowerCase() || "";
-        const fromLastName = user_id_from?.last_name?.toLowerCase() || "";
+        const { user_id_to, user_id_from, subject, content } = message;
         const toFirstName = user_id_to?.first_name?.toLowerCase() || "";
         const toLastName = user_id_to?.last_name?.toLowerCase() || "";
+        const fromFirstName = user_id_from?.first_name?.toLowerCase() || "";
+        const fromLastName = user_id_from?.last_name?.toLowerCase() || "";
+
         return (
-          fromFirstName.includes(searchTerm) ||
-          fromLastName.includes(searchTerm) ||
-          toFirstName.includes(searchTerm) ||
-          toLastName.includes(searchTerm) ||
-          subject?.toLowerCase().includes(searchTerm) ||
-          content?.toLowerCase().includes(searchTerm)
+          (user_id_to?._id === loggedInUserId &&
+            (toFirstName.includes(searchTerm) ||
+              toLastName.includes(searchTerm) ||
+              subject?.toLowerCase().includes(searchTerm) ||
+              content?.toLowerCase().includes(searchTerm))) ||
+          (user_id_from?._id === loggedInUserId &&
+            (fromFirstName.includes(searchTerm) ||
+              fromLastName.includes(searchTerm) ||
+              subject?.toLowerCase().includes(searchTerm) ||
+              content?.toLowerCase().includes(searchTerm)))
         );
       })
     );
@@ -254,6 +261,7 @@ const Messages = () => {
       <Box sx={{ flex: 1, p: 3 }}>
         <MailContent
           loggedInUserId={loggedInUserId}
+          loggedInUserName={loggedInUserName}
           message={selectedMessage}
           onDelete={deleteMessage}
           fetchMessages={fetchMessages}

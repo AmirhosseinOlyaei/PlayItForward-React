@@ -273,7 +273,7 @@ const ListingDetail = () => {
               }}
             >
               <ActionButton
-                link={`/messages?id=${id}`}
+                link={`/messages/${id}`}
                 text="&nbsp;Message"
                 startIcon={<MailIcon />}
                 fullWidth={false}

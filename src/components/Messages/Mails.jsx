@@ -95,7 +95,7 @@ const Mails = ({
                         />
                       </Box>
                       <Typography level="body-xs">
-                        {new Date(message.sent_date).toLocaleDateString()}
+                        {new Date(message.sent_date).toLocaleString()}
                       </Typography>
                     </Box>
                     <div>
