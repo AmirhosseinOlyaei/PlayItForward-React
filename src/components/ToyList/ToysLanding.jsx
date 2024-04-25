@@ -8,10 +8,7 @@ import {
   Divider,
   Grid,
   IconButton,
-  AppBar,
-  Toolbar,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import CssBaseline from "@mui/material/CssBaseline";
 import Create from "./Create";
@@ -112,12 +109,11 @@ export default function ToysLanding() {
           zIndex: (theme) => theme.zIndex.drawer + 1,
           marginRight: 2,
           display: { sm: "none" },
-          top: 86.5,
+          top: 86,
           left: 35,
-          // backgroundColor: "primary.main",
           backgroundColor: "rgba(33, 150, 253, 0.8)",
           color: "white",
-          borderRadius: 2, // Setting borderRadius to 0 to make the button square
+          borderRadius: 2,
           width: 60,
           height: 25,
           "&:hover": {
@@ -171,8 +167,8 @@ export default function ToysLanding() {
           <Grid item xs={12} sm={12} my={1}>
             <GoogleZip
               onZipCodeChange={handleZipCodeChange}
-              value={selectedLocation} // Pass selected location if managed
-              onValueChangeLocation={handleLocationChange} // Handle changes in location selection
+              value={selectedLocation}
+              onValueChangeLocation={handleLocationChange}
             />
           </Grid>
 
@@ -238,8 +234,8 @@ export default function ToysLanding() {
           <Grid item xs={12} sm={12} my={1}>
             <GoogleZip
               onZipCodeChange={handleZipCodeChange}
-              value={selectedLocation} // Pass selected location if managed
-              onValueChangeLocation={handleLocationChange} // Handle changes in location selection
+              value={selectedLocation}
+              onValueChangeLocation={handleLocationChange}
             />
           </Grid>
 
