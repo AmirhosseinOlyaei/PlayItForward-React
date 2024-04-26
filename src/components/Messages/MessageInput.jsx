@@ -33,7 +33,7 @@ function MessageInput({
           toy_listing_id: currentMessage.toy_listing_id,
           date: new Date().toISOString(),
           subject: `Re:${currentMessage.subject}`,
-          content: `${loggedInUserName}:${message}<hr>${currentMessage.content}`,
+          content: `${loggedInUserName}: ${message}<hr>${currentMessage.content}`,
         }),
       });
 
