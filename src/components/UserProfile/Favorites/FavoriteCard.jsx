@@ -7,14 +7,18 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import styles from "./UserProfile.module.css";
 import { ButtonGroup, Divider, Box } from "@mui/material";
-import ActionButton from "./ActionButton";
 import MailIcon from "@mui/icons-material/Mail";
 import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
-import StatusToggle from "./StatusToggle";
+import ActionButton from "../ActionButton";
 import { useNavigate } from "react-router-dom";
 
-export default function ImgMediaCard({ toy, toys, setToys, url, toyId }) {
+export default function FavoriteCard({
+  toy,
+  toyId,
+  deleteFromFavorite,
+  favToyId,
+}) {
   const navigate = useNavigate(); // Create an instance of navigate
   const handleClick = () => {
     navigate(`/toys/${toyId}`);
@@ -37,7 +41,7 @@ export default function ImgMediaCard({ toy, toys, setToys, url, toyId }) {
 
       <div className={styles.detailsRow}>
         <CardMedia
-          onClick={() => handleClick(toyId)}
+          onClick={handleClick}
           component="img"
           alt="No picture"
           sx={{ width: "160px", height: "180px" }}
@@ -85,37 +89,21 @@ export default function ImgMediaCard({ toy, toys, setToys, url, toyId }) {
           margin: "5px 0",
           display: "flex",
           justifyContent: "space-between",
-          maxWidth: "620px",
-          minWidth: "620px",
+          maxWidth: "325px",
+          minWidth: "325px",
         }}
       >
-        <StatusToggle toy={toy} toys={toys} setToys={setToys} />
-        {/* <ActionButton text={"Mark as Gone"} linkTo={"/"} startIcon={""} /> */}
-        {/* <ActionButton text={"Mark as Reserved"} linkTo={"/"} startIcon={""} /> */}
+        <ActionButton
+          link=""
+          text="Delete from Favorites"
+          onClick={() => deleteFromFavorite(favToyId)}
+        />
         <ActionButton
           link={`/messages?id=${toy._id}`}
           text=""
           startIcon={<MailIcon />}
         />
-        <ActionButton link="" text="" startIcon={<ShareIcon />} />
-        <ActionButton link={`/create?id=${toy._id}`} text={"Edit"} />
-
-        {/* <Link to={`/create?id=${toy._id}`}>
-          <Button
-            variant="contained"
-            sx={{
-              ml: 0,
-              mt: 1.2,
-              height: "43px",
-              backgroundColor: "rgba(33, 150, 243, 0.8)",
-              "&:hover": {
-                backgroundColor: "rgba(33, 150, 243, 1)",
-              },
-            }}
-          >
-            Edit
-          </Button>
-        </Link> */}
+        {/* <ActionButton link="" text="" startIcon={<ShareIcon />} /> */}
       </Box>
     </Card>
   );

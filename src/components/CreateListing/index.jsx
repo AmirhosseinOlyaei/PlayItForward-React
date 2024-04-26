@@ -91,6 +91,7 @@ const CreateListing = () => {
         value={value}
         toy={toy}
         fetchedFileName={fetchedFileName}
+        userId={userId}
       />
     </Box>
   );

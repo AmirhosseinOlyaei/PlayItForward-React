@@ -64,7 +64,6 @@ const StatusToggle = ({ toy, toys, setToys }) => {
   return (
     <>
       <ActionButton
-        ActionButton
         text={"Mark as Gone"}
         linkTo={"/"}
         startIcon={""}
