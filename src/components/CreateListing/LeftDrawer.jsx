@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import { Button, Grid, TextField, Input } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -16,6 +16,8 @@ import Alert from "@mui/material/Alert";
 import SuccessAlert from "./SuccessAlert";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const drawerWidth = 340;
 
@@ -42,6 +44,9 @@ const LeftDrawer = ({
   handleFetchedFile,
   userId,
 }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   console.log("selectedFile", selectedFile);
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -144,7 +149,6 @@ const LeftDrawer = ({
       !zipCode ||
       !selectedFile
     ) {
-      //alert("Please fill in all fields.");
       setError(true);
     } else {
       console.log("");
@@ -243,11 +247,15 @@ const LeftDrawer = ({
     <Drawer
       variant="permanent"
       sx={{
-        width: drawerWidth,
-        display: "flex",
+        width: isSmallScreen ? "100%" : drawerWidth, // Adjust width for small screens
+        borderRight: isSmallScreen ? "none" : null,
+        // width: drawerWidth,
+        // display: "flex",
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
-          width: drawerWidth,
+          width: isSmallScreen ? "100%" : drawerWidth,
+          borderRight: isSmallScreen ? "none" : null,
+          //width: drawerWidth,
           boxSizing: "border-box",
           marginTop: "86px",
           height: "calc(100vh - 90px)",
@@ -255,14 +263,14 @@ const LeftDrawer = ({
       }}
       anchor="left"
     >
-      <Box sx={{ overflow: "auto", ml: 1 }}>
+      <Box sx={{ overflow: "auto", mx: "16px" }}>
         <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
           Toy for Listing
         </Typography>
         <Divider sx={{ marginTop: 1.2, marginBottom: 2 }} />
         <Box
           sx={{
-            "& .MuiTextField-root": { marginTop: 3, width: "40ch" },
+            "& .MuiTextField-root": { marginTop: 3 },
           }}
           noValidate
           autoComplete="off"
@@ -278,14 +286,15 @@ const LeftDrawer = ({
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
                 sx={{
-                  marginTop: 1,
-                  marginBottom: 2,
-                  width: "38.3ch",
+                  marginTop: 2,
+                  marginBottom: 1.2,
+                  //width: "38.3ch",
                   backgroundColor: "rgba(33, 150, 243, 0.8)",
                   "&:hover": {
                     backgroundColor: "rgba(33, 150, 243, 1)",
                   },
                 }}
+                fullWidth
               >
                 Upload photo
                 <VisuallyHiddenInput
@@ -322,7 +331,7 @@ const LeftDrawer = ({
                   <IconButton
                     aria-label="delete"
                     onClick={() => onClearPhoto()}
-                    sx={{ padding: 0, mr: 0, mb: 1 }}
+                    sx={{ padding: 0, mr: 0, mb: 1, mt: 1.0 }}
                   >
                     <ClearIcon />
                   </IconButton>
@@ -337,6 +346,7 @@ const LeftDrawer = ({
               type="text"
               value={title}
               onChange={handleInputChangeTitle}
+              fullWidth
               InputProps={{
                 style: {
                   fontSize: "16px",
@@ -344,11 +354,6 @@ const LeftDrawer = ({
                   color: "#1e1e1e",
                 },
               }}
-              // InputLabelProps={{
-              //   style: {
-              //     color: title ? null : "red",
-              //   },
-              // }}
             />
             <GoogleZip
               onValueChangeLocation={onValueChangeLocation}
@@ -373,9 +378,7 @@ const LeftDrawer = ({
               rows={4}
               value={description}
               onChange={handleInputDescriptionChange}
-              // InputLabelProps={{
-              //   style: { color: description ? null : "red" },
-              // }}
+              fullWidth
               InputProps={{
                 style: {
                   fontSize: "16px",
@@ -400,17 +403,15 @@ const LeftDrawer = ({
               variant="contained"
               type="submit"
               size="large"
-              fullWidth
               sx={{
                 marginTop: "30px",
-                width: "38.3ch",
                 background: "#ff6600",
-                //position: "fixed",
                 bottom: "5px",
                 "&:hover": {
                   backgroundColor: "#ffa162",
                 },
               }}
+              fullWidth
             >
               {editMode ? "Save Changes" : "Publish"}
             </Button>

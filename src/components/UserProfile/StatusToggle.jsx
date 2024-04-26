@@ -64,9 +64,8 @@ const StatusToggle = ({ toy, toys, setToys }) => {
   return (
     <>
       <ActionButton
-        ActionButton
         text={"Mark as Gone"}
-        linkTo={"/"}
+        // linkTo={"/"}
         startIcon={""}
         onClick={toggleStatusToGone}
       />
@@ -75,9 +74,9 @@ const StatusToggle = ({ toy, toys, setToys }) => {
         text={
           toy.status === "available" ? "Mark as reserved" : "Mark as available"
         }
-        linkTo={"/"}
+        //linkTo={"/"}
         startIcon={""}
-        sx={{ ml: 2 }}
+        // sx={{ ml: 2 }}
         onClick={toggleStatus}
       />
     </>

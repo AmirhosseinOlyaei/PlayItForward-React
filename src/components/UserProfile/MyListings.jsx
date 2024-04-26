@@ -19,16 +19,15 @@ import axios from "axios";
 const MyListings = () => {
   const user = useContext(UserContext);
   const currentUserId = user && user ? user._id : "";
+
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [toys, setToys] = useState([]);
   useEffect(() => {
     const fetchToysByUser = async () => {
-      //setCurrentUserId("6609a2873eaffef95345b9fb");
       try {
         const response = await axios.get(
-          // `http://localhost:8000/api/v1/toys?requester=${currentUserId}`
-          `${apiUrl}/toys`
+          `${apiUrl}/toys/user/${currentUserId}`
         );
         setToys(response.data);
       } catch (error) {
@@ -39,13 +38,13 @@ const MyListings = () => {
   }, [currentUserId]);
 
   console.log("toys", toys);
-  const filteredToys = toys.filter((toy) => toy.listed_by_id);
-  const filteredToysByUser = filteredToys.filter(
-    (toy) => toy.listed_by_id._id === currentUserId
-  );
+  // const filteredToys = toys.filter((toy) => toy.listed_by_id);
+  // const filteredToysByUser = filteredToys.filter(
+  //   (toy) => toy.listed_by_id._id === currentUserId
+  // );
 
-  console.log("filteredToys", filteredToys);
-  console.log("filteredToysByUser", filteredToysByUser);
+  // console.log("filteredToys", filteredToys);
+  // console.log("filteredToysByUser", filteredToysByUser);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -58,7 +57,7 @@ const MyListings = () => {
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
         {/* <ImgMediaCard /> */}
 
-        {filteredToysByUser.map((toy) => {
+        {toys.map((toy) => {
           return (
             <ImgMediaCard
               toy={toy}
@@ -66,6 +65,8 @@ const MyListings = () => {
               toys={toys}
               setToys={setToys}
               // url={`/toys/${toy._id}`}
+              toyId={toy._id}
+
               //handleOptionSelect={handleOptionSelect}
             />
           );
