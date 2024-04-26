@@ -31,6 +31,13 @@ const NavBar = ({ user }) => {
     // If needed, trigger search logic or state changes here
   };
 
+  const handleSignOut = () => {
+    // Implement sign out logic here, such as clearing user session
+    handleMenuClose();
+    // Redirect or do additional clean up after sign out
+    navigate("/");
+  };
+
   return (
     <AppBar component="nav" sx={{ bgcolor: "rgba(33, 150, 253, 0.8)" }}>
       <Toolbar
@@ -146,14 +153,17 @@ const NavBar = ({ user }) => {
                 Messages
               </MenuItem>
             )}
-
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/login"
-            >
-              Sign In / Out
-            </MenuItem>
+            {user ? (
+              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+            ) : (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/login"
+              >
+                Sign In
+              </MenuItem>
+            )}
           </Menu>
         </Box>
       </Toolbar>
