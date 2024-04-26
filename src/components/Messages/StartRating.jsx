@@ -16,7 +16,7 @@ export default function StarRating({ message, loggedInUserId, setOpen, open }) {
   const handleRatingSubmit = async () => {
     const apiUrl = import.meta.env.VITE_API_URL;
     try {
-      const response = await fetch(`${apiUrl}/stars`, {
+      const response = await fetch(`${apiUrl}/stars/rating`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,11 +25,15 @@ export default function StarRating({ message, loggedInUserId, setOpen, open }) {
           user_id_given_to: message.user_id_from._id,
           number_of_stars: value,
           user_id_given_by: loggedInUserId,
+          toy_listing_id: message.toy_listing_id._id,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit rating");
+        toast.error(response.message, {
+          duration: 2000,
+        });
+        return;
       }
 
       const responseData = await response.json();
@@ -38,7 +42,7 @@ export default function StarRating({ message, loggedInUserId, setOpen, open }) {
       toast.success("Rating submitted successfully", { duration: 2000 });
     } catch (error) {
       console.error("Error submitting rating:", error);
-      toast.error("Failed to submit rating. Please try again.", {
+      toast.error(error.message, {
         duration: 2000,
       });
     }
