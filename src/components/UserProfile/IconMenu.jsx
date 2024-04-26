@@ -7,6 +7,7 @@ import {
   Button,
   ListItemButton,
   Link,
+  Grid,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import MenuList from "@mui/material/MenuList";
@@ -14,19 +15,18 @@ import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Typography from "@mui/material/Typography";
-import Bookmark from "@mui/icons-material/Bookmark";
 import ContentCopy from "@mui/icons-material/ContentCopy";
 import Send from "@mui/icons-material/Send";
 import Person2 from "@mui/icons-material/Person2";
 import ListIcon from "@mui/icons-material/List";
 import MailIcon from "@mui/icons-material/Mail";
 import Create from "../ToyList/Create";
-
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import Drawer from "@mui/material/Drawer";
 
 const menuOptions = [
   { id: 0, text: "My Listings", icon: <ListIcon />, link: "/listings" },
-  { id: 1, text: "Favorites", icon: <Bookmark />, link: "/favorites" },
+  { id: 1, text: "Favorites", icon: <FavoriteIcon />, link: "/favorites" },
   { id: 2, text: "Messages", icon: <MailIcon />, link: "/messages" },
   { id: 3, text: "Personal Information", icon: <Person2 />, link: "/personal" },
 ];
@@ -44,15 +44,11 @@ function IconMenu({ activeTab }) {
         },
       }}
     >
-      <Box sx={{ overflow: "auto" }}>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <Create />
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider />
+      <Box sx={{ overflow: "auto", p: 2, pt: 4 }} sm={12}>
+        <Grid item xs={12} sm={11}>
+          <Create />
+        </Grid>
+        <Divider sx={{ my: 2 }} />
         <List>
           {menuOptions.map((item) => (
             <Link
