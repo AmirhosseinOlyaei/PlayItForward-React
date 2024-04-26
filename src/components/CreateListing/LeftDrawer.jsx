@@ -216,7 +216,7 @@ const LeftDrawer = ({
           width: drawerWidth,
           boxSizing: "border-box",
           marginTop: "86px",
-          height: "calc(100vh - 90px)",
+          height: "calc(100vh - 100px)",
         },
       }}
       anchor="left"
