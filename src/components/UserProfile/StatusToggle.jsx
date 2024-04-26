@@ -76,7 +76,7 @@ const StatusToggle = ({ toy, toys, setToys }) => {
         }
         linkTo={"/"}
         startIcon={""}
-        sx={{ ml: 2 }}
+        // sx={{ ml: 2 }}
         onClick={toggleStatus}
       />
     </>
