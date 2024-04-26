@@ -140,6 +140,7 @@ const PersonalInfo = () => {
                   value={averageStars}
                   precision={0.5}
                   readOnly
+                  sx={{ my: 2 }}
                 />
               ) : (
                 "Loading..."
