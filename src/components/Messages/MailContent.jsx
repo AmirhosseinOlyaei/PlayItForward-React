@@ -16,7 +16,8 @@ import MessageInput from "./MessageInput";
 import BackgroundLetterAvatars from "./Avatar";
 import StarRating from "./StartRating";
 import toast, { Toaster } from "react-hot-toast";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 const MailContent = ({
   message,
   fetchMessages,
@@ -334,7 +335,12 @@ const MailContent = ({
                     />
                   )}
                   <Typography level="body-xs">
-                    {new Date(message.sent_date).toLocaleString()}
+                    {new Date(message.sent_date).toLocaleDateString()},{" "}
+                    {new Date(message.sent_date).toLocaleTimeString([], {
+                      hour12: true,
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
                   </Typography>
                 </Box>
               </Box>
@@ -348,12 +354,14 @@ const MailContent = ({
                   padding: 0,
                 }}
               >
-                <ListItemButton onClick={handleDelete}>
-                  <ListItemIcon>
-                    <DeleteRoundedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Delete" />
-                </ListItemButton>
+                <IconButton
+                  title="Delete"
+                  onClick={handleDelete}
+                  aria-label="delete"
+                  size="medium"
+                >
+                  <DeleteIcon fontSize="inherit" />
+                </IconButton>
                 <Snackbar
                   color="danger"
                   open={open.delete}

@@ -33,7 +33,7 @@ function MessageInput({
           toy_listing_id: currentMessage.toy_listing_id,
           date: new Date().toISOString(),
           subject: `Re:${currentMessage.subject}`,
-          content: `${loggedInUserName}:${message}<hr>${currentMessage.content}`,
+          content: `${loggedInUserName}: ${message}<hr>${currentMessage.content}`,
         }),
       });
 
@@ -65,7 +65,7 @@ function MessageInput({
       alignItems="center"
       sx={{ position: "sticky", bottom: 0, bgcolor: "background.paper", p: 2 }}
     >
-      <Grid item xs={12} sm={12} md={12} lg={10}>
+      <Grid item xs={12} sm={12} md={12} lg={9}>
         <TextField
           label={`Reply to ${recipient}`}
           variant="outlined"
@@ -78,7 +78,7 @@ function MessageInput({
           }
         />
       </Grid>
-      <Grid item xs={12} sm={12} md={12} lg={2} style={{ textAlign: "right" }}>
+      <Grid item xs={12} sm={12} md={12} lg={3} style={{ textAlign: "right" }}>
         <Button
           variant="contained"
           color="primary"
