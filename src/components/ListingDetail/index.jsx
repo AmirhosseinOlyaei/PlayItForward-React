@@ -52,6 +52,29 @@ const ListingDetail = ({ id, onClose }) => {
   const [averageStars, setAverageStars] = useState({});
 
   React.useEffect(() => {
+    async function checkFavorite(userId, toyId) {
+      const response = await fetch(
+        `${apiUrl}/favorites/check-favorite/${userId}/${toyId}`
+      );
+      const favoriteCheck = await response.json();
+      setIsFavorite(favoriteCheck.isFavorite);
+      if (favoriteCheck.isFavorite) {
+        setFavoriteId(favoriteCheck.favorite_Id);
+      }
+    }
+
+    if (authorizedUser !== "") checkFavorite(authorizedUser, id); // Check if the user has favorited the toy. Parameters: (userId, toyId)
+  }, [authorizedUser]);
+
+  React.useEffect(() => {
+    async function fetchToy(toyId) {
+      const response = await fetch(`${apiUrl}/toys/${toyId}`);
+      const toy = await response.json();
+      setToyListing(toy);
+      fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
+      fetchAverageStars(toy.listed_by_id._id);
+    }
+
     async function fetchAverageStars(userId) {
       try {
         const response = await fetch(`${apiUrl}/stars/${userId}`);
@@ -72,32 +95,14 @@ const ListingDetail = ({ id, onClose }) => {
       }
     }
 
-    async function fetchToy(toyId) {
-      const response = await fetch(`${apiUrl}/toys/${toyId}`);
-      const toy = await response.json();
-      setToyListing(toy);
-      fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
-      if (authorizedUser !== "") checkFavorite(authorizedUser, toyId); // Check if the user has favorited the toy. Parameters: (userId, toyId)
-      fetchAverageStars(toy.listed_by_id._id);
-    }
     async function fetchToyGiver(userId) {
       const response = await fetch(`${apiUrl}/users/${userId}`);
       const user = await response.json();
       setToyGiver(user);
     }
-    async function checkFavorite(userId, toyId) {
-      const response = await fetch(
-        `${apiUrl}/favorites/check-favorite/${userId}/${toyId}`
-      );
-      const favoriteCheck = await response.json();
-      setIsFavorite(favoriteCheck.isFavorite);
-      if (favoriteCheck.isFavorite) {
-        setFavoriteId(favoriteCheck.favorite_Id);
-      }
-    }
 
-    fetchToy(id); // Replace with the ID of the toy you want to fetch
-  }, [authorizedUser]);
+    fetchToy(id);
+  }, []);
 
   function calculateDate(date) {
     const today = new Date();
