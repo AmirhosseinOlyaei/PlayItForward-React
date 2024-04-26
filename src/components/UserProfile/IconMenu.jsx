@@ -59,7 +59,8 @@ function IconMenu({ activeTab }) {
               <ListItem
                 key={item.text}
                 disablePadding
-                sx={item.id == activeTab ? { bgcolor: "#CAE6FC" } : ""}
+                //sx={item.id == activeTab ? { bgcolor: "#CAE6FC" } : ""}
+                sx={{ backgroundColor: item.id == activeTab ? "#CAE6FC" : "" }}
               >
                 <ListItemButton>
                   <ListItemIcon>{item.icon}</ListItemIcon>
