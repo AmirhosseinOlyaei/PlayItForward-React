@@ -30,9 +30,11 @@ export default function StarRating({ message, loggedInUserId, setOpen, open }) {
       });
 
       if (!response.ok) {
-        toast.error(response.message, {
+        const responseData = await response.json();
+        toast.error(responseData.message, {
           duration: 2000,
         });
+        setOpen({ ...open, showRating: false });
         return;
       }
 
