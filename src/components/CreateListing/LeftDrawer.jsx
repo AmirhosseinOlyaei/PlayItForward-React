@@ -15,10 +15,11 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-
 import GoogleZip from "./GoogleZip";
 import FetchSelectData from "./FetchSelectData";
 import SuccessAlert from "./SuccessAlert";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const drawerWidth = 340;
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -44,6 +45,8 @@ const LeftDrawer = ({
   handleFetchedFile,
   userId,
 }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   console.log("selectedFile", selectedFile);
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -209,11 +212,12 @@ const LeftDrawer = ({
     <Drawer
       variant="permanent"
       sx={{
-        width: drawerWidth,
-        display: "flex",
+        width: isSmallScreen ? "100%" : drawerWidth,
+        borderRight: isSmallScreen ? "none" : null,
         flexShrink: 0,
         [`& .MuiDrawer-paper`]: {
-          width: drawerWidth,
+          width: isSmallScreen ? "100%" : drawerWidth,
+          borderRight: isSmallScreen ? "none" : null,
           boxSizing: "border-box",
           marginTop: "86px",
           height: "calc(100vh - 100px)",
@@ -221,13 +225,13 @@ const LeftDrawer = ({
       }}
       anchor="left"
     >
-      <Box sx={{ overflow: "auto", ml: 1 }}>
+      <Box sx={{ overflow: "auto", mx: "16px" }}>
         <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
           Toy for Listing
         </Typography>
         <Divider sx={{ marginTop: 1.2, marginBottom: 2 }} />
         <Box
-          sx={{ "& .MuiTextField-root": { marginTop: 3, width: "40ch" } }}
+          sx={{ "& .MuiTextField-root": { marginTop: 3 } }}
           noValidate
           autoComplete="off"
         >
@@ -242,14 +246,14 @@ const LeftDrawer = ({
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
                 sx={{
-                  marginTop: 1,
-                  marginBottom: 2,
-                  width: "38.3ch",
+                  marginTop: 2,
+                  marginBottom: 1.2,
                   backgroundColor: "rgba(33, 150, 243, 0.8)",
                   "&:hover": {
                     backgroundColor: "rgba(33, 150, 243, 1)",
                   },
                 }}
+                fullWidth
               >
                 Upload photo
                 <VisuallyHiddenInput
@@ -282,7 +286,7 @@ const LeftDrawer = ({
                   <IconButton
                     aria-label="delete"
                     onClick={() => onClearPhoto()}
-                    sx={{ padding: 0, mr: 0, mb: 1 }}
+                    sx={{ padding: 0, mr: 0, mb: 1, mt: 1 }}
                   >
                     <ClearIcon />
                   </IconButton>
@@ -296,6 +300,7 @@ const LeftDrawer = ({
               type="text"
               value={title}
               onChange={handleInputChangeTitle}
+              fullWidth
               InputProps={{
                 style: {
                   fontSize: "16px",
@@ -327,6 +332,7 @@ const LeftDrawer = ({
               rows={4}
               value={description}
               onChange={handleInputDescriptionChange}
+              fullWidth
               InputProps={{
                 style: {
                   fontSize: "16px",
@@ -346,13 +352,13 @@ const LeftDrawer = ({
               variant="contained"
               type="submit"
               size="large"
-              fullWidth
               sx={{
                 marginTop: "30px",
-                width: "38.3ch",
                 background: "#ff6600",
+                bottom: "5px",
                 "&:hover": { backgroundColor: "#ffa162" },
               }}
+              fullWidth
             >
               {editMode ? "Save Changes" : "Publish"}
             </Button>
