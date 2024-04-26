@@ -8,6 +8,7 @@ import {
   Popover,
   TextField,
   Dialog,
+  Rating,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -48,20 +49,9 @@ const ListingDetail = ({ id, onClose }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
   const [newMessage, setNewMessage] = useState("Is this still available?");
+  const [averageStars, setAverageStars] = useState({});
 
   React.useEffect(() => {
-    async function fetchToy(toyId) {
-      const response = await fetch(`${apiUrl}/toys/${toyId}`);
-      const toy = await response.json();
-      setToyListing(toy);
-      fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
-      if (authorizedUser !== "") checkFavorite(authorizedUser, toyId); // Check if the user has favorited the toy. Parameters: (userId, toyId)
-    }
-    async function fetchToyGiver(userId) {
-      const response = await fetch(`${apiUrl}/users/${userId}`);
-      const user = await response.json();
-      setToyGiver(user);
-    }
     async function checkFavorite(userId, toyId) {
       const response = await fetch(
         `${apiUrl}/favorites/check-favorite/${userId}/${toyId}`
@@ -72,8 +62,47 @@ const ListingDetail = ({ id, onClose }) => {
         setFavoriteId(favoriteCheck.favorite_Id);
       }
     }
-    fetchToy(id); // Replace with the ID of the toy you want to fetch
+
+    if (authorizedUser !== "") checkFavorite(authorizedUser, id); // Check if the user has favorited the toy. Parameters: (userId, toyId)
   }, [authorizedUser]);
+
+  React.useEffect(() => {
+    async function fetchToy(toyId) {
+      const response = await fetch(`${apiUrl}/toys/${toyId}`);
+      const toy = await response.json();
+      setToyListing(toy);
+      fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
+      fetchAverageStars(toy.listed_by_id._id);
+    }
+
+    async function fetchAverageStars(userId) {
+      try {
+        const response = await fetch(`${apiUrl}/stars/${userId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch average stars: " + response.status);
+        }
+        const stars = await response.json();
+
+        setAverageStars(stars[0].averageStars);
+        console.log(
+          "Average stars for user",
+          userId,
+          ":",
+          stars[0].averageStars
+        );
+      } catch (error) {
+        console.error("Error fetching average stars:", error);
+      }
+    }
+
+    async function fetchToyGiver(userId) {
+      const response = await fetch(`${apiUrl}/users/${userId}`);
+      const user = await response.json();
+      setToyGiver(user);
+    }
+
+    fetchToy(id);
+  }, []);
 
   function calculateDate(date) {
     const today = new Date();
@@ -359,12 +388,22 @@ const ListingDetail = ({ id, onClose }) => {
                     lastName={toyGiver.last_name}
                   />
                 ) : null}
-                <Typography
-                  variant="body"
-                  sx={{ marginLeft: "10px", lineHeight: "42px" }}
-                >
-                  {toyGiver.nickname}
-                </Typography>
+                <div>
+                  <Typography
+                    variant="body"
+                    sx={{ marginLeft: "10px", lineHeight: "42px" }}
+                  >
+                    {toyGiver.nickname}
+                  </Typography>
+                  <Typography>
+                    <Rating
+                      name="read-only"
+                      value={averageStars}
+                      precision={0.5}
+                      readOnly
+                    />
+                  </Typography>
+                </div>
               </Box>
               <Box sx={{ marginTop: "10px" }}>
                 <Typography variant="body">
