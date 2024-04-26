@@ -1,24 +1,26 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import { Button, Grid, TextField, Input } from "@mui/material";
-import { useState } from "react";
+// ffprac-team4-front/src/components/CreateListing/LeftDrawer.jsx
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
+import {
+  Box,
+  Drawer,
+  Typography,
+  Divider,
+  Button,
+  TextField,
+  IconButton,
+  Alert,
+} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+
 import GoogleZip from "./GoogleZip";
 import FetchSelectData from "./FetchSelectData";
-import Alert from "@mui/material/Alert";
 import SuccessAlert from "./SuccessAlert";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 
 const drawerWidth = 340;
-
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const LeftDrawer = ({
@@ -49,13 +51,11 @@ const LeftDrawer = ({
     height: 1,
     overflow: "hidden",
     position: "absolute",
-    bottom: 0,
-    left: 0,
     whiteSpace: "nowrap",
     width: 1,
   });
   const [zipCode, setZipCode] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
@@ -64,37 +64,26 @@ const LeftDrawer = ({
   const id = searchParams.get("id");
 
   useEffect(() => {
-    const fetchToyData = () => {
-      if (id) {
-        axios
-          .get(`${apiUrl}/toys/${id}`)
-          .then((response) => {
-            const toy = response.data;
-            const fetchedFileName = new File([toy.imageUrl], `${toy.title}.jpg`)
-              .name;
-            console.log("FETCHEDFile", fetchedFileName);
-
-            onTitleChange(toy.title);
-            onDescriptionChange(toy.description);
-            onCategoryChange(toy.category);
-            onConditionChange(toy.condition);
-            onDeliveryChange(toy.delivery_method);
-            //onValueChangeLocation(toy.zip_code);
-            onToyChange(toy);
-            onFileChange(new File([toy.imageUrl], `${toy.title}.jpg`));
-            handleFetchedFile(fetchedFileName);
-
-            console.log("toy", toy);
-
-            setEditMode(true);
-          })
-          .catch((error) => {
-            console.error("Error fetching toy data:", error);
-          });
-      }
-    };
-
-    fetchToyData();
+    if (id) {
+      axios
+        .get(`${apiUrl}/toys/${id}`)
+        .then((response) => {
+          const toy = response.data;
+          onTitleChange(toy.title);
+          onDescriptionChange(toy.description);
+          onCategoryChange(toy.category);
+          onConditionChange(toy.condition);
+          onDeliveryChange(toy.delivery_method);
+          onValueChangeLocation(toy.zip_code);
+          onToyChange(toy);
+          handleFetchedFile(new File([toy.imageUrl], `${toy.title}.jpg`).name);
+          onFileChange(new File([toy.imageUrl], `${toy.title}.jpg`));
+          setEditMode(true);
+        })
+        .catch((error) => {
+          console.error("Error fetching toy data:", error);
+        });
+    }
   }, [id]);
 
   const handleZipCodeChange = (newValue) => {
@@ -110,31 +99,33 @@ const LeftDrawer = ({
   };
 
   const handleFileInputChange = (e) => {
-    onFileChange(e.target.files[0]);
-    //console.log("handleFileInputChange", e.target.files[0]);
-  };
+    const file = e.target.files[0];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+      "image/svg+xml",
+    ];
 
-  const maxLength = 32; // Maximum length for the file name including the three dots (...)
+    if (!allowedTypes.includes(file.type)) {
+      alert(
+        "Unsupported file format. Please upload a JPEG, PNG, WebP, GIF, or SVG image."
+      );
+      return;
+    }
 
-  const truncatedFileName = (fileName) => {
-    return fileName.length > maxLength
-      ? `${fileName.substring(0, maxLength - 3)}...`
-      : fileName;
+    const maxFileSize = 5 * 1024 * 1024; // 5 MB
+    if (file.size > maxFileSize) {
+      alert("File size should not exceed 5 MB.");
+      return;
+    }
+
+    onFileChange(file);
   };
 
   const handleSubmit = (event) => {
-    // Prevent default form submission behavior
     event.preventDefault();
-
-    console.log("Form data:", {
-      title,
-      category,
-      condition,
-      delivery,
-      description,
-      zipCode,
-      selectedFile,
-    });
     if (
       !title ||
       !category ||
@@ -144,96 +135,71 @@ const LeftDrawer = ({
       !zipCode ||
       !selectedFile
     ) {
-      //alert("Please fill in all fields.");
       setError(true);
-    } else {
-      console.log("");
-      editMode ? axiosPutListing() : axiosPostListing();
-      setError(false);
+      return;
     }
+    editMode ? axiosPutListing() : axiosPostListing();
+    setError(false);
   };
 
-  // Send PUT request to update data in the database
   const axiosPutListing = async () => {
-    // Send POST request to /images endpoint to upload the image
-
     const imageData = new FormData();
-    imageData.append("image", selectedFile);
-    console.log("selectedFile", selectedFile);
+    imageData.append("file", selectedFile);
     const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      headers: { "Content-Type": "multipart/form-data" },
     });
-    console.log("POST Response:", response.data);
-    const newImageUrl = response.data;
+    const imageUrl = response.data.url;
     const postData = {
-      title: title,
-      description: description,
-      category: category,
-      condition: condition,
+      title,
+      description,
+      category,
+      condition,
       delivery_method: delivery,
       zip_code: zipCode,
-      //zip_code: value === undefined ? toy.zip_code : zipCode,
-      imageUrl:
-        selectedFile.type === "image/jpeg"
-          ? newImageUrl.file.url
-          : toy.imageUrl,
+      imageUrl: imageUrl,
     };
     await axios
       .put(`${apiUrl}/toys/${id}`, postData)
       .then((res) => {
-        console.log("PUT Response:", res.data);
         setAlertOpen(true);
         setEditMode(false);
-        console.log("Toy status updated successfully:", response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error updating toy:", error);
         alert("Something went wrong. Please try again.");
       });
   };
 
   const axiosPostListing = async () => {
-    // Send POST request to /images endpoint to upload the image
     const imageData = new FormData();
-    imageData.append("image", selectedFile);
-    console.log("selectedFile", selectedFile);
+    imageData.append("file", selectedFile);
     const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      headers: { "Content-Type": "multipart/form-data" },
     });
-    // After successfully uploading the image Send POST request to /toys endpoint with itle, condition... and image URL
-    // Assuming the backend responds with an object containing the image URL
-    const imageUrl = response.data;
-    console.log("Image URL:", imageUrl);
-
+    const imageUrl = response.data.url;
     const postData = {
-      title: title,
-      description: description,
-      category: category,
-      condition: condition,
+      title,
+      description,
+      category,
+      condition,
       delivery_method: delivery,
       zip_code: zipCode,
-      imageUrl: imageUrl.file.url,
+      imageUrl: imageUrl,
       status: "available",
-      listed_by_id: {
-        _id: userId,
-      },
+      listed_by_id: userId,
     };
     await axios
       .post(`${apiUrl}/toys`, postData)
       .then((response) => {
-        console.log(response);
-        //alert("Listing created successfully!");
+        console.log("Listing created successfully:", response.data);
         setAlertOpen(true);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error creating listing:", error);
         alert("Something went wrong. Please try again.");
       });
   };
+
   const handleAlertClose = () => {
     setAlertOpen(false);
     window.location.reload();
@@ -261,9 +227,7 @@ const LeftDrawer = ({
         </Typography>
         <Divider sx={{ marginTop: 1.2, marginBottom: 2 }} />
         <Box
-          sx={{
-            "& .MuiTextField-root": { marginTop: 3, width: "40ch" },
-          }}
+          sx={{ "& .MuiTextField-root": { marginTop: 3, width: "40ch" } }}
           noValidate
           autoComplete="off"
         >
@@ -295,30 +259,26 @@ const LeftDrawer = ({
                   onChange={handleFileInputChange}
                 />
               </Button>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "41ch",
-                  marginBottom: "12px",
-                  fontSize: "15px",
-                  gap: "5px",
-                }}
-                variant="body1"
-                color="textSecondary"
-              >
-                <Typography
-                  variant="body1"
-                  color="textSecondary"
-                  sx={{ ml: 0.5 }}
+              {selectedFile && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "41ch",
+                    marginBottom: "12px",
+                    fontSize: "15px",
+                    gap: "5px",
+                  }}
                 >
-                  {selectedFile ? truncatedFileName(selectedFile.name) : ""}
-                </Typography>
-
-                {selectedFile && (
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    sx={{ ml: 0.5 }}
+                  >
+                    {selectedFile.name}
+                  </Typography>
                   <IconButton
                     aria-label="delete"
                     onClick={() => onClearPhoto()}
@@ -326,9 +286,8 @@ const LeftDrawer = ({
                   >
                     <ClearIcon />
                   </IconButton>
-                )}
-              </Box>
-              {/* )} */}
+                </Box>
+              )}
             </Box>
             <TextField
               id="title"
@@ -344,11 +303,6 @@ const LeftDrawer = ({
                   color: "#1e1e1e",
                 },
               }}
-              // InputLabelProps={{
-              //   style: {
-              //     color: title ? null : "red",
-              //   },
-              // }}
             />
             <GoogleZip
               onValueChangeLocation={onValueChangeLocation}
@@ -373,9 +327,6 @@ const LeftDrawer = ({
               rows={4}
               value={description}
               onChange={handleInputDescriptionChange}
-              // InputLabelProps={{
-              //   style: { color: description ? null : "red" },
-              // }}
               InputProps={{
                 style: {
                   fontSize: "16px",
@@ -385,17 +336,12 @@ const LeftDrawer = ({
                 },
               }}
             />
-
             {error && (
               <Alert severity="error" sx={{ marginTop: "15px", mr: 0.5 }}>
                 Please fill in all fields.
               </Alert>
             )}
-            <Divider
-              sx={{
-                marginTop: "40px",
-              }}
-            />
+            <Divider sx={{ marginTop: "40px" }} />
             <Button
               variant="contained"
               type="submit"
@@ -405,11 +351,7 @@ const LeftDrawer = ({
                 marginTop: "30px",
                 width: "38.3ch",
                 background: "#ff6600",
-                //position: "fixed",
-                bottom: "5px",
-                "&:hover": {
-                  backgroundColor: "#ffa162",
-                },
+                "&:hover": { backgroundColor: "#ffa162" },
               }}
             >
               {editMode ? "Save Changes" : "Publish"}
@@ -425,4 +367,5 @@ const LeftDrawer = ({
     </Drawer>
   );
 };
+
 export default LeftDrawer;
