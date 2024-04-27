@@ -23,15 +23,18 @@ const MyListings = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [toys, setToys] = useState([]);
+
   useEffect(() => {
     const fetchToysByUser = async () => {
-      try {
-        const response = await axios.get(
-          `${apiUrl}/toys/user/${currentUserId}`
-        );
-        setToys(response.data);
-      } catch (error) {
-        console.error("Error fetching toys", error);
+      if (user && user._id) {
+        try {
+          const response = await axios.get(
+            `${apiUrl}/toys/user/${currentUserId}`
+          );
+          setToys(response.data);
+        } catch (error) {
+          console.error("Error fetching toys", error);
+        }
       }
     };
     fetchToysByUser();
@@ -53,7 +56,7 @@ const MyListings = () => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       ></AppBar>
-      <IconMenu activeTab = "0"/>
+      <IconMenu activeTab="0" />
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
         {/* <ImgMediaCard /> */}
 

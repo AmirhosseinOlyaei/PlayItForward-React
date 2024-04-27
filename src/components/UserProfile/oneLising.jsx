@@ -90,32 +90,14 @@ export default function ImgMediaCard({ toy, toys, setToys, url, toyId }) {
         }}
       >
         <StatusToggle toy={toy} toys={toys} setToys={setToys} />
-        {/* <ActionButton text={"Mark as Gone"} linkTo={"/"} startIcon={""} /> */}
-        {/* <ActionButton text={"Mark as Reserved"} linkTo={"/"} startIcon={""} /> */}
         <ActionButton
-          link={`/messages?id=${toy._id}`}
+          link={`/messages/${toy._id}`}
+          // link={`/messages?id=${toy._id}`}
           text=""
           startIcon={<MailIcon />}
         />
         <ActionButton link="" text="" startIcon={<ShareIcon />} />
         <ActionButton link={`/create?id=${toy._id}`} text={"Edit"} />
-
-        {/* <Link to={`/create?id=${toy._id}`}>
-          <Button
-            variant="contained"
-            sx={{
-              ml: 0,
-              mt: 1.2,
-              height: "43px",
-              backgroundColor: "rgba(33, 150, 243, 0.8)",
-              "&:hover": {
-                backgroundColor: "rgba(33, 150, 243, 1)",
-              },
-            }}
-          >
-            Edit
-          </Button>
-        </Link> */}
       </Box>
     </Card>
   );
