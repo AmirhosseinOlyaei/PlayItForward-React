@@ -24,8 +24,6 @@ import {
   Logout as LogoutIcon,
   Login as LoginIcon,
 } from "@mui/icons-material";
-// import LogoutIcon from "@mui/icons-material/Logout";
-// import LoginIcon from "@mui/icons-material/Login";
 
 const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
