@@ -61,6 +61,7 @@ const LeftDrawer = ({
   const [error, setError] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -77,7 +78,7 @@ const LeftDrawer = ({
           onCategoryChange(toy.category);
           onConditionChange(toy.condition);
           onDeliveryChange(toy.delivery_method);
-          onValueChangeLocation(toy.zip_code);
+          //onValueChangeLocation(toy.zip_code);
           onToyChange(toy);
           handleFetchedFile(new File([toy.imageUrl], `${toy.title}.jpg`).name);
           onFileChange(new File([toy.imageUrl], `${toy.title}.jpg`));
@@ -146,12 +147,16 @@ const LeftDrawer = ({
   };
 
   const axiosPutListing = async () => {
+    console.log("toy", toy);
     const imageData = new FormData();
     imageData.append("file", selectedFile);
     const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    const imageUrl = response.data.url;
+    //const ImageUrl = response.data.url;
+    const newImageUrl = response.data;
+    console.log("newImageUrl", newImageUrl);
+
     const postData = {
       title,
       description,
@@ -159,7 +164,7 @@ const LeftDrawer = ({
       condition,
       delivery_method: delivery,
       zip_code: zipCode,
-      imageUrl: imageUrl,
+      imageUrl: selectedFile.type === "" ? toy.imageUrl : newImageUrl.url,
     };
     await axios
       .put(`${apiUrl}/toys/${id}`, postData)
@@ -180,6 +185,7 @@ const LeftDrawer = ({
       headers: { "Content-Type": "multipart/form-data" },
     });
     const imageUrl = response.data.url;
+    console.log("imageUrl", imageUrl);
     const postData = {
       title,
       description,
