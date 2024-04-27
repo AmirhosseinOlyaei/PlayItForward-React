@@ -80,8 +80,8 @@ const LeftDrawer = ({
           onDeliveryChange(toy.delivery_method);
           //onValueChangeLocation(toy.zip_code);
           onToyChange(toy);
-          handleFetchedFile(new File([toy.imageUrl], `${toy.title}.jpg`).name);
-          onFileChange(new File([toy.imageUrl], `${toy.title}.jpg`));
+          handleFetchedFile(new File([toy.imageUrl], `${toy.title}`).name);
+          onFileChange(new File([toy.imageUrl], `${toy.title}`));
           setEditMode(true);
         })
         .catch((error) => {
@@ -155,7 +155,6 @@ const LeftDrawer = ({
   };
 
   const axiosPutListing = async () => {
-    console.log("toy", toy);
     const imageData = new FormData();
     imageData.append("file", selectedFile);
     const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
@@ -220,6 +219,10 @@ const LeftDrawer = ({
   const handleAlertClose = () => {
     setAlertOpen(false);
     window.location.reload();
+    setEditMode(false);
+    if (!editMode) {
+      window.location.href = "/create";
+    }
   };
 
   return (
