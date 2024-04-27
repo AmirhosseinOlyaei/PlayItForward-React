@@ -10,8 +10,18 @@ import {
   Typography,
   Menu,
   MenuItem,
+  ListItemIcon,
 } from "@mui/material";
 import { Search as SearchIcon, Menu as MenuIcon } from "@mui/icons-material";
+import {
+  AllInclusive as AllToysIcon,
+  Add as CreateListingIcon,
+  FormatListBulleted as MyListingsIcon,
+  Favorite as MyFavoritesIcon,
+  Message as MessagesIcon,
+  Person as ProfileIcon,
+  ExitToApp as SignOutIcon,
+} from "@mui/icons-material";
 
 const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -130,6 +140,9 @@ const NavBar = ({ user }) => {
               component={RouterLink}
               to="/toys"
             >
+              <ListItemIcon>
+                <AllToysIcon />
+              </ListItemIcon>
               All Toys
             </MenuItem>
 
@@ -139,6 +152,9 @@ const NavBar = ({ user }) => {
                 component={RouterLink}
                 to="/create"
               >
+                <ListItemIcon>
+                  <CreateListingIcon />
+                </ListItemIcon>
                 Create Listing
               </MenuItem>
             )}
@@ -149,6 +165,9 @@ const NavBar = ({ user }) => {
                 component={RouterLink}
                 to="/listings"
               >
+                <ListItemIcon>
+                  <MyListingsIcon />
+                </ListItemIcon>
                 My Listings
               </MenuItem>
             )}
@@ -159,6 +178,9 @@ const NavBar = ({ user }) => {
                 component={RouterLink}
                 to="/favorites"
               >
+                <ListItemIcon>
+                  <MyFavoritesIcon />
+                </ListItemIcon>
                 My Favorites
               </MenuItem>
             )}
@@ -169,6 +191,9 @@ const NavBar = ({ user }) => {
                 component={RouterLink}
                 to="/messages"
               >
+                <ListItemIcon>
+                  <MessagesIcon />
+                </ListItemIcon>
                 Messages
               </MenuItem>
             )}
@@ -179,12 +204,20 @@ const NavBar = ({ user }) => {
                 component={RouterLink}
                 to="/personal"
               >
+                <ListItemIcon>
+                  <ProfileIcon />
+                </ListItemIcon>
                 Profile
               </MenuItem>
             )}
 
             {user ? (
-              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+              <MenuItem onClick={handleSignOut}>
+                <ListItemIcon>
+                  <SignOutIcon />
+                </ListItemIcon>
+                Sign Out
+              </MenuItem>
             ) : (
               <MenuItem
                 onClick={handleMenuClose}
