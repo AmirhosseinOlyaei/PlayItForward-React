@@ -128,6 +128,14 @@ const LeftDrawer = ({
     onFileChange(file);
   };
 
+  const maxLength = 30; // Maximum length for the file name including the three dots (...)
+
+  const truncatedFileName = (fileName) => {
+    return fileName.length > maxLength
+      ? `${fileName.substring(0, maxLength - 3)}...`
+      : fileName;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     if (
@@ -231,7 +239,7 @@ const LeftDrawer = ({
       }}
       anchor="left"
     >
-      <Box sx={{ overflow: "auto", mx: "16px" }}>
+      <Box sx={{ overflow: "auto", mx: 2 }}>
         <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
           Toy for Listing
         </Typography>
@@ -269,6 +277,7 @@ const LeftDrawer = ({
                   onChange={handleFileInputChange}
                 />
               </Button>
+
               {selectedFile && (
                 <Box
                   sx={{
@@ -287,7 +296,10 @@ const LeftDrawer = ({
                     color="textSecondary"
                     sx={{ ml: 0.5 }}
                   >
-                    {selectedFile.name}
+                    {/* {selectedFile.name} */}
+                    {selectedFile
+                      ? truncatedFileName(selectedFile.name)
+                      : "No file selected"}
                   </Typography>
                   <IconButton
                     aria-label="delete"

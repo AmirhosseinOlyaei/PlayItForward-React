@@ -33,6 +33,7 @@ const MyListings = () => {
           const response = await axios.get(
             `${apiUrl}/toys/user/${currentUserId}`
           );
+
           setToys(response.data);
           setIsLoading(false);
         } catch (error) {
@@ -44,6 +45,10 @@ const MyListings = () => {
   }, [currentUserId]);
 
   console.log("toys", toys);
+  // Sort toys by created date in descending order
+  const sortedToys = toys
+    .slice()
+    .sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -66,9 +71,9 @@ const MyListings = () => {
           >
             <CircularProgress sx={{ mt: 5 }} />
           </Box>
-        ) : toys.length > 0 ? (
+        ) : sortedToys.length > 0 ? (
           <Box sx={{ flexGrow: 1 }}>
-            {toys.map((toy) => {
+            {sortedToys.map((toy) => {
               return (
                 <ImgMediaCard
                   toy={toy}

@@ -64,6 +64,11 @@ const Favorites = () => {
     setFavoriteToys(favoriteToys.filter((toy) => toy._id !== favoriteId));
   };
 
+  // Sort toys by created date in descending order
+  const sortedToys = favoriteToys
+    .slice()
+    .sort((a, b) => new Date(b.time_stamp) - new Date(a.time_stamp));
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -87,9 +92,9 @@ const Favorites = () => {
           >
             <CircularProgress sx={{ mt: 5 }} />
           </Box>
-        ) : favoriteToys.length > 0 ? (
+        ) : sortedToys.length > 0 ? (
           <div>
-            {favoriteToys.map((favToy) => (
+            {sortedToys.map((favToy) => (
               <FavoriteCard
                 toy={favToy.toy_listing_id}
                 key={favToy._id}
