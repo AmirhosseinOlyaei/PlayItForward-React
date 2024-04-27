@@ -8,6 +8,8 @@ import {
   Popover,
   TextField,
   Dialog,
+  Rating,
+  Chip,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -26,8 +28,9 @@ import ToyMap from "./ToyMap";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import UserContext from "../../context/userContext";
 import toast, { Toaster } from "react-hot-toast";
-import BackgroundLetterAvatars from "../Messages/Avatar";
+import LettersAvatar from "./LettersAvatar";
 import Slide from "@mui/material/Slide";
+
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -47,21 +50,10 @@ const ListingDetail = ({ id, onClose }) => {
   const [toyGiver, setToyGiver] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
-  const [newMessage, setNewMessage] = useState("Is this still available?");
+  const [newMessage, setNewMessage] = useState("");
+  const [averageStars, setAverageStars] = useState({});
 
   React.useEffect(() => {
-    async function fetchToy(toyId) {
-      const response = await fetch(`${apiUrl}/toys/${toyId}`);
-      const toy = await response.json();
-      setToyListing(toy);
-      fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
-      if (authorizedUser !== "") checkFavorite(authorizedUser, toyId); // Check if the user has favorited the toy. Parameters: (userId, toyId)
-    }
-    async function fetchToyGiver(userId) {
-      const response = await fetch(`${apiUrl}/users/${userId}`);
-      const user = await response.json();
-      setToyGiver(user);
-    }
     async function checkFavorite(userId, toyId) {
       const response = await fetch(
         `${apiUrl}/favorites/check-favorite/${userId}/${toyId}`
@@ -72,8 +64,48 @@ const ListingDetail = ({ id, onClose }) => {
         setFavoriteId(favoriteCheck.favorite_Id);
       }
     }
-    fetchToy(id); // Replace with the ID of the toy you want to fetch
+
+    if (authorizedUser !== "") checkFavorite(authorizedUser, id); // Check if the user has favorited the toy. Parameters: (userId, toyId)
   }, [authorizedUser]);
+
+  React.useEffect(() => {
+    async function fetchToy(toyId) {
+      const response = await fetch(`${apiUrl}/toys/${toyId}`);
+      const toy = await response.json();
+      setToyListing(toy);
+      fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
+      fetchAverageStars(toy.listed_by_id._id);
+      toy.status === "reserved" ? setNewMessage("I am interested.") : setNewMessage("Is this still available?");
+    }
+
+    async function fetchAverageStars(userId) {
+      try {
+        const response = await fetch(`${apiUrl}/stars/${userId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch average stars: " + response.status);
+        }
+        const stars = await response.json();
+
+        setAverageStars(stars[0].averageStars);
+        console.log(
+          "Average stars for user",
+          userId,
+          ":",
+          stars[0].averageStars
+        );
+      } catch (error) {
+        console.error("Error fetching average stars:", error);
+      }
+    }
+
+    async function fetchToyGiver(userId) {
+      const response = await fetch(`${apiUrl}/users/${userId}`);
+      const user = await response.json();
+      setToyGiver(user);
+    }
+
+    fetchToy(id);
+  }, []);
 
   function calculateDate(date) {
     const today = new Date();
@@ -221,9 +253,21 @@ const ListingDetail = ({ id, onClose }) => {
               fullWidth
             />
             <Box sx={{ padding: "20px 0" }}>
-              <Typography variant="h4" sx={{ margin: "5px 0" }}>
+              <Box sx={{ display: "flex" }}>
+              {toyListing.status === "reserved" && 
+                <Chip 
+                  label="Reserved" 
+                  sx={{ 
+                    backgroundColor:"red", 
+                    color:"white", 
+                    margin: "10px 10px 0 0", 
+                    padding: "0px 10px"
+                    }}/>
+              }
+                <Typography variant="h4" sx={{ margin: "5px 0" }}>
                 {toyListing.title}
-              </Typography>
+                </Typography>
+              </Box>
               <Typography variant="body" paragraph>
                 Listed {calculateDate(toyListing.created_date)} days ago in{" "}
                 {mapPosition.city}, {mapPosition.state}{" "}
@@ -343,7 +387,7 @@ const ListingDetail = ({ id, onClose }) => {
               {mapPosition.lat && (
                 <ToyMap lat={mapPosition.lat} lng={mapPosition.lng} />
               )}
-              <Typography variant="body">
+              <Typography variant="body" sx={{ lineHeight: "42px", fontWeight: "bold" }}>
                 {mapPosition.city}, {mapPosition.state}
               </Typography>
             </Box>
@@ -353,18 +397,36 @@ const ListingDetail = ({ id, onClose }) => {
                 Posted by
               </Typography>
               <Box className={styles.giverInformation}>
-                {toyGiver.first_name && toyGiver.last_name ? (
-                  <BackgroundLetterAvatars
-                    firstName={toyGiver.first_name}
-                    lastName={toyGiver.last_name}
-                  />
-                ) : null}
-                <Typography
-                  variant="body"
-                  sx={{ marginLeft: "10px", lineHeight: "42px" }}
-                >
-                  {toyGiver.nickname}
-                </Typography>
+                {toyGiver.profile_picture ? (
+                  <img src={toyGiver.profile_picture} alt="profile" />
+                ) : (
+                  toyGiver.first_name && toyGiver.last_name && (
+                    <LettersAvatar
+                      sx = {{marginLeft: '10px', width: '70px', height: '70px', fontSize: '40px'}}
+                      firstName={toyGiver.first_name}
+                      lastName={toyGiver.last_name}
+                    />
+                  ) 
+                )
+                
+                }
+                <div>
+                  <Typography
+                    variant="body"
+                    sx={{ marginLeft: "15px", lineHeight: "42px", fontWeight: "bold" }}
+                  >
+                    {toyGiver.nickname}
+                  </Typography>
+                  <Typography>
+                    <Rating
+                      name="read-only"
+                      value={averageStars}
+                      precision={0.5}
+                      readOnly
+                      sx={{ marginLeft: "15px" }}
+                    />
+                  </Typography>
+                </div>
               </Box>
               <Box sx={{ marginTop: "10px" }}>
                 <Typography variant="body">
