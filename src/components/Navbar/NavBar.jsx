@@ -10,8 +10,20 @@ import {
   Typography,
   Menu,
   MenuItem,
+  ListItemIcon,
 } from "@mui/material";
-import { Search as SearchIcon, Menu as MenuIcon } from "@mui/icons-material";
+import {
+  Search as SearchIcon,
+  Menu as MenuIcon,
+  AllInclusive as AllToysIcon,
+  Add as CreateListingIcon,
+  FormatListBulleted as MyListingsIcon,
+  Favorite as MyFavoritesIcon,
+  Message as MessagesIcon,
+  Person as ProfileIcon,
+} from "@mui/icons-material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
 
 const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -29,6 +41,13 @@ const NavBar = ({ user }) => {
   const handleSearchClick = () => {
     navigate("/toys"); // Navigate to the ToyLanding page
     // If needed, trigger search logic or state changes here
+  };
+
+  const handleSignOut = () => {
+    // Implement sign out logic here, such as clearing user session
+    handleMenuClose();
+    // Redirect or do additional clean up after sign out
+    navigate("/");
   };
 
   return (
@@ -78,10 +97,14 @@ const NavBar = ({ user }) => {
           sx={{
             display: "flex",
             alignItems: "center",
-            "& > *:not(:last-child)": { mr: 3 },
+            "& > *:not(:last-child)": { mr: 2 },
           }}
         >
-          <IconButton color="inherit" sx={{ p: 1 }} onClick={handleSearchClick}>
+          <IconButton
+            color="inherit"
+            sx={{ p: 1.5, bgcolor: "rgba(255, 255, 255, 0.12)" }}
+            onClick={handleSearchClick}
+          >
             <SearchIcon sx={{ fontSize: 30 }} />
           </IconButton>
           <IconButton
@@ -90,7 +113,13 @@ const NavBar = ({ user }) => {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenuClick}
-            sx={{ p: 1 }}
+            sx={{
+              p: 1,
+              bgcolor: "rgba(255, 255, 255, 0.12)",
+              "&:hover": {
+                bgcolor: "rgba(255, 255, 255, 0.24)",
+              },
+            }}
           >
             <MenuIcon sx={{ fontSize: 39 }} />
           </IconButton>
@@ -98,7 +127,7 @@ const NavBar = ({ user }) => {
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: "top",
+              vertical: "bottom",
               horizontal: "right",
             }}
             keepMounted
@@ -109,22 +138,15 @@ const NavBar = ({ user }) => {
             open={open}
             onClose={handleMenuClose}
           >
-            {user && (
-              <MenuItem
-                onClick={handleMenuClose}
-                component={RouterLink}
-                to="/personal"
-              >
-                User Profile
-              </MenuItem>
-            )}
-
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
               to="/toys"
             >
-              Toys
+              <ListItemIcon>
+                <AllToysIcon />
+              </ListItemIcon>
+              All Toys
             </MenuItem>
 
             {user && (
@@ -133,7 +155,36 @@ const NavBar = ({ user }) => {
                 component={RouterLink}
                 to="/create"
               >
+                <ListItemIcon>
+                  <CreateListingIcon />
+                </ListItemIcon>
                 Create Listing
+              </MenuItem>
+            )}
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/listings"
+              >
+                <ListItemIcon>
+                  <MyListingsIcon />
+                </ListItemIcon>
+                My Listings
+              </MenuItem>
+            )}
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/favorites"
+              >
+                <ListItemIcon>
+                  <MyFavoritesIcon />
+                </ListItemIcon>
+                My Favorites
               </MenuItem>
             )}
 
@@ -143,17 +194,45 @@ const NavBar = ({ user }) => {
                 component={RouterLink}
                 to="/messages"
               >
+                <ListItemIcon>
+                  <MessagesIcon />
+                </ListItemIcon>
                 Messages
               </MenuItem>
             )}
 
-            <MenuItem
-              onClick={handleMenuClose}
-              component={RouterLink}
-              to="/login"
-            >
-              Sign In / Out
-            </MenuItem>
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/personal"
+              >
+                <ListItemIcon>
+                  <ProfileIcon />
+                </ListItemIcon>
+                Profile
+              </MenuItem>
+            )}
+
+            {user ? (
+              <MenuItem onClick={handleSignOut}>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                Sign Out
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/login"
+              >
+                <ListItemIcon>
+                  <LoginIcon />
+                </ListItemIcon>
+                Sign In
+              </MenuItem>
+            )}
           </Menu>
         </Box>
       </Toolbar>

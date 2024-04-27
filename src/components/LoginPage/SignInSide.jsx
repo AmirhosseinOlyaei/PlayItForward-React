@@ -33,44 +33,6 @@ const SignInButton = () => {
   };
 
   return (
-    // <Button
-    //   variant="contained"
-    //   startIcon={<GoogleIcon />}
-    //   sx={{
-    //     mt: 3,
-    //     mb: 6,
-    //     height: "50px",
-    //     width: "325px",
-    //     background: (theme) =>
-    //       theme.palette.mode === "light"
-    //         ? "linear-gradient(135deg, #4776E6 0%, #8E54E9 100%)"
-    //         : "linear-gradient(135deg, #8E54E9 0%, #4776E6 100%)",
-    //     color: "white",
-    //     "&:hover": {
-    //       background: (theme) =>
-    //         theme.palette.mode === "light"
-    //           ? "linear-gradient(135deg, #786FEC 0%, #B74AEA 100%)"
-    //           : "linear-gradient(135deg, #B74AEA 0%, #786FEC 100%)",
-    //     },
-    //     boxShadow: (theme) => `0px 10px 10px -5px ${theme.palette.grey[700]}`,
-    //     "&:active": {
-    //       boxShadow: (theme) =>
-    //         `inset 0px 2px 4px 0px ${theme.palette.grey[800]}`,
-    //     },
-    //   }}
-    //   onClick={handleAuth}
-    // >
-    //   <Typography
-    //     variant="button"
-    //     sx={{
-    //       // fontFamily: "Raleway",
-    //       fontWeight: 600,
-    //       letterSpacing: 0.5,
-    //     }}
-    //   >
-    //     Continue with Google
-    //   </Typography>
-    // </Button>
     <Button
       variant="contained"
       startIcon={<GoogleIcon />}
@@ -103,7 +65,6 @@ const SignInButton = () => {
       <Typography
         variant="button"
         sx={{
-          // fontFamily: "Raleway",
           fontWeight: 600,
           letterSpacing: 0.5,
         }}
