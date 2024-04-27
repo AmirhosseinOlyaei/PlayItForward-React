@@ -100,7 +100,7 @@ const NavBar = ({ user }) => {
         >
           <IconButton
             color="inherit"
-            sx={{ p: 1, bgcolor: "rgba(255, 255, 255, 0.12)" }}
+            sx={{ p: 1.5, bgcolor: "rgba(255, 255, 255, 0.12)" }}
           >
             <SearchIcon sx={{ fontSize: 30 }} />
           </IconButton>
