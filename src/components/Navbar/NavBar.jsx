@@ -85,10 +85,13 @@ const NavBar = ({ user }) => {
           sx={{
             display: "flex",
             alignItems: "center",
-            "& > *:not(:last-child)": { mr: 3 },
+            "& > *:not(:last-child)": { mr: 2 },
           }}
         >
-          <IconButton color="inherit" sx={{ p: 1 }} onClick={handleSearchClick}>
+          <IconButton
+            color="inherit"
+            sx={{ p: 1, bgcolor: "rgba(255, 255, 255, 0.12)" }}
+          >
             <SearchIcon sx={{ fontSize: 30 }} />
           </IconButton>
           <IconButton
@@ -97,7 +100,13 @@ const NavBar = ({ user }) => {
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenuClick}
-            sx={{ p: 1 }}
+            sx={{
+              p: 1,
+              bgcolor: "rgba(255, 255, 255, 0.12)",
+              "&:hover": {
+                bgcolor: "rgba(255, 255, 255, 0.24)",
+              },
+            }}
           >
             <MenuIcon sx={{ fontSize: 39 }} />
           </IconButton>
