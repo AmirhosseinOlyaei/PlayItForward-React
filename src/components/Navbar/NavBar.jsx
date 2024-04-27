@@ -116,22 +116,12 @@ const NavBar = ({ user }) => {
             open={open}
             onClose={handleMenuClose}
           >
-            {user && (
-              <MenuItem
-                onClick={handleMenuClose}
-                component={RouterLink}
-                to="/personal"
-              >
-                User Profile
-              </MenuItem>
-            )}
-
             <MenuItem
               onClick={handleMenuClose}
               component={RouterLink}
               to="/toys"
             >
-              Toys
+              All Toys
             </MenuItem>
 
             {user && (
@@ -148,11 +138,42 @@ const NavBar = ({ user }) => {
               <MenuItem
                 onClick={handleMenuClose}
                 component={RouterLink}
+                to="/listings"
+              >
+                My Listings
+              </MenuItem>
+            )}
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/favorites"
+              >
+                My Favorites
+              </MenuItem>
+            )}
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
                 to="/messages"
               >
                 Messages
               </MenuItem>
             )}
+
+            {user && (
+              <MenuItem
+                onClick={handleMenuClose}
+                component={RouterLink}
+                to="/personal"
+              >
+                Profile
+              </MenuItem>
+            )}
+
             {user ? (
               <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
             ) : (
