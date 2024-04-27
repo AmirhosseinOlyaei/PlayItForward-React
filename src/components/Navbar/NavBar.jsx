@@ -23,6 +23,8 @@ import {
   Person as ProfileIcon,
   ExitToApp as SignOutIcon,
 } from "@mui/icons-material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
 
 const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -216,7 +218,7 @@ const NavBar = ({ user }) => {
             {user ? (
               <MenuItem onClick={handleSignOut}>
                 <ListItemIcon>
-                  <SignOutIcon />
+                  <LogoutIcon />
                 </ListItemIcon>
                 Sign Out
               </MenuItem>
@@ -226,6 +228,9 @@ const NavBar = ({ user }) => {
                 component={RouterLink}
                 to="/login"
               >
+                <ListItemIcon>
+                  <LoginIcon />
+                </ListItemIcon>
                 Sign In
               </MenuItem>
             )}
