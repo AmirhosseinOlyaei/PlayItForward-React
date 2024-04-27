@@ -12,8 +12,9 @@ import {
   MenuItem,
   ListItemIcon,
 } from "@mui/material";
-import { Search as SearchIcon, Menu as MenuIcon } from "@mui/icons-material";
 import {
+  Search as SearchIcon,
+  Menu as MenuIcon,
   AllInclusive as AllToysIcon,
   Add as CreateListingIcon,
   FormatListBulleted as MyListingsIcon,
