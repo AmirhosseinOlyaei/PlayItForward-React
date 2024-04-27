@@ -29,55 +29,57 @@ const Favorites = () => {
 
   useEffect(() => {
     async function getFavToys() {
-      try {
-        // Fetch favorite toys list from /favorites endpoint
-        const response = await fetch(`${apiUrl}/favorites/${currentUserId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch favorite toys");
+      if (user && user._id) {
+        try {
+          // Fetch favorite toys list from /favorites endpoint
+          const response = await fetch(`${apiUrl}/favorites/${currentUserId}`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch favorite toys");
+          }
+          const favToys = await response.json();
+
+          // // Filter favorite toys by current user
+          // const filteredFavToysByUser = favToys.filter(
+          //   (toy) => toy.user_id === currentUserId
+          // );
+
+          // setFilteredFavToysByUser(filteredFavToysByUser);
+
+          // Set state with filtered favorite toys
+
+          // console.log(
+          //   "Filtered favorite toys by current user",
+          //   filteredFavToysByUser
+          // );
+
+          // // Extract toy IDs from filteredFavToysByUser
+          // const toyIDs = favToys.map((toy) => toy.toy_listing_id._id);
+          // console.log("Toy IDs", toyIDs);
+
+          // // Fetch toys using the IDs
+          // const toyFetchPromises = toyIDs.map(async (toyId) => {
+          //   const toyResponse = await fetch(`${apiUrl}/toys/${toyId}`);
+
+          //   if (!toyResponse.ok) {
+          //     throw new Error(`Failed to fetch toy with ID ${toyId}`);
+          //   }
+          //   return toyResponse.json();
+          // });
+          // const toyResponses = await Promise.all(toyFetchPromises);
+          // console.log("Fetched toys", toyResponses);
+          // // Set state with the fetched toys
+          // //setFavToysList((prevList) => [...prevList, ...toyResponses]);
+
+          // setFavoriteToys(toyResponses);
+          setFavoriteToys(favToys);
+
+          console.log("setFavoriteToys", favToys);
+
+          // Set loading state
+          setIsLoading(false);
+        } catch (error) {
+          console.error("Error while receiving data:", error);
         }
-        const favToys = await response.json();
-
-        // // Filter favorite toys by current user
-        // const filteredFavToysByUser = favToys.filter(
-        //   (toy) => toy.user_id === currentUserId
-        // );
-
-        // setFilteredFavToysByUser(filteredFavToysByUser);
-
-        // Set state with filtered favorite toys
-
-        // console.log(
-        //   "Filtered favorite toys by current user",
-        //   filteredFavToysByUser
-        // );
-
-        // // Extract toy IDs from filteredFavToysByUser
-        // const toyIDs = favToys.map((toy) => toy.toy_listing_id._id);
-        // console.log("Toy IDs", toyIDs);
-
-        // // Fetch toys using the IDs
-        // const toyFetchPromises = toyIDs.map(async (toyId) => {
-        //   const toyResponse = await fetch(`${apiUrl}/toys/${toyId}`);
-
-        //   if (!toyResponse.ok) {
-        //     throw new Error(`Failed to fetch toy with ID ${toyId}`);
-        //   }
-        //   return toyResponse.json();
-        // });
-        // const toyResponses = await Promise.all(toyFetchPromises);
-        // console.log("Fetched toys", toyResponses);
-        // // Set state with the fetched toys
-        // //setFavToysList((prevList) => [...prevList, ...toyResponses]);
-
-        // setFavoriteToys(toyResponses);
-        setFavoriteToys(favToys);
-
-        console.log("setFavoriteToys", favToys);
-
-        // Set loading state
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error while receiving data:", error);
       }
     }
     // Run getFavToys when dependencies (apiUrl, currentUserId) change
@@ -96,6 +98,7 @@ const Favorites = () => {
       const response = await fetch(`${apiUrl}/favorites/${favoriteId}`, {
         method: "DELETE",
       });
+      console.log("Response:", response);
       // const response = axios.delete(`${apiUrl}/favorites/${favoriteId}`);
       // if (!response.ok) {
       //   throw new Error("Failed to delete favorite toy");
@@ -114,7 +117,7 @@ const Favorites = () => {
 
       // Delete toy from favorites
       //await axios.delete(`${apiUrl}/favorites/${filteredToy[0]._id}`);
-      console.log("Deleted favorite with ID:", favoriteId);
+
       setFavoriteToys((prevList) =>
         prevList.filter((favToy) => favToy._id !== favToy.toy_listing_id._id)
       );

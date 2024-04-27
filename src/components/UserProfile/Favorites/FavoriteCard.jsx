@@ -44,7 +44,7 @@ export default function FavoriteCard({
           onClick={handleClick}
           component="img"
           alt="No picture"
-          sx={{ width: "160px", height: "180px" }}
+          sx={{ width: "160px", height: "186px", mr: 2 }}
           image={toy.imageUrl}
         />
         <CardContent>
@@ -82,29 +82,33 @@ export default function FavoriteCard({
               <Typography variant="body2">{toy.description}</Typography>
             </div>
           </div>
+          <div>
+            <Box
+              sx={{
+                margin: "5px 0",
+                display: "flex",
+                justifyContent: "space-between",
+                maxWidth: "327px",
+                minWidth: "327px",
+                mt: 2,
+              }}
+            >
+              <ActionButton
+                link=""
+                text="Delete from Favorites"
+                onClick={() => deleteFromFavorite(favToyId)}
+              />
+              <ActionButton
+                link={`/messages?id=${toy._id}`}
+                text=""
+                startIcon={<MailIcon />}
+              />
+            </Box>
+          </div>
         </CardContent>
       </div>
-      <Box
-        sx={{
-          margin: "5px 0",
-          display: "flex",
-          justifyContent: "space-between",
-          maxWidth: "325px",
-          minWidth: "325px",
-        }}
-      >
-        <ActionButton
-          link=""
-          text="Delete from Favorites"
-          onClick={() => deleteFromFavorite(favToyId)}
-        />
-        <ActionButton
-          link={`/messages?id=${toy._id}`}
-          text=""
-          startIcon={<MailIcon />}
-        />
-        {/* <ActionButton link="" text="" startIcon={<ShareIcon />} /> */}
-      </Box>
+
+      {/* <ActionButton link="" text="" startIcon={<ShareIcon />} /> */}
     </Card>
   );
 }
