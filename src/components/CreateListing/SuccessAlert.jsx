@@ -16,9 +16,10 @@ const SuccessAlert = ({ open, onClose, editMode }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle sx={{ color: "green" }}>Success!</DialogTitle>
       <DialogContent>
-        {editMode ? (
+        {!editMode ? (
           <Typography>
-            You toy listing has been updated successfully.
+            You toy listing has been updated successfully. Do you want to create
+            one more listing?
           </Typography>
         ) : (
           <Typography>

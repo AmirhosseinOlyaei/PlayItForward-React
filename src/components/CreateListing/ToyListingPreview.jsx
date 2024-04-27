@@ -36,10 +36,12 @@ const ToyListingPreview = ({
 
   useEffect(() => {
     async function fetchUserData() {
-      const response = await fetch(`${apiUrl}/users/${user._id}`);
-      const currentUser = await response.json();
-      console.log("curUser", currentUser);
-      setUserInfo(currentUser);
+      if (user && user._id) {
+        const response = await fetch(`${apiUrl}/users/${user._id}`);
+        const currentUser = await response.json();
+        console.log("curUser", currentUser);
+        setUserInfo(currentUser);
+      }
     }
     fetchUserData();
   }, [userId]);

@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -33,44 +34,6 @@ const SignInButton = () => {
   };
 
   return (
-    // <Button
-    //   variant="contained"
-    //   startIcon={<GoogleIcon />}
-    //   sx={{
-    //     mt: 3,
-    //     mb: 6,
-    //     height: "50px",
-    //     width: "325px",
-    //     background: (theme) =>
-    //       theme.palette.mode === "light"
-    //         ? "linear-gradient(135deg, #4776E6 0%, #8E54E9 100%)"
-    //         : "linear-gradient(135deg, #8E54E9 0%, #4776E6 100%)",
-    //     color: "white",
-    //     "&:hover": {
-    //       background: (theme) =>
-    //         theme.palette.mode === "light"
-    //           ? "linear-gradient(135deg, #786FEC 0%, #B74AEA 100%)"
-    //           : "linear-gradient(135deg, #B74AEA 0%, #786FEC 100%)",
-    //     },
-    //     boxShadow: (theme) => `0px 10px 10px -5px ${theme.palette.grey[700]}`,
-    //     "&:active": {
-    //       boxShadow: (theme) =>
-    //         `inset 0px 2px 4px 0px ${theme.palette.grey[800]}`,
-    //     },
-    //   }}
-    //   onClick={handleAuth}
-    // >
-    //   <Typography
-    //     variant="button"
-    //     sx={{
-    //       // fontFamily: "Raleway",
-    //       fontWeight: 600,
-    //       letterSpacing: 0.5,
-    //     }}
-    //   >
-    //     Continue with Google
-    //   </Typography>
-    // </Button>
     <Button
       variant="contained"
       startIcon={<GoogleIcon />}
@@ -103,7 +66,6 @@ const SignInButton = () => {
       <Typography
         variant="button"
         sx={{
-          // fontFamily: "Raleway",
           fontWeight: 600,
           letterSpacing: 0.5,
         }}
@@ -117,6 +79,41 @@ const SignInButton = () => {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+  const [isNewUser, setIsNewUser] = useState(false);
+  const [showTermsDialog, setShowTermsDialog] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("/api/v1/user");
+        const data = await response.json();
+        const isNewUser = data?.isNewUser;
+        if (isNewUser !== undefined) {
+          setIsNewUser(isNewUser);
+        } else {
+          // Handle undefined/null case
+          console.error("isNewUser value is undefined or null");
+        }
+      } catch (error) {
+        // Handle error (e.g., redirect to login page)
+        console.error("Error checking authentication status:", error);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  const handleAgree = () => {
+    // Redirect to toys page
+    navigate("/toys");
+  };
+
+  const handleDisagree = () => {
+    // Redirect back to login page
+    navigate("/login");
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid
@@ -168,7 +165,12 @@ export default function SignInSide() {
             </Typography>
             <SignInButton />
             <Grid item marginBottom={2}>
-              <TermsAndConditions />
+              <TermsAndConditions
+                open={showTermsDialog && isNewUser}
+                onClose={() => setShowTermsDialog(false)}
+                onAgree={handleAgree}
+                onDisagree={handleDisagree}
+              />
             </Grid>
             <Copyright sx={{ mt: 5 }} />
           </Container>

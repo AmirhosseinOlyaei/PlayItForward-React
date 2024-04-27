@@ -86,7 +86,8 @@ export default function GoogleZip({
     let active = true;
 
     if (!autocompleteService.current && window.google) {
-      autocompleteService.current = new window.google.maps.places.AutocompleteService();
+      autocompleteService.current =
+        new window.google.maps.places.AutocompleteService();
     }
     if (!autocompleteService.current) {
       return undefined;
@@ -154,7 +155,7 @@ export default function GoogleZip({
         );
 
         return (
-          <li {...props}>
+          <li {...props} key={option.place_id}>
             <Grid container alignItems="center">
               <Grid item sx={{ display: "flex", width: 44 }}>
                 <LocationOnIcon sx={{ color: "text.secondary" }} />
