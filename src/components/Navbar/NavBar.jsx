@@ -21,9 +21,11 @@ import {
   Favorite as MyFavoritesIcon,
   Message as MessagesIcon,
   Person as ProfileIcon,
+  Logout as LogoutIcon,
+  Login as LoginIcon,
 } from "@mui/icons-material";
-import LogoutIcon from "@mui/icons-material/Logout";
-import LoginIcon from "@mui/icons-material/Login";
+// import LogoutIcon from "@mui/icons-material/Logout";
+// import LoginIcon from "@mui/icons-material/Login";
 
 const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -46,7 +48,7 @@ const NavBar = ({ user }) => {
   const handleSignOut = () => {
     // Implement sign out logic here, such as clearing user session
     handleMenuClose();
-    // Redirect or do additional clean up after sign out
+
     navigate("/");
   };
 
