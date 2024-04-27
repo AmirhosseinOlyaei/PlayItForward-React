@@ -6,25 +6,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const TermsAndConditions = () => {
-  const [open, setOpen] = React.useState(false);
+const TermsAndConditions = ({ open, onClose, onAgree, onDisagree }) => {
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Terms and Conditions
-      </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -93,8 +88,8 @@ const TermsAndConditions = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={onDisagree}>Disagree</Button>
+          <Button onClick={onAgree} autoFocus>
             Agree
           </Button>
         </DialogActions>

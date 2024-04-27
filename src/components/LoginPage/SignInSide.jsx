@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -78,6 +79,41 @@ const SignInButton = () => {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+  const [isNewUser, setIsNewUser] = useState(false);
+  const [showTermsDialog, setShowTermsDialog] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("/api/v1/user");
+        const data = await response.json();
+        const isNewUser = data?.isNewUser;
+        if (isNewUser !== undefined) {
+          setIsNewUser(isNewUser);
+        } else {
+          // Handle undefined/null case
+          console.error("isNewUser value is undefined or null");
+        }
+      } catch (error) {
+        // Handle error (e.g., redirect to login page)
+        console.error("Error checking authentication status:", error);
+      }
+    };
+
+    checkAuthStatus();
+  }, []);
+
+  const handleAgree = () => {
+    // Redirect to toys page
+    navigate("/toys");
+  };
+
+  const handleDisagree = () => {
+    // Redirect back to login page
+    navigate("/login");
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid
@@ -129,7 +165,12 @@ export default function SignInSide() {
             </Typography>
             <SignInButton />
             <Grid item marginBottom={2}>
-              <TermsAndConditions />
+              <TermsAndConditions
+                open={showTermsDialog && isNewUser}
+                onClose={() => setShowTermsDialog(false)}
+                onAgree={handleAgree}
+                onDisagree={handleDisagree}
+              />
             </Grid>
             <Copyright sx={{ mt: 5 }} />
           </Container>
