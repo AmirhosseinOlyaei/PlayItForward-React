@@ -21,7 +21,6 @@ import {
   Favorite as MyFavoritesIcon,
   Message as MessagesIcon,
   Person as ProfileIcon,
-  ExitToApp as SignOutIcon,
 } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
