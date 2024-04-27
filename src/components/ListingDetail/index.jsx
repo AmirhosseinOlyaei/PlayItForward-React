@@ -30,6 +30,8 @@ import UserContext from "../../context/userContext";
 import toast, { Toaster } from "react-hot-toast";
 import LettersAvatar from "./LettersAvatar";
 import Slide from "@mui/material/Slide";
+import { Navigate } from "react-router-dom";
+import LoginAlert from "./LoginAlert";
 
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -50,7 +52,7 @@ const ListingDetail = ({ id, onClose }) => {
   const [toyGiver, setToyGiver] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState("Hello! I am interested.");
   const [averageStars, setAverageStars] = useState({});
 
   React.useEffect(() => {
@@ -75,7 +77,6 @@ const ListingDetail = ({ id, onClose }) => {
       setToyListing(toy);
       fetchToyGiver(toy.listed_by_id._id); // User id of the toy owner
       fetchAverageStars(toy.listed_by_id._id);
-      toy.status === "reserved" ? setNewMessage("I am interested.") : setNewMessage("Is this still available?");
     }
 
     async function fetchAverageStars(userId) {
@@ -218,6 +219,11 @@ const ListingDetail = ({ id, onClose }) => {
       .catch((error) => console.error("Error:", error));
   }, [toyListing]);
 
+  // const [alertOpen, setAlertOpen] = React.useState(false);
+  // const handleMessage = () => {
+  //   user ? Navigate(`/messages/${id}`) : setAlertOpen(true);
+  // }
+
   return (
     <Dialog
       fullScreen
@@ -301,13 +307,18 @@ const ListingDetail = ({ id, onClose }) => {
                   justifyContent: "space-between",
                 }}
               >
-                {authorizedUser !== toyListing.listed_by_id?._id && (
+                {authorizedUser !== toyListing.listed_by_id?._id ? (
                   <>
                     <ActionButton
                       link={`/messages/${id}`}
+                      onClick={handleMessage}
                       text="&nbsp;Message"
                       startIcon={<MailIcon />}
                       fullWidth={false}
+                    />
+                    <LoginAlert 
+                      alertOpen={alertOpen} 
+                      setAlertOpen={setAlertOpen}
                     />
                     <ActionButton
                       link=""
@@ -319,6 +330,8 @@ const ListingDetail = ({ id, onClose }) => {
                       onClick={handleFavorite}
                     />
                   </>
+                ): (
+                  <ActionButton link={`/create?id=${id}`} text={"Edit"} fullWidth={true} />
                 )}
                 <CopyToClipboard
                   text={`${window.location.origin}/toys/${id}`}
