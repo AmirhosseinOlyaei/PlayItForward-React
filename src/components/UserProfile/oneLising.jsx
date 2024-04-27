@@ -6,19 +6,29 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import styles from "./UserProfile.module.css";
-import { ButtonGroup, Divider, Box } from "@mui/material";
+import { ButtonGroup, Divider, Box, Popover } from "@mui/material";
 import ActionButton from "./ActionButton";
 import MailIcon from "@mui/icons-material/Mail";
 import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
 import StatusToggle from "./StatusToggle";
 import { useNavigate } from "react-router-dom";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useState, useEffect } from "react";
 
 export default function ImgMediaCard({ toy, toys, setToys, url, toyId }) {
   const navigate = useNavigate(); // Create an instance of navigate
   const handleClick = () => {
     navigate(`/toys/${toyId}`);
   };
+  const [isOpen, setIsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => setIsOpen(false), 3000);
+    }
+  }, [isOpen]);
   return (
     <Card sx={{ maxWidth: 845, padding: "20px", margin: "20px" }}>
       <Typography
@@ -96,7 +106,31 @@ export default function ImgMediaCard({ toy, toys, setToys, url, toyId }) {
           text=""
           startIcon={<MailIcon />}
         />
-        <ActionButton link="" text="" startIcon={<ShareIcon />} />
+
+        <CopyToClipboard
+          text={`${window.location.origin}/toys/${toy._id}`}
+          onCopy={() => setIsOpen(true)}
+        >
+          <ActionButton
+            link=""
+            text=""
+            startIcon={<ShareIcon />}
+            onClick={(event) => setAnchorEl(event.currentTarget)}
+          />
+        </CopyToClipboard>
+        <Popover
+          open={isOpen}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          anchorEl={anchorEl}
+        >
+          <Typography sx={{ p: 2 }}>
+            The link is copied to clipboard.
+          </Typography>
+        </Popover>
+
         <ActionButton link={`/create?id=${toy._id}`} text={"Edit"} />
       </Box>
     </Card>

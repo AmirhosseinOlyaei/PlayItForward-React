@@ -6,12 +6,14 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import styles from "./UserProfile.module.css";
-import { ButtonGroup, Divider, Box } from "@mui/material";
+import { ButtonGroup, Divider, Box, Popover } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import ShareIcon from "@mui/icons-material/Share";
 import { Link } from "react-router-dom";
 import ActionButton from "../ActionButton";
 import { useNavigate } from "react-router-dom";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useState, useEffect } from "react";
 
 export default function FavoriteCard({
   toy,
@@ -23,6 +25,14 @@ export default function FavoriteCard({
   const handleClick = () => {
     navigate(`/toys/${toyId}`);
   };
+  const [isOpen, setIsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => setIsOpen(false), 3000);
+    }
+  }, [isOpen]);
   return (
     <Card sx={{ maxWidth: 845, padding: "20px", margin: "20px" }}>
       <Typography
@@ -88,8 +98,8 @@ export default function FavoriteCard({
                 margin: "5px 0",
                 display: "flex",
                 justifyContent: "space-between",
-                maxWidth: "327px",
-                minWidth: "327px",
+                maxWidth: "408px",
+                minWidth: "408px",
                 mt: 2,
               }}
             >
@@ -99,16 +109,37 @@ export default function FavoriteCard({
                 onClick={() => deleteFromFavorite(favToyId)}
               />
               <ActionButton
-                link={`/messages?id=${toy._id}`}
+                link={`/messages/${toy._id}`}
                 text=""
                 startIcon={<MailIcon />}
               />
+              <CopyToClipboard
+                text={`${window.location.origin}/toys/${toy._id}`}
+                onCopy={() => setIsOpen(true)}
+              >
+                <ActionButton
+                  link=""
+                  text=""
+                  startIcon={<ShareIcon />}
+                  onClick={(event) => setAnchorEl(event.currentTarget)}
+                />
+              </CopyToClipboard>
+              <Popover
+                open={isOpen}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                anchorEl={anchorEl}
+              >
+                <Typography sx={{ p: 2 }}>
+                  The link is copied to clipboard.
+                </Typography>
+              </Popover>
             </Box>
           </div>
         </CardContent>
       </div>
-
-      {/* <ActionButton link="" text="" startIcon={<ShareIcon />} /> */}
     </Card>
   );
 }
