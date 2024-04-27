@@ -9,6 +9,7 @@ import {
   Typography,
   IconButton,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import ImgMediaCard from "./oneLising";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -23,28 +24,26 @@ const MyListings = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [toys, setToys] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchToysByUser = async () => {
-      try {
-        const response = await axios.get(
-          `${apiUrl}/toys/user/${currentUserId}`
-        );
-        setToys(response.data);
-      } catch (error) {
-        console.error("Error fetching toys", error);
+      if (user && user._id) {
+        try {
+          const response = await axios.get(
+            `${apiUrl}/toys/user/${currentUserId}`
+          );
+          setToys(response.data);
+          setIsLoading(false);
+        } catch (error) {
+          console.error("Error fetching toys", error);
+        }
       }
     };
     fetchToysByUser();
   }, [currentUserId]);
 
   console.log("toys", toys);
-  // const filteredToys = toys.filter((toy) => toy.listed_by_id);
-  // const filteredToysByUser = filteredToys.filter(
-  //   (toy) => toy.listed_by_id._id === currentUserId
-  // );
-
-  // console.log("filteredToys", filteredToys);
-  // console.log("filteredToysByUser", filteredToysByUser);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -53,24 +52,38 @@ const MyListings = () => {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       ></AppBar>
-      <IconMenu activeTab = "0"/>
+      <IconMenu activeTab="0" />
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
         {/* <ImgMediaCard /> */}
 
-        {toys.map((toy) => {
-          return (
-            <ImgMediaCard
-              toy={toy}
-              key={toy._id}
-              toys={toys}
-              setToys={setToys}
-              // url={`/toys/${toy._id}`}
-              toyId={toy._id}
-
-              //handleOptionSelect={handleOptionSelect}
-            />
-          );
-        })}
+        {isLoading ? (
+          // Display loading indicator while data is being fetched
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            minHeight="200px" // Adjust the height as needed
+          >
+            <CircularProgress sx={{ mt: 5 }} />
+          </Box>
+        ) : toys.length > 0 ? (
+          <Box sx={{ flexGrow: 1 }}>
+            {toys.map((toy) => {
+              return (
+                <ImgMediaCard
+                  toy={toy}
+                  key={toy._id}
+                  toys={toys}
+                  setToys={setToys}
+                  toyId={toy._id}
+                />
+              );
+            })}
+            ;
+          </Box>
+        ) : (
+          <p>No favorites added yet.</p>
+        )}
       </Box>
     </Box>
   );
