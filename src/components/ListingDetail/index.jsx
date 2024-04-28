@@ -317,7 +317,7 @@ const ListingDetail = ({ id, onClose }) => {
                       text="&nbsp;Message"
                       startIcon={<MailIcon />}
                       fullWidth={false}
-                      btnWidth={user? "" : "210px"}
+                      btnWidth={user? "auto" : "210px"}
                     />
                     <LoginAlert 
                       alertOpen={alertOpen} 
