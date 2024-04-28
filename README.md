@@ -1,6 +1,6 @@
 <p align="center">
-<a href="https://ffprac-team4-front.onrender.com/" style="border-radius: 50%;">
-  <img alt="Todo List" src="./public/AppLogo-modified.png" style="border-radius: 50%;" />
+<a href="https://ffprac-team4-front.onrender.com/">
+  <img alt="Todo List" src="./public/AppLogo-modified.png" width="500" height="500" />
 </a>
 
 </p>
