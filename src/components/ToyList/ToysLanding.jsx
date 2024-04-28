@@ -1,5 +1,5 @@
 // src/components/ToyList/ToysLanding.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   Box,
@@ -23,6 +23,7 @@ import GoogleZip from "./GoogleZip";
 import { useNavigate } from "react-router-dom";
 import ListingDetail from "../ListingDetail";
 import { useParams } from "react-router-dom/dist";
+import UserContext from "../../context/userContext";
 
 const drawerWidth = 340;
 
@@ -99,6 +100,9 @@ export default function ToysLanding() {
     navigate(`/toys/${toyId}`); // Navigate to the detail page
   };
 
+  const user = useContext(UserContext);
+  const authorizedUser = user ? user._id : "";
+
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
       <CssBaseline />
@@ -156,11 +160,15 @@ export default function ToysLanding() {
           </Grid>
 
           {/* Create */}
-          <Grid item xs={12} sm={12} my={2}>
-            <Create />
-          </Grid>
+          {user && (
+            <>
+              <Grid item xs={12} sm={12} my={2}>
+                <Create />
+              </Grid>
 
-          <Divider />
+              <Divider />
+            </>
+          )}
 
           {/* Filters */}
           <Typography variant="h6" my={2}>
@@ -230,11 +238,15 @@ export default function ToysLanding() {
           </Grid>
 
           {/* Create */}
-          <Grid item xs={12} sm={12} my={2}>
-            <Create />
-          </Grid>
+          {user && (
+            <>
+              <Grid item xs={12} sm={12} my={2}>
+                <Create />
+              </Grid>
 
-          <Divider />
+              <Divider />
+            </>
+          )}
           {/* counter */}
           <Grid item xs={12} sm={12} mt={2} mb={2}>
             <Chip label={`${toys.length} toys found`} />
