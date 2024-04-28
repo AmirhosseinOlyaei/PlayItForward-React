@@ -8,6 +8,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  Chip,
 } from "@mui/material";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -234,6 +235,11 @@ export default function ToysLanding() {
           </Grid>
 
           <Divider />
+          {/* counter */}
+          <Grid item xs={12} sm={12} mt={2} mb={2}>
+            <Chip label={`${toys.length} toys found`} />
+          </Grid>
+          <Divider />
 
           {/* Filters */}
           <Typography variant="h6" my={2}>
@@ -271,12 +277,7 @@ export default function ToysLanding() {
             <CustomToolbar viewType={viewType} setViewType={setViewType} />
           </Grid>
 
-          <Divider />
-
-          {/* counter */}
-          <Typography variant="h6" mt={2} mb={4}>
-            Total Toys: {toys.length}
-          </Typography>
+          {/* <Divider /> */}
         </Grid>
       </Drawer>
 
@@ -290,8 +291,9 @@ export default function ToysLanding() {
           <ToyList toys={toys} onCardClick={handleCardClick} />
         )}
       </Grid>
-      {selectedToyId && <ListingDetail id={selectedToyId} onClose={() => navigate(-1)}/>}
+      {selectedToyId && (
+        <ListingDetail id={selectedToyId} onClose={() => navigate(-1)} />
+      )}
     </Box>
-
   );
 }
