@@ -10,6 +10,8 @@ import {
   TextField,
   IconButton,
   Alert,
+  CircularProgress,
+  Backdrop,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -61,7 +63,7 @@ const LeftDrawer = ({
   const [error, setError] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState(false); // Initial loading state
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -150,19 +152,28 @@ const LeftDrawer = ({
       setError(true);
       return;
     }
+
+    setLoading(true);
     editMode ? axiosPutListing() : axiosPostListing();
     setError(false);
   };
 
   const axiosPutListing = async () => {
-    const imageData = new FormData();
-    imageData.append("file", selectedFile);
-    const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    //const ImageUrl = response.data.url;
-    const newImageUrl = response.data;
-    console.log("newImageUrl", newImageUrl);
+    let imageUrl;
+    if (selectedFile.type === "") {
+      imageUrl = toy.imageUrl;
+      console.log("imageUrl", imageUrl);
+    } else {
+      const imageData = new FormData();
+      imageData.append("file", selectedFile);
+      const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      //const ImageUrl = response.data.url;
+      const newImageUrl = response.data;
+      console.log("newImageUrl", newImageUrl);
+      imageUrl = newImageUrl.url;
+    }
 
     const postData = {
       title,
@@ -171,15 +182,17 @@ const LeftDrawer = ({
       condition,
       delivery_method: delivery,
       zip_code: zipCode,
-      imageUrl: selectedFile.type === "" ? toy.imageUrl : newImageUrl.url,
+      imageUrl: selectedFile.type === "" ? toy.imageUrl : imageUrl,
     };
     await axios
       .put(`${apiUrl}/toys/${id}`, postData)
       .then((res) => {
-        setAlertOpen(true);
+        setLoading(false); // Set loading to false after successful upload
+        setAlertOpen(true); // Display success alert
         setEditMode(false);
       })
       .catch((error) => {
+        setLoading(false); // Set loading to false if there's an error
         console.error("Error updating toy:", error);
         alert("Something went wrong. Please try again.");
       });
@@ -226,172 +239,194 @@ const LeftDrawer = ({
   };
 
   return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: isSmallScreen ? "100%" : drawerWidth,
-        borderRight: isSmallScreen ? "none" : null,
-        flexShrink: 0,
-        [`& .MuiDrawer-paper`]: {
+    <>
+      <Drawer
+        variant="permanent"
+        sx={{
           width: isSmallScreen ? "100%" : drawerWidth,
           borderRight: isSmallScreen ? "none" : null,
-          boxSizing: "border-box",
-          marginTop: "86px",
-          height: "calc(100vh - 100px)",
-        },
-      }}
-      anchor="left"
-    >
-      <Box sx={{ overflow: "auto", mx: 2 }}>
-        <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
-          Toy for Listing
-        </Typography>
-        <Divider sx={{ marginTop: 1.2, marginBottom: 2 }} />
-        <Box
-          sx={{ "& .MuiTextField-root": { marginTop: 3 } }}
-          noValidate
-          autoComplete="off"
-        >
-          <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-            <Box>
-              <Button
-                component="label"
-                id="upload-input"
-                role={undefined}
-                variant="contained"
-                size="large"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                sx={{
-                  marginTop: 2,
-                  marginBottom: 1.2,
-                  backgroundColor: "rgba(33, 150, 243, 0.8)",
-                  "&:hover": {
-                    backgroundColor: "rgba(33, 150, 243, 1)",
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: isSmallScreen ? "100%" : drawerWidth,
+            borderRight: isSmallScreen ? "none" : null,
+            boxSizing: "border-box",
+            marginTop: "86px",
+            height: "calc(100vh - 100px)",
+          },
+        }}
+        anchor="left"
+      >
+        <Box sx={{ overflow: "auto", mx: 2 }}>
+          <Typography variant="h5" color="text.primary" sx={{ mt: 2 }}>
+            Toy for Listing
+          </Typography>
+          <Divider sx={{ marginTop: 1.2, marginBottom: 2 }} />
+          <Box
+            sx={{ "& .MuiTextField-root": { marginTop: 3 } }}
+            noValidate
+            autoComplete="off"
+          >
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+              <Box>
+                <Button
+                  component="label"
+                  id="upload-input"
+                  role={undefined}
+                  variant="contained"
+                  size="large"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                  sx={{
+                    marginTop: 2,
+                    marginBottom: 1.2,
+                    backgroundColor: "rgba(33, 150, 243, 0.8)",
+                    "&:hover": {
+                      backgroundColor: "rgba(33, 150, 243, 1)",
+                    },
+                  }}
+                  fullWidth
+                >
+                  Upload photo
+                  <VisuallyHiddenInput
+                    type="file"
+                    id="file-input"
+                    accept="image/*"
+                    onChange={handleFileInputChange}
+                  />
+                </Button>
+
+                {selectedFile && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      width: "41ch",
+                      marginBottom: "12px",
+                      fontSize: "15px",
+                      gap: "5px",
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      color="textSecondary"
+                      sx={{ ml: 0.5 }}
+                    >
+                      {/* {selectedFile.name} */}
+                      {selectedFile
+                        ? truncatedFileName(selectedFile.name)
+                        : "No file selected"}
+                    </Typography>
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => onClearPhoto()}
+                      sx={{ padding: 0, mr: 0, mb: 1, mt: 1 }}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  </Box>
+                )}
+              </Box>
+              <TextField
+                id="title"
+                name="title"
+                label="Title"
+                type="text"
+                value={title}
+                onChange={handleInputChangeTitle}
+                fullWidth
+                InputProps={{
+                  style: {
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    color: "#1e1e1e",
                   },
+                }}
+              />
+              <GoogleZip
+                onValueChangeLocation={onValueChangeLocation}
+                value={value}
+                onZipCodeChange={handleZipCodeChange}
+                editMode={editMode}
+              />
+              <FetchSelectData
+                category={category}
+                onCategoryChange={onCategoryChange}
+                condition={condition}
+                onConditionChange={onConditionChange}
+                delivery={delivery}
+                onDeliveryChange={onDeliveryChange}
+              />
+              <TextField
+                type="text"
+                id="description"
+                name="description"
+                label="Description"
+                multiline
+                rows={4}
+                value={description}
+                onChange={handleInputDescriptionChange}
+                fullWidth
+                InputProps={{
+                  style: {
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    color: "#1e1e1e",
+                    maxLength: 1000,
+                  },
+                }}
+              />
+              {error && (
+                <Alert severity="error" sx={{ marginTop: "15px", mr: 0.5 }}>
+                  Please fill in all fields.
+                </Alert>
+              )}
+              <Divider sx={{ marginTop: "40px" }} />
+              <Button
+                variant="contained"
+                type="submit"
+                size="large"
+                sx={{
+                  marginTop: "30px",
+                  background: "#ff6600",
+                  bottom: "5px",
+                  "&:hover": { backgroundColor: "#ffa162" },
                 }}
                 fullWidth
               >
-                Upload photo
-                <VisuallyHiddenInput
-                  type="file"
-                  id="file-input"
-                  accept="image/*"
-                  onChange={handleFileInputChange}
-                />
+                {editMode ? "Save Changes" : "Publish"}
               </Button>
-
-              {selectedFile && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    width: "41ch",
-                    marginBottom: "12px",
-                    fontSize: "15px",
-                    gap: "5px",
-                  }}
-                >
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                    sx={{ ml: 0.5 }}
-                  >
-                    {/* {selectedFile.name} */}
-                    {selectedFile
-                      ? truncatedFileName(selectedFile.name)
-                      : "No file selected"}
-                  </Typography>
-                  <IconButton
-                    aria-label="delete"
-                    onClick={() => onClearPhoto()}
-                    sx={{ padding: 0, mr: 0, mb: 1, mt: 1 }}
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </Box>
-              )}
-            </Box>
-            <TextField
-              id="title"
-              name="title"
-              label="Title"
-              type="text"
-              value={title}
-              onChange={handleInputChangeTitle}
-              fullWidth
-              InputProps={{
-                style: {
-                  fontSize: "16px",
-                  fontWeight: "400",
-                  color: "#1e1e1e",
-                },
-              }}
-            />
-            <GoogleZip
-              onValueChangeLocation={onValueChangeLocation}
-              value={value}
-              onZipCodeChange={handleZipCodeChange}
-              editMode={editMode}
-            />
-            <FetchSelectData
-              category={category}
-              onCategoryChange={onCategoryChange}
-              condition={condition}
-              onConditionChange={onConditionChange}
-              delivery={delivery}
-              onDeliveryChange={onDeliveryChange}
-            />
-            <TextField
-              type="text"
-              id="description"
-              name="description"
-              label="Description"
-              multiline
-              rows={4}
-              value={description}
-              onChange={handleInputDescriptionChange}
-              fullWidth
-              InputProps={{
-                style: {
-                  fontSize: "16px",
-                  fontWeight: "400",
-                  color: "#1e1e1e",
-                  maxLength: 1000,
-                },
-              }}
-            />
-            {error && (
-              <Alert severity="error" sx={{ marginTop: "15px", mr: 0.5 }}>
-                Please fill in all fields.
-              </Alert>
-            )}
-            <Divider sx={{ marginTop: "40px" }} />
-            <Button
-              variant="contained"
-              type="submit"
-              size="large"
+            </form>
+            <Backdrop
               sx={{
-                marginTop: "30px",
-                background: "#ff6600",
-                bottom: "5px",
-                "&:hover": { backgroundColor: "#ffa162" },
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+                // color: "lightgrey",
+                // opacity: 1,
               }}
-              fullWidth
+              open={loading}
             >
-              {editMode ? "Save Changes" : "Publish"}
-            </Button>
-          </form>
-          <SuccessAlert
-            open={alertOpen}
-            onClose={handleAlertClose}
-            editMode={editMode}
-          />
+              <SuccessAlert
+                open={alertOpen}
+                onClose={handleAlertClose}
+                editMode={editMode}
+              />
+            </Backdrop>
+          </Box>
         </Box>
-      </Box>
-    </Drawer>
+      </Drawer>
+
+      <Backdrop
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundColor: "transparent",
+          color: "#fff", // Text color
+        }}
+        open={loading}
+      >
+        <CircularProgress sx={{ color: "lightgrey" }} />
+      </Backdrop>
+    </>
   );
 };
 
