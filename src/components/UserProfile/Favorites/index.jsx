@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import styles from "./UserProfile.module.css";
 import IconMenu from "../IconMenu";
-import EditIcon from "@mui/icons-material/Edit";
 import {
   AppBar,
   Box,
   CssBaseline,
   Typography,
-  IconButton,
   CircularProgress,
 } from "@mui/material";
 import FavoriteCard from "./FavoriteCard";
