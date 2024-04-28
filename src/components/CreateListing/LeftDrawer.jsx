@@ -79,7 +79,7 @@ const LeftDrawer = ({
           onCategoryChange(toy.category);
           onConditionChange(toy.condition);
           onDeliveryChange(toy.delivery_method);
-          //onValueChangeLocation(toy.zip_code);
+          onValueChangeLocation(toy.zip_code);
           onToyChange(toy);
           handleFetchedFile(new File([toy.imageUrl], `${toy.title}`).name);
           onFileChange(new File([toy.imageUrl], `${toy.title}`));
