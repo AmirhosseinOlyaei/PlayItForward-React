@@ -39,17 +39,13 @@ const NavBar = ({ user }) => {
   };
 
   const handleSearchClick = () => {
-    navigate("/toys"); // Navigate to the ToyLanding page
-    // If needed, trigger search logic or state changes here
+    navigate("/toys");
   };
 
   const handleSignOut = () => {
     const apiUrl = import.meta.env.VITE_API_URL;
-    // Implement sign out logic here, such as clearing user session
     handleMenuClose();
-
     window.location.href = `${apiUrl}/auth/logout`;
-    // http://localhost:8000/api/v1/auth/logout
   };
 
   return (
