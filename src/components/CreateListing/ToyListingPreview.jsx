@@ -82,8 +82,6 @@ const ToyListingPreview = ({
             height: "80vh",
             border: "1px solid lightgrey",
             maxWidth: "1000px",
-            // maxHeight: "95vh",
-            // overflow: "auto",
           }}
         >
           <CardActionArea sx={{ backgroundColor: "#f0f0f0" }}>
@@ -95,9 +93,6 @@ const ToyListingPreview = ({
                     ? URL.createObjectURL(selectedFile)
                     : toy.imageUrl
                 }
-
-                //image={URL.createObjectURL(selectedFile)}
-                //alt="Toy picture"
               />
             ) : (
               <Box

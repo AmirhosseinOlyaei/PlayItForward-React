@@ -1,4 +1,3 @@
-// ffprac-team4-front/src/components/CreateListing/LeftDrawer.jsx
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import {
@@ -169,7 +168,6 @@ const LeftDrawer = ({
       const response = await axios.post(`${apiUrl}/images/upload`, imageData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      //const ImageUrl = response.data.url;
       const newImageUrl = response.data;
       console.log("newImageUrl", newImageUrl);
       imageUrl = newImageUrl.url;
@@ -401,8 +399,6 @@ const LeftDrawer = ({
             <Backdrop
               sx={{
                 zIndex: (theme) => theme.zIndex.drawer + 1,
-                // color: "lightgrey",
-                // opacity: 1,
               }}
               open={loading}
             >
