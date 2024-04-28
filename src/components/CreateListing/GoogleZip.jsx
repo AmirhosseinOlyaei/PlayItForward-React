@@ -60,6 +60,7 @@ export default function GoogleZip({
 
   React.useEffect(() => {
     console.log("value", value);
+    editMode && onZipCodeChange(value);
   }, [value]);
 
   if (typeof window !== "undefined" && !loaded.current) {
@@ -86,8 +87,7 @@ export default function GoogleZip({
     let active = true;
 
     if (!autocompleteService.current && window.google) {
-      autocompleteService.current =
-        new window.google.maps.places.AutocompleteService();
+      autocompleteService.current = new window.google.maps.places.AutocompleteService();
     }
     if (!autocompleteService.current) {
       return undefined;
@@ -105,11 +105,12 @@ export default function GoogleZip({
         if (value) {
           newOptions = [value];
         }
+        console.log("V", value);
 
         if (results) {
           newOptions = [...newOptions, ...results];
+          console.log("newOptions", newOptions);
         }
-
         setOptions(newOptions);
       }
     });
@@ -138,12 +139,7 @@ export default function GoogleZip({
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Enter a Zip Code"
-          fullWidth
-          InputLabelProps={{ style: { color: editMode ? "red" : "" } }}
-        />
+        <TextField {...params} label="Enter a Zip Code" fullWidth />
       )}
       renderOption={(props, option) => {
         const matches =
