@@ -206,7 +206,7 @@ const ListingDetail = ({ id, onClose }) => {
       .then((data) => {
         const location = data.results[0].geometry.location;
         const city = data.results[0].address_components[1].long_name;
-        const state = data.results[0].address_components[2].long_name;
+        const state = data.results[0].address_components[3].long_name;
         const latitude = location.lat;
         const longitude = location.lng;
         setMapPosition({
@@ -219,10 +219,11 @@ const ListingDetail = ({ id, onClose }) => {
       .catch((error) => console.error("Error:", error));
   }, [toyListing]);
 
-  // const [alertOpen, setAlertOpen] = React.useState(false);
-  // const handleMessage = () => {
-  //   user ? Navigate(`/messages/${id}`) : setAlertOpen(true);
-  // }
+   const [alertOpen, setAlertOpen] = React.useState(false);
+   const handleMessage = () => {
+    //Navigate(`/messages/${id}`) 
+    // setAlertOpen(true);
+}
 
   return (
     <Dialog
@@ -259,7 +260,7 @@ const ListingDetail = ({ id, onClose }) => {
               fullWidth
             />
             <Box sx={{ padding: "20px 0" }}>
-              <Box sx={{ display: "flex" }}>
+              <Box> 
               {toyListing.status === "reserved" && 
                 <Chip 
                   label="Reserved" 
@@ -267,7 +268,8 @@ const ListingDetail = ({ id, onClose }) => {
                     backgroundColor:"red", 
                     color:"white", 
                     margin: "10px 10px 0 0", 
-                    padding: "0px 10px"
+                    padding: "0px 10px",
+                    textWrap: "wrap",
                     }}/>
               }
                 <Typography variant="h4" sx={{ margin: "5px 0" }}>
@@ -310,17 +312,18 @@ const ListingDetail = ({ id, onClose }) => {
                 {authorizedUser !== toyListing.listed_by_id?._id ? (
                   <>
                     <ActionButton
-                      link={`/messages/${id}`}
-                      onClick={handleMessage}
+                      link={ user ? `/messages/${id}` : "/login"}
+                      // onClick={handleMessage}
                       text="&nbsp;Message"
                       startIcon={<MailIcon />}
                       fullWidth={false}
+                      btnWidth={user? "" : "210px"}
                     />
                     <LoginAlert 
                       alertOpen={alertOpen} 
                       setAlertOpen={setAlertOpen}
                     />
-                    <ActionButton
+                    {user && <ActionButton
                       link=""
                       text=""
                       startIcon={
@@ -328,10 +331,10 @@ const ListingDetail = ({ id, onClose }) => {
                       }
                       fullWidth={false}
                       onClick={handleFavorite}
-                    />
+                    />}
                   </>
-                ): (
-                  <ActionButton link={`/create?id=${id}`} text={"Edit"} fullWidth={true} />
+                ) : (
+                  <ActionButton link={`/create?id=${id}`} text={"Edit"} btnWidth={"210px"}  />
                 )}
                 <CopyToClipboard
                   text={`${window.location.origin}/toys/${id}`}
@@ -387,13 +390,14 @@ const ListingDetail = ({ id, onClose }) => {
                 <div className={styles.detailsLabel}>
                   <Typography variant="body">
                     <b>Description</b>
-                  </Typography>
-                </div>
-                <div>
+                  </Typography><br/>
                   <Typography variant="body">
                     {toyListing.description}
                   </Typography>
                 </div>
+                {/* <div>
+                  
+                </div> */}
               </div>
             </Box>
             <Box sx={{ padding: "20px 0" }}>
@@ -411,7 +415,12 @@ const ListingDetail = ({ id, onClose }) => {
               </Typography>
               <Box className={styles.giverInformation}>
                 {toyGiver.profile_picture ? (
-                  <img src={toyGiver.profile_picture} alt="profile" />
+                  <Avatar
+                  src={toyGiver.profile_picture}
+                  variant="rounded"
+                  style={{ width: 70, height: 70, borderRadius: 35 }}
+                  alt="profile picture"
+                />
                 ) : (
                   toyGiver.first_name && toyGiver.last_name && (
                     <LettersAvatar
