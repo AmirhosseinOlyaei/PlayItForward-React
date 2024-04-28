@@ -6,20 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const TermsAndConditions = ({ open, onClose, onAgree, onDisagree }) => {
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
+const TermsAndConditions = ({ open, handleClose }) => {
   return (
     <>
       <Dialog
         open={open}
-        onClose={onClose}
+        onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -88,8 +80,8 @@ const TermsAndConditions = ({ open, onClose, onAgree, onDisagree }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onDisagree}>Disagree</Button>
-          <Button onClick={onAgree} autoFocus>
+          <Button onClick={handleClose}>Disagree</Button>
+          <Button onClick={handleClose} autoFocus>
             Agree
           </Button>
         </DialogActions>
