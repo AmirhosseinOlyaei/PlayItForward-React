@@ -44,10 +44,12 @@ const NavBar = ({ user }) => {
   };
 
   const handleSignOut = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     // Implement sign out logic here, such as clearing user session
     handleMenuClose();
 
-    navigate("/");
+    window.location.href = `${apiUrl}/auth/logout`;
+    // http://localhost:8000/api/v1/auth/logout
   };
 
   return (
