@@ -15,6 +15,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
+import toast, { Toaster } from "react-hot-toast";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -76,86 +77,97 @@ const ToyListMap = ({ toysData }) => {
   const handleShareClick = useCallback((event, id) => {
     event.stopPropagation();
     const url = `${window.location.origin}/toys/${id}`;
+
     navigator.clipboard
       .writeText(url)
-      .then(() => alert("URL copied to clipboard!"))
+      .then(() => {
+        toast.success("URL copied to clipboard!");
+      })
       .catch((err) => console.error("Failed to copy URL: ", err));
   }, []);
 
   return (
-    <Box sx={{ width: "100%", height: "calc(100vh - 135px)" }}>
-      <GoogleMap
-        mapContainerStyle={{ width: "100%", height: "100%" }}
-        center={
-          locations.length > 0 ? locations[0] : { lat: 39.5, lng: -98.35 }
-        }
-        zoom={6}
-        onClick={handleMapClick}
-      >
-        {locations.map((location, index) => (
-          <Marker
-            key={index}
-            position={{ lat: location.lat, lng: location.lng }}
-            onClick={() => handleMarkerClick(location)}
-          />
-        ))}
-        {selectedLocation && (
-          <InfoBox
-            position={{ lat: selectedLocation.lat, lng: selectedLocation.lng }}
-          >
-            <Card sx={{ width: 345, position: "relative" }}>
-              <CardActionArea
-                onClick={() => navigate(`/toys/${selectedLocation._id}`)}
-              >
-                <CardHeader
-                  avatar={<Avatar aria-label="recipe">R</Avatar>}
-                  title={selectedLocation.title}
-                  subheader={selectedLocation.description}
-                />
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={selectedLocation.imageUrl}
-                  alt="toy image"
-                />
-              </CardActionArea>
-              <IconButton
-                aria-label="close"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  setSelectedLocation(null);
-                }}
-                sx={{ position: "absolute", top: 8, right: 8 }}
-              >
-                <CloseIcon />
-              </IconButton>
-              <CardActions disableSpacing>
-                <IconButton
-                  aria-label="add to favorites"
-                  onClick={(event) =>
-                    toggleFavorite(event, selectedLocation._id)
-                  }
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <Box sx={{ width: "100%", height: "calc(100vh - 135px)" }}>
+        <GoogleMap
+          mapContainerStyle={{ width: "100%", height: "100%" }}
+          center={
+            locations.length > 0 ? locations[0] : { lat: 39.5, lng: -98.35 }
+          }
+          zoom={6}
+          onClick={handleMapClick}
+        >
+          {locations.map((location, index) => (
+            <Marker
+              key={index}
+              position={{ lat: location.lat, lng: location.lng }}
+              onClick={() => handleMarkerClick(location)}
+            />
+          ))}
+          {selectedLocation && (
+            <InfoBox
+              position={{
+                lat: selectedLocation.lat,
+                lng: selectedLocation.lng,
+              }}
+            >
+              <Card sx={{ width: 345, position: "relative" }}>
+                <CardActionArea
+                  onClick={() => navigate(`/toys/${selectedLocation._id}`)}
                 >
-                  <FavoriteIcon
-                    color={
-                      favorites.has(selectedLocation._id) ? "error" : "inherit"
-                    }
+                  <CardHeader
+                    avatar={<Avatar aria-label="recipe">R</Avatar>}
+                    title={selectedLocation.title}
+                    subheader={selectedLocation.description}
                   />
-                </IconButton>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={selectedLocation.imageUrl}
+                    alt="toy image"
+                  />
+                </CardActionArea>
                 <IconButton
-                  aria-label="share"
-                  onClick={(event) =>
-                    handleShareClick(event, selectedLocation._id)
-                  }
+                  aria-label="close"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setSelectedLocation(null);
+                  }}
+                  sx={{ position: "absolute", top: 8, right: 8 }}
                 >
-                  <ShareIcon />
+                  <CloseIcon />
                 </IconButton>
-              </CardActions>
-            </Card>
-          </InfoBox>
-        )}
-      </GoogleMap>
-    </Box>
+                <CardActions disableSpacing>
+                  <IconButton
+                    aria-label="add to favorites"
+                    onClick={(event) =>
+                      toggleFavorite(event, selectedLocation._id)
+                    }
+                  >
+                    <FavoriteIcon
+                      color={
+                        favorites.has(selectedLocation._id)
+                          ? "error"
+                          : "inherit"
+                      }
+                    />
+                  </IconButton>
+                  <IconButton
+                    aria-label="share"
+                    onClick={(event) =>
+                      handleShareClick(event, selectedLocation._id)
+                    }
+                  >
+                    <ShareIcon />
+                  </IconButton>
+                </CardActions>
+              </Card>
+            </InfoBox>
+          )}
+        </GoogleMap>
+      </Box>
+    </>
   );
 };
 

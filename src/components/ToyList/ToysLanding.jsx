@@ -1,5 +1,5 @@
 // src/components/ToyList/ToysLanding.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {
   Box,
@@ -8,6 +8,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  Chip,
 } from "@mui/material";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -22,6 +23,7 @@ import GoogleZip from "./GoogleZip";
 import { useNavigate } from "react-router-dom";
 import ListingDetail from "../ListingDetail";
 import { useParams } from "react-router-dom/dist";
+import UserContext from "../../context/userContext";
 
 const drawerWidth = 340;
 
@@ -98,6 +100,9 @@ export default function ToysLanding() {
     navigate(`/toys/${toyId}`); // Navigate to the detail page
   };
 
+  const user = useContext(UserContext);
+  const authorizedUser = user ? user._id : "";
+
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
       <CssBaseline />
@@ -155,11 +160,15 @@ export default function ToysLanding() {
           </Grid>
 
           {/* Create */}
-          <Grid item xs={12} sm={12} my={2}>
-            <Create />
-          </Grid>
+          {user && (
+            <>
+              <Grid item xs={12} sm={12} my={2}>
+                <Create />
+              </Grid>
 
-          <Divider />
+              <Divider />
+            </>
+          )}
 
           {/* Filters */}
           <Typography variant="h6" my={2}>
@@ -229,10 +238,19 @@ export default function ToysLanding() {
           </Grid>
 
           {/* Create */}
-          <Grid item xs={12} sm={12} my={2}>
-            <Create />
-          </Grid>
+          {user && (
+            <>
+              <Grid item xs={12} sm={12} my={2}>
+                <Create />
+              </Grid>
 
+              <Divider />
+            </>
+          )}
+          {/* counter */}
+          <Grid item xs={12} sm={12} mt={2} mb={2}>
+            <Chip label={`${toys.length} toys found`} />
+          </Grid>
           <Divider />
 
           {/* Filters */}
@@ -271,12 +289,7 @@ export default function ToysLanding() {
             <CustomToolbar viewType={viewType} setViewType={setViewType} />
           </Grid>
 
-          <Divider />
-
-          {/* counter */}
-          <Typography variant="h6" mt={2} mb={4}>
-            Total Toys: {toys.length}
-          </Typography>
+          {/* <Divider /> */}
         </Grid>
       </Drawer>
 
@@ -290,8 +303,9 @@ export default function ToysLanding() {
           <ToyList toys={toys} onCardClick={handleCardClick} />
         )}
       </Grid>
-      {selectedToyId && <ListingDetail id={selectedToyId} onClose={() => navigate(-1)}/>}
+      {selectedToyId && (
+        <ListingDetail id={selectedToyId} onClose={() => navigate(-1)} />
+      )}
     </Box>
-
   );
 }

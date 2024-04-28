@@ -21,9 +21,9 @@ import {
   Favorite as MyFavoritesIcon,
   Message as MessagesIcon,
   Person as ProfileIcon,
+  Logout as LogoutIcon,
+  Login as LoginIcon,
 } from "@mui/icons-material";
-import LogoutIcon from "@mui/icons-material/Logout";
-import LoginIcon from "@mui/icons-material/Login";
 
 const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -39,15 +39,13 @@ const NavBar = ({ user }) => {
   };
 
   const handleSearchClick = () => {
-    navigate("/toys"); // Navigate to the ToyLanding page
-    // If needed, trigger search logic or state changes here
+    navigate("/toys");
   };
 
   const handleSignOut = () => {
-    // Implement sign out logic here, such as clearing user session
+    const apiUrl = import.meta.env.VITE_API_URL;
     handleMenuClose();
-    // Redirect or do additional clean up after sign out
-    navigate("/");
+    window.location.href = `${apiUrl}/auth/logout`;
   };
 
   return (
