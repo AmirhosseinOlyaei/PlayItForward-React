@@ -212,12 +212,52 @@ const ToyListingPreview = ({
                   sx={{ display: "flex", alignItems: "center" }}
                 >
                   <Grid item xs={2}>
-                    <Avatar alt="A" src="/static/images/avatar/3.jpg" />
+                    <Box>
+                      {userInfo.profile_picture ? (
+                        <Avatar
+                          src={userInfo.profile_picture}
+                          variant="rounded"
+                          sx={{
+                            width: 60,
+                            height: 60,
+                            borderRadius: 35,
+                            disabled: true,
+                            bgcolor: "#ccc",
+                            color: "#000",
+                            opacity: 0.5,
+                          }}
+                          alt="profile picture"
+                        />
+                      ) : (
+                        userInfo.first_name &&
+                        userInfo.last_name && (
+                          <LettersAvatar
+                            sx={{
+                              marginLeft: "10px",
+                              width: "50px",
+                              height: "50px",
+                              fontSize: "30px",
+                            }}
+                            firstName={userInfo.first_name}
+                            lastName={userInfo.last_name}
+                          />
+                        )
+                      )}
+                    </Box>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography variant="body1" sx={{ gap: "1px" }}>
-                      {userInfo.first_name} {userInfo.last_name}
-                    </Typography>
+                    <div>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          marginLeft: 3,
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {userInfo.nickname}
+                      </Typography>
+                    </div>
+                    {/* </Typography> */}
                   </Grid>
                 </Grid>
               </Box>

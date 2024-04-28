@@ -396,21 +396,23 @@ const LeftDrawer = ({
                 {editMode ? "Save Changes" : "Publish"}
               </Button>
             </form>
-            <Backdrop
-              sx={{
-                zIndex: (theme) => theme.zIndex.drawer + 1,
-              }}
-              open={loading}
-            >
-              <SuccessAlert
-                open={alertOpen}
-                onClose={handleAlertClose}
-                editMode={editMode}
-              />
-            </Backdrop>
           </Box>
         </Box>
       </Drawer>
+      <Backdrop
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          backgroundColor: "transparent",
+          color: "#fff", // Text color
+        }}
+        open={loading}
+      >
+        <SuccessAlert
+          open={alertOpen}
+          onClose={handleAlertClose}
+          editMode={editMode}
+        />
+      </Backdrop>
 
       <Backdrop
         sx={{
