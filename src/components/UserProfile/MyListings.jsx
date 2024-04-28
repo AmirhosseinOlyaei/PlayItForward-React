@@ -84,7 +84,6 @@ const MyListings = () => {
                 />
               );
             })}
-            ;
           </Box>
         ) : (
           <p>No favorites added yet.</p>
