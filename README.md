@@ -122,14 +122,15 @@ Special thanks and a shout out to the following individuals and organizations:
 - Front End:
 - [Amir Olyaei](https://github.com/AmirhosseinOlyaei)
 - [Hanna Akhramchuk](https://github.com/akhhanna20)
-- Doina Fitchevici
+- [Doina Fitchevici](https://github.com/DoinaFitchevici)
 - Alevtina Babinskaya
 - Back End:
-- Betiel Amanuel
+- [Betiel Amanuel](https://github.com/betielamanuel)
 - [Rodgers Mora Onchanah](https://www.github.com/morarodgers)
 
 [![Follow @AmirhosseinOlyaei](https://img.shields.io/github/followers/AmirhosseinOlyaei?label=Follow%20@AmirhosseinOlyaei&style=social)](https://github.com/AmirhosseinOlyaei?screen_name=AmirhosseinOlyaei)
 [![Follow @akhhanna20](https://img.shields.io/github/followers/akhhanna20?label=Follow%20@akhhanna20&style=social)](https://github.com/akhhanna20?screen_name=akhhanna20)
+[![Follow @DoinaFitchevici](https://img.shields.io/github/followers/DoinaFitchevici?label=Follow%20@DoinaFitchevici&style=social)](https://github.com/DoinaFitchevici?screen_name=DoinaFitchevici)
 [![Follow @morarodgers](https://img.shields.io/github/followers/morarodgers?label=Follow%20@morarodgers&style=social)](https://github.com/morarodgers?screen_name=morarodgers)
 
 ## Contact
@@ -139,11 +140,17 @@ If you have any questions or feedback, feel free to reach out to [DevArts](https
 > LinkedIn:
 
 - [Amir Olyaei](https://www.linkedin.com/in/amirhossein-olyaei)
-- [Doina Fitchevici](https://www.linkedin.com/in/doina-fitchevici/)
-- [Hanna Akhramchuk](https://www.linkedin.com/in/hanna-akhramchuk-3a9087201/)
+- [Doina Fitchevici](https://www.linkedin.com/in/doina-fitchevici)
+- [Hanna Akhramchuk](https://www.linkedin.com/in/hanna-akhramchuk-3a9087201)
 - Alevtina Babinskaya
-- Betiel Amanuel
+- [Betiel Amanuel](https://www.linkedin.com/in/betiel-amanuel)
 - [Rodgers Mora Onchanah](https://www.linkedin.com/in/morarodgers)
+  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Amir%20Olyaei-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/amirhossein-olyaei)
+  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Doina%20Fitchevici-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/doina-fitchevici)
+  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Hanna%20Akhramchuk-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/hanna-akhramchuk-3a9087201)
+  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Alevtina%20Babinskaya-blue?style=social&logo=linkedin)](#)
+  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Betiel%20Amanuel-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/betiel-amanuel)
+  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Rodgers%20Mora%20Onchanah-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/morarodgers)
 
 <a id="license"></a>
 
