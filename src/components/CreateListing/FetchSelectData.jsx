@@ -63,9 +63,6 @@ export default function FetchSelectData({
           value={category}
           label="Category"
           onChange={handleInputChangeCategory}
-          // SelectLabelProps={{
-          //   style: category ? "red" : null,
-          // }}
         >
           {categories.map((name) => (
             <MenuItem key={name} value={name}>
