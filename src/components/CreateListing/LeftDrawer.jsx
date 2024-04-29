@@ -187,7 +187,7 @@ const LeftDrawer = ({
       .then((res) => {
         setLoading(false); // Set loading to false after successful upload
         setAlertOpen(true); // Display success alert
-        setEditMode(false);
+        //setEditMode(false);
       })
       .catch((error) => {
         setLoading(false); // Set loading to false if there's an error
@@ -228,12 +228,7 @@ const LeftDrawer = ({
   };
 
   const handleAlertClose = () => {
-    setAlertOpen(false);
-    window.location.reload();
-    setEditMode(false);
-    if (!editMode) {
-      window.location.href = "/create";
-    }
+    window.location.href = "/create";
   };
 
   return (
@@ -277,7 +272,7 @@ const LeftDrawer = ({
                   sx={{
                     marginTop: 2,
                     marginBottom: 1.2,
-                    backgroundColor: "darkgray",
+                    backgroundColor: "rgba(0, 0, 0, 0.4)",
                     "&:hover": {
                       backgroundColor: "#808080",
                     },

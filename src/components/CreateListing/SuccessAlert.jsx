@@ -16,7 +16,7 @@ const SuccessAlert = ({ open, onClose, editMode }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle sx={{ color: "green" }}>Success!</DialogTitle>
       <DialogContent>
-        {!editMode ? (
+        {editMode ? (
           <Typography>
             Your toy listing has been updated successfully. Do you want to
             create one more listing?
@@ -29,26 +29,29 @@ const SuccessAlert = ({ open, onClose, editMode }) => {
         )}
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={handleYes}
-          variant="contained"
-          sx={{
-            backgroundColor: "#ff6600",
-            "&:hover": {
-              backgroundColor: "#ffa162",
-            },
-          }}
-        >
-          Yes
-        </Button>
-        <Link to="/toys">
+        <Link to="/create">
           <Button
+            onClick={handleYes}
             variant="contained"
             sx={{
               backgroundColor: "rgba(33, 150, 243, 0.8)",
               "&:hover": {
                 backgroundColor: "#0e8df2",
               },
+            }}
+          >
+            Yes
+          </Button>
+        </Link>
+        <Link to="/toys">
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "darkgray",
+              "&:hover": {
+                backgroundColor: "#808080",
+              },
+              color: "#FFFFFF",
             }}
           >
             No
