@@ -24,7 +24,7 @@ import {
   Logout as LogoutIcon,
   Login as LoginIcon,
 } from "@mui/icons-material";
-import BackgroundLetterAvatars from "../Messages/Avatar";
+import LettersAvatar from "../ListingDetail/LettersAvatar";
 
 const NavBar = ({ user }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -117,14 +117,13 @@ const NavBar = ({ user }) => {
                 alt="profile picture"
               />
             ) : user && user.first_name && user.last_name ? (
-              <BackgroundLetterAvatars
-                onClick={handleMenuClick}
-                firstName={user.first_name}
-                lastName={user.last_name}
+              <LettersAvatar
+                      style = {{width: '54px', height: '54px', fontSize: '24px'}}
+                      firstName={user.first_name}
+                      lastName={user.last_name}
+                      onClick={handleMenuClick}
               />
             ) :
-          
-
           (<IconButton
             color="inherit"
             aria-label="menu"
