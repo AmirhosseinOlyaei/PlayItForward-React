@@ -422,7 +422,7 @@ const ListingDetail = ({ id, onClose }) => {
                 ) : (
                   toyGiver.first_name && toyGiver.last_name && (
                     <LettersAvatar
-                      sx = {{marginLeft: '10px', width: '70px', height: '70px', fontSize: '40px'}}
+                      style = {{marginLeft: '10px', width: '70px', height: '70px', fontSize: '40px'}}
                       firstName={toyGiver.first_name}
                       lastName={toyGiver.last_name}
                     />
