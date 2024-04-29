@@ -29,10 +29,10 @@ function stringAvatar(firstName, lastName) {
   };
 }
 
-export default function BackgroundLetterAvatars({ firstName, lastName }) {
+export default function BackgroundLetterAvatars({ firstName, lastName, onClick }) {
   return (
     <>
-      <Avatar {...stringAvatar(firstName, lastName)} />
+      <Avatar {...stringAvatar(firstName, lastName)} onClick={onClick} />
     </>
   );
 }
