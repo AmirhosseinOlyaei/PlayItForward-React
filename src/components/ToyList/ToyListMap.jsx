@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+  useRef,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleMap, Marker, InfoBox } from "@react-google-maps/api";
@@ -29,12 +35,12 @@ const ToyListMap = ({ toysData }) => {
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [favorites, setFavorites] = useState([]);
-  
+
   const currentFavoritesRef = useRef(favorites);
-	const setCurrentHitsRefState = (data) => {
-		currentFavoritesRef.current = data;
-		setFavorites(data);
-	};
+  const setCurrentHitsRefState = (data) => {
+    currentFavoritesRef.current = data;
+    setFavorites(data);
+  };
 
   const navigate = useNavigate();
 
@@ -47,7 +53,7 @@ const ToyListMap = ({ toysData }) => {
       console.log(error);
     }
   };
-  
+
   useEffect(() => {
     const fetchLocationsAsync = async () => {
       try {
@@ -64,17 +70,17 @@ const ToyListMap = ({ toysData }) => {
         console.log(error);
       }
     };
-  
+
     fetchLocationsAsync();
-  
+
     if (user) {
       getUserFavorites();
     }
   }, [toysData]);
 
-  const  checkIfToyExistsInFavorite = (arr, id) => {
-    return arr.find(item => item.toy_listing_id._id === id);
-  }
+  const checkIfToyExistsInFavorite = (arr, id) => {
+    return arr.find((item) => item.toy_listing_id._id === id);
+  };
 
   const getLatLng = async (zip) => {
     const response = await axios.get(
@@ -100,7 +106,7 @@ const ToyListMap = ({ toysData }) => {
       },
       body: JSON.stringify({
         toy_listing_id: id,
-        user_id: authorizedUser, 
+        user_id: authorizedUser,
       }),
     });
   }
@@ -114,14 +120,12 @@ const ToyListMap = ({ toysData }) => {
   const toggleFavorite = useCallback(async (event, id) => {
     event.stopPropagation();
     var fav = checkIfToyExistsInFavorite(currentFavoritesRef.current, id);
-    if (!fav)
-    {
+    if (!fav) {
       await addFavorite(id);
-      await getUserFavorites()
-    }
-    else {
+      await getUserFavorites();
+    } else {
       await deleteFavorite(fav._id);
-      await getUserFavorites()
+      await getUserFavorites();
     }
   }, []);
 
@@ -141,7 +145,7 @@ const ToyListMap = ({ toysData }) => {
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        toast.success("URL copied to clipboard!");
+        toast.success("Link copied to clipboard!");
       })
       .catch((err) => console.error("Failed to copy URL: ", err));
   }, []);
@@ -177,14 +181,16 @@ const ToyListMap = ({ toysData }) => {
                   onClick={() => navigate(`/toys/${selectedLocation._id}`)}
                 >
                   <CardHeader
-                    avatar={<LettersAvatar 
-                      firstName={selectedLocation.listed_by_id.first_name} 
-                      lastName={selectedLocation.listed_by_id.last_name} 
-                      style={{ 
-                        width: 40, 
-                        height: 40, 
-                        fontSize: 20 
-                      }} />
+                    avatar={
+                      <LettersAvatar
+                        firstName={selectedLocation.listed_by_id.first_name}
+                        lastName={selectedLocation.listed_by_id.last_name}
+                        style={{
+                          width: 40,
+                          height: 40,
+                          fontSize: 20,
+                        }}
+                      />
                     } // {Avatar aria-label="recipe">C</Avatar>}
                     title={selectedLocation.title}
                     subheader={selectedLocation.description}
@@ -207,21 +213,24 @@ const ToyListMap = ({ toysData }) => {
                   <CloseIcon />
                 </IconButton>
                 <CardActions disableSpacing>
-                  { user &&
-                  (<IconButton
-                    aria-label="add to favorites"
-                    onClick={(event) =>
-                      toggleFavorite(event, selectedLocation._id)
-                    }
-                  >
-                    <FavoriteIcon
-                      color={
-                        checkIfToyExistsInFavorite(favorites, selectedLocation._id)
-                          ? "error"
-                          : "inherit"
+                  {user && (
+                    <IconButton
+                      aria-label="add to favorites"
+                      onClick={(event) =>
+                        toggleFavorite(event, selectedLocation._id)
                       }
-                    />
-                  </IconButton>
+                    >
+                      <FavoriteIcon
+                        color={
+                          checkIfToyExistsInFavorite(
+                            favorites,
+                            selectedLocation._id
+                          )
+                            ? "error"
+                            : "inherit"
+                        }
+                      />
+                    </IconButton>
                   )}
                   <IconButton
                     aria-label="share"
