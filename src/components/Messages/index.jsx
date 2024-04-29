@@ -35,16 +35,35 @@ const Messages = () => {
     try {
       const queryParams = new URLSearchParams(window.location.search);
 
-      const response = await fetch(
-        `${apiUrl}/messages?userId=${loggedInUserId}`
-      );
+      const [messagesResponse, userResponse] = await Promise.all([
+        fetch(`${apiUrl}/messages?userId=${loggedInUserId}`),
+        fetch(`${apiUrl}/users/${loggedInUserId}`),
+      ]);
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch messages");
+      if (!messagesResponse.ok || !userResponse.ok) {
+        throw new Error("Failed to fetch messages or user");
       }
-      const data = await response.json();
 
-      let sortedMessages = data.sort(
+      const [messagesData, loggedInUserData] = await Promise.all([
+        messagesResponse.json(),
+        userResponse.json(),
+      ]);
+
+      let sortedMessages = messagesData.map((message) => {
+        const senderId = message.user_id_from._id;
+        return {
+          ...message,
+          user_id_from: {
+            ...message.user_id_from,
+            profile_picture:
+              senderId === loggedInUserId
+                ? loggedInUserData.profile_picture
+                : "",
+          },
+        };
+      });
+
+      sortedMessages = sortedMessages.sort(
         (a, b) => new Date(b.sent_date) - new Date(a.sent_date)
       );
 
