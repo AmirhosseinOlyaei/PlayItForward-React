@@ -7,10 +7,6 @@ import Snackbar from "@mui/material/Snackbar";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { Paper } from "@mui/material";
 import MessageInput from "./MessageInput";
 import BackgroundLetterAvatars from "./Avatar";
@@ -18,6 +14,7 @@ import StarRating from "./StartRating";
 import toast, { Toaster } from "react-hot-toast";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+
 const MailContent = ({
   message,
   fetchMessages,
@@ -34,8 +31,6 @@ const MailContent = ({
   });
 
   const showRatingToast = () => {
-    console.log("showRatingToast function called.");
-
     if (
       !open.ratingToastDisplayed &&
       message.user_id_from._id !== loggedInUserId
@@ -93,7 +88,6 @@ const MailContent = ({
     setOpen({ ...open, ratingToastDisplayed: false });
   };
   useEffect(() => {
-    console.log("useEffect hook executed");
     const senderNameElement = document.getElementById("sender-name");
     if (senderNameElement) {
       senderNameElement.addEventListener("mouseenter", showRatingToast);
@@ -103,42 +97,6 @@ const MailContent = ({
       };
     }
   }, [message, loggedInUserId]);
-
-  // useEffect(() => {
-  //   if (message) {
-  //     fetchSenderDetails(message.user_id_from)
-  //       .then((senderData) => setSender(senderData))
-  //       .catch((error) =>
-  //         console.error("Error fetching sender details:", error)
-  //       );
-
-  //     fetchReceiverDetails(message.user_id_to)
-  //       .then((receiverData) => setReceiver(receiverData))
-  //       .catch((error) =>
-  //         console.error("Error fetching receiver details:", error)
-  //       );
-  //   }
-  // }, [message]);
-
-  // const fetchSenderDetails = async (userId) => {
-  //   try {
-  //     const response = await fetch(`http://localhost:8000/api/users/$(userId)`);
-  //     const data = await response.json();
-  //     return data;
-  //   } catch (error) {
-  //     console.error("Error fetching sender details:", error);
-  //   }
-  // };
-
-  // const fetchReceiverDetails = async (userId) => {
-  //   try {
-  //     const response = await fetch(`http://localhost:8000/api/users/$(userId)`);
-  //     const data = await response.json();
-  //     return data;
-  //   } catch (error) {
-  //     console.error("Error fetching receiver details:", error);
-  //   }
-  // };
 
   const handleSend = (messageContent) => {
     const senderName = `${message.user_id_from.first_name} ${message.user_id_from.last_name}`;
