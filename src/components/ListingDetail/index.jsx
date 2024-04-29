@@ -170,7 +170,7 @@ const ListingDetail = ({ id, onClose }) => {
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
-      setNewMessage("Is this still available?");
+      setNewMessage("Hello! I am interested.");
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -319,10 +319,7 @@ const ListingDetail = ({ id, onClose }) => {
                       fullWidth={false}
                       btnWidth={user? "auto" : "210px"}
                     />
-                    <LoginAlert 
-                      alertOpen={alertOpen} 
-                      setAlertOpen={setAlertOpen}
-                    />
+                    
                     {user && <ActionButton
                       link=""
                       text=""
@@ -338,13 +335,13 @@ const ListingDetail = ({ id, onClose }) => {
                 )}
                 <CopyToClipboard
                   text={`${window.location.origin}/toys/${id}`}
-                  onCopy={() => setIsOpen(true)}
+                  onCopy={() => toast.success("Link copied to clipboard")}
                 >
                   <ActionButton
                     text=""
                     startIcon={<ShareIcon />}
                     fullWidth={false}
-                    onClick={(event) => setAnchorEl(event.currentTarget)}
+                    // onClick={(event) => setAnchorEl(event.currentTarget)}
                   />
                 </CopyToClipboard>
                 <Popover
@@ -496,8 +493,8 @@ const ListingDetail = ({ id, onClose }) => {
             )}
           </Box>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 0 }}>
-          <img src={toyListing.imageUrl} alt="Toy image" width="100%" />
+        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 0 }} >
+          <img src={toyListing.imageUrl} alt="Toy image"  />
         </Box>
       </Box>
     </Dialog>
