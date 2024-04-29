@@ -4,7 +4,7 @@
 </a>
 
 </p>
-<h1 align="center" style="color: #1dc9f5">
+<h1 align="center" style="color: #57abff">
   PlayItForward™
 </h1>
 
@@ -26,8 +26,8 @@ The **PlayItForward** application is an innovative web platform designed to fost
 - [Usage](#usage)
 - [Additional Resources](#additional-resources)
 - [Acknowledgments](#Acknowledgments)
-- [Contact](#contact)
 - [Author](#author)
+- [Contact](#contact)
 - [License](#license)
 - [Feedback](#feedback)
 
@@ -110,20 +110,40 @@ The application will open in your default web browser at http://localhost:5173.
 Special thanks and a shout out to the following individuals and organizations:
 
 - [Code the Dream](https://www.codethedream.org/) for their exceptional coding school, providing valuable learning resources and support.
+- Our beloved project manager Gaetan Siry for his guidence, mentorship and countless hours of dedication for the success of our team.
 - Hat tip to anyone whose code was used.
-
-## Contact
-
-If you have any questions or feedback, feel free to reach out to [DevArts](https://devarts.notion.site/devarts/61c6b79808ce476290c753165851b070?v=9d442848a814451fba7a2e1b99bebb9b).
 
 <a id="author"></a>
 
 ## 👨‍💻 Author
 
+> GitHub:
+
+- Front End:
 - [Amir Olyaei](https://github.com/AmirhosseinOlyaei)
-- [a]
-- [b]
-- [c]
+- [Hanna Akhramchuk](https://github.com/akhhanna20)
+- Doina Fitchevici
+- Alevtina Babinskaya
+- Back End:
+- Betiel Amanuel
+- [Rodgers Mora Onchanah](https://www.github.com/morarodgers)
+
+[![Follow @AmirhosseinOlyaei](https://img.shields.io/github/followers/AmirhosseinOlyaei?label=Follow%20@AmirhosseinOlyaei&style=social)](https://github.com/AmirhosseinOlyaei?screen_name=AmirhosseinOlyaei)
+[![Follow @akhhanna20](https://img.shields.io/github/followers/akhhanna20?label=Follow%20@akhhanna20&style=social)](https://github.com/akhhanna20?screen_name=akhhanna20)
+[![Follow @morarodgers](https://img.shields.io/github/followers/morarodgers?label=Follow%20@morarodgers&style=social)](https://github.com/morarodgers?screen_name=morarodgers)
+
+## Contact
+
+If you have any questions or feedback, feel free to reach out to [DevArts](https://devarts.notion.site/devarts/61c6b79808ce476290c753165851b070?v=9d442848a814451fba7a2e1b99bebb9b).
+
+> LinkedIn:
+
+- [Amir Olyaei](https://www.linkedin.com/in/amirhossein-olyaei)
+- [Doina Fitchevici](https://www.linkedin.com/in/doina-fitchevici/)
+- [Hanna Akhramchuk](https://www.linkedin.com/in/hanna-akhramchuk-3a9087201/)
+- Alevtina Babinskaya
+- Betiel Amanuel
+- [Rodgers Mora Onchanah](https://www.linkedin.com/in/morarodgers)
 
 <a id="license"></a>
 
@@ -137,12 +157,11 @@ Your feedback is invaluable to us! If you have any suggestions or run into issue
 
 Thank you for choosing **Task Minder** as your to-do list companion. Let's make task management a seamless and productive part of your daily routine!
 
-[![Follow @AmirhosseinOlyaei](https://img.shields.io/github/followers/AmirhosseinOlyaei?label=Follow%20@AmirhosseinOlyaei&style=social)](https://github.com/AmirhosseinOlyaei?screen_name=AmirhosseinOlyaei)
-[![Website](https://img.shields.io/badge/-website-CDA4DE)](https://tasks-minder.netlify.app/)
-[![contributors-shield](https://img.shields.io/github/contributors/AmirhosseinOlyaei/flamingo-react-todo.svg)](https://github.com/AmirhosseinOlyaei/flamingo-react-todo/graphs/contributors)
-[![forks-shield](https://img.shields.io/github/forks/AmirhosseinOlyaei/flamingo-react-todo.svg)](https://github.com/AmirhosseinOlyaei/flamingo-react-todo/network/members)
-[![stars-shield](https://img.shields.io/github/stars/AmirhosseinOlyaei/flamingo-react-todo.svg?color=lightblue)](https://github.com/AmirhosseinOlyaei/flamingo-react-todo/stargazers)
-[![issues-shield](https://img.shields.io/github/issues/AmirhosseinOlyaei/flamingo-react-todo.svg?color=pink)](https://github.com/AmirhosseinOlyaei/flamingo-react-todo/issues)
+[![Website](https://img.shields.io/badge/-website-CDA4DE)](https://ffprac-team4-front.onrender.com)
+[![contributors-shield](https://img.shields.io/github/contributors/Code-the-Dream-School/ffprac-team4-front.svg)](https://github.com/Code-the-Dream-School/ffprac-team4-front/graphs/contributors)
+[![forks-shield](https://img.shields.io/github/forks/Code-the-Dream-School/ffprac-team4-front.svg)](https://github.com/Code-the-Dream-School/ffprac-team4-front/network/members)
+[![stars-shield](https://img.shields.io/github/stars/Code-the-Dream-School/ffprac-team4-front.svg?color=lightblue)](https://github.com/Code-the-Dream-School/ffprac-team4-front/stargazers)
+[![issues-shield](https://img.shields.io/github/issues/Code-the-Dream-School/ffprac-team4-front.svg?color=pink)](https://github.com/Code-the-Dream-School/ffprac-team4-front/issues)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/AmirhosseinOlyaei?color=darkgreen)](https://github.com/sponsors/AmirhosseinOlyaei)
 
