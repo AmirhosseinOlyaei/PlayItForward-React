@@ -15,6 +15,8 @@ import {
 import GoogleIcon from "./GoogleIcon";
 import TermsAndConditions from "./TermsAndConditions";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -79,7 +81,6 @@ const SignInButton = () => {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -87,41 +88,6 @@ export default function SignInSide() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  // const [isNewUser, setIsNewUser] = useState(false);
-  // const [showTermsDialog, setShowTermsDialog] = useState(false);
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const checkAuthStatus = async () => {
-  //     try {
-  //       const response = await fetch("/api/v1/user");
-  //       const data = await response.json();
-  //       const isNewUser = data?.isNewUser;
-  //       if (isNewUser !== undefined) {
-  //         setIsNewUser(isNewUser);
-  //       } else {
-  //         // Handle undefined/null case
-  //         console.error("isNewUser value is undefined or null");
-  //       }
-  //     } catch (error) {
-  //       // Handle error (e.g., redirect to login page)
-  //       console.error("Error checking authentication status:", error);
-  //     }
-  //   };
-
-  //   checkAuthStatus();
-  // }, []);
-
-  // const handleAgree = () => {
-  //   // Redirect to toys page
-  //   navigate("/toys");
-  // };
-
-  // const handleDisagree = () => {
-  //   // Redirect back to login page
-  //   navigate("/login");
-  // };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -173,12 +139,6 @@ export default function SignInSide() {
               Welcome to PlayItForward!
             </Typography>
             <SignInButton />
-            <Grid item marginBottom={2}>
-              <Button variant="outlined" onClick={handleClickOpen}>
-                {" Terms and Conditions "}
-              </Button>
-              <TermsAndConditions open={open} handleClose={handleClose} />
-            </Grid>
             <Copyright sx={{ mt: 5 }} />
           </Container>
         </Grid>
