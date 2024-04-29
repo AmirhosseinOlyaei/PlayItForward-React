@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GoogleMap, Marker, InfoBox } from "@react-google-maps/api";
@@ -16,29 +16,64 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import toast, { Toaster } from "react-hot-toast";
+import UserContext from "../../context/userContext";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const ToyListMap = ({ toysData }) => {
+  const user = useContext(UserContext);
+  const authorizedUser = user ? user._id : "";
+
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [favorites, setFavorites] = useState(new Set());
+  const [favorites, setFavorites] = useState([]);
+  
+  const currentFavoritesRef = useRef(favorites);
+	const setCurrentHitsRefState = (data) => {
+		currentFavoritesRef.current = data;
+		setFavorites(data);
+	};
+
   const navigate = useNavigate();
 
+  //get the current user's favorites .. store in state
+  const getUserFavorites = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/favorites/${authorizedUser}`);
+      setCurrentHitsRefState(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   useEffect(() => {
-    const fetchLocations = async () => {
-      const promises = toysData.map((toy) => getLatLng(toy.zip_code));
-      const results = await Promise.all(promises);
-      setLocations(
-        results
-          .map((result, index) =>
-            result ? { ...toysData[index], ...result } : null
-          )
-          .filter((loc) => loc)
-      );
+    const fetchLocationsAsync = async () => {
+      try {
+        const promises = toysData.map((toy) => getLatLng(toy.zip_code));
+        const results = await Promise.all(promises);
+        setLocations(
+          results
+            .map((result, index) =>
+              result ? { ...toysData[index], ...result } : null
+            )
+            .filter((loc) => loc)
+        );
+      } catch (error) {
+        console.log(error);
+      }
     };
-    fetchLocations();
+  
+    fetchLocationsAsync();
+  
+    if (user) {
+      getUserFavorites();
+    }
   }, [toysData]);
+
+  const  checkIfToyExistsInFavorite = (arr, id) => {
+    return arr.find(item => item.toy_listing_id._id === id);
+  }
 
   const getLatLng = async (zip) => {
     const response = await axios.get(
@@ -56,23 +91,47 @@ const ToyListMap = ({ toysData }) => {
     setSelectedLocation(location);
   }, []);
 
+  async function addFavorite(id) {
+    const response = await fetch(`${apiUrl}/favorites`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        toy_listing_id: id,
+        user_id: authorizedUser, 
+      }),
+    });
+  }
+
   const handleMapClick = useCallback(() => {
     if (selectedLocation) {
       setSelectedLocation(null);
     }
   }, [selectedLocation]);
 
-  const toggleFavorite = useCallback((event, id) => {
+  const toggleFavorite = useCallback(async (event, id) => {
     event.stopPropagation();
-    setFavorites(
-      (prev) =>
-        new Set(
-          prev.has(id)
-            ? [...prev].filter((favId) => favId !== id)
-            : [...prev, id]
-        )
-    );
+    var fav = checkIfToyExistsInFavorite(currentFavoritesRef.current, id);
+    if (!fav)
+    {
+      await addFavorite(id);
+      await getUserFavorites()
+    }
+    else {
+      await deleteFavorite(fav._id);
+      await getUserFavorites()
+    }
   }, []);
+
+  async function deleteFavorite(favId) {
+    const response = await fetch(`${apiUrl}/favorites/${favId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
 
   const handleShareClick = useCallback((event, id) => {
     event.stopPropagation();
@@ -139,7 +198,8 @@ const ToyListMap = ({ toysData }) => {
                   <CloseIcon />
                 </IconButton>
                 <CardActions disableSpacing>
-                  <IconButton
+                  { user &&
+                  (<IconButton
                     aria-label="add to favorites"
                     onClick={(event) =>
                       toggleFavorite(event, selectedLocation._id)
@@ -147,12 +207,13 @@ const ToyListMap = ({ toysData }) => {
                   >
                     <FavoriteIcon
                       color={
-                        favorites.has(selectedLocation._id)
+                        checkIfToyExistsInFavorite(favorites, selectedLocation._id)
                           ? "error"
                           : "inherit"
                       }
                     />
                   </IconButton>
+                  )}
                   <IconButton
                     aria-label="share"
                     onClick={(event) =>
