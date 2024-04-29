@@ -39,7 +39,7 @@ export default function StarRating({ message, loggedInUserId, setOpen, open }) {
       }
 
       const responseData = await response.json();
-      console.log("Rating submitted successfully:", responseData);
+
       setOpen({ ...open, showRating: false });
       toast.success("Rating submitted successfully", { duration: 2000 });
     } catch (error) {
