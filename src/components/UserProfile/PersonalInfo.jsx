@@ -134,17 +134,13 @@ const PersonalInfo = () => {
               {userSignedIn.first_name} {userSignedIn.last_name}
             </Typography>
             <Typography variant="body">
-              {averageStars !== null ? (
-                <Rating
-                  name="read-only"
-                  value={averageStars}
-                  precision={0.5}
-                  readOnly
-                  sx={{ my: 2 }}
-                />
-              ) : (
-                "Loading..."
-              )}
+              <Rating
+                name="read-only"
+                value={averageStars}
+                precision={0.5}
+                readOnly
+                sx={{ my: 2 }}
+              />
             </Typography>
             <p>
               <Typography variant="body">
