@@ -24,10 +24,15 @@ import { useNavigate } from "react-router-dom";
 import ListingDetail from "../ListingDetail";
 import { useParams } from "react-router-dom/dist";
 import UserContext from "../../context/userContext";
+import TermsAndConditions from "../LoginPage/TermsAndConditions";
 
 const drawerWidth = 340;
 
 export default function ToysLanding() {
+  const user = useContext(UserContext);
+  const authorizedUser = user ? user._id : "";
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [delivery, setDelivery] = useState("All");
   const [toys, setToys] = useState([]);
@@ -39,6 +44,27 @@ export default function ToysLanding() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const navigate = useNavigate();
   const { selectedToyId } = useParams();
+
+  const [open, setOpen] = useState(false);
+  const [termsAgreed, setTermsAgreed] = useState(false);
+
+  useEffect(() => {
+    // Fetch user's agreement status when component mounts
+    const fetchTermsAgreement = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/terms/check/${authorizedUser}`); // Replace userId with actual user ID
+        const data = await response.json();
+        setTermsAgreed(data.termsAndConditions);
+        setOpen(!data.termsAndConditions);
+      } catch (error) {
+        console.error("Error fetching terms agreement:", error);
+      }
+    };
+
+    if (authorizedUser !== "") {
+      fetchTermsAgreement();
+    }
+  }, [authorizedUser]);
 
   useEffect(() => {
     const fetchToys = async () => {
@@ -61,7 +87,6 @@ export default function ToysLanding() {
       const queryString = queryParams.length ? `?${queryParams.join("&")}` : "";
 
       try {
-        const apiUrl = import.meta.env.VITE_API_URL;
         if (!apiUrl) {
           throw new Error(
             "API URL is not defined in the environment variables."
@@ -100,11 +125,33 @@ export default function ToysLanding() {
     navigate(`/toys/${toyId}`); // Navigate to the detail page
   };
 
-  const user = useContext(UserContext);
-  const authorizedUser = user ? user._id : "";
+  const handleClose = async (agree) => {
+    if (agree) {
+      const response = await fetch(`${apiUrl}/terms/agree/${authorizedUser}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: null,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to agree to terms");
+      }
+      setOpen(false);
+    } else {
+      setOpen(false);
+      window.location.href = `${apiUrl}/auth/logout`;
+    }
+  };
 
   return (
     <Box sx={{ display: "flex" }} backgroundColor="#fdfdfd">
+      <TermsAndConditions
+        open={open}
+        handleClose={handleClose}
+        setOpen={setOpen}
+      />
       <CssBaseline />
 
       <IconButton
