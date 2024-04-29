@@ -315,7 +315,14 @@ const LeftDrawer = ({
                     <IconButton
                       aria-label="delete"
                       onClick={() => onClearPhoto()}
-                      sx={{ padding: 0, mr: 0, mb: 1, mt: 1, ml: 0.5 }}
+                      sx={{
+                        padding: 0,
+                        mr: 0,
+                        mb: 1,
+                        mt: 1,
+                        ml: 0.5,
+                        backgroundColor: "rgba(0, 0, 0, 0.07)",
+                      }}
                     >
                       <ClearIcon />
                     </IconButton>
