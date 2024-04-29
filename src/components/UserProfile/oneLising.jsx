@@ -12,6 +12,7 @@ import StatusToggle from "./StatusToggle";
 import { useNavigate } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ImgMediaCard({ toy, toys, setToys, toyId }) {
   const navigate = useNavigate(); // Create an instance of navigate
@@ -27,108 +28,106 @@ export default function ImgMediaCard({ toy, toys, setToys, toyId }) {
     }
   }, [isOpen]);
   return (
-    <Card sx={{ maxWidth: 845, padding: "20px", margin: "20px" }}>
-      <Typography
-        variant="body1"
-        color={
-          toy.status === "available"
-            ? "green"
-            : toy.status === "reserved"
-            ? "blue"
-            : "red"
-        }
-        sx={{ mb: 2, textAlign: "right", fontWeight: "bold" }}
-      >
-        {toy.status}
-      </Typography>
-
-      <div className={styles.detailsRow}>
-        <CardMedia
-          onClick={() => handleClick(toyId)}
-          component="img"
-          alt="No picture"
-          sx={{ width: "160px", height: "180px" }}
-          image={toy.imageUrl}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {toy.title}
-          </Typography>
-
-          <div className={styles.detailsRow}>
-            <div className={styles.detailsLabel}>
-              <Typography variant="body2">
-                <b>Category</b>
-              </Typography>
-            </div>
-            <div>
-              <Typography variant="body2">{toy.category}</Typography>
-            </div>
-          </div>
-          <div className={styles.detailsRow}>
-            <div className={styles.detailsLabel}>
-              <Typography variant="body2">
-                <b>Condition</b>
-              </Typography>
-            </div>
-            <div>
-              <Typography variant="body2">{toy.condition}</Typography>
-            </div>
-          </div>
-          <div className={styles.detailsRow}>
-            <div className={styles.detailsLabel}>
-              <Typography variant="body2">
-                <b>Description</b>
-              </Typography>
-            </div>
-            <div>
-              <Typography variant="body2">{toy.description}</Typography>
-            </div>
-          </div>
-        </CardContent>
-      </div>
-      <Box
-        sx={{
-          margin: "5px 0",
-          display: "flex",
-          justifyContent: "space-between",
-          maxWidth: "620px",
-          minWidth: "620px",
-        }}
-      >
-        <StatusToggle toy={toy} toys={toys} setToys={setToys} />
-        <ActionButton
-          link={`/messages/${toy._id}`}
-          // link={`/messages?id=${toy._id}`}
-          text=""
-          startIcon={<MailIcon />}
-        />
-        <CopyToClipboard
-          text={`${window.location.origin}/toys/${toy._id}`}
-          onCopy={() => setIsOpen(true)}
+    <>
+      <Toaster />
+      <Card sx={{ maxWidth: 845, padding: "20px", margin: "20px" }}>
+        <Typography
+          variant="body1"
+          color={
+            toy.status === "available"
+              ? "green"
+              : toy.status === "reserved"
+              ? "blue"
+              : "red"
+          }
+          sx={{ mb: 2, textAlign: "right", fontWeight: "bold" }}
         >
-          <ActionButton
-            link=""
-            text=""
-            startIcon={<ShareIcon />}
-            onClick={(event) => setAnchorEl(event.currentTarget)}
+          {toy.status}
+        </Typography>
+
+        <div className={styles.detailsRow}>
+          <CardMedia
+            onClick={() => handleClick(toyId)}
+            component="img"
+            alt="No picture"
+            sx={{ width: "160px", height: "180px" }}
+            image={toy.imageUrl}
           />
-        </CopyToClipboard>
-        <Popover
-          open={isOpen}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
-          anchorEl={anchorEl}
-        >
-          <Typography sx={{ p: 2 }}>
-            The link is copied to clipboard.
-          </Typography>
-        </Popover>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {toy.title}
+            </Typography>
 
-        <ActionButton link={`/create?id=${toy._id}`} text={"Edit"} />
-      </Box>
-    </Card>
+            <div className={styles.detailsRow}>
+              <div className={styles.detailsLabel}>
+                <Typography variant="body2">
+                  <b>Category</b>
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2">{toy.category}</Typography>
+              </div>
+            </div>
+            <div className={styles.detailsRow}>
+              <div className={styles.detailsLabel}>
+                <Typography variant="body2">
+                  <b>Condition</b>
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2">{toy.condition}</Typography>
+              </div>
+            </div>
+            <div className={styles.detailsRow}>
+              <div className={styles.detailsLabel}>
+                <Typography variant="body2">
+                  <b>Description</b>
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body2">{toy.description}</Typography>
+              </div>
+            </div>
+          </CardContent>
+        </div>
+        <Box
+          sx={{
+            margin: "5px 0",
+            display: "flex",
+            justifyContent: "space-between",
+            maxWidth: "620px",
+            minWidth: "620px",
+          }}
+        >
+          <StatusToggle toy={toy} toys={toys} setToys={setToys} />
+          <ActionButton
+            link={`/messages/${toy._id}`}
+            // link={`/messages?id=${toy._id}`}
+            text=""
+            startIcon={<MailIcon />}
+          />
+          <CopyToClipboard
+            text={`${window.location.origin}/toys/${toy._id}`}
+            onCopy={() => toast.success("Link copied to clipboard")}
+          >
+            <ActionButton link="" text="" startIcon={<ShareIcon />} />
+          </CopyToClipboard>
+          <Popover
+            open={isOpen}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            anchorEl={anchorEl}
+          >
+            <Typography sx={{ p: 2 }}>
+              The link is copied to clipboard.
+            </Typography>
+          </Popover>
+
+          <ActionButton link={`/create?id=${toy._id}`} text={"Edit"} />
+        </Box>
+      </Card>
+    </>
   );
 }
