@@ -17,6 +17,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import toast, { Toaster } from "react-hot-toast";
 import UserContext from "../../context/userContext";
+import LettersAvatar from "../ListingDetail/LettersAvatar";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -176,7 +177,15 @@ const ToyListMap = ({ toysData }) => {
                   onClick={() => navigate(`/toys/${selectedLocation._id}`)}
                 >
                   <CardHeader
-                    avatar={<Avatar aria-label="recipe">R</Avatar>}
+                    avatar={<LettersAvatar 
+                      firstName={selectedLocation.listed_by_id.first_name} 
+                      lastName={selectedLocation.listed_by_id.last_name} 
+                      style={{ 
+                        width: 40, 
+                        height: 40, 
+                        fontSize: 20 
+                      }} />
+                    } // {Avatar aria-label="recipe">C</Avatar>}
                     title={selectedLocation.title}
                     subheader={selectedLocation.description}
                   />
