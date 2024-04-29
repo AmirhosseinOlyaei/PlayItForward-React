@@ -277,10 +277,11 @@ const LeftDrawer = ({
                   sx={{
                     marginTop: 2,
                     marginBottom: 1.2,
-                    backgroundColor: "rgba(33, 150, 243, 0.8)",
+                    backgroundColor: "darkgray",
                     "&:hover": {
-                      backgroundColor: "rgba(33, 150, 243, 1)",
+                      backgroundColor: "#808080",
                     },
+                    color: "#FFFFFF",
                   }}
                   fullWidth
                 >
@@ -387,9 +388,14 @@ const LeftDrawer = ({
                 size="large"
                 sx={{
                   marginTop: "30px",
-                  background: "#ff6600",
-                  bottom: "5px",
-                  "&:hover": { backgroundColor: "#ffa162" },
+                  backgroundColor: "rgba(33, 150, 243, 0.8)",
+                  "&:hover": {
+                    backgroundColor: "rgba(33, 150, 243, 1)",
+                  },
+
+                  // background: "#ff6600",
+                  // bottom: "5px",
+                  // "&:hover": { backgroundColor: "#ffa162" },
                 }}
                 fullWidth
               >

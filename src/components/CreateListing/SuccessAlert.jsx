@@ -18,13 +18,13 @@ const SuccessAlert = ({ open, onClose, editMode }) => {
       <DialogContent>
         {!editMode ? (
           <Typography>
-            You toy listing has been updated successfully. Do you want to create
-            one more listing?
+            Your toy listing has been updated successfully. Do you want to
+            create one more listing?
           </Typography>
         ) : (
           <Typography>
-            You toy listing has been created successfully. Do you want to create
-            one more listing?
+            Your toy listing has been created successfully. Do you want to
+            create one more listing?
           </Typography>
         )}
       </DialogContent>
