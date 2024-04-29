@@ -55,9 +55,9 @@ export default function ToyCard({
           >
             {title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          {/* <Typography variant="body2" color="text.secondary">
             {location}
-          </Typography>
+          </Typography> */}
         </CardContent>
       </CardActionArea>
     </Card>

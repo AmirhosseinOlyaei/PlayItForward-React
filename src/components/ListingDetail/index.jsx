@@ -33,7 +33,6 @@ import Slide from "@mui/material/Slide";
 import { Navigate } from "react-router-dom";
 import LoginAlert from "./LoginAlert";
 
-
 const apiUrl = import.meta.env.VITE_API_URL;
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 const drawerWidth = 340;
@@ -175,7 +174,6 @@ const ListingDetail = ({ id, onClose }) => {
       console.error("Error sending message:", error);
     } finally {
     }
-    setMessageSent(true);
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -219,11 +217,11 @@ const ListingDetail = ({ id, onClose }) => {
       .catch((error) => console.error("Error:", error));
   }, [toyListing]);
 
-   const [alertOpen, setAlertOpen] = React.useState(false);
-   const handleMessage = () => {
-    //Navigate(`/messages/${id}`) 
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const handleMessage = () => {
+    //Navigate(`/messages/${id}`)
     // setAlertOpen(true);
-}
+  };
 
   return (
     <Dialog
@@ -260,23 +258,24 @@ const ListingDetail = ({ id, onClose }) => {
               fullWidth
             />
             <Box sx={{ padding: "10px 0" }}>
-              <Box mb={2}> 
-              {toyListing.status === "reserved" && 
-                <Chip 
-                  label="Reserved" 
-                  sx={{ 
-                    backgroundColor:"red", 
-                    color:"white", 
-                    margin: "10px 10px 0 0", 
-                    padding: "0px 10px",
-                    textWrap: "wrap",
-                    }}/>
-              }
+              <Box mb={2}>
+                {toyListing.status === "reserved" && (
+                  <Chip
+                    label="Reserved"
+                    sx={{
+                      backgroundColor: "red",
+                      color: "white",
+                      margin: "10px 10px 0 0",
+                      padding: "0px 10px",
+                      textWrap: "wrap",
+                    }}
+                  />
+                )}
               </Box>
-                <Typography variant="h4" sx={{ margin: "5px 0" }}>
+              <Typography variant="h4" sx={{ margin: "5px 0" }}>
                 {toyListing.title}
-                </Typography>
-              
+              </Typography>
+
               <Typography variant="body" paragraph>
                 Listed {calculateDate(toyListing.created_date)} days ago in{" "}
                 {mapPosition.city}, {mapPosition.state}{" "}
@@ -386,7 +385,8 @@ const ListingDetail = ({ id, onClose }) => {
                 <div className={styles.detailsLabel}>
                   <Typography variant="body">
                     <b>Description</b>
-                  </Typography><br/>
+                  </Typography>
+                  <br />
                   <Typography variant="body">
                     {toyListing.description}
                   </Typography>
@@ -400,7 +400,10 @@ const ListingDetail = ({ id, onClose }) => {
               {mapPosition.lat && (
                 <ToyMap lat={mapPosition.lat} lng={mapPosition.lng} />
               )}
-              <Typography variant="body" sx={{ lineHeight: "42px", fontWeight: "bold" }}>
+              <Typography
+                variant="body"
+                sx={{ lineHeight: "42px", fontWeight: "bold" }}
+              >
                 {mapPosition.city}, {mapPosition.state}
               </Typography>
             </Box>
@@ -412,26 +415,34 @@ const ListingDetail = ({ id, onClose }) => {
               <Box className={styles.giverInformation}>
                 {toyGiver.profile_picture ? (
                   <Avatar
-                  src={toyGiver.profile_picture}
-                  variant="rounded"
-                  style={{ width: 70, height: 70, borderRadius: 35 }}
-                  alt="profile picture"
-                />
+                    src={toyGiver.profile_picture}
+                    variant="rounded"
+                    style={{ width: 70, height: 70, borderRadius: 35 }}
+                    alt="profile picture"
+                  />
                 ) : (
-                  toyGiver.first_name && toyGiver.last_name && (
+                  toyGiver.first_name &&
+                  toyGiver.last_name && (
                     <LettersAvatar
-                      style = {{marginLeft: '10px', width: '70px', height: '70px', fontSize: '40px'}}
+                      style={{
+                        marginLeft: "10px",
+                        width: "70px",
+                        height: "70px",
+                        fontSize: "40px",
+                      }}
                       firstName={toyGiver.first_name}
                       lastName={toyGiver.last_name}
                     />
-                  ) 
-                )
-                
-                }
+                  )
+                )}
                 <div>
                   <Typography
                     variant="body"
-                    sx={{ marginLeft: "15px", lineHeight: "42px", fontWeight: "bold" }}
+                    sx={{
+                      marginLeft: "15px",
+                      lineHeight: "42px",
+                      fontWeight: "bold",
+                    }}
                   >
                     {toyGiver.nickname}
                   </Typography>
@@ -492,11 +503,18 @@ const ListingDetail = ({ id, onClose }) => {
             )}
           </Box>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 0, textAlign: "center" }} >
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 3, mt: 0, textAlign: "center" }}
+        >
           {/* <img src={toyListing.imageUrl} alt="Toy image" style={{ width: "100%", height: "calc(100vh - 60px)", objectFit: "cover"}} /> */}
           {/* <img src={toyListing.imageUrl} alt="Toy image" style={{ width: "auto", height: "calc(100vh - 60px)"}} /> */}
-          <img src={toyListing.imageUrl} alt="Toy image" style={{ width: "100%", objectFit: "cover"}} />
-          </Box>
+          <img
+            src={toyListing.imageUrl}
+            alt="Toy image"
+            style={{ width: "100%", objectFit: "cover" }}
+          />
+        </Box>
       </Box>
     </Dialog>
   );

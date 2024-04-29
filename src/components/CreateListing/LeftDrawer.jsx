@@ -187,7 +187,7 @@ const LeftDrawer = ({
       .then((res) => {
         setLoading(false); // Set loading to false after successful upload
         setAlertOpen(true); // Display success alert
-        setEditMode(false);
+        //setEditMode(false);
       })
       .catch((error) => {
         setLoading(false); // Set loading to false if there's an error
@@ -228,12 +228,7 @@ const LeftDrawer = ({
   };
 
   const handleAlertClose = () => {
-    setAlertOpen(false);
-    window.location.reload();
-    setEditMode(false);
-    if (!editMode) {
-      window.location.href = "/create";
-    }
+    window.location.href = "/create";
   };
 
   return (
@@ -277,10 +272,11 @@ const LeftDrawer = ({
                   sx={{
                     marginTop: 2,
                     marginBottom: 1.2,
-                    backgroundColor: "rgba(33, 150, 243, 0.8)",
+                    backgroundColor: "rgba(0, 0, 0, 0.4)",
                     "&:hover": {
-                      backgroundColor: "rgba(33, 150, 243, 1)",
+                      backgroundColor: "#808080",
                     },
+                    color: "#FFFFFF",
                   }}
                   fullWidth
                 >
@@ -387,9 +383,14 @@ const LeftDrawer = ({
                 size="large"
                 sx={{
                   marginTop: "30px",
-                  background: "#ff6600",
-                  bottom: "5px",
-                  "&:hover": { backgroundColor: "#ffa162" },
+                  backgroundColor: "rgba(33, 150, 243, 0.8)",
+                  "&:hover": {
+                    backgroundColor: "rgba(33, 150, 243, 1)",
+                  },
+
+                  // background: "#ff6600",
+                  // bottom: "5px",
+                  // "&:hover": { backgroundColor: "#ffa162" },
                 }}
                 fullWidth
               >
