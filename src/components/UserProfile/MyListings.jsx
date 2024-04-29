@@ -1,16 +1,6 @@
 import UserContext from "../../context/userContext";
-import styles from "./UserProfile.module.css";
-import Grid from "@mui/material/Unstable_Grid2";
 import IconMenu from "./IconMenu";
-import {
-  Avatar,
-  Button,
-  Divider,
-  Typography,
-  IconButton,
-  Box,
-  CircularProgress,
-} from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import ImgMediaCard from "./oneLising";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
@@ -59,8 +49,6 @@ const MyListings = () => {
       ></AppBar>
       <IconMenu activeTab="0" />
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 12 }}>
-        {/* <ImgMediaCard /> */}
-
         {isLoading ? (
           // Display loading indicator while data is being fetched
           <Box
@@ -86,7 +74,7 @@ const MyListings = () => {
             })}
           </Box>
         ) : (
-          <p>No favorites added yet.</p>
+          <p>No listings added yet.</p>
         )}
       </Box>
     </Box>

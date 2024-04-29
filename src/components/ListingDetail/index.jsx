@@ -170,7 +170,7 @@ const ListingDetail = ({ id, onClose }) => {
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
-      setNewMessage("Is this still available?");
+      setNewMessage("Hello! I am interested.");
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -259,8 +259,8 @@ const ListingDetail = ({ id, onClose }) => {
               onClick={onClose}
               fullWidth
             />
-            <Box sx={{ padding: "20px 0" }}>
-              <Box> 
+            <Box sx={{ padding: "10px 0" }}>
+              <Box mb={2}> 
               {toyListing.status === "reserved" && 
                 <Chip 
                   label="Reserved" 
@@ -272,10 +272,11 @@ const ListingDetail = ({ id, onClose }) => {
                     textWrap: "wrap",
                     }}/>
               }
+              </Box>
                 <Typography variant="h4" sx={{ margin: "5px 0" }}>
                 {toyListing.title}
                 </Typography>
-              </Box>
+              
               <Typography variant="body" paragraph>
                 Listed {calculateDate(toyListing.created_date)} days ago in{" "}
                 {mapPosition.city}, {mapPosition.state}{" "}
@@ -319,10 +320,7 @@ const ListingDetail = ({ id, onClose }) => {
                       fullWidth={false}
                       btnWidth={user? "auto" : "210px"}
                     />
-                    <LoginAlert 
-                      alertOpen={alertOpen} 
-                      setAlertOpen={setAlertOpen}
-                    />
+                    
                     {user && <ActionButton
                       link=""
                       text=""
@@ -338,13 +336,13 @@ const ListingDetail = ({ id, onClose }) => {
                 )}
                 <CopyToClipboard
                   text={`${window.location.origin}/toys/${id}`}
-                  onCopy={() => setIsOpen(true)}
+                  onCopy={() => toast.success("Link copied to clipboard")}
                 >
                   <ActionButton
                     text=""
                     startIcon={<ShareIcon />}
                     fullWidth={false}
-                    onClick={(event) => setAnchorEl(event.currentTarget)}
+                    // onClick={(event) => setAnchorEl(event.currentTarget)}
                   />
                 </CopyToClipboard>
                 <Popover
@@ -496,9 +494,11 @@ const ListingDetail = ({ id, onClose }) => {
             )}
           </Box>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 0 }}>
-          <img src={toyListing.imageUrl} alt="Toy image" width="100%" />
-        </Box>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 0, textAlign: "center" }} >
+          {/* <img src={toyListing.imageUrl} alt="Toy image" style={{ width: "100%", height: "calc(100vh - 60px)", objectFit: "cover"}} /> */}
+          {/* <img src={toyListing.imageUrl} alt="Toy image" style={{ width: "auto", height: "calc(100vh - 60px)"}} /> */}
+          <img src={toyListing.imageUrl} alt="Toy image" style={{ width: "100%", objectFit: "cover"}} />
+          </Box>
       </Box>
     </Dialog>
   );

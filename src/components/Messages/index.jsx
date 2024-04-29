@@ -23,12 +23,6 @@ const Messages = () => {
     fetchMessages();
   }, [loggedInUserId]);
 
-  // Added useEffect to observe that React state updates are asynchronous, and the updated value might not be available synchronously after calling the state setter function.
-
-  // useEffect(() => {
-  //   console.log("Filtered messages:", filteredMessages);
-  // }, [filteredMessages]);
-
   useEffect(() => {
     if (loggedInUserId !== null) {
       updateFilteredMessages();
@@ -49,7 +43,6 @@ const Messages = () => {
         throw new Error("Failed to fetch messages");
       }
       const data = await response.json();
-      console.log("Fetched messages", data);
 
       let sortedMessages = data.sort(
         (a, b) => new Date(b.sent_date) - new Date(a.sent_date)
@@ -68,77 +61,21 @@ const Messages = () => {
           (message) => message.user_id_to._id === loggedInUserId
         )
       );
-      console.log("sortedMessages", sortedMessages);
-      console.log(loggedInUserId);
+
       const sentCount = sortedMessages.filter(
         (message) => message.user_id_from._id === loggedInUserId
       ).length;
-      console.log("sentCount", sentCount);
+
       const inboxCount = sortedMessages.filter(
         (message) => message.user_id_to._id === loggedInUserId
       ).length;
-      console.log("inboxCount", inboxCount);
+
       setSentMessageCount(sentCount);
       setInboxMessageCount(inboxCount);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // const updateFilteredMessages = () => {
-  //   if (filter === "sent" && loggedInUserId !== null) {
-  //     setFilteredMessages(
-  //       messages.filter(
-  //         (message) =>
-  //           message.user_id_from && message.user_id_from._id === loggedInUserId
-  //       )
-  //     );
-  //   } else if (filter === "inbox" && loggedInUserId !== null) {
-  //     setFilteredMessages(
-  //       messages.filter(
-  //         (message) =>
-  //           message.user_id_to && message.user_id_to._id === loggedInUserId
-  //       )
-  //     );
-  //   } else if (filter === "") {
-  //     setFilteredMessages(
-  //       messages.filter(
-  //         (message) =>
-  //           (message.user_id_to && message.user_id_to._id === loggedInUserId) ||
-  //           (message.user_id_from &&
-  //             message.user_id_from._id === loggedInUserId)
-  //       )
-  //     );
-  //   } else {
-  //     setFilteredMessages(
-  //       messages.filter((message) => {
-  //         const fromFirstName = message.user_id_from.first_name
-  //           ? message.user_id_from.first_name.toLowerCase()
-  //           : "";
-  //         const fromLastName = message.user_id_from.last_name
-  //           ? message.user_id_from.last_name.toLowerCase()
-  //           : "";
-  //         const toFirstName = message.user_id_to.first_name
-  //           ? message.user_id_to.first_name.toLowerCase()
-  //           : "";
-  //         const toLastName = message.user_id_to.last_name
-  //           ? message.user_id_to.last_name.toLowerCase()
-  //           : "";
-  //         const subject = message.subject ? message.subject.toLowerCase() : "";
-  //         const content = message.content ? message.content.toLowerCase() : "";
-
-  //         return (
-  //           fromFirstName.includes(filter.toLowerCase()) ||
-  //           fromLastName.includes(filter.toLowerCase()) ||
-  //           toFirstName.includes(filter.toLowerCase()) ||
-  //           toLastName.includes(filter.toLowerCase()) ||
-  //           subject.includes(filter.toLowerCase()) ||
-  //           content.includes(filter.toLowerCase())
-  //         );
-  //       })
-  //     );
-  //   }
-  // };
 
   const updateFilteredMessages = () => {
     if (filter === "sent" && loggedInUserId !== null) {
@@ -196,7 +133,6 @@ const Messages = () => {
 
   const handleMessageSelect = (message) => {
     setSelectedMessage(message);
-    console.log("handle select message", message);
   };
 
   const deleteMessage = async (_id) => {
@@ -211,11 +147,6 @@ const Messages = () => {
       if (!response.ok) {
         throw new Error("Failed to delete message");
       }
-
-      // setMessages(messages.filter((message) => message._id !== _id));
-      // setFilteredMessages(
-      //   filteredMessages.filter((message) => message._id !== _id)
-      // );
 
       // Update the messages array and filteredMessages array
       const updatedMessages = messages.filter((message) => message._id !== _id);
@@ -235,8 +166,6 @@ const Messages = () => {
       setInboxMessageCount(inboxCount);
 
       setSelectedMessage(null);
-
-      console.log("Message deleted successfully");
     } catch (error) {
       console.error("Error deleting message:", error);
     }
@@ -267,7 +196,6 @@ const Messages = () => {
           fetchMessages={fetchMessages}
         />
       </Box>
-      {/* <Box component="main" sx={{ flexGrow: 1, p: 3 }}></Box> */}
     </Box>
   );
 };

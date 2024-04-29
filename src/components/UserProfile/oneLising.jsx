@@ -1,22 +1,19 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import styles from "./UserProfile.module.css";
-import { ButtonGroup, Divider, Box, Popover } from "@mui/material";
+import { Box, Popover } from "@mui/material";
 import ActionButton from "./ActionButton";
 import MailIcon from "@mui/icons-material/Mail";
 import ShareIcon from "@mui/icons-material/Share";
-import { Link } from "react-router-dom";
 import StatusToggle from "./StatusToggle";
 import { useNavigate } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useState, useEffect } from "react";
 
-export default function ImgMediaCard({ toy, toys, setToys, url, toyId }) {
+export default function ImgMediaCard({ toy, toys, setToys, toyId }) {
   const navigate = useNavigate(); // Create an instance of navigate
   const handleClick = () => {
     navigate(`/toys/${toyId}`);
@@ -106,7 +103,6 @@ export default function ImgMediaCard({ toy, toys, setToys, url, toyId }) {
           text=""
           startIcon={<MailIcon />}
         />
-
         <CopyToClipboard
           text={`${window.location.origin}/toys/${toy._id}`}
           onCopy={() => setIsOpen(true)}
