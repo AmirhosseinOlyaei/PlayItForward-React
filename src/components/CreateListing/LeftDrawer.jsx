@@ -295,7 +295,7 @@ const LeftDrawer = ({
                       display: "flex",
                       flexDirection: "row",
                       alignItems: "center",
-                      justifyContent: "space-between",
+                      justifyContent: "flex-start",
                       width: "41ch",
                       marginBottom: "12px",
                       fontSize: "15px",
@@ -315,7 +315,7 @@ const LeftDrawer = ({
                     <IconButton
                       aria-label="delete"
                       onClick={() => onClearPhoto()}
-                      sx={{ padding: 0, mr: 0, mb: 1, mt: 1 }}
+                      sx={{ padding: 0, mr: 0, mb: 1, mt: 1, ml: 0.5 }}
                     >
                       <ClearIcon />
                     </IconButton>
