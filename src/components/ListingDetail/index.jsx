@@ -309,18 +309,16 @@ const ListingDetail = ({ id, onClose }) => {
                   display: "flex",
                   justifyContent: "space-between",
                 }}
-              >
+              > <ActionButton
+                  link={ user ? `/messages/${id}` : "/login"}
+              // onClick={handleMessage}
+                  text="&nbsp;Message"
+                  startIcon={<MailIcon />}
+                  fullWidth={false}
+                  btnWidth={user? "auto" : "210px"}
+                  />
                 {authorizedUser !== toyListing.listed_by_id?._id ? (
                   <>
-                    <ActionButton
-                      link={ user ? `/messages/${id}` : "/login"}
-                      // onClick={handleMessage}
-                      text="&nbsp;Message"
-                      startIcon={<MailIcon />}
-                      fullWidth={false}
-                      btnWidth={user? "auto" : "210px"}
-                    />
-                    
                     {user && <ActionButton
                       link=""
                       text=""
@@ -332,7 +330,7 @@ const ListingDetail = ({ id, onClose }) => {
                     />}
                   </>
                 ) : (
-                  <ActionButton link={`/create?id=${id}`} text={"Edit"} btnWidth={"210px"}  />
+                  <ActionButton link={`/create?id=${id}`} text={"Edit"}   />
                 )}
                 <CopyToClipboard
                   text={`${window.location.origin}/toys/${id}`}
