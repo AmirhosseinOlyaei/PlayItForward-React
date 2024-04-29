@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelectActualTwoTone";
 import Avatar from "@mui/material/Avatar";
 import UserContext from "../../context/userContext";
+import LettersAvatar from "../ListingDetail/LettersAvatar";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -222,7 +223,7 @@ const ToyListingPreview = ({
                             height: 60,
                             borderRadius: 35,
                             disabled: true,
-                            bgcolor: "#ccc",
+                            bgcolor: "red",
                             color: "#000",
                             opacity: 0.5,
                           }}
@@ -233,10 +234,10 @@ const ToyListingPreview = ({
                         userInfo.last_name && (
                           <LettersAvatar
                             sx={{
-                              marginLeft: "10px",
+                              marginLeft: 0.4,
                               width: "50px",
                               height: "50px",
-                              fontSize: "30px",
+                              fontSize: "25px",
                             }}
                             firstName={userInfo.first_name}
                             lastName={userInfo.last_name}
@@ -250,7 +251,7 @@ const ToyListingPreview = ({
                       <Typography
                         variant="body1"
                         sx={{
-                          marginLeft: 3,
+                          marginLeft: 2,
                           lineHeight: 1.5,
                         }}
                       >
