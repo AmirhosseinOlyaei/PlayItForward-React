@@ -1,7 +1,6 @@
 // src/App.jsx
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 import UserContext from "./context/userContext";
 import axios from "axios";
@@ -27,8 +26,7 @@ function App() {
     <>
       <UserContext.Provider value={user}>
         <Router>
-          <Navbar user={user} />
-          <AppRoutes />
+          <AppRoutes user={user} />
         </Router>
       </UserContext.Provider>
     </>

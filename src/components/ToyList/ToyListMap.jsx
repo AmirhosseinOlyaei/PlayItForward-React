@@ -1,3 +1,4 @@
+// src/components/ToyList/ToyListMap.jsx
 import React, {
   useEffect,
   useState,
@@ -16,7 +17,6 @@ import {
   CardMedia,
   CardActions,
   CardActionArea,
-  Avatar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+// src/components/LoginPage/SignInSide.jsx
+import React from "react";
 
 import {
   Avatar,
@@ -13,9 +14,6 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import GoogleIcon from "./GoogleIcon";
-import TermsAndConditions from "./TermsAndConditions";
-
-const apiUrl = import.meta.env.VITE_API_URL;
 
 function Copyright() {
   return (
@@ -81,14 +79,6 @@ const SignInButton = () => {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid
