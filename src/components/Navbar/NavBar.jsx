@@ -1,5 +1,6 @@
 // src/components/Navbar/NavBar.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   AppBar,
@@ -26,11 +27,29 @@ import {
 } from "@mui/icons-material";
 import LettersAvatar from "../ListingDetail/LettersAvatar";
 
-const NavBar = ({ user, isVisible = true }) => {
-  if (!isVisible) return null;
+const NavBar = ({ user }) => {
+  const location = useLocation();
+  const [navbarStyle, setNavbarStyle] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      // Style for landing page
+      setNavbarStyle({
+        // backgroundColor: "blue", // Example: blue background on the landing page
+        // color: "white", // Example: white text color on the landing page
+        display: "none",
+      });
+    } else {
+      // Default style
+      setNavbarStyle({
+        // backgroundColor: "white", // Example: default background
+        // color: "black", // Example: default text color
+      });
+    }
+  }, [location]);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -51,7 +70,11 @@ const NavBar = ({ user, isVisible = true }) => {
   };
 
   return (
-    <AppBar component="nav" sx={{ bgcolor: "rgba(33, 150, 253, 0.8)" }}>
+    <AppBar
+      component="nav"
+      sx={{ bgcolor: "rgba(33, 150, 253, 0.8)" }}
+      style={navbarStyle}
+    >
       <Toolbar
         sx={{
           display: "flex",

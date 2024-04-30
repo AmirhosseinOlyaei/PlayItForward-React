@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
 import UserContext from "./context/userContext";
 import axios from "axios";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -26,6 +27,7 @@ function App() {
     <>
       <UserContext.Provider value={user}>
         <Router>
+          <Navbar user={user} />
           <AppRoutes user={user} />
         </Router>
       </UserContext.Provider>
