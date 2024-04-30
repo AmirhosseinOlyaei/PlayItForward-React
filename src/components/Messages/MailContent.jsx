@@ -274,10 +274,19 @@ const MailContent = ({
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <BackgroundLetterAvatars
-                  firstName={message.user_id_from.first_name}
-                  lastName={message.user_id_from.last_name}
-                />
+                {message.user_id_from.profile_picture ? (
+                  <Avatar
+                    src={message.user_id_from.profile_picture}
+                    variant="rounded"
+                    style={{ width: 54, height: 54, borderRadius: 27 }}
+                    alt="profile picture"
+                  />
+                ) : (
+                  <BackgroundLetterAvatars
+                    firstName={message.user_id_from.first_name}
+                    lastName={message.user_id_from.last_name}
+                  />
+                )}
                 <Box sx={{ ml: 2 }} id="sender-name">
                   <Typography level="title-sm" mb={0.5}>
                     {message.user_id_from.first_name}{" "}
