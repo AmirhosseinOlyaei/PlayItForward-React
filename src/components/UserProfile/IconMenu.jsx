@@ -28,7 +28,7 @@ const menuOptions = [
   { id: 0, text: "My Listings", icon: <ListIcon />, link: "/listings" },
   { id: 1, text: "Favorites", icon: <FavoriteIcon />, link: "/favorites" },
   { id: 2, text: "Messages", icon: <MailIcon />, link: "/messages" },
-  { id: 3, text: "Personal Information", icon: <Person2 />, link: "/personal" },
+  { id: 3, text: "Profile", icon: <Person2 />, link: "/personal" },
 ];
 function IconMenu({ activeTab }) {
   return (
