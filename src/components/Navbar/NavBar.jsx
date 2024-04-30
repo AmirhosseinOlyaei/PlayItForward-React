@@ -26,8 +26,8 @@ import {
 } from "@mui/icons-material";
 import LettersAvatar from "../ListingDetail/LettersAvatar";
 
-const NavBar = ({ user, isVisible = true }) => {
-  if (!isVisible) return null;
+const NavBar = ({ user }) => {
+  // if (!isVisible) return null;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();

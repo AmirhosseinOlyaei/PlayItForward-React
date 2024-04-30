@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import ToyList from "../components/ToyList";
 import LoginPage from "../components/LoginPage";
 import MyListings from "../components/UserProfile/MyListings";
@@ -8,17 +8,16 @@ import PersonalInfo from "../components/UserProfile/PersonalInfo";
 import NotFoundPage from "../components/NotFoundPage";
 import Favorites from "../components/UserProfile/Favorites/index";
 import Landing from "../components/Landing";
-import Navbar from "../components/Navbar";
+import { useContext } from "react";
+import UserContext from "../context/userContext";
 
-const AppRoutes = ({ user }) => {
-  const location = useLocation();
-  const isLandingPage = location.pathname === "/";
+const AppRoutes = () => {
+  const user = useContext(UserContext);
 
   return (
     <>
-      {!isLandingPage && <Navbar user={user} />}
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={user ? <ToyList /> : <Landing />} />
         <Route path="/toys" element={<ToyList />} />
         <Route path="/toys/:selectedToyId" element={<ToyList />} />
         <Route path="/login" element={<LoginPage />} />
