@@ -19,7 +19,7 @@ By connecting families and toy enthusiasts, **PlayItForward** serves as a vibran
 ## 📋 Table of Contents
 
 - [Key Features](#key-features)
-- [Why Choose Task Minder?](#why-choose-task-minder)
+- [Why Choose PlayItForward?](#why-choose-playitforward)
 - [Getting Started](#getting-started)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
