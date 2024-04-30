@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import styles from "./UserProfile.module.css";
-import { Box, Popover } from "@mui/material";
+import { Box, Popover, Chip } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import ShareIcon from "@mui/icons-material/Share";
 import ActionButton from "../ActionButton";
@@ -35,19 +35,31 @@ export default function FavoriteCard({
     <>
       <Toaster />
       <Card sx={{ maxWidth: 845, padding: "20px", margin: "20px" }}>
-        <Typography
-          variant="body1"
-          color={
-            toy.status === "available"
-              ? "green"
-              : toy.status === "reserved"
-              ? "blue"
-              : "red"
-          }
-          sx={{ mb: 2, textAlign: "right", fontWeight: "bold" }}
-        >
-          {toy.status}
-        </Typography>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Chip
+            label={
+              toy.status === "available"
+                ? "Available"
+                : toy.status === "reserved"
+                ? "Reserved"
+                : "Gone"
+            }
+            sx={{
+              backgroundColor:
+                toy.status === "available"
+                  ? "green"
+                  : toy.status === "reserved"
+                  ? "#ED0000"
+                  : "grey",
+              color: "white",
+              margin: "10px 10px 0 0",
+              padding: "0px 10px",
+              width: "110px",
+              textWrap: "wrap",
+              fontSize: "14px",
+            }}
+          />
+        </Box>
 
         <div className={styles.detailsRow}>
           <CardMedia
