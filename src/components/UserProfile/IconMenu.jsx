@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Divider,
   Box,
@@ -7,6 +8,7 @@ import {
   Button,
   ListItemButton,
   Grid,
+  Link,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import MenuList from "@mui/material/MenuList";
@@ -22,7 +24,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import Create from "../ToyList/Create";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Drawer from "@mui/material/Drawer";
-import { Link } from "react-router-dom";
 
 const menuOptions = [
   { id: 0, text: "My Listings", icon: <ListIcon />, link: "/listings" },
@@ -31,6 +32,8 @@ const menuOptions = [
   { id: 3, text: "Profile", icon: <Person2 />, link: "/personal" },
 ];
 function IconMenu({ activeTab }) {
+  const navigate = useNavigate();
+
   return (
     <Drawer
       variant="permanent"
@@ -52,8 +55,8 @@ function IconMenu({ activeTab }) {
         <List>
           {menuOptions.map((item) => (
             <Link
+              onClick={() => navigate(item.link)}
               key={item.text}
-              href={item.link}
               sx={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItem
