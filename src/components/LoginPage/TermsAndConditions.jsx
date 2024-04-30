@@ -10,6 +10,19 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 const TermsAndConditions = ({ open, handleClose, setOpen }) => {
   return (
     <>
+      <style>
+        {`
+          .contact-link {
+            text-decoration: none;
+            color: inherit;
+          }
+
+          .contact-link:hover {
+            text-decoration: underline;
+            color: #007bff; /* Change to desired hover color */
+          }
+        `}
+      </style>
       <ClickAwayListener onClickAway={() => setOpen(true)}>
         <Dialog
           open={open}
@@ -71,14 +84,20 @@ const TermsAndConditions = ({ open, handleClose, setOpen }) => {
                   implies acceptance.
                 </li>
                 <li>Termination: We can suspend or terminate your access.</li>
-                <li>Governing Law: Governed by [Jurisdiction]'s laws.</li>
+                <li>Governing Law: Governed by the United States laws.</li>
                 <li>
                   Dispute Resolution: Disputes resolved through arbitration.
                 </li>
                 <li>
-                  Contact Us: Questions? Contact us at [Contact Email]. By using
-                  our Application, you agree to these Terms. Enjoy using
-                  PlayItForward!
+                  Contact Us: Questions?{" "}
+                  <a
+                    href="https://notion.so/61c6b79808ce476290c753165851b070"
+                    className="contact-link"
+                  >
+                    Contact us
+                  </a>
+                  . By using our Application, you agree to these Terms. Enjoy
+                  using PlayItForward!
                 </li>
               </ul>
             </DialogContentText>
