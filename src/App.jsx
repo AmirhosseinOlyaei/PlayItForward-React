@@ -28,7 +28,7 @@ function App() {
       <UserContext.Provider value={user}>
         <Router>
           <Navbar user={user} />
-          <AppRoutes user={user} />
+          <AppRoutes />
         </Router>
       </UserContext.Provider>
     </>

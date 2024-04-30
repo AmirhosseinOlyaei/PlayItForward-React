@@ -7,17 +7,12 @@ import CreateListing from "../components/CreateListing";
 import PersonalInfo from "../components/UserProfile/PersonalInfo";
 import NotFoundPage from "../components/NotFoundPage";
 import Favorites from "../components/UserProfile/Favorites/index";
-import Landing from "../components/Landing";
-import { useContext } from "react";
-import UserContext from "../context/userContext";
 
 const AppRoutes = () => {
-  const user = useContext(UserContext);
-
   return (
     <>
       <Routes>
-        <Route path="/" element={user ? <ToyList /> : <Landing />} />
+        <Route path="/" element={<ToyList />} />
         <Route path="/toys" element={<ToyList />} />
         <Route path="/toys/:selectedToyId" element={<ToyList />} />
         <Route path="/login" element={<LoginPage />} />
