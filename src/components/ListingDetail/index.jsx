@@ -52,7 +52,7 @@ const ListingDetail = ({ id, onClose }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
   const [newMessage, setNewMessage] = useState("Hello! I am interested.");
-  const [averageStars, setAverageStars] = useState({});
+  const [averageStars, setAverageStars] = useState(0);
 
   React.useEffect(() => {
     async function checkFavorite(userId, toyId) {
@@ -86,13 +86,7 @@ const ListingDetail = ({ id, onClose }) => {
         }
         const stars = await response.json();
 
-        setAverageStars(stars[0].averageStars);
-        console.log(
-          "Average stars for user",
-          userId,
-          ":",
-          stars[0].averageStars
-        );
+        setAverageStars(stars && stars.length > 0 ? stars[0].averageStars : 0);
       } catch (error) {
         console.error("Error fetching average stars:", error);
       }
@@ -308,28 +302,32 @@ const ListingDetail = ({ id, onClose }) => {
                   display: "flex",
                   justifyContent: "space-between",
                 }}
-              > <ActionButton
-                  link={ user ? `/messages/${id}` : "/login"}
-              // onClick={handleMessage}
+              >
+                {" "}
+                <ActionButton
+                  link={user ? `/messages/${id}` : "/login"}
+                  // onClick={handleMessage}
                   text="&nbsp;Message"
                   startIcon={<MailIcon />}
                   fullWidth={false}
-                  btnWidth={user? "auto" : "210px"}
-                  />
+                  btnWidth={user ? "auto" : "210px"}
+                />
                 {authorizedUser !== toyListing.listed_by_id?._id ? (
                   <>
-                    {user && <ActionButton
-                      link=""
-                      text=""
-                      startIcon={
-                        isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />
-                      }
-                      fullWidth={false}
-                      onClick={handleFavorite}
-                    />}
+                    {user && (
+                      <ActionButton
+                        link=""
+                        text=""
+                        startIcon={
+                          isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />
+                        }
+                        fullWidth={false}
+                        onClick={handleFavorite}
+                      />
+                    )}
                   </>
                 ) : (
-                  <ActionButton link={`/create?id=${id}`} text={"Edit"}   />
+                  <ActionButton link={`/create?id=${id}`} text={"Edit"} />
                 )}
                 <CopyToClipboard
                   text={`${window.location.origin}/toys/${id}`}
@@ -490,7 +488,7 @@ const ListingDetail = ({ id, onClose }) => {
                 />
                 <br />
                 <ActionButton
-                  linkTo=""
+                  link=""
                   text="&nbsp;Send"
                   startIcon={<MailIcon />}
                   onClick={async () => {

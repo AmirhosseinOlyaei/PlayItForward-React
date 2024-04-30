@@ -20,7 +20,7 @@ const PersonalInfo = () => {
   const [userSignedIn, setUserSignedIn] = useState({});
   const [editNickNameMode, setEditNickNameMode] = useState(false);
   const [newNickname, setNewNickname] = useState(userSignedIn.nickname);
-  const [averageStars, setAverageStars] = useState(null);
+  const [averageStars, setAverageStars] = useState(0);
   const currentUserId = user && user ? user._id : "";
 
   useEffect(() => {
@@ -42,8 +42,7 @@ const PersonalInfo = () => {
         }
         const stars = await response.json();
 
-        setAverageStars(stars[0].averageStars);
-        console.log("Average stars:", stars[0].averageStars);
+        setAverageStars(stars && stars.length > 0 ? stars[0].averageStars : 0);
       } catch (error) {
         console.error("Error fetching average stars:", error);
       }
