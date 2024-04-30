@@ -118,6 +118,7 @@ Special thanks and a shout out to the following individuals and organizations:
 [![Follow @AmirhosseinOlyaei](https://img.shields.io/github/followers/AmirhosseinOlyaei?label=Follow%20@AmirhosseinOlyaei&style=social)](https://github.com/AmirhosseinOlyaei?screen_name=AmirhosseinOlyaei)  
 [![Follow @akhhanna20](https://img.shields.io/github/followers/akhhanna20?label=Follow%20@akhhanna20&style=social)](https://github.com/akhhanna20?screen_name=akhhanna20)  
 [![Follow @DoinaFitchevici](https://img.shields.io/github/followers/DoinaFitchevici?label=Follow%20@DoinaFitchevici&style=social)](https://github.com/DoinaFitchevici?screen_name=DoinaFitchevici)  
+[![Follow @Alevtina-Babinskaya](https://img.shields.io/github/followers/Alevtina-Babinskaya?label=Follow%20@Alevtina-Babinskaya&style=social)](https://github.com/Alevtina-Babinskaya?screen_name=Alevtina-Babinskaya)  
 [![Follow @betielamanuel](https://img.shields.io/github/followers/betielamanuel?label=Follow%20@betielamanuel&style=social)](https://github.com/betielamanuel?screen_name=betielamanuel)  
 [![Follow @morarodgers](https://img.shields.io/github/followers/morarodgers?label=Follow%20@morarodgers&style=social)](https://github.com/morarodgers?screen_name=morarodgers)
 
@@ -130,7 +131,7 @@ If you have any questions or feedback, feel free to reach out to [DevArts](https
 [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Amir%20Olyaei-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/amirhossein-olyaei)  
 [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Doina%20Fitchevici-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/doina-fitchevici)  
 [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Hanna%20Akhramchuk-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/hanna-akhramchuk-3a9087201)  
-[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Alevtina%20Babinskaya-blue?style=social&logo=linkedin)](#)  
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Alevtina%20Babinskaya-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/alevtina-babinskaya-76856962/)  
 [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Betiel%20Amanuel-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/betiel-amanuel)  
 [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Rodgers%20Mora%20Onchanah-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/morarodgers)  
 [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Marice%20Romero-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/marice-romero/)
