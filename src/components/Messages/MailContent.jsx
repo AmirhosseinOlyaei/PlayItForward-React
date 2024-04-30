@@ -358,6 +358,7 @@ const MailContent = ({
               }}
             >
               <Typography
+                sx={{ fontWeight: "bold" }}
                 level="title-lg"
                 enddecorator={
                   <Chip

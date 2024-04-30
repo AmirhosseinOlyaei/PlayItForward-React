@@ -115,7 +115,10 @@ const Mails = ({
                       </Typography>
                     </Box>
                     <div>
-                      <Typography level="title-sm" sx={{ mb: 0.5 }}>
+                      <Typography
+                        level="title-sm"
+                        sx={{ mb: 0.5, fontWeight: "bold" }}
+                      >
                         {message.subject}
                       </Typography>
                       <Typography level="body-sm">
