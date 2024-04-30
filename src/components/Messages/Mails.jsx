@@ -27,7 +27,7 @@ const Mails = ({
     onMessageSelect(updatedMessages[index]);
     setSelectedMessageIndex(index);
   };
-  debugger;
+
   return (
     <Paper
       variant="outlined"
