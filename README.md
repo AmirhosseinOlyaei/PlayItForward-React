@@ -115,14 +115,10 @@ Special thanks and a shout out to the following individuals and organizations:
 
 ## 👨‍💻 Author
 
-[![Follow @AmirhosseinOlyaei](https://img.shields.io/github/followers/AmirhosseinOlyaei?label=Follow%20@AmirhosseinOlyaei&style=social)](https://github.com/AmirhosseinOlyaei?screen_name=AmirhosseinOlyaei)
-
-[![Follow @akhhanna20](https://img.shields.io/github/followers/akhhanna20?label=Follow%20@akhhanna20&style=social)](https://github.com/akhhanna20?screen_name=akhhanna20)
-
-[![Follow @DoinaFitchevici](https://img.shields.io/github/followers/DoinaFitchevici?label=Follow%20@DoinaFitchevici&style=social)](https://github.com/DoinaFitchevici?screen_name=DoinaFitchevici)
-
-[![Follow @betielamanuel](https://img.shields.io/github/followers/betielamanuel?label=Follow%20@betielamanuel&style=social)](https://github.com/betielamanuel?screen_name=betielamanuel)
-
+[![Follow @AmirhosseinOlyaei](https://img.shields.io/github/followers/AmirhosseinOlyaei?label=Follow%20@AmirhosseinOlyaei&style=social)](https://github.com/AmirhosseinOlyaei?screen_name=AmirhosseinOlyaei)  
+[![Follow @akhhanna20](https://img.shields.io/github/followers/akhhanna20?label=Follow%20@akhhanna20&style=social)](https://github.com/akhhanna20?screen_name=akhhanna20)  
+[![Follow @DoinaFitchevici](https://img.shields.io/github/followers/DoinaFitchevici?label=Follow%20@DoinaFitchevici&style=social)](https://github.com/DoinaFitchevici?screen_name=DoinaFitchevici)  
+[![Follow @betielamanuel](https://img.shields.io/github/followers/betielamanuel?label=Follow%20@betielamanuel&style=social)](https://github.com/betielamanuel?screen_name=betielamanuel)  
 [![Follow @morarodgers](https://img.shields.io/github/followers/morarodgers?label=Follow%20@morarodgers&style=social)](https://github.com/morarodgers?screen_name=morarodgers)
 
 ## Contact
