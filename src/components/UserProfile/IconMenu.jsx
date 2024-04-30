@@ -22,7 +22,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import Create from "../ToyList/Create";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Drawer from "@mui/material/Drawer";
-import Link from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const menuOptions = [
   { id: 0, text: "My Listings", icon: <ListIcon />, link: "/listings" },
