@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Divider,
   Box,
@@ -31,6 +32,7 @@ const menuOptions = [
   { id: 3, text: "Profile", icon: <Person2 />, link: "/personal" },
 ];
 function IconMenu({ activeTab }) {
+  const navigate = useNavigate();
   return (
     <Drawer
       variant="permanent"
@@ -52,8 +54,8 @@ function IconMenu({ activeTab }) {
         <List>
           {menuOptions.map((item) => (
             <Link
+              onClick={() => navigate(item.link)}
               key={item.text}
-              href={item.link}
               sx={{ textDecoration: "none", color: "inherit" }}
             >
               <ListItem
