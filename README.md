@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://ffprac-team4-front.onrender.com/">
-  <img alt="Todo List" src="./public/AppLogo-modified.png" width="500" height="500" />
+  <img alt="PlayItForward" src="./public/AppLogo-modified.png" width="500" height="500" />
 </a>
 
 </p>
@@ -12,9 +12,9 @@
 
 ## Your Personal Community Toy Exchange Assistant
 
-Welcome to **PlayItForward**, the ultimate toy listing application designed to streamline your toy exchange and boost your productivity.
+Welcome to **PlayItForward**, the premier community-driven toy exchange platform designed to make toy sharing accessible and sustainable.
 
-The **PlayItForward** application is an innovative web platform designed to foster a community-driven approach to toy sharing and sustainability. This application serves as a vibrant marketplace where users can give new life to toys, ensuring they are cherished and enjoyed far beyond their initial purchase.
+By connecting families and toy enthusiasts, **PlayItForward** serves as a vibrant marketplace where users can give new life to toys, ensuring they are cherished and enjoyed far beyond their initial purchase.
 
 ## 📋 Table of Contents
 
@@ -33,7 +33,7 @@ The **PlayItForward** application is an innovative web platform designed to fost
 
 ## Key Features
 
-- **Task Management:** Create, edit, and delete toys with ease. Organize them by location, delivery method, or custom categories.
+- **Toy Management:** Manage your toy listings with features like interactive map view, instant messaging for inquiries, and easy add-to-favorite options for quick access later.
 
 - **API Integration:** Synchronize your items across different platforms and devices, ensuring you're always up to date.
 
@@ -41,9 +41,7 @@ The **PlayItForward** application is an innovative web platform designed to fost
 
 ## Why Choose PlayItForward?
 
-**Simplicity:** Our clean and clutter-free interface makes navigating your toy listing a breeze.
-
-**Efficiency:** With features like map view organization and quick message and add to favorite options, managing your exchange has never been faster.
+**PlayItForward** stands out as a pioneering solution for parents, guardians, and toy enthusiasts looking to maximize the value and enjoyment of toys. By facilitating easy exchanges and fostering a sense of community, the application not only helps in reducing waste but also ensures that toys continue to bring joy to children's lives for years to come.
 
 <a id="getting-started"></a>
 
@@ -117,40 +115,25 @@ Special thanks and a shout out to the following individuals and organizations:
 
 ## 👨‍💻 Author
 
-> GitHub:
-
-- Front End:
-- [Amir Olyaei](https://github.com/AmirhosseinOlyaei)
-- [Hanna Akhramchuk](https://github.com/akhhanna20)
-- [Doina Fitchevici](https://github.com/DoinaFitchevici)
-- Alevtina Babinskaya
-- Back End:
-- [Betiel Amanuel](https://github.com/betielamanuel)
-- [Rodgers Mora Onchanah](https://www.github.com/morarodgers)
-
 [![Follow @AmirhosseinOlyaei](https://img.shields.io/github/followers/AmirhosseinOlyaei?label=Follow%20@AmirhosseinOlyaei&style=social)](https://github.com/AmirhosseinOlyaei?screen_name=AmirhosseinOlyaei)
 [![Follow @akhhanna20](https://img.shields.io/github/followers/akhhanna20?label=Follow%20@akhhanna20&style=social)](https://github.com/akhhanna20?screen_name=akhhanna20)
 [![Follow @DoinaFitchevici](https://img.shields.io/github/followers/DoinaFitchevici?label=Follow%20@DoinaFitchevici&style=social)](https://github.com/DoinaFitchevici?screen_name=DoinaFitchevici)
+[![Follow @betielamanuel](https://img.shields.io/github/followers/betielamanuel?label=Follow%20@betielamanuel&style=social)](https://github.com/betielamanuel?screen_name=betielamanuel)
 [![Follow @morarodgers](https://img.shields.io/github/followers/morarodgers?label=Follow%20@morarodgers&style=social)](https://github.com/morarodgers?screen_name=morarodgers)
 
 ## Contact
 
 If you have any questions or feedback, feel free to reach out to [DevArts](https://devarts.notion.site/devarts/61c6b79808ce476290c753165851b070?v=9d442848a814451fba7a2e1b99bebb9b).
 
-> LinkedIn:
-
-- [Amir Olyaei](https://www.linkedin.com/in/amirhossein-olyaei)
-- [Doina Fitchevici](https://www.linkedin.com/in/doina-fitchevici)
-- [Hanna Akhramchuk](https://www.linkedin.com/in/hanna-akhramchuk-3a9087201)
-- Alevtina Babinskaya
-- [Betiel Amanuel](https://www.linkedin.com/in/betiel-amanuel)
-- [Rodgers Mora Onchanah](https://www.linkedin.com/in/morarodgers)
-  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Amir%20Olyaei-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/amirhossein-olyaei)
-  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Doina%20Fitchevici-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/doina-fitchevici)
-  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Hanna%20Akhramchuk-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/hanna-akhramchuk-3a9087201)
-  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Alevtina%20Babinskaya-blue?style=social&logo=linkedin)](#)
-  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Betiel%20Amanuel-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/betiel-amanuel)
-  [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Rodgers%20Mora%20Onchanah-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/morarodgers)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Code%20the%20Dream-blue?style=social&logo=linkedin)](https://www.linkedin.com/school/code-the-dream/)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Gaetan%20G.%20Siry-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/gaetan-g-siry-40a534b7/)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Amir%20Olyaei-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/amirhossein-olyaei)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Doina%20Fitchevici-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/doina-fitchevici)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Hanna%20Akhramchuk-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/hanna-akhramchuk-3a9087201)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Alevtina%20Babinskaya-blue?style=social&logo=linkedin)](#)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Betiel%20Amanuel-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/betiel-amanuel)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Rodgers%20Mora%20Onchanah-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/morarodgers)
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Marice%20Romero-blue?style=social&logo=linkedin)](https://www.linkedin.com/in/marice-romero/)
 
 <a id="license"></a>
 
@@ -160,17 +143,11 @@ Distributed under the MIT License. See [`LICENSE`](./LICENSE) for more informati
 
 ## Feedback
 
-Your feedback is invaluable to us! If you have any suggestions or run into issues while using **Task Minder**, please open an issue on our GitHub repository. We're committed to making **Task Minder** the best it can be, and your input helps us achieve that goal.
+Your feedback is invaluable to us! If you have any suggestions or run into issues while using **PlayItForward**, please open an issue on our GitHub repository. We're committed to making **PlayItForward** the best it can be, and your input helps us achieve that goal.
 
-Thank you for choosing **Task Minder** as your to-do list companion. Let's make task management a seamless and productive part of your daily routine!
+Thank you for choosing **PlayItForward** as your toy exchange companion. Let's make it a seamless and productive part of exploring, posting, and exchanging toys!
 
-[![Website](https://img.shields.io/badge/-website-CDA4DE)](https://ffprac-team4-front.onrender.com)
-[![contributors-shield](https://img.shields.io/github/contributors/Code-the-Dream-School/ffprac-team4-front.svg)](https://github.com/Code-the-Dream-School/ffprac-team4-front/graphs/contributors)
-[![forks-shield](https://img.shields.io/github/forks/Code-the-Dream-School/ffprac-team4-front.svg)](https://github.com/Code-the-Dream-School/ffprac-team4-front/network/members)
-[![stars-shield](https://img.shields.io/github/stars/Code-the-Dream-School/ffprac-team4-front.svg?color=lightblue)](https://github.com/Code-the-Dream-School/ffprac-team4-front/stargazers)
-[![issues-shield](https://img.shields.io/github/issues/Code-the-Dream-School/ffprac-team4-front.svg?color=pink)](https://github.com/Code-the-Dream-School/ffprac-team4-front/issues)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/AmirhosseinOlyaei?color=darkgreen)](https://github.com/sponsors/AmirhosseinOlyaei)
+[![Website](https://img.shields.io/badge/-website-CDA4DE)](https://ffprac-team4-front.onrender.com) [![contributors-shield](https://img.shields.io/github/contributors/Code-the-Dream-School/ffprac-team4-front.svg)](https://github.com/Code-the-Dream-School/ffprac-team4-front/graphs/contributors) [![forks-shield](https://img.shields.io/github/forks/Code-the-Dream-School/ffprac-team4-front.svg)](https://github.com/Code-the-Dream-School/ffprac-team4-front/network/members) [![stars-shield](https://img.shields.io/github/stars/Code-the-Dream-School/ffprac-team4-front.svg?color=lightblue)](https://github.com/Code-the-Dream-School/ffprac-team4-front/stargazers) [![issues-shield](https://img.shields.io/github/issues/Code-the-Dream-School/ffprac-team4-front.svg?color=pink)](https://github.com/Code-the-Dream-School/ffprac-team4-front/issues) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![GitHub Sponsors](https://img.shields.io/github/sponsors/AmirhosseinOlyaei?color=darkgreen)](https://github.com/sponsors/AmirhosseinOlyaei)
 
 # Front-End Repo for Node/React Practicum
 
