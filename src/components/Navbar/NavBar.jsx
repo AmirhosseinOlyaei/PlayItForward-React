@@ -26,7 +26,8 @@ import {
 } from "@mui/icons-material";
 import LettersAvatar from "../ListingDetail/LettersAvatar";
 
-const NavBar = ({ user }) => {
+const NavBar = ({ user, isVisible = true }) => {
+  if (!isVisible) return null;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -107,39 +108,39 @@ const NavBar = ({ user }) => {
             <SearchIcon sx={{ fontSize: 30 }} />
           </IconButton>
 
-          
-            {user && user.profile_picture ? (
-              <Avatar
-                onClick={handleMenuClick}
-                src={user.profile_picture}
-                variant="rounded"
-                style={{ width: 54, height: 54, borderRadius: 27 }}
-                alt="profile picture"
-              />
-            ) : user && user.first_name && user.last_name ? (
-              <LettersAvatar
-                      style = {{width: '54px', height: '54px', fontSize: '24px'}}
-                      firstName={user.first_name}
-                      lastName={user.last_name}
-                      onClick={handleMenuClick}
-              />
-            ) :
-          (<IconButton
-            color="inherit"
-            aria-label="menu"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMenuClick}
-            sx={{
-              p: 1,
-              bgcolor: "rgba(255, 255, 255, 0.12)",
-              "&:hover": {
-                bgcolor: "rgba(255, 255, 255, 0.24)",
-              },
-            }}
-          >
-            <MenuIcon sx={{ fontSize: 39 }} />
-          </IconButton> )}
+          {user && user.profile_picture ? (
+            <Avatar
+              onClick={handleMenuClick}
+              src={user.profile_picture}
+              variant="rounded"
+              style={{ width: 54, height: 54, borderRadius: 27 }}
+              alt="profile picture"
+            />
+          ) : user && user.first_name && user.last_name ? (
+            <LettersAvatar
+              style={{ width: "54px", height: "54px", fontSize: "24px" }}
+              firstName={user.first_name}
+              lastName={user.last_name}
+              onClick={handleMenuClick}
+            />
+          ) : (
+            <IconButton
+              color="inherit"
+              aria-label="menu"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenuClick}
+              sx={{
+                p: 1,
+                bgcolor: "rgba(255, 255, 255, 0.12)",
+                "&:hover": {
+                  bgcolor: "rgba(255, 255, 255, 0.24)",
+                },
+              }}
+            >
+              <MenuIcon sx={{ fontSize: 39 }} />
+            </IconButton>
+          )}
           <Menu
             id="menu-appbar"
             anchorEl={anchorEl}
