@@ -1,31 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { getAllData } from './util/index';
-
-const URL = 'http://localhost:8000/api/v1/';
+// src/App.jsx
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
+import UserContext from "./context/userContext";
+import axios from "axios";
+import Navbar from "./components/Navbar";
 
 function App() {
-  
-  const [message, setMessage] = useState(''); 
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-
-    (async () => {
-      const myData = await getAllData(URL)
-      setMessage(myData.data);
-    })();
-      
-    return () => {
-      console.log('unmounting');
-    }
-
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/user`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setUser(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        setUser(null);
+      });
   }, []);
 
   return (
     <>
-      <h1>{message}</h1>
+      <UserContext.Provider value={user}>
+        <Router>
+          <Navbar user={user} />
+          <AppRoutes />
+        </Router>
+      </UserContext.Provider>
     </>
   );
-
 }
 
-export default App
+export default App;
