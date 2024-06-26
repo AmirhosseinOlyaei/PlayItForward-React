@@ -16,7 +16,6 @@ import {
   createTheme,
   ThemeProvider,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "./GoogleIcon";
 
 function Copyright(props) {
