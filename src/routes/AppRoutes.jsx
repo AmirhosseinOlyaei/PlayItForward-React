@@ -1,3 +1,4 @@
+// src/routes/AppRoutes.jsx
 import { Routes, Route } from "react-router-dom";
 import ToyList from "../components/ToyList";
 import LoginPage from "../components/LoginPage";
