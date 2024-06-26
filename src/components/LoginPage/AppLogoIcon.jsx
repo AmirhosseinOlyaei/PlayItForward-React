@@ -1,3 +1,4 @@
+// src/components/LoginPage/AppLogoIcon.jsx
 import React from "react";
 import AppLogo from "../assets/AppLogo.png";
 
