@@ -1,3 +1,4 @@
+// src/components/LoginPage/index.jsx
 import SignInSide from "./SignInSide";
 
 const LoginPage = () => {
