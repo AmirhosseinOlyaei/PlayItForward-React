@@ -1,6 +1,5 @@
 // src/components/LoginPage/SignInSide.jsx
 import React from "react";
-
 import {
   Avatar,
   Button,
@@ -10,14 +9,24 @@ import {
   Grid,
   Typography,
   Container,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Box,
   createTheme,
   ThemeProvider,
 } from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import GoogleIcon from "./GoogleIcon";
 
-function Copyright() {
+function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
       {"Copyright © "}
       <Link color="inherit" href="">
         PlayItForward
@@ -44,15 +53,13 @@ const SignInButton = () => {
         width: "325px",
         background: (theme) =>
           theme.palette.mode === "light"
-            ? // ? "linear-gradient(135deg, #4776E6 0%, #8E54E9 100%)"
-              "white"
+            ? "white"
             : "linear-gradient(135deg, #8E54E9 0%, #4776E6 100%)",
         color: "gray",
         "&:hover": {
           background: (theme) =>
             theme.palette.mode === "light"
-              ? // ? "linear-gradient(135deg, #786FEC 0%, #B74AEA 100%)"
-                "white"
+              ? "white"
               : "linear-gradient(135deg, #B74AEA 0%, #786FEC 100%)",
         },
         boxShadow: (theme) => `0px 10px 10px -5px ${theme.palette.grey[700]}`,
@@ -79,6 +86,16 @@ const SignInButton = () => {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+    // Add your login logic here
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid
@@ -129,6 +146,57 @@ export default function SignInSide() {
               Welcome to PlayItForward!
             </Typography>
             <SignInButton />
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
             <Copyright sx={{ mt: 5 }} />
           </Container>
         </Grid>
