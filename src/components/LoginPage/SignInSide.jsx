@@ -1,12 +1,12 @@
 // src/components/LoginPage/SignInSide.jsx
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import SharedForm from "./SharedForm";
 import SharedLayout from "./SharedLayout";
 import GoogleIcon from "./GoogleIcon";
 import { Button, Divider, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext"; // Import the authentication context
+import UserContext from "../../context/userContext"; // Import UserContext
 
 const SignInButtonGoogle = () => {
   const handleAuth = () => {
@@ -51,7 +51,7 @@ const SignInButtonGoogle = () => {
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const { setAuth } = useAuth(); // Get the setAuth function from the context
+  const setUser = useContext(UserContext); // Use UserContext to set the user
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -64,16 +64,13 @@ export default function SignInSide() {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/signin`,
-        userCredentials
+        userCredentials,
+        { withCredentials: true } // Ensure cookies are included in the request
       );
-      const { token, user } = response.data;
+      const { user } = response.data;
 
-      // Store the token and user details in local storage
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // Update the authentication state
-      setAuth({ token, user });
+      // Update the user context
+      setUser(user);
 
       alert("Logged in successfully");
 
