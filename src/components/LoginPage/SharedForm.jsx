@@ -41,15 +41,15 @@ const SharedForm = ({
           <Grid item xs={12}>
             <FormControlLabel
               control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive inspiration, marketing promotions and updates via email."
+              label="By signing up, you agree to our term of service"
             />
           </Grid>
         )}
       </Grid>
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+      <Button type="submit" fullWidth variant="contained" sx={{ mt: 2, mb: 2 }}>
         {submitButtonText}
       </Button>
-      <Grid container justifyContent="space-between">
+      <Grid container>
         {forgotPasswordLink && (
           <Grid item xs={6} sx={{ textAlign: "left" }}>
             <Link href={forgotPasswordLink} variant="body2">
@@ -58,7 +58,7 @@ const SharedForm = ({
           </Grid>
         )}
         {bottomLinkText && (
-          <Grid item xs={6} sx={{ textAlign: "right" }}>
+          <Grid item xs={12} sx={{ textAlign: "left" }}>
             <Link href={bottomLinkHref} variant="body2">
               {bottomLinkText}
             </Link>

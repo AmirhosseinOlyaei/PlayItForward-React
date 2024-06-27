@@ -87,7 +87,7 @@ export default function SignInSide() {
           ]}
           handleSubmit={handleSubmit}
           submitButtonText="Sign In"
-          bottomLinkText="Creating account? Sign Up"
+          bottomLinkText="Creating an account? Sign Up"
           bottomLinkHref="/signup"
           forgotPasswordLink="/forgot-password"
         />
