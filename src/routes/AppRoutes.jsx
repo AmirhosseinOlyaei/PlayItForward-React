@@ -8,6 +8,7 @@ import CreateListing from "../components/CreateListing";
 import PersonalInfo from "../components/UserProfile/PersonalInfo";
 import NotFoundPage from "../components/NotFoundPage";
 import Favorites from "../components/UserProfile/Favorites/index";
+import ForgotPassword from "../components/LoginPage/ForgotPassword";
 
 const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path="/create" element={<CreateListing />} />
         <Route path="/personal" element={<PersonalInfo />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
