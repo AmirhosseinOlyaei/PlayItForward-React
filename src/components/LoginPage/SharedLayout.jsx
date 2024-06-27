@@ -7,7 +7,6 @@ import {
   Grid,
   Paper,
   Typography,
-  Box,
   createTheme,
   ThemeProvider,
   Link,

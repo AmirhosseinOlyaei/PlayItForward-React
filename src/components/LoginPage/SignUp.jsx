@@ -1,12 +1,25 @@
 // src/components/LoginPage/SignUp.jsx
-import React from "react";
+import React, { useState } from "react";
 import SharedForm from "./SharedForm";
 import SharedLayout from "./SharedLayout";
-import { Box } from "@mui/material";
+import TermsAndConditions from "./TermsAndConditions";
+import { Box, Link, Typography } from "@mui/material";
 
 const SignUp = () => {
+  const [openTerms, setOpenTerms] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+
+  const handleTermsClose = (agree) => {
+    setAgreeToTerms(agree);
+    setOpenTerms(false);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!agreeToTerms) {
+      alert("You must agree to the terms and conditions before signing up.");
+      return;
+    }
     const data = new FormData(event.currentTarget);
     console.log({
       firstName: data.get("firstName"),
@@ -58,6 +71,11 @@ const SignUp = () => {
           bottomLinkText="Already have an account? Sign In"
           bottomLinkHref="/login"
           showCheckbox={true}
+        />
+        <TermsAndConditions
+          open={openTerms}
+          handleClose={handleTermsClose}
+          setOpen={setOpenTerms}
         />
       </Box>
     </SharedLayout>

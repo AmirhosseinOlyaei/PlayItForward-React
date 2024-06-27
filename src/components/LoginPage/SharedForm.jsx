@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   Checkbox,
   Link,
+  Typography,
 } from "@mui/material";
 
 const SharedForm = ({
@@ -41,7 +42,18 @@ const SharedForm = ({
           <Grid item xs={12}>
             <FormControlLabel
               control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="By signing up, you agree to our term of service"
+              label={
+                <Typography variant="body2">
+                  By signing up, you agree to our{" "}
+                  <Link
+                    component="button"
+                    variant="body2"
+                    onClick={() => setOpenTerms(true)}
+                  >
+                    terms of service
+                  </Link>
+                </Typography>
+              }
             />
           </Grid>
         )}
