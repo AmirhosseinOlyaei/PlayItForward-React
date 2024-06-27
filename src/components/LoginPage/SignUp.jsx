@@ -1,3 +1,4 @@
+// src/components/LoginPage/SignUp.jsx
 import React, { useState } from "react";
 import SharedForm from "./SharedForm";
 import SharedLayout from "./SharedLayout";
@@ -12,6 +13,10 @@ const SignUp = () => {
   const handleTermsClose = (agree) => {
     setAgreeToTerms(agree);
     setOpenTerms(false);
+  };
+
+  const handleCheckboxChange = (event) => {
+    setAgreeToTerms(event.target.checked);
   };
 
   const handleSubmit = async (event) => {
@@ -88,6 +93,7 @@ const SignUp = () => {
           showCheckbox={true}
           handleTermsClick={handleTermsClick}
           agreeToTerms={agreeToTerms}
+          handleCheckboxChange={handleCheckboxChange} // Pass handleCheckboxChange to SharedForm
         />
         <TermsAndConditions
           open={openTerms}
