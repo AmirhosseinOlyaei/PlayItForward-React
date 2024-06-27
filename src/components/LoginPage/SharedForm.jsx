@@ -21,6 +21,7 @@ const SharedForm = ({
   forgotPasswordLink,
   handleTermsClick,
   agreeToTerms,
+  handleCheckboxChange,
 }) => {
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -48,6 +49,7 @@ const SharedForm = ({
                   value="allowExtraEmails"
                   color="primary"
                   checked={agreeToTerms}
+                  onChange={handleCheckboxChange} // Handle checkbox change directly
                 />
               }
               label={
