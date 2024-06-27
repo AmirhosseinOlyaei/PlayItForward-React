@@ -49,7 +49,7 @@ const SignInButton = () => {
         mt: 3,
         mb: 6,
         height: "50px",
-        width: "325px",
+        width: "100%",
         background: (theme) =>
           theme.palette.mode === "light"
             ? "white"
