@@ -54,17 +54,12 @@ const SignInButton = () => {
           theme.palette.mode === "light"
             ? "white"
             : "linear-gradient(135deg, #8E54E9 0%, #4776E6 100%)",
-        color: "gray",
+        color: (theme) => theme.palette.grey[700],
         "&:hover": {
           background: (theme) =>
             theme.palette.mode === "light"
               ? "white"
               : "linear-gradient(135deg, #B74AEA 0%, #786FEC 100%)",
-        },
-        boxShadow: (theme) => `0px 10px 10px -5px ${theme.palette.grey[700]}`,
-        "&:active": {
-          boxShadow: (theme) =>
-            `inset 0px 2px 4px 0px ${theme.palette.grey[800]}`,
         },
       }}
       onClick={handleAuth}
