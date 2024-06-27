@@ -77,6 +77,7 @@ const SignUp = () => {
           bottomLinkHref="/login"
           showCheckbox={true}
           handleTermsClick={handleTermsClick} // Pass handleTermsClick to SharedForm
+          agreeToTerms={agreeToTerms} // Pass agreeToTerms to SharedForm
         />
         <TermsAndConditions
           open={openTerms}

@@ -20,6 +20,7 @@ const SharedForm = ({
   showCheckbox,
   forgotPasswordLink,
   handleTermsClick,
+  agreeToTerms,
 }) => {
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -42,7 +43,13 @@ const SharedForm = ({
         {showCheckbox && (
           <Grid item xs={12}>
             <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
+              control={
+                <Checkbox
+                  value="allowExtraEmails"
+                  color="primary"
+                  checked={agreeToTerms}
+                />
+              }
               label={
                 <Typography variant="body2">
                   By signing up, you agree to our{" "}
