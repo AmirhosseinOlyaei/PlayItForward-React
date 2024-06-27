@@ -15,6 +15,7 @@ import {
   Box,
   createTheme,
   ThemeProvider,
+  Divider,
 } from "@mui/material";
 import GoogleIcon from "./GoogleIcon";
 
@@ -47,7 +48,7 @@ const SignInButton = () => {
       startIcon={<GoogleIcon />}
       sx={{
         mt: 3,
-        mb: 6,
+        mb: 4,
         height: "50px",
         width: "100%",
         background: (theme) =>
@@ -140,6 +141,11 @@ export default function SignInSide() {
               Welcome to PlayItForward!
             </Typography>
             <SignInButton />
+            <Divider sx={{ width: "100%", mb: 1 }}>
+              <Typography variant="body2" color="text.secondary">
+                OR
+              </Typography>
+            </Divider>
             <Box
               component="form"
               noValidate
