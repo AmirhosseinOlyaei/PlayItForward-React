@@ -75,6 +75,9 @@ const SharedLayout = ({ children, title }) => {
             <Typography component="h1" variant="h5">
               {title}
             </Typography>
+            <Typography component="p" variant="body1" sx={{ mt: 2, mb: 1 }}>
+              Welcome to PlayItForward!
+            </Typography>
             {children}
             <Copyright sx={{ mt: 5 }} />
           </Container>
