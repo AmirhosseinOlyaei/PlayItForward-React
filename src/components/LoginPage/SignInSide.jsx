@@ -1,5 +1,6 @@
 // src/components/LoginPage/SignInSide.jsx
 import React from "react";
+import axios from "axios";
 import SharedForm from "./SharedForm";
 import SharedLayout from "./SharedLayout";
 import GoogleIcon from "./GoogleIcon";
@@ -47,14 +48,26 @@ const SignInButtonGoogle = () => {
 };
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const userCredentials = {
       email: data.get("email"),
       password: data.get("password"),
-    });
-    // Add your login logic here
+    };
+
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/signin`,
+        userCredentials
+      );
+      const { token, user } = response.data;
+      // Store the token and user details as needed
+      alert("Logged in successfully");
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+      alert("Invalid email or password. Please try again.");
+    }
   };
 
   return (
