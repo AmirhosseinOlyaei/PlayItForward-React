@@ -102,7 +102,7 @@ export default function SignInSide() {
         component="main"
         sx={{ height: "calc(100vh - 86px)" }}
         mt={10.7}
-        position={"fixed"}
+        // position={"fixed"}
       >
         <CssBaseline />
         <Grid
