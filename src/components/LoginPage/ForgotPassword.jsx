@@ -1,5 +1,6 @@
 // src/components/LoginPage/ForgotPassword.jsx
 import React from "react";
+import axios from "axios";
 import {
   Avatar,
   Box,
@@ -19,13 +20,21 @@ import AppLogoIcon from "./AppLogoIcon";
 const defaultTheme = createTheme();
 
 export default function ForgotPassword() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-    });
-    // Add your password reset logic here
+    const email = data.get("email");
+
+    try {
+      await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/forgot-password`,
+        { email }
+      );
+      alert("Password reset link sent to your email");
+    } catch (error) {
+      console.error("Error during password reset:", error);
+      alert("Error during password reset. Please try again.");
+    }
   };
 
   return (
