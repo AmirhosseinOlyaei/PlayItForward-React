@@ -36,12 +36,12 @@ const TermsAndConditions = ({ open, handleClose, setOpen }) => {
             {"Terms and Conditions"}
           </DialogTitle>
           <DialogContent dividers>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText component="div" id="alert-dialog-description">
+              <p>
+                Welcome to PlayItForward! By using our Application, you agree to
+                these Terms. Please read them carefully.
+              </p>
               <ul>
-                <li>
-                  Welcome to PlayItForward! By using our Application, you agree
-                  to these Terms. Please read them carefully.
-                </li>
                 <li>
                   User Eligibility: You must be at least 18 years old to use the
                   Application. By using it, you confirm your legal capacity to

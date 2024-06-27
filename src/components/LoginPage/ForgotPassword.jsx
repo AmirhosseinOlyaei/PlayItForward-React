@@ -16,6 +16,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import AppLogoIcon from "./AppLogoIcon";
+import toast, { Toaster } from "react-hot-toast";
 
 const defaultTheme = createTheme();
 
@@ -30,10 +31,10 @@ export default function ForgotPassword() {
         `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/forgot-password`,
         { email }
       );
-      alert("Password reset link sent to your email");
+      toast.success("Password reset link sent to your email");
     } catch (error) {
       console.error("Error during password reset:", error);
-      alert("Error during password reset. Please try again.");
+      toast.error("Error during password reset. Please try again.");
     }
   };
 

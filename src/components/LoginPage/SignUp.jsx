@@ -22,7 +22,9 @@ const SignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!agreeToTerms) {
-      alert("You must agree to the terms and conditions before signing up.");
+      toast.error(
+        "You must agree to the terms and conditions before signing up."
+      );
       return;
     }
     const data = new FormData(event.currentTarget);
@@ -38,10 +40,10 @@ const SignUp = () => {
         `${import.meta.env.VITE_API_URL}/auth/signup`,
         payload
       );
-      alert("User created successfully");
+      toast.success("User created successfully");
     } catch (error) {
       console.error("Error during sign-up:", error.message);
-      alert("Error during sign-up. Please try again.");
+      toast.error("Error during sign-up. Please try again.");
     }
   };
 

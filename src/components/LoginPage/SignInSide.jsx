@@ -7,6 +7,7 @@ import GoogleIcon from "./GoogleIcon";
 import { Button, Divider, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/userContext"; // Import UserContext
+import toast, { Toaster } from "react-hot-toast";
 
 const SignInButtonGoogle = () => {
   const handleAuth = () => {
@@ -72,13 +73,13 @@ export default function SignInSide() {
       // Update the user context
       setUser(user);
 
-      alert("Logged in successfully");
+      toast.success("Logged in successfully");
 
       // Redirect to the homepage
       navigate("/");
     } catch (error) {
       console.error("Error during sign-in:", error);
-      alert("Invalid email or password. Please try again.");
+      toast.error("Invalid email or password. Please try again.");
     }
   };
 
