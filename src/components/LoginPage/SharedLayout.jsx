@@ -10,8 +10,9 @@ import {
   Box,
   createTheme,
   ThemeProvider,
+  Link,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import AppLogoIcon from "./AppLogoIcon";
 
 function Copyright(props) {
   return (
@@ -70,7 +71,7 @@ const SharedLayout = ({ children, title }) => {
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
+              <AppLogoIcon style={{ width: "100%", height: "auto" }} />
             </Avatar>
             <Typography component="h1" variant="h5">
               {title}

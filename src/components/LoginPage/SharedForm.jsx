@@ -17,10 +17,11 @@ const SharedForm = ({
   bottomLinkText,
   bottomLinkHref,
   showCheckbox,
+  forgotPasswordLink,
 }) => {
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={1}>
         {fields.map((field, index) => (
           <Grid item xs={12} sm={field.half ? 6 : 12} key={index}>
             <TextField
@@ -48,15 +49,22 @@ const SharedForm = ({
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
         {submitButtonText}
       </Button>
-      {bottomLinkText && (
-        <Grid container justifyContent="flex-end">
-          <Grid item>
+      <Grid container justifyContent="space-between">
+        {forgotPasswordLink && (
+          <Grid item xs={6} sx={{ textAlign: "left" }}>
+            <Link href={forgotPasswordLink} variant="body2">
+              Forgot password?
+            </Link>
+          </Grid>
+        )}
+        {bottomLinkText && (
+          <Grid item xs={6} sx={{ textAlign: "right" }}>
             <Link href={bottomLinkHref} variant="body2">
               {bottomLinkText}
             </Link>
           </Grid>
-        </Grid>
-      )}
+        )}
+      </Grid>
     </Box>
   );
 };

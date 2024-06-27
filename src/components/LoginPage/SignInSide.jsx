@@ -16,7 +16,7 @@ const SignInButtonGoogle = () => {
       startIcon={<GoogleIcon />}
       sx={{
         mt: 3,
-        mb: 4,
+        mb: 3,
         height: "50px",
         width: "100%",
         background: (theme) =>
@@ -87,8 +87,9 @@ export default function SignInSide() {
           ]}
           handleSubmit={handleSubmit}
           submitButtonText="Sign In"
-          bottomLinkText="Don't have an account? Sign Up"
+          bottomLinkText="Creating account? Sign Up"
           bottomLinkHref="/signup"
+          forgotPasswordLink="/forgot-password"
         />
       </Box>
     </SharedLayout>
