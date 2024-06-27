@@ -58,7 +58,7 @@ export default function SignInSide() {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/signin`,
+        `${process.env.VITE_API_URL}/auth/signin`,
         userCredentials
       );
       const { token, user } = response.data;
