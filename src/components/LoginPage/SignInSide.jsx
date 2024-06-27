@@ -37,7 +37,7 @@ function Copyright(props) {
   );
 }
 
-const SignInButton = () => {
+const SignInButtonGoogle = () => {
   const handleAuth = () => {
     window.location.href = import.meta.env.VITE_AUTH_URL;
   };
@@ -146,7 +146,7 @@ export default function SignInSide() {
                 maxWidth: "400px",
               }}
             >
-              <SignInButton />
+              <SignInButtonGoogle />
               <Divider sx={{ width: "100%", mb: 1 }}>
                 <Typography variant="body2" color="text.secondary">
                   OR
