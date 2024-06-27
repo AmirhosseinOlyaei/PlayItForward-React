@@ -1,10 +1,9 @@
-// src/components/LoginPage/SignUp.jsx
 import React, { useState } from "react";
-import axios from "axios";
 import SharedForm from "./SharedForm";
 import SharedLayout from "./SharedLayout";
 import TermsAndConditions from "./TermsAndConditions";
 import { Box } from "@mui/material";
+import axios from "axios";
 
 const SignUp = () => {
   const [openTerms, setOpenTerms] = useState(false);
@@ -22,21 +21,21 @@ const SignUp = () => {
       return;
     }
     const data = new FormData(event.currentTarget);
-    const newUser = {
-      first_name: data.get("firstName"),
-      last_name: data.get("lastName"),
+    const payload = {
       email: data.get("email"),
       password: data.get("password"),
+      first_name: data.get("firstName"),
+      last_name: data.get("lastName"),
     };
 
     try {
-      await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/signup`,
-        newUser
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/signup`,
+        payload
       );
-      alert("User created successfully. Please log in.");
+      alert("User created successfully");
     } catch (error) {
-      console.error("Error during sign-up:", error);
+      console.error("Error during sign-up:", error.message);
       alert("Error during sign-up. Please try again.");
     }
   };
