@@ -5,6 +5,8 @@ import SharedForm from "./SharedForm";
 import SharedLayout from "./SharedLayout";
 import GoogleIcon from "./GoogleIcon";
 import { Button, Divider, Typography, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext"; // Import the authentication context
 
 const SignInButtonGoogle = () => {
   const handleAuth = () => {
@@ -48,6 +50,9 @@ const SignInButtonGoogle = () => {
 };
 
 export default function SignInSide() {
+  const navigate = useNavigate();
+  const { setAuth } = useAuth(); // Get the setAuth function from the context
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -62,8 +67,18 @@ export default function SignInSide() {
         userCredentials
       );
       const { token, user } = response.data;
-      // Store the token and user details as needed
+
+      // Store the token and user details in local storage
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Update the authentication state
+      setAuth({ token, user });
+
       alert("Logged in successfully");
+
+      // Redirect to the homepage
+      navigate("/");
     } catch (error) {
       console.error("Error during sign-in:", error);
       alert("Invalid email or password. Please try again.");
