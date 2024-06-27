@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import SharedForm from "./SharedForm";
 import SharedLayout from "./SharedLayout";
 import TermsAndConditions from "./TermsAndConditions";
-import { Box, Link, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 const SignUp = () => {
   const [openTerms, setOpenTerms] = useState(false);
@@ -28,6 +28,11 @@ const SignUp = () => {
       password: data.get("password"),
     });
     // Add your sign-up logic here
+  };
+
+  const handleTermsClick = (event) => {
+    event.preventDefault();
+    setOpenTerms(true);
   };
 
   return (
@@ -71,6 +76,7 @@ const SignUp = () => {
           bottomLinkText="Already have an account? Sign In"
           bottomLinkHref="/login"
           showCheckbox={true}
+          handleTermsClick={handleTermsClick} // Pass handleTermsClick to SharedForm
         />
         <TermsAndConditions
           open={openTerms}

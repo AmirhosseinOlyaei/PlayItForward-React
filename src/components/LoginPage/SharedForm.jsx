@@ -19,6 +19,7 @@ const SharedForm = ({
   bottomLinkHref,
   showCheckbox,
   forgotPasswordLink,
+  handleTermsClick,
 }) => {
   return (
     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -48,7 +49,7 @@ const SharedForm = ({
                   <Link
                     component="button"
                     variant="body2"
-                    onClick={() => setOpenTerms(true)}
+                    onClick={handleTermsClick}
                   >
                     terms of service
                   </Link>
