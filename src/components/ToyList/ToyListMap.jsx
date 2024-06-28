@@ -22,13 +22,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import toast, { Toaster } from "react-hot-toast";
-import UserContext from "../../context/userContext";
 import LettersAvatar from "../ListingDetail/LettersAvatar";
+import { getUserContext } from "../../context/userContext";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const ToyListMap = ({ toysData }) => {
-  const user = useContext(UserContext);
+  const user = getUserContext();
   const authorizedUser = user ? user._id : "";
 
   const apiUrl = import.meta.env.VITE_API_URL;

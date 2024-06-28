@@ -52,7 +52,7 @@ const SignInButtonGoogle = () => {
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const setUser = useContext(UserContext); // Use UserContext to set the user
+  const { setUser } = useContext(UserContext); // Use UserContext to set the user
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -63,17 +63,22 @@ export default function SignInSide() {
     };
 
     try {
+      console.log("first");
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth/signin`,
         userCredentials,
         { withCredentials: true } // Ensure cookies are included in the request
       );
+      console.log("second");
       const { user } = response.data;
+      console.log("third");
 
       // Update the user context
       setUser(user);
 
+      console.log("forth");
       toast.success("Logged in successfully");
+      console.log("fifth");
 
       // Redirect to the homepage
       navigate("/");

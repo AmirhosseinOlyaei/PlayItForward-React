@@ -9,7 +9,7 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import PhotoSizeSelectActualTwoToneIcon from "@mui/icons-material/PhotoSizeSelectActualTwoTone";
 import Avatar from "@mui/material/Avatar";
-import UserContext from "../../context/userContext";
+import { getUserContext } from "../../context/userContext";
 import LettersAvatar from "../ListingDetail/LettersAvatar";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -29,7 +29,7 @@ const ToyListingPreview = ({
   console.log("selectedFile", selectedFile);
   console.log("fetchedFileName", fetchedFileName);
 
-  const user = useContext(UserContext);
+  const { user } = getUserContext();
   const userData = {
     listingDate: new Date().toLocaleDateString(),
   };

@@ -1,4 +1,4 @@
-import UserContext from "../../context/userContext";
+import { getUserContext } from "../../context/userContext";
 import IconMenu from "./IconMenu";
 import { Box, CircularProgress } from "@mui/material";
 import ImgMediaCard from "./oneLising";
@@ -8,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const MyListings = () => {
-  const user = useContext(UserContext);
+  const { user } = getUserContext();
   const currentUserId = user && user ? user._id : "";
 
   const apiUrl = import.meta.env.VITE_API_URL;

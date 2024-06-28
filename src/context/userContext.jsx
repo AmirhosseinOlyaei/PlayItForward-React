@@ -1,7 +1,11 @@
 // src/context/userContext.jsx
-import React from "react";
-const UserContext = React.createContext({
+import { createContext, useContext } from "react";
+const UserContext = createContext({
   user: null,
   setUser: () => {},
+  isLoading: true,
 });
+
+export const getUserContext = () => useContext(UserContext);
+
 export default UserContext;

@@ -20,16 +20,17 @@ import CustomToolbar from "./CustomToolbar";
 import ToyList from "./ToyList";
 import DeliveryFilter from "./DeliveryFilter";
 import GoogleZip from "./GoogleZip";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ListingDetail from "../ListingDetail";
-import { useParams } from "react-router-dom/dist";
-import UserContext from "../../context/userContext";
+// import {  } from "react-router-dom/dist";
+import { getUserContext } from "../../context/userContext";
 import TermsAndConditions from "../LoginPage/TermsAndConditions";
 
 const drawerWidth = 340;
 
 export default function ToysLanding() {
-  const user = useContext(UserContext);
+  const { user } = getUserContext();
+  console.log({ user });
   const authorizedUser = user ? user._id : "";
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -48,23 +49,23 @@ export default function ToysLanding() {
   const [open, setOpen] = useState(false);
   const [termsAgreed, setTermsAgreed] = useState(false);
 
-  useEffect(() => {
-    // Fetch user's agreement status when component mounts
-    const fetchTermsAgreement = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/terms/check/${authorizedUser}`); // Replace userId with actual user ID
-        const data = await response.json();
-        setTermsAgreed(data.termsAndConditions);
-        setOpen(!data.termsAndConditions);
-      } catch (error) {
-        console.error("Error fetching terms agreement:", error);
-      }
-    };
+  // useEffect(() => {
+  //   // Fetch user's agreement status when component mounts
+  //   const fetchTermsAgreement = async () => {
+  //     try {
+  //       const response = await fetch(`${apiUrl}/terms/check/${authorizedUser}`); // Replace userId with actual user ID
+  //       const data = await response.json();
+  //       setTermsAgreed(data.termsAndConditions);
+  //       setOpen(!data.termsAndConditions);
+  //     } catch (error) {
+  //       console.error("Error fetching terms agreement:", error);
+  //     }
+  //   };
 
-    if (authorizedUser !== "") {
-      fetchTermsAgreement();
-    }
-  }, [authorizedUser]);
+  //   if (authorizedUser !== "") {
+  //     fetchTermsAgreement();
+  //   }
+  // }, [authorizedUser]);
 
   useEffect(() => {
     const fetchToys = async () => {

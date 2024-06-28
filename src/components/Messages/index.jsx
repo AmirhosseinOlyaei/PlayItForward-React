@@ -5,10 +5,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import DrawerSidebar from "./Drawer";
 import Mails from "./Mails";
 import MailContent from "./MailContent";
-import UserContext from "../../context/userContext";
-
+import { getUserContext } from "../../context/userContext";
 const Messages = () => {
-  const user = useContext(UserContext);
+  const { user } = getUserContext();
   const { id } = useParams();
   const loggedInUserId = user ? user._id : "";
   const loggedInUserName = user ? user.nickname : "";
