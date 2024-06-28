@@ -5,11 +5,13 @@ import SharedLayout from "./SharedLayout";
 import TermsAndConditions from "./TermsAndConditions";
 import { Box } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { toast, Toaster } from "react-hot-toast";
 
 const SignUp = () => {
   const [openTerms, setOpenTerms] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleTermsClose = (agree) => {
     setAgreeToTerms(agree);
@@ -43,6 +45,7 @@ const SignUp = () => {
         payload
       );
       toast.success("User created successfully");
+      navigate("/login"); // Redirect to the home page
     } catch (error) {
       console.error("Error during sign-up:", error.message);
       toast.error("Error during sign-up. Please try again.");
