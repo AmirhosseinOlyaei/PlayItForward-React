@@ -34,6 +34,7 @@ const SignUp = () => {
       password: data.get("password"),
       first_name: data.get("firstName"),
       last_name: data.get("lastName"),
+      termsAndConditions: agreeToTerms,
     };
 
     try {
