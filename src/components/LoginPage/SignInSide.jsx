@@ -11,7 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const SignInButtonGoogle = () => {
   const handleAuth = () => {
-    window.location.href = import.meta.env.VITE_AUTH_URL;
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
   };
 
   return (
@@ -118,6 +118,7 @@ export default function SignInSide() {
           forgotPasswordLink="/forgot-password"
         />
       </Box>
+      <Toaster />
     </SharedLayout>
   );
 }
