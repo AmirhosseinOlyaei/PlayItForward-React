@@ -5,6 +5,7 @@ import SharedLayout from "./SharedLayout";
 import TermsAndConditions from "./TermsAndConditions";
 import { Box } from "@mui/material";
 import axios from "axios";
+import { toast, Toaster } from "react-hot-toast";
 
 const SignUp = () => {
   const [openTerms, setOpenTerms] = useState(false);
@@ -103,6 +104,7 @@ const SignUp = () => {
           setOpen={setOpenTerms}
         />
       </Box>
+      <Toaster />
     </SharedLayout>
   );
 };
