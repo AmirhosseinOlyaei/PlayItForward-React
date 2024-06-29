@@ -1,3 +1,4 @@
+// src/components/UserProfile/PersonalInfo.jsx
 import React, { useState, useEffect } from "react";
 import styles from "./UserProfile.module.css";
 import IconMenu from "./IconMenu";
@@ -8,6 +9,7 @@ import AppBar from "@mui/material/AppBar";
 import { dateStringToMonthYear } from "../ListingDetail";
 import DoneIcon from "@mui/icons-material/Done";
 import { getUserContext } from "../../context/userContext";
+import toast, { Toaster } from "react-hot-toast";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -26,7 +28,6 @@ const PersonalInfo = () => {
           throw new Error("Failed to fetch average stars: " + response.status);
         }
         const stars = await response.json();
-
         setAverageStars(stars && stars.length > 0 ? stars[0].averageStars : 0);
       } catch (error) {
         console.error("Error fetching average stars:", error);
@@ -54,11 +55,19 @@ const PersonalInfo = () => {
           nickname: newNickname,
         }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update nickname");
+      }
+
       const updatedUser = await response.json();
       setUser(updatedUser);
       setEditNickNameMode(false);
+      toast.success("Nickname updated successfully");
     } catch (error) {
       console.error("Error updating nickname:", error);
+      toast.error("That nickname is already in use. Please try another.");
     }
   };
 
@@ -82,7 +91,6 @@ const PersonalInfo = () => {
 
   function stringAvatar(firstName, lastName) {
     const name = `${firstName} ${lastName}`;
-
     return {
       sx: {
         bgcolor: stringToColor(name),
@@ -92,13 +100,14 @@ const PersonalInfo = () => {
   }
 
   function BackgroundLetterAvatarsBigger({ firstName, lastName }) {
+    if (!firstName || !lastName) {
+      return null;
+    }
     return (
-      <>
-        <Avatar
-          {...stringAvatar(firstName, lastName)}
-          style={{ width: 150, height: 150, borderRadius: 75, fontSize: 60 }}
-        />
-      </>
+      <Avatar
+        {...stringAvatar(firstName, lastName)}
+        style={{ width: 150, height: 150, borderRadius: 75, fontSize: 60 }}
+      />
     );
   }
 
@@ -164,7 +173,6 @@ const PersonalInfo = () => {
                 )}
               </Typography>
             </p>
-
             <p>
               <Typography variant="body">E-mail: {user?.email}</Typography>
             </p>
@@ -186,6 +194,7 @@ const PersonalInfo = () => {
           </div>
         </div>
       </Box>
+      <Toaster />
     </Box>
   );
 };
