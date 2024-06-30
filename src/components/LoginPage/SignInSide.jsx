@@ -1,36 +1,17 @@
 // src/components/LoginPage/SignInSide.jsx
-import React from "react";
-
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  Link,
-  Paper,
-  Grid,
-  Typography,
-  Container,
-  createTheme,
-  ThemeProvider,
-} from "@mui/material";
+import React, { useContext } from "react";
+import axios from "axios";
+import SharedForm from "./SharedForm";
+import SharedLayout from "./SharedLayout";
 import GoogleIcon from "./GoogleIcon";
+import { Button, Divider, Typography, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../../context/userContext"; // Import UserContext
+import toast, { Toaster } from "react-hot-toast";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="">
-        PlayItForward
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const SignInButton = () => {
+const SignInButtonGoogle = () => {
   const handleAuth = () => {
-    window.location.href = import.meta.env.VITE_AUTH_URL;
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
   };
 
   return (
@@ -39,26 +20,19 @@ const SignInButton = () => {
       startIcon={<GoogleIcon />}
       sx={{
         mt: 3,
-        mb: 6,
+        mb: 3,
         height: "50px",
-        width: "325px",
+        width: "100%",
         background: (theme) =>
           theme.palette.mode === "light"
-            ? // ? "linear-gradient(135deg, #4776E6 0%, #8E54E9 100%)"
-              "white"
+            ? "white"
             : "linear-gradient(135deg, #8E54E9 0%, #4776E6 100%)",
-        color: "gray",
+        color: (theme) => theme.palette.grey[700],
         "&:hover": {
           background: (theme) =>
             theme.palette.mode === "light"
-              ? // ? "linear-gradient(135deg, #786FEC 0%, #B74AEA 100%)"
-                "white"
+              ? "white"
               : "linear-gradient(135deg, #B74AEA 0%, #786FEC 100%)",
-        },
-        boxShadow: (theme) => `0px 10px 10px -5px ${theme.palette.grey[700]}`,
-        "&:active": {
-          boxShadow: (theme) =>
-            `inset 0px 2px 4px 0px ${theme.palette.grey[800]}`,
         },
       }}
       onClick={handleAuth}
@@ -76,63 +50,80 @@ const SignInButton = () => {
   );
 };
 
-const defaultTheme = createTheme();
-
 export default function SignInSide() {
+  const navigate = useNavigate();
+  const { setUser } = useContext(UserContext); // Use UserContext to set the user
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const userCredentials = {
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+
+    try {
+      console.log("first");
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/signin`,
+        userCredentials,
+        { withCredentials: true } // Ensure cookies are included in the request
+      );
+      console.log("second");
+      const { user } = response.data;
+      console.log("third");
+
+      // Update the user context
+      setUser(user);
+
+      console.log("forth");
+      toast.success("Logged in successfully");
+      console.log("fifth");
+
+      // Redirect to the homepage
+      navigate("/");
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+      toast.error("Invalid email or password. Please try again.");
+    }
+  };
+
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Grid
-        container
-        component="main"
-        sx={{ height: "calc(100vh - 86px)" }}
-        mt={10.7}
-        position={"fixed"}
-      >
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: "url(/AppLogo.png)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+    <SharedLayout title="Sign in">
+      <Box sx={{ width: "100%", maxWidth: "400px" }}>
+        <SignInButtonGoogle />
+        <Divider sx={{ width: "100%", mb: 1 }}>
+          <Typography variant="body2" color="text.secondary">
+            OR
+          </Typography>
+        </Divider>
+        <SharedForm
+          fields={[
+            {
+              id: "email",
+              label: "Email Address",
+              name: "email",
+              autoComplete: "email",
+              autoFocus: true,
+              required: true,
+            },
+            {
+              id: "password",
+              label: "Password",
+              name: "password",
+              autoComplete: "current-password",
+              type: "password",
+              required: true,
+            },
+          ]}
+          handleSubmit={handleSubmit}
+          submitButtonText="Sign In"
+          bottomLinkText="Creating an account? Sign Up"
+          bottomLinkHref="/signup"
+          forgotPasswordLink="/forgot-password"
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Container
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <img
-                src="/AppLogo.png"
-                alt="App Logo"
-                style={{ width: "100%", height: "auto" }}
-              />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Typography component="p" variant="body1" sx={{ mt: 3, mb: 2 }}>
-              Welcome to PlayItForward!
-            </Typography>
-            <SignInButton />
-            <Copyright sx={{ mt: 5 }} />
-          </Container>
-        </Grid>
-      </Grid>
-    </ThemeProvider>
+      </Box>
+      <Toaster />
+    </SharedLayout>
   );
 }

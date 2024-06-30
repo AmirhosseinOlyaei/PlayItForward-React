@@ -10,8 +10,7 @@ import ListItemButton, {
 } from "@mui/material/ListItemButton";
 import SearchMessage from "./SearchMessage";
 import BackgroundLetterAvatars from "./Avatar";
-import UserContext from "../../context/userContext";
-
+import { getUserContext } from "../../context/userContext";
 const Mails = ({
   index,
   onSearchChange,
@@ -19,7 +18,7 @@ const Mails = ({
   onMessageSelect,
 }) => {
   const [selectedMessageIndex, setSelectedMessageIndex] = useState(0);
-  const user = useContext(UserContext);
+  const { user } = getUserContext();
 
   const handleMessageSelect = (message, index) => {
     const updatedMessages = [...filteredMessages];
@@ -122,7 +121,7 @@ const Mails = ({
                         {message.subject}
                       </Typography>
                       <Typography level="body-sm">
-                        <div
+                        <span
                           dangerouslySetInnerHTML={{ __html: message.content }}
                         />
                       </Typography>

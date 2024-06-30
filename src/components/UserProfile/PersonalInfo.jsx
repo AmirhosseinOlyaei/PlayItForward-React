@@ -1,39 +1,26 @@
+// src/components/UserProfile/PersonalInfo.jsx
+import React, { useState, useEffect } from "react";
 import styles from "./UserProfile.module.css";
-import Grid from "@mui/material/Unstable_Grid2";
 import IconMenu from "./IconMenu";
 import EditIcon from "@mui/icons-material/Edit";
-import { Avatar, Typography, IconButton, Box } from "@mui/material";
-import ImgMediaCard from "./oneLising";
+import { Avatar, Typography, IconButton, Box, Rating } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
-import React, { useState, useEffect, useContext } from "react";
 import { dateStringToMonthYear } from "../ListingDetail";
 import DoneIcon from "@mui/icons-material/Done";
-import UserContext from "../../context/userContext";
-import BackgroundLetterAvatars from "../Messages/Avatar";
-import { Rating } from "@mui/material";
+import { getUserContext } from "../../context/userContext";
+import toast, { Toaster } from "react-hot-toast";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const PersonalInfo = () => {
-  const user = useContext(UserContext);
-  const [userSignedIn, setUserSignedIn] = useState({});
+  const { user, setUser } = getUserContext();
   const [editNickNameMode, setEditNickNameMode] = useState(false);
-  const [newNickname, setNewNickname] = useState(userSignedIn.nickname);
+  const [newNickname, setNewNickname] = useState("");
   const [averageStars, setAverageStars] = useState(0);
-  const currentUserId = user && user ? user._id : "";
+  const currentUserId = user ? user._id : "";
 
   useEffect(() => {
-    async function fetchUser(userId) {
-      try {
-        const response = await fetch(`${apiUrl}/users/${userId}`);
-        const user = await response.json();
-        setUserSignedIn(user);
-        setNewNickname(user.nickname);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
     async function fetchAverageStars(userId) {
       try {
         const response = await fetch(`${apiUrl}/stars/${userId}`);
@@ -41,7 +28,6 @@ const PersonalInfo = () => {
           throw new Error("Failed to fetch average stars: " + response.status);
         }
         const stars = await response.json();
-
         setAverageStars(stars && stars.length > 0 ? stars[0].averageStars : 0);
       } catch (error) {
         console.error("Error fetching average stars:", error);
@@ -49,33 +35,41 @@ const PersonalInfo = () => {
     }
 
     if (currentUserId) {
-      fetchUser(currentUserId);
       fetchAverageStars(currentUserId);
     }
   }, [currentUserId]);
 
   const handleEditNickName = () => {
+    setNewNickname(user.nickname);
     setEditNickNameMode(true);
   };
 
-  const handleSaveNickName = () => {
-    setEditNickNameMode(false);
-    updateNickname(newNickname);
-  };
+  const handleSaveNickName = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/users/${currentUserId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nickname: newNickname,
+        }),
+      });
 
-  async function updateNickname(newNickname) {
-    const response = await fetch(`${apiUrl}/users/${currentUserId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        nickname: newNickname,
-      }),
-    });
-    const updatedUser = await response.json();
-    setUserSignedIn(updatedUser);
-  }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update nickname");
+      }
+
+      const updatedUser = await response.json();
+      setUser(updatedUser);
+      setEditNickNameMode(false);
+      toast.success("Nickname updated successfully");
+    } catch (error) {
+      console.error("Error updating nickname:", error);
+      toast.error("That nickname is already in use. Please try another.");
+    }
+  };
 
   function stringToColor(string) {
     let hash = 0;
@@ -97,7 +91,6 @@ const PersonalInfo = () => {
 
   function stringAvatar(firstName, lastName) {
     const name = `${firstName} ${lastName}`;
-
     return {
       sx: {
         bgcolor: stringToColor(name),
@@ -107,13 +100,14 @@ const PersonalInfo = () => {
   }
 
   function BackgroundLetterAvatarsBigger({ firstName, lastName }) {
+    if (!firstName || !lastName) {
+      return null;
+    }
     return (
-      <>
-        <Avatar
-          {...stringAvatar(firstName, lastName)}
-          style={{ width: 150, height: 150, borderRadius: 75, fontSize: 60 }}
-        />
-      </>
+      <Avatar
+        {...stringAvatar(firstName, lastName)}
+        style={{ width: 150, height: 150, borderRadius: 75, fontSize: 60 }}
+      />
     );
   }
 
@@ -130,7 +124,7 @@ const PersonalInfo = () => {
         <div className={styles.userProfile}>
           <div>
             <Typography variant="h3">
-              {userSignedIn.first_name} {userSignedIn.last_name}
+              {user?.first_name} {user?.last_name}
             </Typography>
             <Typography variant="body">
               <Rating
@@ -144,7 +138,7 @@ const PersonalInfo = () => {
             <p>
               <Typography variant="body">
                 Joined <b>PlayItForward</b> in{" "}
-                {dateStringToMonthYear(userSignedIn.modified_date)}
+                {dateStringToMonthYear(user?.modified_date)}
               </Typography>
             </p>
             <p>
@@ -157,7 +151,7 @@ const PersonalInfo = () => {
                     onChange={(e) => setNewNickname(e.target.value)}
                   />
                 ) : (
-                  userSignedIn.nickname
+                  user?.nickname
                 )}{" "}
                 &nbsp; &nbsp;
                 {editNickNameMode ? (
@@ -179,30 +173,28 @@ const PersonalInfo = () => {
                 )}
               </Typography>
             </p>
-
             <p>
-              <Typography variant="body">
-                E-mail: {userSignedIn.email}
-              </Typography>
+              <Typography variant="body">E-mail: {user?.email}</Typography>
             </p>
           </div>
           <div className={styles.avatar}>
-            {userSignedIn.profile_picture ? (
+            {user?.profile_picture ? (
               <Avatar
-                src={userSignedIn.profile_picture}
+                src={user.profile_picture}
                 variant="rounded"
                 style={{ width: 150, height: 150, borderRadius: 75 }}
                 alt="profile picture"
               />
-            ) : userSignedIn.first_name && userSignedIn.last_name ? (
+            ) : user?.first_name && user?.last_name ? (
               <BackgroundLetterAvatarsBigger
-                firstName={userSignedIn.first_name}
-                lastName={userSignedIn.last_name}
+                firstName={user.first_name}
+                lastName={user.last_name}
               />
             ) : null}
           </div>
         </div>
       </Box>
+      <Toaster />
     </Box>
   );
 };

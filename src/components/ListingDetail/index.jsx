@@ -26,7 +26,7 @@ import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ToyMap from "./ToyMap";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import UserContext from "../../context/userContext";
+import { getUserContext } from "../../context/userContext";
 import toast, { Toaster } from "react-hot-toast";
 import LettersAvatar from "./LettersAvatar";
 import Slide from "@mui/material/Slide";
@@ -41,7 +41,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const ListingDetail = ({ id, onClose }) => {
-  const user = useContext(UserContext);
+  const { user } = getUserContext();
   const authorizedUser = user ? user._id : "";
   const authorizedUserNickName = user ? user.nickname : "";
 

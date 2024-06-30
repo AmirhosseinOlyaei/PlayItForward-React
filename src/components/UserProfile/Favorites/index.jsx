@@ -8,10 +8,10 @@ import {
   CircularProgress,
 } from "@mui/material";
 import FavoriteCard from "./FavoriteCard";
-import UserContext from "../../../context/userContext";
+import { getUserContext } from "../../../context/userContext";
 
 const Favorites = () => {
-  const user = useContext(UserContext);
+  const { user } = getUserContext();
   const currentUserId = user ? user._id : "";
 
   const [favoriteToys, setFavoriteToys] = useState([]);

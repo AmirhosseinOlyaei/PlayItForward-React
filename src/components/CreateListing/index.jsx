@@ -2,10 +2,9 @@ import Box from "@mui/material/Box";
 import { useState, useContext } from "react";
 import LeftDrawer from "./LeftDrawer";
 import ToyListingPreview from "./ToyListingPreview";
-import UserContext from "../../context/userContext";
-
+import { getUserContext } from "../../context/userContext";
 const CreateListing = () => {
-  const user = useContext(UserContext);
+  const { user } = getUserContext();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
