@@ -22,7 +22,6 @@ import DeliveryFilter from "./DeliveryFilter";
 import GoogleZip from "./GoogleZip";
 import { useParams, useNavigate } from "react-router-dom";
 import ListingDetail from "../ListingDetail";
-// import {  } from "react-router-dom/dist";
 import { getUserContext } from "../../context/userContext";
 import TermsAndConditions from "../LoginPage/TermsAndConditions";
 
@@ -49,23 +48,23 @@ export default function ToysLanding() {
   const [open, setOpen] = useState(false);
   const [termsAgreed, setTermsAgreed] = useState(false);
 
-  // useEffect(() => {
-  //   // Fetch user's agreement status when component mounts
-  //   const fetchTermsAgreement = async () => {
-  //     try {
-  //       const response = await fetch(`${apiUrl}/terms/check/${authorizedUser}`); // Replace userId with actual user ID
-  //       const data = await response.json();
-  //       setTermsAgreed(data.termsAndConditions);
-  //       setOpen(!data.termsAndConditions);
-  //     } catch (error) {
-  //       console.error("Error fetching terms agreement:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    // Fetch user's agreement status when component mounts
+    const fetchTermsAgreement = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/terms/check/${authorizedUser}`);
+        const data = await response.json();
+        setTermsAgreed(data.termsAndConditions);
+        setOpen(!data.termsAndConditions);
+      } catch (error) {
+        console.error("Error fetching terms agreement:", error);
+      }
+    };
 
-  //   if (authorizedUser !== "") {
-  //     fetchTermsAgreement();
-  //   }
-  // }, [authorizedUser]);
+    if (authorizedUser !== "") {
+      fetchTermsAgreement();
+    }
+  }, [authorizedUser]);
 
   useEffect(() => {
     const fetchToys = async () => {
