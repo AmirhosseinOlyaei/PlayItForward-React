@@ -65,7 +65,7 @@ export default function SignInSide() {
     try {
       console.log("first");
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/signin`,
+        `${import.meta.env.VITE_API_URL}/api/v1/auth/login`,
         userCredentials,
         { withCredentials: true } // Ensure cookies are included in the request
       );
