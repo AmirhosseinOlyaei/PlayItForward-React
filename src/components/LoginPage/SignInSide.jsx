@@ -6,7 +6,7 @@ import SharedLayout from "./SharedLayout";
 import GoogleIcon from "./GoogleIcon";
 import { Button, Divider, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../../context/userContext"; // Import UserContext
+import { getUserContext } from "../../context/userContext";
 import toast, { Toaster } from "react-hot-toast";
 
 const SignInButtonGoogle = () => {
@@ -52,7 +52,7 @@ const SignInButtonGoogle = () => {
 
 export default function SignInSide() {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext); // Use UserContext to set the user
+  const { user, setUser } = getUserContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
